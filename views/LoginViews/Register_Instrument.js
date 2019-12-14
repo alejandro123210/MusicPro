@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux'
+import * as firebase from 'firebase'
 
 class Register_Instrument extends React.Component {
 
@@ -11,17 +12,28 @@ class Register_Instrument extends React.Component {
 
     onPress = () => {
         if(this.props.userType == "student"){
-            //we send all the props to login, since the user is a student, they do not need a description. 
-            Actions.Login({
-                userType: 'student',
+            var user = firebase.auth().currentUser
+            var db = firebase.database();
+            var ref = db.ref(`users/${user.uid}/info/`);
+            ref.set({
+                email: user.email,
+                uid: user.uid,
+                name: JSON.stringify(this.props.userInfo['user']['name']),
+                userType: "student",
                 instrument: this.state.instrument,
-                description: '',
-                alreadyRegistered: false
-            })
-            // alert('userType: student')
+                photo: JSON.stringify(this.props.userInfo['user']['photo'])
+            });
+            ref.on("value", function(snapshot) {
+                var userData = snapshot.val();
+                Actions.StudentMain({userData: userData});
+            }, function (errorObject) {
+                alert("The read failed: " + errorObject.code);
+            });
         } else {
             Actions.Register_Description({
-                instrument: this.state.instrument
+                instrument: this.state.instrument,
+                userType: this.props.userType,
+                userInfo: this.props.userInfo
             });
         }
         

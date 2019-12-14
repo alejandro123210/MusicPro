@@ -35,78 +35,99 @@ export default class LoginController extends Component {
       firebase.auth().signInWithCredential(googleCredential)
         .then(appUser => { 
           var user = firebase.auth().currentUser
-
-          //will have to check the database to see if the user already has an account, then if not create one, if they do sign them in
-          // alert(user.uid)
-          if (this.props.alreadyRegistered == true){
-            var ref = db.ref(`users/${user.uid}/info/`);
+          var ref = db.ref(`users/${user.uid}/info/`);
             ref.on("value", function(snapshot) {
-              var userData = snapshot.val();
-              //this is the user type (teacher/student)
-              var userType = JSON.stringify(userData['userType']);
-              //here if the function finds if the user is a student/teacher, it loads each respective view
-              if (userType == '"student"' && userData != null){
-                //if the user is a student
-                Actions.StudentMain({userData: userData});
-              } else if (userData != null){
-                //if the user is a teacher
-                Actions.TeacherMain({userData: userData});
+              if(snapshot.val() == null){
+                //if the user does not have data in the database:
+                //the user at this point has an account in auth, but we need to create the data for the database
+                Actions.Register({userInfo: userInfo});
+              } else {
+                //if the user DOES have data in the database:
+                var userData = snapshot.val();
+                //this is the user type (teacher/student)
+                var userType = JSON.stringify(userData['userType']);
+                //here if the function finds if the user is a student/teacher, it loads each respective view
+                if (userType == '"student"' && userData != null){
+                  //if the user is a student
+                  Actions.StudentMain({userData: userData});
+                } else if (userData != null){
+                  //if the user is a teacher
+                  Actions.TeacherMain({userData: userData});
+                }
               }
             }, function (errorObject) {
               alert("The read failed: " + errorObject.code);
             });
-          } else {
-            if(this.props.userType == "student"){
-              //checks if there was a problem, there are better ways to do this (this is temporary)
-              if (problemWithLogin == false){
-                //copies the users data from auth to the database, adding the name and whether they're a student or a teacher
-                db.ref(`users/${user.uid}/info`).set({
-                  email: user.email,
-                  uid: user.uid,
-                  name: JSON.stringify(userInfo['user']['name']),
-                  userType: "student",
-                  instrument: this.props.instrument,
-                  photo: JSON.stringify(userInfo['user']['photo'])
-                });
-                //this isn't perfect, will need to change
-                var ref = db.ref(`users/${user.uid}/info/`);
-                ref.on("value", function(snapshot) {
-                  var userData = snapshot.val();
-                  Actions.StudentMain({userData: userData});
-                }, function (errorObject) {
-                  alert("The read failed: " + errorObject.code);
-                });
-              }
-            } else if(this.props.userType == "teacher"){
-              //checks if there was a problem, there are better ways to do this (this is temporary)
-              if (problemWithLogin == false){
-                //copies the users data from auth to the database, adding the name and whether they're a student or a teacher
-                db.ref(`users/${user.uid}/info`).set({
-                  email: user.email,
-                  uid: user.uid,
-                  name: JSON.stringify(userInfo['user']['name']),
-                  userType: "teacher",
-                  instrument: this.props.instrument,
-                  description: this.props.description,
-                  photo: JSON.stringify(userInfo['user']['photo'])
-                });
-                //this isn't perfect, will need to change
-                var ref = db.ref(`users/${user.uid}/info/`);
-                ref.on("value", function(snapshot) {
-                  var userData = snapshot.val();
-                  Actions.TeacherMain({userData: userData});
-                }, function (errorObject) {
-                  alert("The read failed: " + errorObject.code);
-                });
-              }
-            }
-          }
+
+          // // alert(user.uid)
+          // if (this.props.alreadyRegistered == true){
+          //   var ref = db.ref(`users/${user.uid}/info/`);
+          //   ref.on("value", function(snapshot) {
+          //     var userData = snapshot.val();
+          //     //this is the user type (teacher/student)
+          //     var userType = JSON.stringify(userData['userType']);
+          //     //here if the function finds if the user is a student/teacher, it loads each respective view
+          //     if (userType == '"student"' && userData != null){
+          //       //if the user is a student
+          //       Actions.StudentMain({userData: userData});
+          //     } else if (userData != null){
+          //       //if the user is a teacher
+          //       Actions.TeacherMain({userData: userData});
+          //     }
+          //   }, function (errorObject) {
+          //     alert("The read failed: " + errorObject.code);
+          //   });
+          // } else {
+          //   if(this.props.userType == "student"){
+          //     //checks if there was a problem, there are better ways to do this (this is temporary)
+          //     if (problemWithLogin == false){
+          //       //copies the users data from auth to the database, adding the name and whether they're a student or a teacher
+          //       db.ref(`users/${user.uid}/info`).set({
+          //         email: user.email,
+          //         uid: user.uid,
+          //         name: JSON.stringify(userInfo['user']['name']),
+          //         userType: "student",
+          //         instrument: this.props.instrument,
+          //         photo: JSON.stringify(userInfo['user']['photo'])
+          //       });
+          //       //this isn't perfect, will need to change
+          //       var ref = db.ref(`users/${user.uid}/info/`);
+          //       ref.on("value", function(snapshot) {
+          //         var userData = snapshot.val();
+          //         Actions.StudentMain({userData: userData});
+          //       }, function (errorObject) {
+          //         alert("The read failed: " + errorObject.code);
+          //       });
+          //     }
+          //   } else if(this.props.userType == "teacher"){
+          //     //checks if there was a problem, there are better ways to do this (this is temporary)
+          //     if (problemWithLogin == false){
+          //       //copies the users data from auth to the database, adding the name and whether they're a student or a teacher
+          //       db.ref(`users/${user.uid}/info`).set({
+          //         email: user.email,
+          //         uid: user.uid,
+          //         name: JSON.stringify(userInfo['user']['name']),
+          //         userType: "teacher",
+          //         instrument: this.props.instrument,
+          //         description: this.props.description,
+          //         photo: JSON.stringify(userInfo['user']['photo'])
+          //       });
+          //       //this isn't perfect, will need to change
+          //       var ref = db.ref(`users/${user.uid}/info/`);
+          //       ref.on("value", function(snapshot) {
+          //         var userData = snapshot.val();
+          //         Actions.TeacherMain({userData: userData});
+          //       }, function (errorObject) {
+          //         alert("The read failed: " + errorObject.code);
+          //       });
+          //     }
+          //   }
+          // }
       });
       
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
-        alert(error)
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
         alert(error)
