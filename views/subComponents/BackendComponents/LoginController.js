@@ -21,6 +21,8 @@ export default class LoginController extends Component {
       forceConsentPrompt: true, 
       iosClientId: '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com'
     });
+    this.getCurrentUserInfo();
+    // alert(this.state.userInfo)
   }
 
   _signIn = async () => {
@@ -145,13 +147,39 @@ export default class LoginController extends Component {
     try {
       const userInfo = await GoogleSignin.signInSilently();
       this.setState({ userInfo });
+      // alert(userInfo)
+      //auto login:
+      const googleCredential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken);     
+      firebase.auth().signInWithCredential(googleCredential)
+        .then(appUser => { 
+          var user = firebase.auth().currentUser
+          var db = firebase.database();
+          var ref = db.ref(`users/${user.uid}/info/`);
+          ref.on("value", function(snapshot) {
+            //if the user DOES have data in the database:
+            var userData = snapshot.val();
+            // alert(userData)
+            //this is the user type (teacher/student)
+            var userType = JSON.stringify(userData['userType']);
+            //here if the function finds if the user is a student/teacher, it loads each respective view
+            if (userType == '"student"' && userData != null){
+              //if the user is a student
+              Actions.StudentMain({userData: userData});
+            } else if (userData != null){
+              //if the user is a teacher
+              Actions.TeacherMain({userData: userData});
+            }
+          });
+        })
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_REQUIRED) {
         // user has not signed in yet
         this.setState({ loggedIn: false });
+        // alert(error.code)
       } else {
         // some other error
         this.setState({ loggedIn: false });
+        alert(error)
       }
     }
   };
