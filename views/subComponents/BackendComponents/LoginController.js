@@ -63,7 +63,8 @@ export default class LoginController extends Component {
                   uid: user.uid,
                   name: JSON.stringify(userInfo['user']['name']),
                   userType: "student",
-                  instrument: this.props.instrument
+                  instrument: this.props.instrument,
+                  photo: JSON.stringify(userInfo['user']['photo'])
                 });
                 //this isn't perfect, will need to change
                 var ref = db.ref(`users/${user.uid}/info/`);
@@ -84,7 +85,8 @@ export default class LoginController extends Component {
                   name: JSON.stringify(userInfo['user']['name']),
                   userType: "teacher",
                   instrument: this.props.instrument,
-                  description: this.props.description
+                  description: this.props.description,
+                  photo: JSON.stringify(userInfo['user']['photo'])
                 });
                 //this isn't perfect, will need to change
                 var ref = db.ref(`users/${user.uid}/info/`);
