@@ -2,9 +2,11 @@ import React from 'react';
 import { Router, Scene, Tabs } from 'react-native-router-flux';
 import * as firebase from 'firebase';
 
-import LaunchScreen from './views/LaunchScreen'
-import Login from './views/Login'
-import Register from './views/Register'
+import LaunchScreen from './views/LoginViews/LaunchScreen'
+import Login from './views/LoginViews/Login'
+import Register from './views/LoginViews/Register'
+import Register_Instrument from './views/LoginViews/Register_Instrument'
+import Register_Description from './views/LoginViews/Register_Description'
 import StudentDash from './views/StudentDash'
 import TeacherDash from './views/TeacherDash'
 import ListOfTeachers from './views/ListOfTeachers'
@@ -19,6 +21,7 @@ export default function App() {
     storageBucket: "rehearse-c7c14.appspot.com",
   };
   const firebaseApp = firebase.initializeApp(firebaseConfig);
+
 
   return (
     <Router>
@@ -36,6 +39,16 @@ export default function App() {
         <Scene
           key = 'Register'
           component = { Register }
+          hideNavBar = { true }
+        />
+        <Scene
+          key = 'Register_Instrument'
+          component = { Register_Instrument }
+          hideNavBar = { true }
+        />
+        <Scene
+          key = 'Register_Description'
+          component = { Register_Description }
           hideNavBar = { true }
         />
         <Scene key= 'StudentMain' hideNavBar = { true } tabs={true} wrap={false}>

@@ -8,8 +8,13 @@ let deviceWidth = Dimensions.get('window').width;
 class LaunchScreen extends React.Component {
 
     loginPressed = () => {
-        // this is how you switch screens
-        Actions.Login();
+        // we give login all the props to not get an error, but they are not used
+        Actions.Login({
+            alreadyRegistered: true,
+            instrument: '',
+            description: '',
+            usertype: ''
+        });
     }
 
     signupPressed = () => {
@@ -19,10 +24,6 @@ class LaunchScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-            <ImageBackground
-                style={styles.background}
-                source={{ uri: 'https://wallpaperbro.com/img/53490.jpg' }}
-            >
                 <Text style={styles.title}>MusicPro</Text>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity onPress={() => this.loginPressed()} style={styles.button} activeOpacity={.6}>
@@ -32,7 +33,6 @@ class LaunchScreen extends React.Component {
                         <Text style={styles.buttonText}>sign up</Text>
                     </TouchableOpacity>
                 </View>
-            </ImageBackground>
             </View>
         );
     }
@@ -42,11 +42,8 @@ class LaunchScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    background: {
-        height: deviceHeight,
-        width: deviceWidth,
-        alignItems: 'center',
+        backgroundColor: '#274156',
+        alignItems: 'center'
     },
     buttonContainer: {
         alignItems: 'center',

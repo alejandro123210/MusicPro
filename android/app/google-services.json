@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "506122331327",
+    "firebase_url": "https://rehearse-c7c14.firebaseio.com",
+    "project_id": "rehearse-c7c14",
+    "storage_bucket": "rehearse-c7c14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506122331327:android:486dcf22c4e28f6507120a",
+        "android_client_info": {
+          "package_name": "com.MusicPro.MusicPro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506122331327-ig4td4rnrs776ng1jf47donnvn6vgpa9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.MusicPro.MusicPro",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsFbJYDNAmorAzqhwbvppfEU3xukQhZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

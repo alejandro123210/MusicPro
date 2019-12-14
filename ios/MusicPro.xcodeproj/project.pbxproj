@@ -19,6 +19,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* MusicProTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MusicProTests.m */; };
 		59D9CD8BA8DC334B5BF53DD3 /* libPods-MusicPro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4BDD92DB3FB7E182BC31FB /* libPods-MusicPro.a */; };
 		84164212B1BEDEC74BBF9463 /* libPods-MusicPro-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5842992B17F949B76750D339 /* libPods-MusicPro-tvOS.a */; };
+		BD74A6F923A493CF00BF53C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */; };
 		F1B56A68340E7258DC10AFAB /* libPods-MusicPro-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51471B35C9948382616A37E4 /* libPods-MusicPro-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		7F4BDD92DB3FB7E182BC31FB /* libPods-MusicPro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DFD77EFECBDFD3332B98174 /* Pods-MusicPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro/Pods-MusicPro.debug.xcconfig"; sourceTree = "<group>"; };
 		9F0CCA06A4BACCE6586A05C8 /* Pods-MusicPro-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-tvOSTests/Pods-MusicPro-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBCA60A14B9463A7541A8315 /* Pods-MusicPro-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-tvOS/Pods-MusicPro-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		DF21F82158FA39D5BDD915A4 /* Pods-MusicProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicProTests/Pods-MusicProTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -130,6 +132,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -229,6 +232,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				CA5E3DFCB17970C7C2F7481B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -307,6 +311,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -337,6 +342,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				BD74A6F923A493CF00BF53C9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +456,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CA5E3DFCB17970C7C2F7481B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MusicPro/Pods-MusicPro-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MusicPro/Pods-MusicPro-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
