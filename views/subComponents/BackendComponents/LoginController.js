@@ -35,6 +35,8 @@ export default class LoginController extends Component {
       firebase.auth().signInWithCredential(googleCredential)
         .then(appUser => { 
           var user = firebase.auth().currentUser
+
+          //will have to check the database to see if the user already has an account, then if not create one, if they do sign them in
           // alert(user.uid)
           if (this.props.alreadyRegistered == true){
             var ref = db.ref(`users/${user.uid}/info/`);
@@ -43,10 +45,10 @@ export default class LoginController extends Component {
               //this is the user type (teacher/student)
               var userType = JSON.stringify(userData['userType']);
               //here if the function finds if the user is a student/teacher, it loads each respective view
-              if (userType == '"student"'){
+              if (userType == '"student"' && userData != null){
                 //if the user is a student
                 Actions.StudentMain({userData: userData});
-              } else {
+              } else if (userData != null){
                 //if the user is a teacher
                 Actions.TeacherMain({userData: userData});
               }
