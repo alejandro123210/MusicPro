@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 
 //required props are name, key, date, lastmessage
 const tableCell = props => {
-
+    
 
     return (
         <View style={styles.cellView}>

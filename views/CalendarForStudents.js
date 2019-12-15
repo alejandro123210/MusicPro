@@ -8,7 +8,7 @@ import TimeCell from './subComponents/TimeCell';
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-class StudentDash extends React.Component {
+class CalendarForStudents extends React.Component {
   state = {
     date: "",
     inputValue: "",
@@ -170,4 +170,4 @@ const styles = StyleSheet.create({
 });
 
 //this lets the component get imported other places
-export default CaledarForStudents;
+export default CalendarForStudents;

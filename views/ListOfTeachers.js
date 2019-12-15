@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Dimensions, ScrollView, TextInput } from 'reac
 import ProfileBar from './subComponents/ProfileBar'
 import TableCell from './subComponents/TableCell';
 import * as firebase from 'firebase';
-import Geocoder from 'react-native-geocoding';
+import { Actions } from 'react-native-router-flux'
 
 
 let deviceHeight = Dimensions.get('window').height;
@@ -47,10 +47,11 @@ componentDidMount(){
                     key: key
                 }
                 teachers.push(teacher)
-                key += 1;
                 this.setState({
                     teachers: teachers
                 })
+                key += 1;
+                console.log(key)
             }
         }
     });
@@ -62,7 +63,9 @@ handleTextChange = inputValue => {
 };
 
 onPress = () => {
-    
+    Actions.CalendarForStudents({
+        userData: this.props.userData
+    });
 }
 
   render() {

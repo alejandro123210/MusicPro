@@ -12,6 +12,7 @@ import TeacherDash from './views/TeacherDash'
 import Settings from './views/LoginViews/Settings'
 import ListOfTeachers from './views/ListOfTeachers'
 import Register_Location from './views/LoginViews/Register_Location';
+import CalendarForStudents from './views/CalendarForStudents';
 
 export default function App() {
 
@@ -36,6 +37,11 @@ export default function App() {
         <Scene
           key = 'Login'
           component = { Login }
+          hideNavBar = { true }
+        />
+        <Scene 
+          key = 'CalendarForStudents'
+          component = { CalendarForStudents }
           hideNavBar = { true }
         />
         <Scene 
