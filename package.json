@@ -15,6 +15,7 @@
     "firebase": "^7.6.0",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-calendars": "^1.214.0",
     "react-native-geocoding": "^0.4.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-router-flux": "^4.0.6"
