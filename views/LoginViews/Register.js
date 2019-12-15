@@ -19,11 +19,17 @@ class Register extends React.Component {
   }
 
   studentPressed = () => {
-    Actions.Register_Instrument({userType: 'student'});
+    Actions.Register_Instrument({
+      userType: 'student',
+      userInfo: this.props.userInfo
+    });
   }
 
   teacherPressed = () => {
-    Actions.Register_Instrument();
+    Actions.Register_Instrument({
+      userType: 'teacher',
+      userInfo: this.props.userInfo
+    });
   }
 
   

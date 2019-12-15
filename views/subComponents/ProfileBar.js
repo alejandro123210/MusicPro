@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 let deviceHeight = Dimensions.get("window").height;
@@ -10,6 +10,12 @@ let deviceWidth = Dimensions.get("window").width;
 //imageURL
 
 const profileBar = props => {
+
+    onPress = () => {
+        Actions.Settings();
+    }
+
+
     return(
         <View style={styles.topBar}>
           <View style={styles.imageContainer}>
@@ -20,6 +26,9 @@ const profileBar = props => {
           </View>
           <View style={styles.nameContainer}>
             <Text style={styles.profileText}>{props.name}</Text>
+            <TouchableOpacity onPress={() => this.onPress()}>
+                <Text style={styles.settingsText}>settings</Text>
+            </TouchableOpacity>
           </View>
         </View>
     );
@@ -47,7 +56,9 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     nameContainer: {
-        flex: 1
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     profileText: {
         fontSize: 18,
@@ -55,6 +66,11 @@ const styles = StyleSheet.create({
         fontFamily: "HelveticaNeue-Medium",
         marginTop: 5
     },
+    settingsText: {
+        paddingRight: 8,
+        marginTop: 5,
+        fontSize: 18
+    }
 })
 
 export default profileBar;

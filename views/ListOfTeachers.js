@@ -77,6 +77,10 @@ handleTextChange = inputValue => {
     this.setState({ inputValue });
 };
 
+onPress = () => {
+    
+}
+
   render() {
     return (
         <View style={styles.container}>
@@ -104,6 +108,7 @@ handleTextChange = inputValue => {
                         instrument = {list.instrument}
                         location = {list.location}
                         key = {list.key}
+                        onPress = {() => this.onPress()}
                     />
                 ))}
             </ScrollView>

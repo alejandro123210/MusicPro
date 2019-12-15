@@ -12,14 +12,11 @@ import { Actions } from 'react-native-router-flux';
 //required props are name, key, date, lastmessage
 const tableCell = props => {
 
-    onPress = () => {
-        alert("YOU HATH PRESSED MY FACE AND NOW YOU SHALL PAY");
-    }
 
     return (
         <View style={styles.cellView}>
             {/* animates the entire cell ^ */}
-            <TouchableOpacity onPress={this.onPress}>
+            <TouchableOpacity onPress={() => props.onPress()}>
                 {/* makes it selectable ^ */}
                 <View style={{ flexDirection: "row" }}>
                     {/* lets the circles be made */}

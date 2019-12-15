@@ -45,25 +45,26 @@ class Login extends React.Component {
 
   render() {
     return (
-      <View style={styles.googleButtonContainer}>
-        <LoginController 
-          userType = {this.props.userType}
-          instrument = {this.props.instrument}
-          description = {this.props.description}
-          alreadyRegistered = {this.props.alreadyRegistered}
-        />
+      <View style={styles.container}>
+        <Text style={styles.title}>MusicPro</Text>
+        <LoginController />
       </View>
+      
     );
   }
 }
 
 const styles = StyleSheet.create({
-  googleButtonContainer: {
+  container: {
+    backgroundColor: '#274156',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#274156',
-  }
+    justifyContent: 'space-evenly',
+  },
+  title: {
+    fontSize: 70,
+    color: 'white',
+  },
 });
 
 //this lets the component get imported other places

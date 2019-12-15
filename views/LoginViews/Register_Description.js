@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux'
+import * as firebase from 'firebase'
 
 class Register_Description extends React.Component {
 
@@ -10,12 +11,24 @@ class Register_Description extends React.Component {
     }
 
     onPress = () => {
-        Actions.Login({
-            description: this.state.description,
+        var user = firebase.auth().currentUser
+        var db = firebase.database();
+        var ref = db.ref(`users/${user.uid}/info/`);
+        ref.set({
+            email: user.email,
+            uid: user.uid,
+            name: JSON.stringify(this.props.userInfo['user']['name']),
+            userType: "teacher",
             instrument: this.props.instrument,
-            userType: 'teacher',
-            alreadyRegistered: false
+            photo: JSON.stringify(this.props.userInfo['user']['photo']),
+            description: this.state.description
         });
+        // ref.on("value", function(snapshot) {
+        //     var userData = snapshot.val();
+        //     Actions.TeacherMain({userData: userData});
+        // }, function (errorObject) {
+        //     alert("The read failed: " + errorObject.code);
+        // });
     }
 
     render() {

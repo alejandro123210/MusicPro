@@ -9,6 +9,7 @@ import Register_Instrument from './views/LoginViews/Register_Instrument'
 import Register_Description from './views/LoginViews/Register_Description'
 import StudentDash from './views/StudentDash'
 import TeacherDash from './views/TeacherDash'
+import Settings from './views/LoginViews/Settings'
 import ListOfTeachers from './views/ListOfTeachers'
 
 export default function App() {
@@ -26,11 +27,11 @@ export default function App() {
   return (
     <Router>
       <Scene key='root'>
-        <Scene
+        {/* <Scene
           key = 'LaunchScreen'
           component = { LaunchScreen }
           hideNavBar = { true }
-        />
+        /> */}
         <Scene
           key = 'Login'
           component = { Login }
@@ -50,6 +51,11 @@ export default function App() {
           key = 'Register_Description'
           component = { Register_Description }
           hideNavBar = { true }
+        />
+        <Scene
+          key = 'Settings'
+          component = { Settings }
+          hideNavBar = {false}
         />
         <Scene key= 'StudentMain' hideNavBar = { true } tabs={true} wrap={false}>
             <Scene 
