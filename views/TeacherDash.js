@@ -4,6 +4,8 @@ import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import ProfileBar from "./subComponents/ProfileBar";
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -72,7 +74,10 @@ class TeacherDash extends React.Component {
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
+    // alert(JSON.stringify(this.props.userData['location']))
   };
+
+
 
   handleTextChange = inputValue => {
     this.setState({ inputValue });

@@ -11,6 +11,7 @@ import StudentDash from './views/StudentDash'
 import TeacherDash from './views/TeacherDash'
 import Settings from './views/LoginViews/Settings'
 import ListOfTeachers from './views/ListOfTeachers'
+import Register_Location from './views/LoginViews/Register_Location';
 
 export default function App() {
 
@@ -36,6 +37,11 @@ export default function App() {
           key = 'Login'
           component = { Login }
           hideNavBar = { true }
+        />
+        <Scene 
+          key = 'Register_Location'
+          component = { Register_Location }
+          hideNavBar = {true}
         />
         <Scene
           key = 'Register'

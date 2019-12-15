@@ -30,7 +30,7 @@ class Register_Instrument extends React.Component {
             //     alert("The read failed: " + errorObject.code);
             // });
         } else {
-            Actions.Register_Description({
+            Actions.Register_Location({
                 instrument: this.state.instrument,
                 userType: this.props.userType,
                 userInfo: this.props.userInfo

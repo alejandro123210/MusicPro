@@ -2,6 +2,10 @@ import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import ProfileBar from './subComponents/ProfileBar'
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
+
+
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -40,7 +44,33 @@ class StudentDash extends React.Component {
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
+    // alert('componentDidMount')
+    //get location
+    this.findCoordinates();
+    this.geocode();
   };
+
+  findCoordinates = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const location = JSON.stringify(position);
+        // alert(location)
+        this.setState({ location });
+      },
+      error => Alert.alert(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  };
+
+  geocode = () => {
+    Geocoder.init("AIzaSyAupzaW4QDOYo09xPAml62_tO_8_SYKiPk");
+    Geocoder.from("07960")
+        .then(json => {
+            var location = json.results[0].geometry.location;
+            alert(JSON.stringify(location));
+        })
+        .catch(error => console.warn(error));
+  }
 
   handleTextChange = inputValue => {
     this.setState({ inputValue });
