@@ -17,8 +17,8 @@ class Register_Location extends React.Component {
     Geocoder.init("AIzaSyAupzaW4QDOYo09xPAml62_tO_8_SYKiPk");
     Geocoder.from(this.state.zip)
         .then(json => {
-            var location = json.results[0].geometry.location;
-            // alert(JSON.stringify(location))
+            var location = json.results[0].address_components[1]['long_name'];
+            console.log(location)
             this.setState({
                location: JSON.stringify(location)
             })
@@ -31,8 +31,6 @@ class Register_Location extends React.Component {
         })
         .catch(error => alert(error));
   }
-
-
 
   render() {
     return (

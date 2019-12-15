@@ -47,7 +47,6 @@ class StudentDash extends React.Component {
     // alert('componentDidMount')
     //get location
     this.findCoordinates();
-    this.geocode();
   };
 
   findCoordinates = () => {
@@ -61,16 +60,6 @@ class StudentDash extends React.Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   };
-
-  geocode = () => {
-    Geocoder.init("AIzaSyAupzaW4QDOYo09xPAml62_tO_8_SYKiPk");
-    Geocoder.from("07960")
-        .then(json => {
-            var location = json.results[0].geometry.location;
-            // alert(JSON.stringify(location));
-        })
-        .catch(error => console.warn(error));
-  }
 
   handleTextChange = inputValue => {
     this.setState({ inputValue });
