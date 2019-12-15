@@ -67,7 +67,7 @@ class StudentDash extends React.Component {
     Geocoder.from("07960")
         .then(json => {
             var location = json.results[0].geometry.location;
-            alert(JSON.stringify(location));
+            // alert(JSON.stringify(location));
         })
         .catch(error => console.warn(error));
   }
