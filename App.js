@@ -42,7 +42,7 @@ export default function App() {
         <Scene 
           key = 'CalendarForStudents'
           component = { CalendarForStudents }
-          hideNavBar = { true }
+          hideNavBar = { false }
         />
         <Scene 
           key = 'Register_Location'

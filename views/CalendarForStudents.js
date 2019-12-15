@@ -13,7 +13,8 @@ class CalendarForStudents extends React.Component {
     date: "",
     inputValue: "",
     teacherDashDisplay: "block",
-    teacherProfileScrollDisplay: "none",    
+    teacherProfileScrollDisplay: "none",   
+    selectedDay: '', 
 
     //this will have to be loaded in from props.userdata  
     lessonsList: [
@@ -78,9 +79,13 @@ class CalendarForStudents extends React.Component {
     this.setState({
       //Setting the value of the date time
       date:
-        "Today is: " + month + "/" + date + "/" + year
+         year + "-" + month + "-" + date,
     });
+    this.setState({
+
+    })
   };
+
 
   handleTextChange = inputValue => {
     this.setState({ inputValue });
@@ -90,14 +95,20 @@ class CalendarForStudents extends React.Component {
       alert("Cancel event?")
   }
 
+  onCellPress = (time) => {
+    console.log('the user has selected: ')
+    console.log(this.state.date)
+    console.log(time)
+  }
+
   render() {
     return (
       
       <View style={styles.container}>
-        <ProfileBar 
+        {/* <ProfileBar 
             name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
             image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
-        />
+        /> */}
         <Calendar
             // Initially visible month. Default = Date()
             // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
@@ -105,9 +116,14 @@ class CalendarForStudents extends React.Component {
             // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
             //maxDate={'2012-05-30'}
             // Handler which gets executed on day press. Default = undefined
-            onDayPress={(day) => {console.log('selected day', day)}}
+            onDayPress={(day) => {
+              console.log('selected day', day)
+              this.setState({
+                date: day['dateString']
+              })
+            }}
             // Handler which gets executed on day long press. Default = undefined
-            onDayLongPress={(day) => {console.log('selected day', day)}}
+            // onDayLongPress={(day) => {console.log('selected day', day)}}
             // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
             monthFormat={'MMM yyyy'}
             // Handler which gets executed when visible month changes in calendar. Default = undefined
@@ -127,6 +143,7 @@ class CalendarForStudents extends React.Component {
             onPressArrowLeft={substractMonth => substractMonth()}
             // Handler which gets executed when press arrow icon left. It receive a callback can go next month
             onPressArrowRight={addMonth => addMonth()}
+            
           />
         
         <ScrollView>
@@ -134,7 +151,7 @@ class CalendarForStudents extends React.Component {
                     <TimeCell
                         name = {list.name}
                         key = {list.key}
-                        onPress = {() => this.onPress()}
+                        onPress = {() => this.onCellPress(list.name)}
                     />
                 ))}
             </ScrollView>
