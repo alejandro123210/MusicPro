@@ -32,12 +32,12 @@ const tableCell = props => {
                                 {props.name}
                             </Text>
                             <Text style={styles.instrumentText}>
-                                {props.instrument}
+                                {props.location}
                             </Text>
                         </View>
                         <View style={styles.detailTextView}>
                             <Text style={styles.detailText} numberOfLines={3}>
-                                {props.location}
+                                {props.instrument}
                             </Text>
                         </View>
                         {/* last message view */}

@@ -11,6 +11,7 @@ import StudentDash from './views/StudentDash'
 import TeacherDash from './views/TeacherDash'
 import Settings from './views/LoginViews/Settings'
 import ListOfTeachers from './views/ListOfTeachers'
+import Register_Location from './views/LoginViews/Register_Location';
 
 export default function App() {
 
@@ -37,6 +38,11 @@ export default function App() {
           component = { Login }
           hideNavBar = { true }
         />
+        <Scene 
+          key = 'Register_Location'
+          component = { Register_Location }
+          hideNavBar = {true}
+        />
         <Scene
           key = 'Register'
           component = { Register }
@@ -57,7 +63,7 @@ export default function App() {
           component = { Settings }
           hideNavBar = {false}
         />
-        <Scene key= 'StudentMain' hideNavBar = { true } tabs={true} wrap={false}>
+        <Scene key= 'StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
             <Scene 
               key = 'StudentDash'
               component = { StudentDash }
@@ -73,7 +79,7 @@ export default function App() {
               gesturesEnabled = { false }
             />
         </Scene>
-        <Scene key='TeacherMain' hideNavBar = { true } tabs={true} wrap={false}>
+        <Scene key='TeacherMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
           <Scene
             key = 'TeacherDash'
             component = { TeacherDash }
