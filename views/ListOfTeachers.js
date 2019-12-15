@@ -39,7 +39,6 @@ componentDidMount(){
         for (uid in usersData){
             // alert(uid)
             if(JSON.stringify(usersData[uid]['info']['userType']) == '"teacher"'){
-                // var location = this.reverseGeocode(usersData[uid]['info']['location'])
                 var teacher = {
                     name: JSON.stringify(usersData[uid]['info']['name']).slice(3, -3),
                     location: JSON.stringify(usersData[uid]['info']['location']).slice(3, -3),
@@ -47,8 +46,6 @@ componentDidMount(){
                     picture: JSON.stringify(usersData[uid]['info']['photo']).slice(3, -3),
                     key: key
                 }
-                console.log('2')
-                // alert(teacher['name'])
                 teachers.push(teacher)
                 key += 1;
                 this.setState({
