@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput } from "react-native";
+import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert } from "react-native";
 import ProfileBar from './subComponents/ProfileBar'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import TimeCell from './subComponents/TimeCell';
+import * as firebase from 'firebase'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -81,9 +82,6 @@ class CalendarForStudents extends React.Component {
       date:
          year + "-" + month + "-" + date,
     });
-    this.setState({
-
-    })
   };
 
 
@@ -99,6 +97,52 @@ class CalendarForStudents extends React.Component {
     console.log('the user has selected: ')
     console.log(this.state.date)
     console.log(time)
+    Alert.alert(
+      'Are you sure?',
+      'are you sure you want to request a lesson with ' + this.props.teacher.name,
+      [
+        {text: 'Confirm Request', onPress: () => this.confirmLessonRequest(time)},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+  }
+
+  confirmLessonRequest = (time) => {
+    var studentName = this.props.userData['name'].slice(1,-1)
+    var studentIDNum = this.props.userData['uid']
+    var studentInstrument = this.props.userData['instrument']
+    var teacherName = this.props.teacher.name;
+    var teacherIDNum = this.props.teacher.uid;
+    var date = this.state.date
+    var time = time
+    // console.log("Request confirmed for " + this.props.teacher.uid);
+    var db = firebase.database();
+    var teacherRef = db.ref(`users/${this.props.teacher.uid}/info/lessons`)
+    var studentRef = db.ref(`users/${studentIDNum}/info/lessons`)
+    //we put both users names and ids so that later when the requeest is processed by the teacher 
+    //both the student and teacher have their lessons updated 
+    //(having both ids makes it easier to find each others profiles)
+    var lessonData = {
+      studentName: studentName,
+      teacherName: teacherName,
+      studentIDNum: studentIDNum,
+      teacherIDNum: teacherIDNum,
+      studentInstrumet: studentInstrument,
+      date: date,
+      time: time,
+      status: 'undecided'
+    }
+    var teacherLessonRequestKey = teacherRef.push().key
+    var studentLessonRequestKey = studentRef.push().key
+    teacherRef.child(teacherLessonRequestKey).update(lessonData)
+    studentRef.child(studentLessonRequestKey).update(lessonData)
+    //here is where the black magic happens  and the app performs Actions.StudentMain() without it being called
+    //OR ROUTER FLUX EVEN BEING IMPORTED, LIKE WTF
   }
 
   render() {

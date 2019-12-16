@@ -21,7 +21,8 @@ class Register_Instrument extends React.Component {
                 name: JSON.stringify(this.props.userInfo['user']['name']),
                 userType: "student",
                 instrument: this.state.instrument,
-                photo: JSON.stringify(this.props.userInfo['user']['photo'])
+                photo: JSON.stringify(this.props.userInfo['user']['photo']),
+                lessons: []
             });
             // ref.on("value", function(snapshot) {
             //     var userData = snapshot.val();

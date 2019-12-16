@@ -44,7 +44,8 @@ componentDidMount(){
                     location: JSON.stringify(usersData[uid]['info']['location']).slice(3, -3),
                     instrument: JSON.stringify(usersData[uid]['info']['instrument']).slice(1, -1),
                     picture: JSON.stringify(usersData[uid]['info']['photo']).slice(3, -3),
-                    key: key
+                    key: key,
+                    uid: uid
                 }
                 teachers.push(teacher)
                 this.setState({
@@ -62,9 +63,10 @@ handleTextChange = inputValue => {
     this.setState({ inputValue });
 };
 
-onPress = () => {
+onPress = (user) => {
     Actions.CalendarForStudents({
-        userData: this.props.userData
+        userData: this.props.userData,
+        teacher: user
     });
 }
 
@@ -95,7 +97,7 @@ onPress = () => {
                         instrument = {user.instrument}
                         location = {user.location}
                         key = {user.key}
-                        onPress = {() => this.onPress()}
+                        onPress = {() => this.onPress(user)}
                     />
                 ))}
             </ScrollView>
