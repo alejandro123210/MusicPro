@@ -18,7 +18,8 @@ class StudentDash extends React.Component {
     teacherDashDisplay: "block",
     teacherProfileScrollDisplay: "none",    
 
-    //this will have to be loaded in from props.userdata  
+    //TODO: load this in from firebase
+    //TODO: add cancel lesson functionality
     lessonsList: [
       {
         name: "Grace Jacobs",

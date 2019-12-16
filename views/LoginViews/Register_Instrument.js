@@ -10,6 +10,8 @@ class Register_Instrument extends React.Component {
         instrument: ''
     }
 
+    //TODO: make this work differently so the user isn't typing a list in a text box
+
     onPress = () => {
         if(this.props.userType == "student"){
             var user = firebase.auth().currentUser

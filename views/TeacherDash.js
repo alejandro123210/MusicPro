@@ -17,6 +17,8 @@ class TeacherDash extends React.Component {
     inputValue: "",
     teacherDashDisplay: "block",
     teacherProfileScrollDisplay: "none",
+    //TODO: load this in from firebase
+    //TODO: add accept/reject/cancel functionality 
 
     lessonsList: [
       {

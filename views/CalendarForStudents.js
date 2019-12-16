@@ -16,23 +16,6 @@ class CalendarForStudents extends React.Component {
     teacherDashDisplay: "block",
     teacherProfileScrollDisplay: "none",   
     selectedDay: '', 
-
-    //this will have to be loaded in from props.userdata  
-    lessonsList: [
-      {
-        name: "Grace Jacobs",
-        time: "11 - 12 PM",
-        instrument: "guitar",
-        key: 0
-      },
-      {
-        name: "Alexander Kamanev",
-        time: "1-2 PM",
-        instrument: "tuba",
-        key: 1
-      }
-    ],
-
     inputValue: '',
     data: [],
     teacher: 
@@ -191,14 +174,14 @@ class CalendarForStudents extends React.Component {
           />
         
         <ScrollView>
-                {this.state.teacher.map(list => (
-                    <TimeCell
-                        name = {list.name}
-                        key = {list.key}
-                        onPress = {() => this.onCellPress(list.name)}
-                    />
-                ))}
-            </ScrollView>
+          {this.state.teacher.map(list => (
+              <TimeCell
+                  name = {list.name}
+                  key = {list.key}
+                  onPress = {() => this.onCellPress(list.name)}
+              />
+          ))}
+        </ScrollView>
       </View>
     );
   }

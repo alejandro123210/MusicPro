@@ -23,6 +23,8 @@ class Settings extends React.Component {
         }
     };
 
+    //TODO: create all of the functionality and front end for this page
+
     render() {
         return (
             // this is just random filler for the template, but this is where what the user sees is rendered
