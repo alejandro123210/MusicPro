@@ -21,7 +21,7 @@ export default class LoginController extends Component {
       forceConsentPrompt: true, 
       iosClientId: '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com'
     });
-    this.getCurrentUserInfo();
+    // this.getCurrentUserInfo();
     // alert(this.state.userInfo)
   }
 

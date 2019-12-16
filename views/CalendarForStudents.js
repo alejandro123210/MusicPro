@@ -111,18 +111,20 @@ class CalendarForStudents extends React.Component {
     //we put both users names and ids so that later when the requeest is processed by the teacher 
     //both the student and teacher have their lessons updated 
     //(having both ids makes it easier to find each others profiles)
+    var teacherLessonRequestKey = teacherRef.push().key
+    var studentLessonRequestKey = studentRef.push().key
     var lessonData = {
       studentName: studentName,
       teacherName: teacherName,
       studentIDNum: studentIDNum,
       teacherIDNum: teacherIDNum,
+      studentLessonKey: studentLessonRequestKey,
+      teacherLessonKey: teacherLessonRequestKey,
       studentInstrument: studentInstrument,
       date: date,
       time: time,
       status: 'undecided'
     }
-    var teacherLessonRequestKey = teacherRef.push().key
-    var studentLessonRequestKey = studentRef.push().key
     teacherRef.child(teacherLessonRequestKey).update(lessonData)
     studentRef.child(studentLessonRequestKey).update(lessonData)
     // Actions.StudentMain({userData: this.props.userData})

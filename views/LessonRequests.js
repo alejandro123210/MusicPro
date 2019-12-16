@@ -3,7 +3,7 @@
 import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 import ProfileBar from "./subComponents/ProfileBar";
-import ScheduledEventCell from "./subComponents/ScheduledEventCell";
+import RequestedEventCell from "./subComponents/RequestedEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
@@ -11,13 +11,10 @@ import * as firebase from 'firebase'
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-class TeacherDash extends React.Component {
+class LessonRequests extends React.Component {
 
   state = {
     date: "",
-    inputValue: "",
-    teacherDashDisplay: "block",
-    teacherProfileScrollDisplay: "none",
     //TODO: load this in from firebase
     //TODO: add accept/reject/cancel functionality 
 
@@ -49,18 +46,19 @@ class TeacherDash extends React.Component {
       key = 0;
       //for loop adds all users to state
       for (lessonKey in lessonsData){
-        if(lessonsData[lessonKey]['status'] == 'confirmed'){
-          var lessonToPush = {
-            name: lessonsData[lessonKey]['studentName'],
-            time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-            key: key.toString(),
-            instrument: lessonsData[lessonKey]['studentInstrument'],
-            studentID: lessonsData[lessonKey]['studentIDNum'],
-            teacherID: lessonsData[lessonKey]['teacherIDNum'],
-            lessonKey: lessonKey
-          }
-          lessonsList.push(lessonToPush)
-          key += 1;
+        if(lessonsData[lessonKey]['status'] == 'undecided'){
+            var lessonToPush = {
+                name: lessonsData[lessonKey]['studentName'],
+                time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
+                key: key.toString(),
+                instrument: lessonsData[lessonKey]['studentInstrument'],
+                studentID: lessonsData[lessonKey]['studentIDNum'],
+                teacherID: lessonsData[lessonKey]['teacherIDNum'],
+                teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
+                studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+            }
+            lessonsList.push(lessonToPush)
+            key += 1;
         }
       }
       this.setState({
@@ -69,30 +67,33 @@ class TeacherDash extends React.Component {
     });
   }
 
-  onScheduledEventPressed = (person) => {
+  onScheduledEventPressed = (lesson) => {
     // alert('pressed')
     Alert.alert(
-      'Cancel Lesson?',
-      'are you sure you want to cancel your lesson with ' + person.name + '?',
+      'Do you Accept?',
+      'do you accept this lesson with ' + lesson.name,
       [
-        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(person)},
+        {text: 'Confirm Lesson', onPress: () => this.acceptLesson(lesson)},
         {
-          text: 'Nevermind',
+          text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
+        {text: 'Deny', onPress: () => this.denyLesson(lesson)}
       ],
       {cancelable: true},
     );
   }
 
-  cancelLesson = (person) => {
-
+  acceptLesson = (lesson) => {
+    var db = firebase.database();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).update({status: 'confirmed'})
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).update({status: 'confirmed'})
   }
 
-  handleTextChange = inputValue => {
-    this.setState({ inputValue });
-  };
+  denyLesson = (lesson) => {
+
+  }
 
   render() {
     return (
@@ -107,7 +108,7 @@ class TeacherDash extends React.Component {
         </View>
         <ScrollView>
           {this.state.lessonsList.map(lesson => (
-            <ScheduledEventCell 
+            <RequestedEventCell 
                 name = { lesson.name }
                 time = { lesson.time }
                 key = { lesson.key }
@@ -144,4 +145,4 @@ const styles = StyleSheet.create({
 });
 
 //this lets the component get imported other places
-export default TeacherDash;
+export default LessonRequests;
