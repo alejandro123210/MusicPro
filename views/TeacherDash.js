@@ -35,7 +35,10 @@ class TeacherDash extends React.Component {
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
-    // alert(JSON.stringify(this.props.userData['location']))
+    this.loadLessons()
+  };
+
+  loadLessons = () => {
     var db = firebase.database();
     var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
     var lessonsList = []
@@ -50,7 +53,8 @@ class TeacherDash extends React.Component {
           name: lessonsData[lessonKey]['studentName'],
           time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
           key: key.toString(),
-          instrument: lessonsData[lessonKey]['studentInstrument']
+          instrument: lessonsData[lessonKey]['studentInstrument'],
+          
         }
         lessonsList.push(lessonToPush)
         key += 1;
@@ -59,7 +63,7 @@ class TeacherDash extends React.Component {
         lessonsList: lessonsList
       })
     });
-  };
+  }
 
 
 

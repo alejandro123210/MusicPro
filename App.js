@@ -13,6 +13,7 @@ import Settings from './views/LoginViews/Settings'
 import ListOfTeachers from './views/ListOfTeachers'
 import Register_Location from './views/LoginViews/Register_Location';
 import CalendarForStudents from './views/CalendarForStudents';
+import TeacherAvailabilityConfigurator from './views/TeacherAvailabilityConfigurator';
 
 export default function App() {
 
@@ -93,6 +94,13 @@ export default function App() {
             hideNavBar = { true }
             gesturesEnabled = { false }
           />
+          {/* <Scene 
+            key = 'TeacherAvailabilityConfigurator'
+            component = { TeacherAvailabilityConfigurator }
+            tabBarLabel = 'Availability'
+            hideNavBar = {true}
+            gesturesEnabled = {false}
+          /> */}
         </Scene>
       </Scene>
     </Router>
