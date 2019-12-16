@@ -36,7 +36,7 @@ componentDidMount(){
         .then((snapshot) => {
         //all users in database
         var usersData = (JSON.parse(JSON.stringify(snapshot.val())));
-        key = 0;
+        var key = 0;
         //for loop adds all users to state
         for (uid in usersData){
             // alert(uid)
@@ -46,7 +46,7 @@ componentDidMount(){
                     location: JSON.stringify(usersData[uid]['info']['location']).slice(3, -3),
                     instrument: JSON.stringify(usersData[uid]['info']['instrument']).slice(1, -1),
                     picture: JSON.stringify(usersData[uid]['info']['photo']).slice(3, -3),
-                    key: key,
+                    key: key.toString(),
                     uid: uid
                 }
                 teachers.push(teacher)
@@ -54,7 +54,6 @@ componentDidMount(){
                     teachers: teachers
                 })
                 key += 1;
-                console.log(key)
             }
         }
     });

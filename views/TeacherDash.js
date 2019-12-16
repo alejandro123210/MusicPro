@@ -6,6 +6,7 @@ import ProfileBar from "./subComponents/ProfileBar";
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
+import * as firebase from 'firebase'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
