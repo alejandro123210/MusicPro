@@ -5,6 +5,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import TimeCell from './subComponents/TimeCell';
 import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -115,7 +116,7 @@ class CalendarForStudents extends React.Component {
       teacherName: teacherName,
       studentIDNum: studentIDNum,
       teacherIDNum: teacherIDNum,
-      studentInstrumet: studentInstrument,
+      studentInstrument: studentInstrument,
       date: date,
       time: time,
       status: 'undecided'
@@ -124,6 +125,7 @@ class CalendarForStudents extends React.Component {
     var studentLessonRequestKey = studentRef.push().key
     teacherRef.child(teacherLessonRequestKey).update(lessonData)
     studentRef.child(studentLessonRequestKey).update(lessonData)
+    // Actions.StudentMain({userData: this.props.userData})
     //here is where the black magic happens  and the app performs Actions.StudentMain() without it being called
     //OR ROUTER FLUX EVEN BEING IMPORTED, LIKE WTF
   }

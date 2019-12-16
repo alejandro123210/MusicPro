@@ -52,9 +52,11 @@ export default class LoginController extends Component {
                 if (userType == '"student"' && userData != null){
                   //if the user is a student
                   Actions.StudentMain({userData: userData});
+                  alert('login controller called')
                 } else if (userData != null){
                   //if the user is a teacher
                   Actions.TeacherMain({userData: userData});
+                  alert('login controller called')
                 }
               }
             }, function (errorObject) {
@@ -160,14 +162,18 @@ export default class LoginController extends Component {
             var userData = snapshot.val();
             // alert(userData)
             //this is the user type (teacher/student)
-            var userType = JSON.stringify(userData['userType']);
-            //here if the function finds if the user is a student/teacher, it loads each respective view
-            if (userType == '"student"' && userData != null){
-              //if the user is a student
-              Actions.StudentMain({userData: userData});
-            } else if (userData != null){
-              //if the user is a teacher
-              Actions.TeacherMain({userData: userData});
+            if (userData != null){ //if they have data in the database
+              var userType = JSON.stringify(userData['userType']);
+              //here if the function finds if the user is a student/teacher, it loads each respective view
+              if (userType == '"student"'){
+                //if the user is a student
+                Actions.StudentMain({userData: userData});
+              } else if (userType == '"teacher"'){
+                //if the user is a teacher
+                Actions.TeacherMain({userData: userData});
+              }
+            } else {
+              Actions.Register({userInfo: userInfo});
             }
           });
         })
