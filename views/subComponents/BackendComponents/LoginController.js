@@ -52,11 +52,11 @@ export default class LoginController extends Component {
                 if (userType == '"student"' && userData != null){
                   //if the user is a student
                   Actions.StudentMain({userData: userData});
-                  alert('login controller called')
+                  // alert('login controller called')
                 } else if (userData != null){
                   //if the user is a teacher
                   Actions.TeacherMain({userData: userData});
-                  alert('login controller called')
+                  // alert('login controller called')
                 }
               }
             }, function (errorObject) {

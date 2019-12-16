@@ -21,50 +21,8 @@ class TeacherDash extends React.Component {
     //TODO: load this in from firebase
     //TODO: add accept/reject/cancel functionality 
 
-    lessonsList: [
-      {
-        name: "S Jacobs",
-        time: "11 - 12 PM",
-        key: 0,
-        instrument: 'euphonium'
-      },
-      {
-        name: "V Cookson",
-        time: "12 - 1  PM",
-        key: 1,
-        instrument: 'trombone'
-      },
-      {
-        name: "B Jacobs",
-        time: "2- 3 PM",
-        key: 2,
-        instrument: 'trumpet'
-      },
-      {
-        name: "Grace W",
-        time: "3:30 - 4:30 PM",
-        key: 3,
-        instrument: 'bass trombone'
-      },
-      {
-        name: "Sa Jacobs",
-        time: "5 - 6 PM",
-        key: 4,
-        instrument: 'bass'
-      },
-      {
-        name: "Grace S",
-        time: "7 - 7:30 PM",
-        key: 5,
-        instrument: 'piano'
-      },
-      {
-        name: "D Jacobs",
-        time: "8 - 9 PM",
-        key: 6,
-        instrument: 'guitar'
-      }
-    ]
+    //this list is pulled from the db
+    lessonsList: []
   };
   
   componentDidMount() {
@@ -78,6 +36,29 @@ class TeacherDash extends React.Component {
         "Today is: " + month + "/" + date + "/" + year
     });
     // alert(JSON.stringify(this.props.userData['location']))
+    var db = firebase.database();
+    var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
+    var lessonsList = []
+    ref.once("value")
+    .then((snapshot) => {
+      //all lessons for user in database
+      var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
+      key = 0;
+      //for loop adds all users to state
+      for (lessonKey in lessonsData){
+        var lessonToPush = {
+          name: lessonsData[lessonKey]['studentName'],
+          time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
+          key: key.toString(),
+          instrument: lessonsData[lessonKey]['studentInstrument']
+        }
+        lessonsList.push(lessonToPush)
+        key += 1;
+      }
+      this.setState({
+        lessonsList: lessonsList
+      })
+    });
   };
 
 
