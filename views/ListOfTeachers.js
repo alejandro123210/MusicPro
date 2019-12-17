@@ -26,6 +26,8 @@ state = {
         ]
 }
 
+//TODO: make this load in teachers that are nearby specifically 
+
 componentDidMount(){
     var db = firebase.database();
     var ref = db.ref(`users/`)
@@ -34,7 +36,7 @@ componentDidMount(){
         .then((snapshot) => {
         //all users in database
         var usersData = (JSON.parse(JSON.stringify(snapshot.val())));
-        key = 0;
+        var key = 0;
         //for loop adds all users to state
         for (uid in usersData){
             // alert(uid)
@@ -44,14 +46,14 @@ componentDidMount(){
                     location: JSON.stringify(usersData[uid]['info']['location']).slice(3, -3),
                     instrument: JSON.stringify(usersData[uid]['info']['instrument']).slice(1, -1),
                     picture: JSON.stringify(usersData[uid]['info']['photo']).slice(3, -3),
-                    key: key
+                    key: key,
+                    uid: uid
                 }
                 teachers.push(teacher)
                 this.setState({
                     teachers: teachers
                 })
-                key += 1;
-                console.log(key)
+                key = key + 1;
             }
         }
     });
@@ -62,9 +64,10 @@ handleTextChange = inputValue => {
     this.setState({ inputValue });
 };
 
-onPress = () => {
+onPress = (user) => {
     Actions.CalendarForStudents({
-        userData: this.props.userData
+        userData: this.props.userData,
+        teacher: user
     });
 }
 
@@ -79,11 +82,11 @@ onPress = () => {
                 <Image 
                     source={{ uri: 'http://fa2png.io/media/icons/font-awesome/4-7-0/search/256/0/274156_none.png' }}
                     style={styles.searchIcon}
-                    />
-                    <TextInput
-                value={this.state.inputValue}
-                onChangeText={this.handleTextChange}
-                style={styles.searchInput}
+                />
+                <TextInput
+                    value={this.state.inputValue}
+                    onChangeText={this.handleTextChange}
+                    style={styles.searchInput}
                 />
             </View>
 
@@ -95,7 +98,7 @@ onPress = () => {
                         instrument = {user.instrument}
                         location = {user.location}
                         key = {user.key}
-                        onPress = {() => this.onPress()}
+                        onPress = {() => this.onPress(user)}
                     />
                 ))}
             </ScrollView>

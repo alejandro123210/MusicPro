@@ -13,7 +13,7 @@ let deviceWidth = Dimensions.get("window").width;
 //scheduledEventPressed 
 //^^ we delegate the onPress function to the view using the component because it's different when the person is a student/teacher
 
-const scheduledEventCell = props => {
+const requestedEventCell = props => {
 
 
     return(
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: deviceWidth - 5,
         height: deviceHeight / 8,
-        backgroundColor: '#274156',
+        backgroundColor: 'green',
         borderRadius: 15,
         margin: 3,
         borderWidth: 1,
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default scheduledEventCell;
+export default requestedEventCell;

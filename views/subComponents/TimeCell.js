@@ -9,7 +9,7 @@ import { Actions } from 'react-native-router-flux';
 //required props are name, key, date, lastmessage
 const TimeCell = props => {
 
-
+    //TODO: make this actually look good and right
     return (
         <View style={styles.cellView}>
             {/* animates the entire cell ^ */}

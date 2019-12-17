@@ -22,8 +22,15 @@ class Register_Description extends React.Component {
             instrument: this.props.instrument,
             photo: JSON.stringify(this.props.userInfo['user']['photo']),
             location: this.props.location,
-            description: this.state.description
+            description: this.state.description,
+            lessons: []
         });
+        ref.once('value').then(function (snapshot){
+            var userData = snapshot.val();
+            Actions.TeacherMain({userData: userData});
+        }).catch(function (error){
+            alert(error)
+        })
     }
 
     render() {

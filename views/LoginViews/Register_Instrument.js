@@ -10,6 +10,8 @@ class Register_Instrument extends React.Component {
         instrument: ''
     }
 
+    //TODO: make this work differently so the user isn't typing a list in a text box
+
     onPress = () => {
         if(this.props.userType == "student"){
             var user = firebase.auth().currentUser
@@ -21,14 +23,16 @@ class Register_Instrument extends React.Component {
                 name: JSON.stringify(this.props.userInfo['user']['name']),
                 userType: "student",
                 instrument: this.state.instrument,
-                photo: JSON.stringify(this.props.userInfo['user']['photo'])
+                photo: JSON.stringify(this.props.userInfo['user']['photo']),
+                lessons: []
             });
-            // ref.on("value", function(snapshot) {
-            //     var userData = snapshot.val();
-            //     // Actions.StudentMain({userData: userData});
-            // }, function (errorObject) {
-            //     alert("The read failed: " + errorObject.code);
-            // });
+            ref.once('value').then(function (snapshot){
+                var userData = snapshot.val();
+                Actions.StudentMain({userData: userData});
+            }).catch(function (error){
+                alert(error)
+            })
+            
         } else {
             Actions.Register_Location({
                 instrument: this.state.instrument,

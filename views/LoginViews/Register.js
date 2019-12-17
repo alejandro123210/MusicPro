@@ -8,8 +8,7 @@ let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
 class Register extends React.Component {
-
-  // ALEJANDRO, PLEASE START WORKING 
+  
   state = {
     name: '',
     email: '',
@@ -31,9 +30,6 @@ class Register extends React.Component {
       userInfo: this.props.userInfo
     });
   }
-
-  
-
 
   //firebase account creation and automatic login
   // onDonePressed = () => {

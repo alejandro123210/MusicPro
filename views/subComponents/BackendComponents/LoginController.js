@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button, Im
 import { Header, LearnMoreLinks, Colors, DebugInstructions, ReloadInstructions,} from 'react-native/Libraries/NewAppScreen';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import * as firebase from 'firebase'
-import {Actions} from 'react-native-router-flux'
+import { Actions } from 'react-native-router-flux'
 
 export default class LoginController extends Component {
   constructor(props) {
@@ -23,110 +23,74 @@ export default class LoginController extends Component {
     });
     this.getCurrentUserInfo();
     // alert(this.state.userInfo)
+    // alert("LoginController has mounted")
+    console.log('login controller mounted')
+  }
+
+  componentWillUnmount(){
+    console.log('Login Controller unmounted')
   }
 
   _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
+      console.log('has play services')
       const userInfo = await GoogleSignin.signIn();
+      console.log('user info is present')
       this.setState({ userInfo: userInfo, loggedIn: true });
+      console.log('state set with userinfo, logged in set to true')
       // alert()
       var db = firebase.database()
+      console.log('database reference made')
       var problemWithLogin = false;
       const googleCredential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken); 
+      console.log('auth credential obtained')
+      var isUserSignedInAlready = false
+      console.log('user is not fully signed in yet')
       firebase.auth().signInWithCredential(googleCredential)
-        .then(appUser => { 
-          var user = firebase.auth().currentUser
-          var ref = db.ref(`users/${user.uid}/info/`);
-            ref.on("value", function(snapshot) {
-              if(snapshot.val() == null){
-                //if the user does not have data in the database:
-                //the user at this point has an account in auth, but we need to create the data for the database
-                Actions.Register({userInfo: userInfo});
-              } else {
-                //if the user DOES have data in the database:
-                var userData = snapshot.val();
-                //this is the user type (teacher/student)
-                var userType = JSON.stringify(userData['userType']);
-                //here if the function finds if the user is a student/teacher, it loads each respective view
-                if (userType == '"student"' && userData != null){
-                  //if the user is a student
-                  Actions.StudentMain({userData: userData});
-                } else if (userData != null){
-                  //if the user is a teacher
-                  Actions.TeacherMain({userData: userData});
-                }
-              }
-            }, function (errorObject) {
-              alert("The read failed: " + errorObject.code);
-            });
+      .then(appUser => { 
+        console.log('firebase attempting sign in')
+        var user = firebase.auth().currentUser
+        var ref = db.ref(`users/${user.uid}/info/`);
+          // ref.on("value", function(snapshot) {
 
-          // // alert(user.uid)
-          // if (this.props.alreadyRegistered == true){
-          //   var ref = db.ref(`users/${user.uid}/info/`);
-          //   ref.on("value", function(snapshot) {
-          //     var userData = snapshot.val();
-          //     //this is the user type (teacher/student)
-          //     var userType = JSON.stringify(userData['userType']);
-          //     //here if the function finds if the user is a student/teacher, it loads each respective view
-          //     if (userType == '"student"' && userData != null){
-          //       //if the user is a student
-          //       Actions.StudentMain({userData: userData});
-          //     } else if (userData != null){
-          //       //if the user is a teacher
-          //       Actions.TeacherMain({userData: userData});
-          //     }
-          //   }, function (errorObject) {
-          //     alert("The read failed: " + errorObject.code);
-          //   });
-          // } else {
-          //   if(this.props.userType == "student"){
-          //     //checks if there was a problem, there are better ways to do this (this is temporary)
-          //     if (problemWithLogin == false){
-          //       //copies the users data from auth to the database, adding the name and whether they're a student or a teacher
-          //       db.ref(`users/${user.uid}/info`).set({
-          //         email: user.email,
-          //         uid: user.uid,
-          //         name: JSON.stringify(userInfo['user']['name']),
-          //         userType: "student",
-          //         instrument: this.props.instrument,
-          //         photo: JSON.stringify(userInfo['user']['photo'])
-          //       });
-          //       //this isn't perfect, will need to change
-          //       var ref = db.ref(`users/${user.uid}/info/`);
-          //       ref.on("value", function(snapshot) {
-          //         var userData = snapshot.val();
-          //         Actions.StudentMain({userData: userData});
-          //       }, function (errorObject) {
-          //         alert("The read failed: " + errorObject.code);
-          //       });
-          //     }
-          //   } else if(this.props.userType == "teacher"){
-          //     //checks if there was a problem, there are better ways to do this (this is temporary)
-          //     if (problemWithLogin == false){
-          //       //copies the users data from auth to the database, adding the name and whether they're a student or a teacher
-          //       db.ref(`users/${user.uid}/info`).set({
-          //         email: user.email,
-          //         uid: user.uid,
-          //         name: JSON.stringify(userInfo['user']['name']),
-          //         userType: "teacher",
-          //         instrument: this.props.instrument,
-          //         description: this.props.description,
-          //         photo: JSON.stringify(userInfo['user']['photo'])
-          //       });
-          //       //this isn't perfect, will need to change
-          //       var ref = db.ref(`users/${user.uid}/info/`);
-          //       ref.on("value", function(snapshot) {
-          //         var userData = snapshot.val();
-          //         Actions.TeacherMain({userData: userData});
-          //       }, function (errorObject) {
-          //         alert("The read failed: " + errorObject.code);
-          //       });
-          //     }
-          //   }
-          // }
+          // }, function (errorObject) {
+          //   alert("The read failed: " + errorObject.code);
+          // });
+          ref.once('value')
+          .then(function(snapshot) {
+            console.log('reading the database')
+            if(snapshot.val() == null){
+              console.log('user not fully signed up')
+              //if the user does not have data in the database:
+              //the user at this point has an account in auth, but we need to create the data for the database
+              Actions.Register({userInfo: userInfo});
+            } else {
+              console.log('user fully signed up')
+              //if the user DOES have data in the database:
+              var userData = snapshot.val();
+              //this is the user type (teacher/student)
+              var userType = JSON.stringify(userData['userType']);
+              //here if the function finds if the user is a student/teacher, it loads each respective view
+              console.log(userType)
+              if (userType == '"student"' && userData != null){
+                //if the user is a student
+                Actions.StudentMain({userData: userData});
+                console.log('student Main Called')
+                return;
+                // Actions.popTo('StudentMain', {userData: userData})
+                // alert('login controller was called')
+              } else if (userData != null){
+                //if the user is a teacher
+                Actions.TeacherMain({userData: userData});
+                console.log('teacher main called')
+                return;
+                // Actions.popTo('TeacherMain', {userData: userData})
+                // alert('teacher main was called'
+              }
+            }
+          });
       });
-      
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -155,20 +119,35 @@ export default class LoginController extends Component {
           var user = firebase.auth().currentUser
           var db = firebase.database();
           var ref = db.ref(`users/${user.uid}/info/`);
-          ref.on("value", function(snapshot) {
+          ref.once('value')
+          .then(function(snapshot){
             //if the user DOES have data in the database:
             var userData = snapshot.val();
             // alert(userData)
             //this is the user type (teacher/student)
-            var userType = JSON.stringify(userData['userType']);
-            //here if the function finds if the user is a student/teacher, it loads each respective view
-            if (userType == '"student"' && userData != null){
-              //if the user is a student
-              Actions.StudentMain({userData: userData});
-            } else if (userData != null){
-              //if the user is a teacher
-              Actions.TeacherMain({userData: userData});
+            if (userData != null){ //if they have data in the database
+              var userType = JSON.stringify(userData['userType']);
+              //here if the function finds if the user is a student/teacher, it loads each respective view
+              console.log(userType)
+              if (userType == '"student"'){
+                //if the user is a student
+                Actions.StudentMain({userData: userData});
+                console.log('studentmain called')
+                
+                // Actions.popTo('StudentMain', {userData: userData})
+                // alert('Login Controller was called')
+              } else if (userType == '"teacher"'){
+                //if the user is a teacher
+                Actions.TeacherMain({userData: userData});
+                console.log('teachermain called')
+                
+                // Actions.popTo('TeacherMain', {userData: userData})
+                // alert('Login Controller was called')
+              }
+            } else {
+              Actions.Register({userInfo: userInfo});
             }
+            
           });
         })
     } catch (error) {
@@ -200,7 +179,7 @@ export default class LoginController extends Component {
         style={{ width: 192, height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}
-        onPress={this._signIn}
+        onPress={() => this._signIn()}
         disabled={this.state.isSigninInProgress} 
       />
 

@@ -1,11 +1,12 @@
 //Teacher Dash screen is the main screen on the teacher side of the app
 //has to 3 link buttons but two of them link to the same screen for now
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { Text, View, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 import ProfileBar from "./subComponents/ProfileBar";
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
+import * as firebase from 'firebase'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -14,74 +15,76 @@ class TeacherDash extends React.Component {
 
   state = {
     date: "",
-    inputValue: "",
-    teacherDashDisplay: "block",
-    teacherProfileScrollDisplay: "none",
+    //TODO: load this in from firebase
+    //TODO: add accept/reject/cancel functionality 
 
-    lessonsList: [
-      {
-        name: "S Jacobs",
-        time: "11 - 12 PM",
-        key: 0,
-        instrument: 'euphonium'
-      },
-      {
-        name: "V Cookson",
-        time: "12 - 1  PM",
-        key: 1,
-        instrument: 'trombone'
-      },
-      {
-        name: "B Jacobs",
-        time: "2- 3 PM",
-        key: 2,
-        instrument: 'trumpet'
-      },
-      {
-        name: "Grace W",
-        time: "3:30 - 4:30 PM",
-        key: 3,
-        instrument: 'bass trombone'
-      },
-      {
-        name: "Sa Jacobs",
-        time: "5 - 6 PM",
-        key: 4,
-        instrument: 'bass'
-      },
-      {
-        name: "Grace S",
-        time: "7 - 7:30 PM",
-        key: 5,
-        instrument: 'piano'
-      },
-      {
-        name: "D Jacobs",
-        time: "8 - 9 PM",
-        key: 6,
-        instrument: 'guitar'
-      }
-    ]
+    //this list is pulled from the db
+    lessonsList: []
   };
   
   componentDidMount() {
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
-
     this.setState({
       //Setting the value of the date time
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
-    // alert(JSON.stringify(this.props.userData['location']))
+    let that = this
+    this.loadLessons(that)
   };
 
+  loadLessons = (that) => {
+    var db = firebase.database();
+    var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
+    ref.on('value', function(snapshot) {
+      //all lessons for user in database
+      var lessonsList = []
+      var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
+      key = 0;
+      //for loop adds all users to state
+      for (lessonKey in lessonsData){
+        if(lessonsData[lessonKey]['status'] == 'confirmed'){
+          var lessonToPush = {
+            name: lessonsData[lessonKey]['teacherName'],
+            time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
+            key: key.toString(),
+            instrument: lessonsData[lessonKey]['studentInstrument'],
+            studentID: lessonsData[lessonKey]['studentIDNum'],
+            teacherID: lessonsData[lessonKey]['teacherIDNum'],
+            lessonKey: lessonKey
+          }
+          lessonsList.push(lessonToPush)
+          key += 1;
+        }
+        that.setState({ lessonsList: lessonsList })
+        that.forceUpdate();
+      }
+    });
+  }
 
 
-  handleTextChange = inputValue => {
-    this.setState({ inputValue });
-  };
+  onScheduledEventPressed = (person) => {
+    // alert('pressed')
+    Alert.alert(
+      'Cancel Lesson?',
+      'are you sure you want to cancel your lesson with ' + person.name + '?',
+      [
+        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(person)},
+        {
+          text: 'Nevermind',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+  }
+
+  cancelLesson = (person) => {
+
+  }
 
   render() {
     return (
@@ -95,12 +98,14 @@ class TeacherDash extends React.Component {
           <Text style={styles.dateText}>{this.state.date}</Text>
         </View>
         <ScrollView>
-          {this.state.lessonsList.map(student => (
+          {this.state.lessonsList.map(lesson => (
             <ScheduledEventCell 
-                name = { student.name }
-                time = { student.time }
-                key = { student.key }
-                instrument = { student.instrument }
+                name = { lesson.name }
+                time = { lesson.time }
+                key = { lesson.key }
+                instrument = { lesson.instrument }
+                status = { lesson.status }
+                onPress = {() => this.onScheduledEventPressed(lesson) }
             />
           ))}
         </ScrollView>

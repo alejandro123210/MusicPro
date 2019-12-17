@@ -1,9 +1,11 @@
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput } from "react-native";
+import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert } from "react-native";
 import ProfileBar from './subComponents/ProfileBar'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import TimeCell from './subComponents/TimeCell';
+import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -15,23 +17,6 @@ class CalendarForStudents extends React.Component {
     teacherDashDisplay: "block",
     teacherProfileScrollDisplay: "none",   
     selectedDay: '', 
-
-    //this will have to be loaded in from props.userdata  
-    lessonsList: [
-      {
-        name: "Grace Jacobs",
-        time: "11 - 12 PM",
-        instrument: "guitar",
-        key: 0
-      },
-      {
-        name: "Alexander Kamanev",
-        time: "1-2 PM",
-        instrument: "tuba",
-        key: 1
-      }
-    ],
-
     inputValue: '',
     data: [],
     teacher: 
@@ -81,9 +66,6 @@ class CalendarForStudents extends React.Component {
       date:
          year + "-" + month + "-" + date,
     });
-    this.setState({
-
-    })
   };
 
 
@@ -96,9 +78,58 @@ class CalendarForStudents extends React.Component {
   }
 
   onCellPress = (time) => {
-    console.log('the user has selected: ')
-    console.log(this.state.date)
-    console.log(time)
+    // console.log('the user has selected: ')
+    // console.log(this.state.date)
+    // console.log(time)
+    Alert.alert(
+      'Are you sure?',
+      'are you sure you want to request a lesson with ' + this.props.teacher.name,
+      [
+        {text: 'Confirm Request', onPress: () => this.confirmLessonRequest(time)},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+  }
+
+  confirmLessonRequest = (time) => {
+    var studentName = this.props.userData['name'].slice(1,-1)
+    var studentIDNum = this.props.userData['uid']
+    var studentInstrument = this.props.userData['instrument']
+    var teacherName = this.props.teacher.name;
+    var teacherIDNum = this.props.teacher.uid;
+    var teacherInstrument = this.props.teacher.instrument;
+    var date = this.state.date
+    var time = time
+    // console.log("Request confirmed for " + this.props.teacher.uid);
+    var db = firebase.database();
+    var teacherRef = db.ref(`users/${this.props.teacher.uid}/info/lessons`)
+    var studentRef = db.ref(`users/${studentIDNum}/info/lessons`)
+    //we put both users names and ids so that later when the requeest is processed by the teacher 
+    //both the student and teacher have their lessons updated 
+    //(having both ids makes it easier to find each others profiles)
+    var teacherLessonRequestKey = teacherRef.push().key
+    var studentLessonRequestKey = studentRef.push().key
+    var lessonData = {
+      studentName: studentName,
+      teacherName: teacherName,
+      studentIDNum: studentIDNum,
+      teacherIDNum: teacherIDNum,
+      studentLessonKey: studentLessonRequestKey,
+      teacherLessonKey: teacherLessonRequestKey,
+      studentInstrument: studentInstrument,
+      teacherInstrument: teacherInstrument,
+      date: date,
+      time: time,
+      status: 'undecided'
+    }
+    teacherRef.child(teacherLessonRequestKey).update(lessonData)
+    studentRef.child(studentLessonRequestKey).update(lessonData)
+    Actions.StudentLessonRequest({userData: this.props.userData})
   }
 
   render() {
@@ -117,15 +148,24 @@ class CalendarForStudents extends React.Component {
             //maxDate={'2012-05-30'}
             // Handler which gets executed on day press. Default = undefined
             onDayPress={(day) => {
-              console.log('selected day', day)
+              // console.log('selected day', day)
               this.setState({
                 date: day['dateString']
+                
               })
             }}
+            minDate = { Date() }
+            // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+            current = { Date() }
+            // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
             // Handler which gets executed on day long press. Default = undefined
             // onDayLongPress={(day) => {console.log('selected day', day)}}
             // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
             monthFormat={'MMM yyyy'}
+            // Handler which gets executed on day press. Default = undefined
+            onDayPress={(day) => {console.log('selected day', day)}}
+            // Handler which gets executed on day long press. Default = undefined
+            onDayLongPress={(day) => {console.log('selected day', day)}}
             // Handler which gets executed when visible month changes in calendar. Default = undefined
             onMonthChange={(month) => {console.log('month changed', month)}}
             // Hide month navigation arrows. Default = false  
@@ -147,14 +187,14 @@ class CalendarForStudents extends React.Component {
           />
         
         <ScrollView>
-                {this.state.teacher.map(list => (
-                    <TimeCell
-                        name = {list.name}
-                        key = {list.key}
-                        onPress = {() => this.onCellPress(list.name)}
-                    />
-                ))}
-            </ScrollView>
+          {this.state.teacher.map(list => (
+              <TimeCell
+                  name = {list.name}
+                  key = {list.key}
+                  onPress = {() => this.onCellPress(list.name)}
+              />
+          ))}
+        </ScrollView>
       </View>
     );
   }

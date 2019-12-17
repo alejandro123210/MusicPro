@@ -14,19 +14,43 @@ class Settings extends React.Component {
         try {
           await GoogleSignin.revokeAccess();
           await GoogleSignin.signOut();
-          this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
-          Actions.Login();
-          alert("logged out")
+          this.setState({ user: null }); // Remember to remove the user from your app's state as well
+          firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            Actions.Login();
+            
+          }).catch(function(error) {
+            alert('Sorry, there was a problem signing you out!')
+          });
         } catch (error) {
           console.error(error);
           alert(error)
         }
     };
 
+    componentDidMount(){
+        // alert('settings mounted')
+    }
+
+    componentWillUnmount(){
+        // alert('settings unmounted')
+    }
+
+    //TODO: create all of the functionality and front end for this page
+
     render() {
         return (
             // this is just random filler for the template, but this is where what the user sees is rendered
             <View style={styles.container}>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Text style={styles.logoutButton}>Logout</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Text style={styles.logoutButton}>Description</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Text style={styles.logoutButton}>Logout</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.onPress()}>
                     <Text style={styles.logoutButton}>Logout</Text>
                 </TouchableOpacity>
@@ -38,13 +62,13 @@ class Settings extends React.Component {
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      backgroundColor: '#274156',
+      backgroundColor: '#eee',
       alignItems: 'center',
       justifyContent: 'center'
   },
   logoutButton: {
       fontSize: 20,
-      color: 'white'
+      color: 'black'
   }
 });
 

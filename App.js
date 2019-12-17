@@ -13,6 +13,9 @@ import Settings from './views/LoginViews/Settings'
 import ListOfTeachers from './views/ListOfTeachers'
 import Register_Location from './views/LoginViews/Register_Location';
 import CalendarForStudents from './views/CalendarForStudents';
+import TeacherAvailabilityConfigurator from './views/TeacherAvailabilityConfigurator';
+import LessonRequests from './views/LessonRequests';
+import StudentLessonRequests from './views/StudentLessonRequests';
 
 export default function App() {
 
@@ -69,7 +72,7 @@ export default function App() {
           component = { Settings }
           hideNavBar = {false}
         />
-        <Scene key= 'StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
+        <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
             <Scene 
               key = 'StudentDash'
               component = { StudentDash }
@@ -84,14 +87,34 @@ export default function App() {
               hideNavBar = { true }
               gesturesEnabled = { false }
             />
+            <Scene
+              key = 'StudentLessonRequest'
+              component = { StudentLessonRequests }
+              tabBarLabel = 'Requests'
+              hideNavBar = { true }
+              gesturesEnabled = { false }
+            />
         </Scene>
         <Scene key='TeacherMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
           <Scene
             key = 'TeacherDash'
             component = { TeacherDash }
-            tabBarLabel = 'My Schedule'
+            tabBarLabel = 'My Schedule '
             hideNavBar = { true }
             gesturesEnabled = { false }
+          />
+          <Scene
+            key = 'LessonRequests'
+            component = { LessonRequests }
+            tabBarLabel = 'Requests'
+            gesturesEnabled = { false }
+          />
+          <Scene 
+            key = 'TeacherAvailabilityConfigurator'
+            component = { TeacherAvailabilityConfigurator }
+            tabBarLabel = 'Availability'
+            hideNavBar = {true}
+            gesturesEnabled = {false}
           />
         </Scene>
       </Scene>
