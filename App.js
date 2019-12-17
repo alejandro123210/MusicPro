@@ -15,6 +15,7 @@ import Register_Location from './views/LoginViews/Register_Location';
 import CalendarForStudents from './views/CalendarForStudents';
 import TeacherAvailabilityConfigurator from './views/TeacherAvailabilityConfigurator';
 import LessonRequests from './views/LessonRequests';
+import StudentLessonRequests from './views/StudentLessonRequests';
 
 export default function App() {
 
@@ -83,6 +84,13 @@ export default function App() {
               key = 'ListOfTeachers'
               component = { ListOfTeachers }
               tabBarLabel = 'teachers'
+              hideNavBar = { true }
+              gesturesEnabled = { false }
+            />
+            <Scene
+              key = 'StudentLessonRequest'
+              component = { StudentLessonRequests }
+              tabBarLabel = 'Requests'
               hideNavBar = { true }
               gesturesEnabled = { false }
             />

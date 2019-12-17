@@ -3,15 +3,16 @@
 import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 import ProfileBar from "./subComponents/ProfileBar";
-import ScheduledEventCell from "./subComponents/ScheduledEventCell";
+import RequestedEventCell from "./subComponents/RequestedEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-class StudentDash extends React.Component {
+class StudentLessonRequests extends React.Component {
 
   state = {
     date: "",
@@ -26,6 +27,7 @@ class StudentDash extends React.Component {
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
+
     this.setState({
       //Setting the value of the date time
       date:
@@ -36,77 +38,45 @@ class StudentDash extends React.Component {
 
   loadLessons = () => {
     var db = firebase.database();
-    // alert(JSON.stringify(this.props.userData['uid']))
     var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
-    // ref.once("value")
-    // .then((snapshot) => {
-    // });
+    var lessonsList = []
     ref.once("value")
-    .then(function(snapshot){
+    .then((snapshot) => {
       //all lessons for user in database
-      var lessonsList = []
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
       //for loop adds all users to state
       for (lessonKey in lessonsData){
-        if(lessonsData[lessonKey]['status'] == 'confirmed'){
-          var lessonToPush = {
-            name: lessonsData[lessonKey]['teacherName'],
-            time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-            key: key.toString(),
-            instrument: lessonsData[lessonKey]['studentInstrument'],
-            studentID: lessonsData[lessonKey]['studentIDNum'],
-            teacherID: lessonsData[lessonKey]['teacherIDNum'],
-            lessonKey: lessonKey
-          }
-          lessonsList.push(lessonToPush)
-          key += 1;
+        if(lessonsData[lessonKey]['status'] == 'undecided'){
+            var lessonToPush = {
+                name: lessonsData[lessonKey]['teacherName'],
+                time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
+                key: key.toString(),
+                instrument: lessonsData[lessonKey]['studentInstrument'],
+                studentID: lessonsData[lessonKey]['studentIDNum'],
+                teacherID: lessonsData[lessonKey]['teacherIDNum'],
+                teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
+                studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+            }
+            lessonsList.push(lessonToPush)
+            key += 1;
         }
-        this.setState({
-          lessonsList: lessonsList
-        })
       }
+      this.setState({
+        lessonsList: lessonsList
+      })
     });
-    ref.on('value', function(snapshot) {
-      this.updateScheduledEvents(snapshot);
-    });
-    updateScheduledEvents = (snapshot) => {
-      //all lessons for user in database
-      var lessonsList = []
-      var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
-      key = 0;
-      //for loop adds all users to state
-      for (lessonKey in lessonsData){
-        if(lessonsData[lessonKey]['status'] == 'confirmed'){
-          var lessonToPush = {
-            name: lessonsData[lessonKey]['teacherName'],
-            time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-            key: key.toString(),
-            instrument: lessonsData[lessonKey]['studentInstrument'],
-            studentID: lessonsData[lessonKey]['studentIDNum'],
-            teacherID: lessonsData[lessonKey]['teacherIDNum'],
-            lessonKey: lessonKey
-          }
-          lessonsList.push(lessonToPush)
-          key += 1;
-        }
-        this.setState({
-          lessonsList: lessonsList
-        })
-      }
-    }
   }
 
-
-  onScheduledEventPressed = (person) => {
+  onScheduledEventPressed = (lesson) => {
     // alert('pressed')
     Alert.alert(
-      'Cancel Lesson?',
-      'are you sure you want to cancel your lesson with ' + person.name + '?',
+      'Cancel Request?',
+      'Are you sure you want to cancel your lesson with ' + lesson.name,
       [
-        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(person)},
+        {text: 'Cancel Request', onPress: () => this.denyLesson(lesson)},
         {
-          text: 'Nevermind',
+          text: 'nevermind',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
@@ -115,7 +85,7 @@ class StudentDash extends React.Component {
     );
   }
 
-  cancelLesson = (person) => {
+  denyLesson = (lesson) => {
 
   }
 
@@ -132,7 +102,7 @@ class StudentDash extends React.Component {
         </View>
         <ScrollView>
           {this.state.lessonsList.map(lesson => (
-            <ScheduledEventCell 
+            <RequestedEventCell 
                 name = { lesson.name }
                 time = { lesson.time }
                 key = { lesson.key }
@@ -169,4 +139,4 @@ const styles = StyleSheet.create({
 });
 
 //this lets the component get imported other places
-export default StudentDash;
+export default StudentLessonRequests;

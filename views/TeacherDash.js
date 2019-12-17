@@ -15,9 +15,6 @@ class TeacherDash extends React.Component {
 
   state = {
     date: "",
-    inputValue: "",
-    teacherDashDisplay: "block",
-    teacherProfileScrollDisplay: "none",
     //TODO: load this in from firebase
     //TODO: add accept/reject/cancel functionality 
 
@@ -29,23 +26,17 @@ class TeacherDash extends React.Component {
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
-
     this.setState({
       //Setting the value of the date time
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
     this.loadLessons()
-    // alert(firebase.auth().currentUser.uid)
   };
 
   loadLessons = () => {
     var db = firebase.database();
     var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
-    // ref.once("value")
-    // .then((snapshot) => {
-
-    // });
     ref.once("value")
     .then(function(snapshot){
       //all lessons for user in database
@@ -123,10 +114,6 @@ class TeacherDash extends React.Component {
   cancelLesson = (person) => {
 
   }
-
-  handleTextChange = inputValue => {
-    this.setState({ inputValue });
-  };
 
   render() {
     return (
