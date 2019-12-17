@@ -151,12 +151,21 @@ class CalendarForStudents extends React.Component {
               // console.log('selected day', day)
               this.setState({
                 date: day['dateString']
+                
               })
             }}
+            minDate = { Date() }
+            // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+            current = { Date() }
+            // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
             // Handler which gets executed on day long press. Default = undefined
             // onDayLongPress={(day) => {console.log('selected day', day)}}
             // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
             monthFormat={'MMM yyyy'}
+            // Handler which gets executed on day press. Default = undefined
+            onDayPress={(day) => {console.log('selected day', day)}}
+            // Handler which gets executed on day long press. Default = undefined
+            onDayLongPress={(day) => {console.log('selected day', day)}}
             // Handler which gets executed when visible month changes in calendar. Default = undefined
             onMonthChange={(month) => {console.log('month changed', month)}}
             // Hide month navigation arrows. Default = false  

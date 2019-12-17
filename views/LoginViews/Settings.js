@@ -45,6 +45,15 @@ class Settings extends React.Component {
                 <TouchableOpacity onPress={() => this.onPress()}>
                     <Text style={styles.logoutButton}>Logout</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Text style={styles.logoutButton}>Description</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Text style={styles.logoutButton}>Logout</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Text style={styles.logoutButton}>Logout</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -53,13 +62,13 @@ class Settings extends React.Component {
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      backgroundColor: '#274156',
+      backgroundColor: '#eee',
       alignItems: 'center',
       justifyContent: 'center'
   },
   logoutButton: {
       fontSize: 20,
-      color: 'white'
+      color: 'black'
   }
 });
 
