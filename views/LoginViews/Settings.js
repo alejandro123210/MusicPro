@@ -28,6 +28,14 @@ class Settings extends React.Component {
         }
     };
 
+    componentDidMount(){
+        // alert('settings mounted')
+    }
+
+    componentWillUnmount(){
+        // alert('settings unmounted')
+    }
+
     //TODO: create all of the functionality and front end for this page
 
     render() {

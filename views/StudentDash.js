@@ -4,7 +4,7 @@ import ProfileBar from './subComponents/ProfileBar'
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
-
+import * as firebase from 'firebase'
 
 
 let deviceHeight = Dimensions.get("window").height;
@@ -48,6 +48,7 @@ class StudentDash extends React.Component {
     // alert('componentDidMount')
     //get location
     this.findCoordinates();
+    // alert(firebase.auth().currentUser.uid)
   };
 
   findCoordinates = () => {

@@ -36,6 +36,7 @@ class TeacherDash extends React.Component {
         "Today is: " + month + "/" + date + "/" + year
     });
     this.loadLessons()
+    // alert(firebase.auth().currentUser.uid)
   };
 
   loadLessons = () => {

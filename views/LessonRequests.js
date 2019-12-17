@@ -7,6 +7,7 @@ import RequestedEventCell from "./subComponents/RequestedEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;

@@ -71,7 +71,7 @@ export default function App() {
           component = { Settings }
           hideNavBar = {false}
         />
-        <Scene key= 'StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
+        <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
             <Scene 
               key = 'StudentDash'
               component = { StudentDash }
@@ -91,7 +91,7 @@ export default function App() {
           <Scene
             key = 'TeacherDash'
             component = { TeacherDash }
-            tabBarLabel = 'My Schedule'
+            tabBarLabel = 'My Schedule '
             hideNavBar = { true }
             gesturesEnabled = { false }
           />

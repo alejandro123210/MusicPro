@@ -26,12 +26,12 @@ class Register_Instrument extends React.Component {
                 photo: JSON.stringify(this.props.userInfo['user']['photo']),
                 lessons: []
             });
-            // ref.on("value", function(snapshot) {
-            //     var userData = snapshot.val();
-            //     // Actions.StudentMain({userData: userData});
-            // }, function (errorObject) {
-            //     alert("The read failed: " + errorObject.code);
-            // });
+            ref.on("value", function(snapshot) {
+                var userData = snapshot.val();
+                // Actions.StudentMain({userData: userData});
+            }, function (errorObject) {
+                alert("The read failed: " + errorObject.code);
+            });
         } else {
             Actions.Register_Location({
                 instrument: this.state.instrument,

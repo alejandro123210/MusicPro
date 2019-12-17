@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button, Im
 import { Header, LearnMoreLinks, Colors, DebugInstructions, ReloadInstructions,} from 'react-native/Libraries/NewAppScreen';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import * as firebase from 'firebase'
-import {Actions} from 'react-native-router-flux'
+import { Actions } from 'react-native-router-flux'
 
 export default class LoginController extends Component {
   constructor(props) {
@@ -23,6 +23,14 @@ export default class LoginController extends Component {
     });
     // this.getCurrentUserInfo();
     // alert(this.state.userInfo)
+    // alert("LoginController has mounted")
+    console.log('login controller mounted')
+    alert(firebase.auth().currentUser)
+    alert()
+  }
+
+  componentWillUnmount(){
+    console.log('Login Controller unmounted')
   }
 
   _signIn = async () => {
@@ -52,11 +60,17 @@ export default class LoginController extends Component {
                 if (userType == '"student"' && userData != null){
                   //if the user is a student
                   Actions.StudentMain({userData: userData});
+                  // Actions.popTo('StudentMain', {userData: userData})
+                  // alert('login controller was called')
                   // alert('login controller called')
+                  return
                 } else if (userData != null){
                   //if the user is a teacher
                   Actions.TeacherMain({userData: userData});
+                  // Actions.popTo('TeacherMain', {userData: userData})
+                  // alert('teacher main was called')
                   // alert('login controller called')
+                  return
                 }
               }
             }, function (errorObject) {
@@ -165,16 +179,25 @@ export default class LoginController extends Component {
             if (userData != null){ //if they have data in the database
               var userType = JSON.stringify(userData['userType']);
               //here if the function finds if the user is a student/teacher, it loads each respective view
+              console.log(userType)
               if (userType == '"student"'){
                 //if the user is a student
                 Actions.StudentMain({userData: userData});
+                return
+                // Actions.popTo('StudentMain', {userData: userData})
+                // alert('Login Controller was called')
               } else if (userType == '"teacher"'){
                 //if the user is a teacher
                 Actions.TeacherMain({userData: userData});
+                console.log('teachermain called')
+                return
+                // Actions.popTo('TeacherMain', {userData: userData})
+                // alert('Login Controller was called')
               }
             } else {
               Actions.Register({userInfo: userInfo});
             }
+            return
           });
         })
     } catch (error) {
@@ -206,7 +229,7 @@ export default class LoginController extends Component {
         style={{ width: 192, height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}
-        onPress={this._signIn}
+        onPress={() => this._signIn()}
         disabled={this.state.isSigninInProgress} 
       />
 
