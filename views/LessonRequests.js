@@ -38,7 +38,7 @@ class LessonRequests extends React.Component {
 
   loadLessons = () => {
     var db = firebase.database();
-    var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
+    var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
     var lessonsList = []
     ref.once("value")
     .then((snapshot) => {
@@ -62,9 +62,7 @@ class LessonRequests extends React.Component {
             key += 1;
         }
       }
-      this.setState({
-        lessonsList: lessonsList
-      })
+      this.setState({ lessonsList: lessonsList })
     });
   }
 
@@ -90,7 +88,6 @@ class LessonRequests extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).update({status: 'confirmed'})
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).update({status: 'confirmed'})
-    console.log('pushed')
     this.loadLessons();
     this.forceUpdate()
   }

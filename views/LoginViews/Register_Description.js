@@ -25,6 +25,12 @@ class Register_Description extends React.Component {
             description: this.state.description,
             lessons: []
         });
+        ref.once('value').then(function (snapshot){
+            var userData = snapshot.val();
+            Actions.TeacherMain({userData: userData});
+        }).catch(function (error){
+            alert(error)
+        })
     }
 
     render() {

@@ -102,6 +102,7 @@ class CalendarForStudents extends React.Component {
     var studentInstrument = this.props.userData['instrument']
     var teacherName = this.props.teacher.name;
     var teacherIDNum = this.props.teacher.uid;
+    var teacherInstrument = this.props.teacher.instrument;
     var date = this.state.date
     var time = time
     // console.log("Request confirmed for " + this.props.teacher.uid);
@@ -121,14 +122,14 @@ class CalendarForStudents extends React.Component {
       studentLessonKey: studentLessonRequestKey,
       teacherLessonKey: teacherLessonRequestKey,
       studentInstrument: studentInstrument,
+      teacherInstrument: teacherInstrument,
       date: date,
       time: time,
       status: 'undecided'
     }
     teacherRef.child(teacherLessonRequestKey).update(lessonData)
     studentRef.child(studentLessonRequestKey).update(lessonData)
-    Actions.StudentMain({userData: this.props.userData})
- 
+    Actions.StudentLessonRequest({userData: this.props.userData})
   }
 
   render() {

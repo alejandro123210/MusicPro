@@ -33,38 +33,36 @@ class StudentLessonRequests extends React.Component {
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
-    this.loadLessons()
+    let that = this
+    this.loadLessons(that)
   };
 
-  loadLessons = () => {
+  loadLessons = (that) => {
     var db = firebase.database();
     var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
-    var lessonsList = []
-    ref.once("value")
-    .then((snapshot) => {
-      //all lessons for user in database
-      var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
-      key = 0;
-      //for loop adds all users to state
-      for (lessonKey in lessonsData){
-        if(lessonsData[lessonKey]['status'] == 'undecided'){
+    ref.on('value', function(snapshot) {
+        //all lessons for user in database
+        var lessonsListInFunction = []
+        var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
+        key = 0;
+        //for loop adds all users to state
+        for (lessonKey in lessonsData){
+            if(lessonsData[lessonKey]['status'] == 'undecided'){
             var lessonToPush = {
                 name: lessonsData[lessonKey]['teacherName'],
                 time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
                 key: key.toString(),
-                instrument: lessonsData[lessonKey]['studentInstrument'],
+                instrument: lessonsData[lessonKey]['teacherInstrument'],
                 studentID: lessonsData[lessonKey]['studentIDNum'],
                 teacherID: lessonsData[lessonKey]['teacherIDNum'],
-                teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
-                studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+                lessonKey: lessonKey
             }
-            lessonsList.push(lessonToPush)
+            lessonsListInFunction.push(lessonToPush)
             key += 1;
+            that.setState({ lessonsList: lessonsListInFunction })
+            that.forceUpdate();
+            }
         }
-      }
-      this.setState({
-        lessonsList: lessonsList
-      })
     });
   }
 
