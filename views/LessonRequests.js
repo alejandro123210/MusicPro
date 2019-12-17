@@ -90,6 +90,9 @@ class LessonRequests extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).update({status: 'confirmed'})
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).update({status: 'confirmed'})
+    console.log('pushed')
+    this.loadLessons();
+    this.forceUpdate()
   }
 
   denyLesson = (lesson) => {

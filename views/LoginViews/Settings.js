@@ -14,11 +14,11 @@ class Settings extends React.Component {
         try {
           await GoogleSignin.revokeAccess();
           await GoogleSignin.signOut();
-          this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
+          this.setState({ user: null }); // Remember to remove the user from your app's state as well
           firebase.auth().signOut().then(function() {
             // Sign-out successful.
             Actions.Login();
-            alert("logged out")
+            
           }).catch(function(error) {
             alert('Sorry, there was a problem signing you out!')
           });

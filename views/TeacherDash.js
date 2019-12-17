@@ -42,10 +42,14 @@ class TeacherDash extends React.Component {
   loadLessons = () => {
     var db = firebase.database();
     var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
-    var lessonsList = []
+    // ref.once("value")
+    // .then((snapshot) => {
+
+    // });
     ref.once("value")
-    .then((snapshot) => {
+    .then(function(snapshot){
       //all lessons for user in database
+      var lessonsList = []
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
       //for loop adds all users to state
@@ -63,12 +67,41 @@ class TeacherDash extends React.Component {
           lessonsList.push(lessonToPush)
           key += 1;
         }
+        this.setState({
+          lessonsList: lessonsList
+        })
       }
-      this.setState({
-        lessonsList: lessonsList
-      })
     });
+    ref.on('value', function(snapshot) {
+      this.updateScheduledEvents(snapshot);
+    });
+    updateScheduledEvents = (snapshot) => {
+      //all lessons for user in database
+      var lessonsList = []
+      var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
+      key = 0;
+      //for loop adds all users to state
+      for (lessonKey in lessonsData){
+        if(lessonsData[lessonKey]['status'] == 'confirmed'){
+          var lessonToPush = {
+            name: lessonsData[lessonKey]['studentName'],
+            time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
+            key: key.toString(),
+            instrument: lessonsData[lessonKey]['studentInstrument'],
+            studentID: lessonsData[lessonKey]['studentIDNum'],
+            teacherID: lessonsData[lessonKey]['teacherIDNum'],
+            lessonKey: lessonKey
+          }
+          lessonsList.push(lessonToPush)
+          key += 1;
+        }
+        this.setState({
+          lessonsList: lessonsList
+        })
+      }
+    }
   }
+
 
   onScheduledEventPressed = (person) => {
     // alert('pressed')

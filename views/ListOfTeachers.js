@@ -46,14 +46,14 @@ componentDidMount(){
                     location: JSON.stringify(usersData[uid]['info']['location']).slice(3, -3),
                     instrument: JSON.stringify(usersData[uid]['info']['instrument']).slice(1, -1),
                     picture: JSON.stringify(usersData[uid]['info']['photo']).slice(3, -3),
-                    key: key.toString(),
+                    key: key,
                     uid: uid
                 }
                 teachers.push(teacher)
                 this.setState({
                     teachers: teachers
                 })
-                key += 1;
+                key = key + 1;
             }
         }
     });
@@ -82,11 +82,11 @@ onPress = (user) => {
                 <Image 
                     source={{ uri: 'http://fa2png.io/media/icons/font-awesome/4-7-0/search/256/0/274156_none.png' }}
                     style={styles.searchIcon}
-                    />
-                    <TextInput
-                value={this.state.inputValue}
-                onChangeText={this.handleTextChange}
-                style={styles.searchInput}
+                />
+                <TextInput
+                    value={this.state.inputValue}
+                    onChangeText={this.handleTextChange}
+                    style={styles.searchInput}
                 />
             </View>
 

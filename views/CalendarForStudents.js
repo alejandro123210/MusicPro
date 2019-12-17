@@ -78,9 +78,9 @@ class CalendarForStudents extends React.Component {
   }
 
   onCellPress = (time) => {
-    console.log('the user has selected: ')
-    console.log(this.state.date)
-    console.log(time)
+    // console.log('the user has selected: ')
+    // console.log(this.state.date)
+    // console.log(time)
     Alert.alert(
       'Are you sure?',
       'are you sure you want to request a lesson with ' + this.props.teacher.name,
@@ -127,9 +127,8 @@ class CalendarForStudents extends React.Component {
     }
     teacherRef.child(teacherLessonRequestKey).update(lessonData)
     studentRef.child(studentLessonRequestKey).update(lessonData)
-    // Actions.StudentMain({userData: this.props.userData})
-    //here is where the black magic happens  and the app performs Actions.StudentMain() without it being called
-    //OR ROUTER FLUX EVEN BEING IMPORTED, LIKE WTF
+    Actions.StudentMain({userData: this.props.userData})
+ 
   }
 
   render() {
@@ -148,7 +147,7 @@ class CalendarForStudents extends React.Component {
             //maxDate={'2012-05-30'}
             // Handler which gets executed on day press. Default = undefined
             onDayPress={(day) => {
-              console.log('selected day', day)
+              // console.log('selected day', day)
               this.setState({
                 date: day['dateString']
               })
