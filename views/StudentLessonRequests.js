@@ -55,7 +55,8 @@ class StudentLessonRequests extends React.Component {
                 instrument: lessonsData[lessonKey]['teacherInstrument'],
                 studentID: lessonsData[lessonKey]['studentIDNum'],
                 teacherID: lessonsData[lessonKey]['teacherIDNum'],
-                lessonKey: lessonKey
+                teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
+                studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
             }
             lessonsListInFunction.push(lessonToPush)
             key += 1;
@@ -72,7 +73,7 @@ class StudentLessonRequests extends React.Component {
       'Cancel Request?',
       'Are you sure you want to cancel your lesson with ' + lesson.name,
       [
-        {text: 'Cancel Request', onPress: () => this.denyLesson(lesson)},
+        {text: 'Cancel Request', onPress: () => this.cancelRequest(lesson)},
         {
           text: 'nevermind',
           onPress: () => console.log('Cancel Pressed'),
@@ -83,8 +84,12 @@ class StudentLessonRequests extends React.Component {
     );
   }
 
-  denyLesson = (lesson) => {
-
+  cancelRequest = (lesson) => {
+    var db = firebase.database();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).remove();
+    this.loadLessons(this);
+    this.forceUpdate();
   }
 
   render() {

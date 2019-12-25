@@ -16,8 +16,7 @@ class LessonRequests extends React.Component {
 
   state = {
     date: "",
-    //TODO: load this in from firebase
-    //TODO: add accept/reject/cancel functionality 
+    //TODO: add reject/cancel functionality 
 
     //this list is pulled from the db
     lessonsList: []
@@ -86,14 +85,18 @@ class LessonRequests extends React.Component {
 
   acceptLesson = (lesson) => {
     var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).update({status: 'confirmed'})
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).update({status: 'confirmed'})
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).update({status: 'confirmed'});
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).update({status: 'confirmed'});
     this.loadLessons();
-    this.forceUpdate()
+    this.forceUpdate();
   }
 
   denyLesson = (lesson) => {
-
+    var db = firebase.database();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).remove();
+    this.loadLessons();
+    this.forceUpdate();
   }
 
   render() {
