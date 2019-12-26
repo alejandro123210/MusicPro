@@ -112,8 +112,8 @@ export default function App() {
           <Scene 
             key = 'TeacherAvailabilityConfigurator'
             component = { TeacherAvailabilityConfigurator }
-            tabBarLabel = 'Availability'
-            hideNavBar = {true}
+            tabBarLabel = 'Set Availability'
+            hideNavBar = { false }
             gesturesEnabled = {false}
           />
         </Scene>
