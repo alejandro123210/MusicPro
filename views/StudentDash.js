@@ -77,13 +77,14 @@ class StudentDash extends React.Component {
       for (lessonKey in lessonsData){
         if(lessonsData[lessonKey]['status'] == 'confirmed'){
           var lessonToPush = {
-            name: lessonsData[lessonKey]['teacherName'],
+            teacherName: lessonsData[lessonKey]['teacherName'],
             time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
             key: key.toString(),
             instrument: lessonsData[lessonKey]['teacherInstrument'],
             studentID: lessonsData[lessonKey]['studentIDNum'],
             teacherID: lessonsData[lessonKey]['teacherIDNum'],
-            lessonKey: lessonKey
+            teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
+            studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
           }
           lessonsList.push(lessonToPush)
           key += 1;
@@ -95,13 +96,13 @@ class StudentDash extends React.Component {
   }
 
 
-  onScheduledEventPressed = (person) => {
+  onScheduledEventPressed = (lesson) => {
     // alert('pressed')
     Alert.alert(
       'Cancel Lesson?',
-      'are you sure you want to cancel your lesson with ' + person.name + '?',
+      'are you sure you want to cancel your lesson with ' + lesson.teacherName + '?',
       [
-        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(person)},
+        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(lesson)},
         {
           text: 'Nevermind',
           onPress: () => console.log('Cancel Pressed'),
@@ -112,8 +113,12 @@ class StudentDash extends React.Component {
     );
   }
 
-  cancelLesson = (person) => {
-
+  cancelLesson = (lesson) => {
+    var db = firebase.database();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).remove();
+    this.loadLessons(this);
+    this.forceUpdate();
   }
 
   render() {
@@ -130,7 +135,7 @@ class StudentDash extends React.Component {
         <ScrollView>
           {this.state.lessonsList.map(lesson => (
             <ScheduledEventCell 
-                name = { lesson.name }
+                name = { lesson.teacherName }
                 time = { lesson.time }
                 key = { lesson.key }
                 instrument = { lesson.instrument }
