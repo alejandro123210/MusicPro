@@ -17,6 +17,9 @@ import TeacherAvailabilityConfigurator from './views/TeacherAvailabilityConfigur
 import LessonRequests from './views/LessonRequests';
 import StudentLessonRequests from './views/StudentLessonRequests';
 
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+
+
 export default function App() {
 
   const firebase = require("firebase");
@@ -119,5 +122,6 @@ export default function App() {
         </Scene>
       </Scene>
     </Router>
+    
   );
 }

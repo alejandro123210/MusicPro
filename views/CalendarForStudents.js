@@ -63,8 +63,7 @@ class CalendarForStudents extends React.Component {
     var year = new Date().getFullYear(); //Current Year
     this.setState({
       //Setting the value of the date time
-      date:
-         year + "-" + month + "-" + date,
+      date: year + "-" + month + "-" + date,
     });
   };
 
@@ -79,7 +78,7 @@ class CalendarForStudents extends React.Component {
 
   onCellPress = (time) => {
     // console.log('the user has selected: ')
-    // console.log(this.state.date)
+    console.log(this.state.date)
     // console.log(time)
     Alert.alert(
       'Are you sure?',
@@ -150,8 +149,7 @@ class CalendarForStudents extends React.Component {
             onDayPress={(day) => {
               // console.log('selected day', day)
               this.setState({
-                date: day['dateString']
-                
+                date: day['dateString'],
               })
             }}
             minDate = { Date() }
@@ -163,7 +161,7 @@ class CalendarForStudents extends React.Component {
             // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
             monthFormat={'MMM yyyy'}
             // Handler which gets executed on day press. Default = undefined
-            onDayPress={(day) => {console.log('selected day', day)}}
+            // onDayPress={(day) => {console.log('selected day', day)}}
             // Handler which gets executed on day long press. Default = undefined
             onDayLongPress={(day) => {console.log('selected day', day)}}
             // Handler which gets executed when visible month changes in calendar. Default = undefined
@@ -183,7 +181,9 @@ class CalendarForStudents extends React.Component {
             onPressArrowLeft={substractMonth => substractMonth()}
             // Handler which gets executed when press arrow icon left. It receive a callback can go next month
             onPressArrowRight={addMonth => addMonth()}
-            
+            markedDates = {{
+              [this.state.date]: {selected: true},
+            }}            
           />
         
         <ScrollView>
