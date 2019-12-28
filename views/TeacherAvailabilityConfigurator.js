@@ -22,45 +22,62 @@ class TeacherAvailabilityConfigurator extends React.Component {
     teacher: 
     [   
       {
-            name: '8 AM - 10 AM',
+            name: '7 AM - 8 AM',
             key: 0
         },
         {
-            name: '10 PM - 12 PM',
+            name: '8 AM - 9 AM',
             key: 1
         },
         {
-            name: '2 PM - 4 PM',
+            name: '9 AM - 10 AM',
             key: 2
         },
         {
-            name: '4 PM - 6 PM',
+            name: '10 AM - 11 AM',
             key: 3
         },
         {
-            name: '8 PM - 10 PM',
+            name: '11 AM - 12 PM',
             key: 4
         },
         {
-            name: '10 PM - 12 AM',
+            name: '12 PM - 1 PM',
             key: 5
         },
         {
-            name: '12 AM - 2 AM',
+            name: '1 PM - 2 PM',
             key: 6
         },
         {
-            name: '2 AM - 4 AM',
+            name: '2 PM - 3 PM',
             key: 7
         },
         {
-            name: '4 AM - 6 AM',
+            name: '3 PM - 4 PM',
             key: 8
         },
         {
-            name: '6 AM - 8 AM',
+            name: '4 PM - 5 PM',
             key: 9
         },
+        {
+          name: '5 PM - 6 PM',
+          key: 9
+        },
+        {
+          name: '6 PM - 7 PM',
+          key: 9
+        },
+        {
+          name: '7 PM - 8 PM',
+          key: 9
+        },
+        {
+          name: '8 PM - 9 PM',
+          key: 9
+        },
+        
     ]
 
   };
@@ -69,6 +86,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
+    console.log(date)
     this.setState({
       //Setting the value of the date time
       date:
@@ -77,72 +95,14 @@ class TeacherAvailabilityConfigurator extends React.Component {
   };
 
 
-  handleTextChange = inputValue => {
-    this.setState({ inputValue });
-  };
-
-  onScheduledEventPressed = () => {
-      alert("Cancel event?")
-  }
-
   onCellPress = (time) => {
-    // console.log('the user has selected: ')
-    // console.log(this.state.date)
-    // console.log(time)
-    Alert.alert(
-      'Are you sure?',
-      'are you sure you want to request a lesson with ' + this.props.teacher.name,
-      [
-        {text: 'Confirm Request', onPress: () => this.confirmLessonRequest(time)},
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-      ],
-      {cancelable: true},
-    );
+
   }
 
-  confirmLessonRequest = (time) => {
-    var studentName = this.props.userData['name'].slice(1,-1)
-    var studentIDNum = this.props.userData['uid']
-    var studentInstrument = this.props.userData['instrument']
-    var teacherName = this.props.teacher.name;
-    var teacherIDNum = this.props.teacher.uid;
-    var teacherInstrument = this.props.teacher.instrument;
-    var date = this.state.date
-    var time = time
-    // console.log("Request confirmed for " + this.props.teacher.uid);
-    var db = firebase.database();
-    var teacherRef = db.ref(`users/${this.props.teacher.uid}/info/lessons`)
-    var studentRef = db.ref(`users/${studentIDNum}/info/lessons`)
-    //we put both users names and ids so that later when the requeest is processed by the teacher 
-    //both the student and teacher have their lessons updated 
-    //(having both ids makes it easier to find each others profiles)
-    var teacherLessonRequestKey = teacherRef.push().key
-    var studentLessonRequestKey = studentRef.push().key
-    var lessonData = {
-      studentName: studentName,
-      teacherName: teacherName,
-      studentIDNum: studentIDNum,
-      teacherIDNum: teacherIDNum,
-      studentLessonKey: studentLessonRequestKey,
-      teacherLessonKey: teacherLessonRequestKey,
-      studentInstrument: studentInstrument,
-      teacherInstrument: teacherInstrument,
-      date: date,
-      time: time,
-      status: 'undecided'
-    }
-    teacherRef.child(teacherLessonRequestKey).update(lessonData)
-    studentRef.child(studentLessonRequestKey).update(lessonData)
-    Actions.StudentLessonRequest({userData: this.props.userData})
-  }
+
 
   render() {
     return (
-      
       <View style={styles.container}>
         {/* <ProfileBar 
             name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
@@ -150,64 +110,59 @@ class TeacherAvailabilityConfigurator extends React.Component {
         /> */}
         <View style={{marginTop: deviceHeight/20}}>
         </View>
-        <Calendar
-        markedDates={{
-          day : {selected: true, marked: true, selectedColor: 'blue'},
-          '2012-05-17': {marked: true},
-          '2012-05-18': {marked: true, dotColor: 'red', activeOpacity: 0},
-          '2012-05-19': {disabled: true, disableTouchEvent: true}
-        }}
-            // Initially visible month. Default = Date()
-            // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-            //minDate={'2012-05-10'}
-            // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-            //maxDate={'2012-05-30'}
-            // Handler which gets executed on day press. Default = undefined
-            onDayPress={(day) => {
-              // console.log('selected day', day)
-              this.setState({
-                date: day['dateString']
-                
-              })
-            }}
-            minDate = { Date() }
-            // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-            current = { Date() }
-            // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-            // Handler which gets executed on day long press. Default = undefined
-            // onDayLongPress={(day) => {console.log('selected day', day)}}
-            // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-            monthFormat={'MMM yyyy'}
-            // Handler which gets executed on day press. Default = undefined
-            onDayPress={(day) => {console.log('selected day', day)}}
-            // Handler which gets executed on day long press. Default = undefined
-            onDayLongPress={(day) => {console.log('selected day', day)}}
-            // Handler which gets executed when visible month changes in calendar. Default = undefined
-            onMonthChange={(month) => {console.log('month changed', month)}}
-            // Hide month navigation arrows. Default = false  
-            hideExtraDays={true}
-            // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-            // day from another month that is visible in calendar page. Default = false
-            disableMonthChange={true}
-            // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
-            firstDay={1}
-            // Hide day names. Default = false
-            hideDayNames={false}
-            // Show week numbers to the left. Default = false
-            showWeekNumbers={false}
-            // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-            onPressArrowLeft={substractMonth => substractMonth()}
-            // Handler which gets executed when press arrow icon left. It receive a callback can go next month
-            onPressArrowRight={addMonth => addMonth()}
-            
-          />
-        <View style={{marginTop: deviceHeight/40,alignItems: "center",
-    justifyContent: "center",marginBottom: deviceHeight/40}}>
-          <Text style = {styles.dateText2}>
-            Click on time blocks when you are available
-          </Text>
-        </View>
-        <ScrollView>
+        <Agenda
+          // callback that gets called when items for a certain month should be loaded (month became visible)
+          loadItemsForMonth={(month) => {console.log('trigger items loading')}}
+          // callback that fires when the calendar is opened or closed
+          onCalendarToggled={(calendarOpened) => {console.log(calendarOpened)}}
+          // callback that gets called on day press
+          onDayPress={(day)=>{console.log('day pressed')}}
+          // callback that gets called when day changes while scrolling agenda list
+          onDayChange={(day)=>{console.log('day changed')}}
+          // initially selected day
+          selected={this.state.date}
+          hideArrows = {false}
+          // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+          minDate={this.state.date}
+          pagingEnabled={true}
+
+          // // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
+          // maxDate={'2012-05-30'}
+          // Max amount of months allowed to scroll to the past. Default = 50
+          pastScrollRange={50}
+          // Max amount of months allowed to scroll to the future. Default = 50
+          futureScrollRange={50}
+          // specify how each item should be rendered in agenda
+          renderItem={(item, firstItemInDay) => {return (<View />);}}
+          // specify how each date should be rendered. day can be undefined if the item is not first in that day.
+          renderDay={(day, item) => {return (<View />);}}
+          // specify how empty date content with no items should be rendered
+          renderEmptyDate={() => {return (<View />);}}
+          // specify how agenda knob should look like
+          // renderKnob={() => {return (<View style={{height: 100}}/>);}}
+          // specify what should be rendered instead of ActivityIndicator
+          renderEmptyData = {() => {return (<View />);}}
+          // specify your item comparison function for increased performance
+          rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
+          // Hide knob button. Default = false
+          hideKnob={false}
+          // By default, agenda dates are marked if they have at least one item, but you can override this if needed
+          
+          // If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make sure to also set the refreshing prop correctly.
+          onRefresh={() => console.log('refreshing...')}
+          // Set this true while waiting for new data from a refresh
+          refreshing={false}
+          // Add a custom RefreshControl component, used to provide pull-to-refresh functionality for the ScrollView.
+          refreshControl={null}
+          // agenda theme
+          theme={{agendaKnobColor: 'gray'}}
+          markedDates = {{
+              [this.state.date]: {selected: true},
+          }}   
+          // agenda container style
+          style={{}}
+        />
+        {/* <ScrollView>
           {this.state.teacher.map(list => (
               <TimeCell
                   name = {list.name}
@@ -215,7 +170,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
                   onPress = {() => this.onCellPress(list.name)}
               />
           ))}
-        </ScrollView>
+        </ScrollView> */}
       </View>
     );
   }
