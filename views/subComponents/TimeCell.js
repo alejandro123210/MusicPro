@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 //required props:
@@ -7,7 +7,13 @@ import { Actions } from 'react-native-router-flux';
 //key
 
 //required props are name, key, date, lastmessage
+
+let deviceHeight = Dimensions.get("window").height;
+let deviceWidth = Dimensions.get("window").width;
+
+
 const TimeCell = props => {
+
 
     //TODO: make this actually look good and right
     return (
@@ -33,11 +39,11 @@ const TimeCell = props => {
 
 const styles = StyleSheet.create({
     cellView: {
-        height: 100,
+        height: deviceHeight / 8,
         backgroundColor: '#ffffff',
         marginTop: 2,
         marginLeft: 2.35,
-        borderRadius: 25,
+        borderRadius: 15,
         borderColor: "pink",
         //borderBottomColor: "pink",
         borderBottomWidth: 0.3,

@@ -104,73 +104,44 @@ class TeacherAvailabilityConfigurator extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <ProfileBar 
+        <ProfileBar 
             name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
             image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
-        /> */}
-        <View style={{marginTop: deviceHeight/20}}>
-        </View>
+        />
         <Agenda
-          // callback that gets called when items for a certain month should be loaded (month became visible)
           loadItemsForMonth={(month) => {console.log('trigger items loading')}}
-          // callback that fires when the calendar is opened or closed
           onCalendarToggled={(calendarOpened) => {console.log(calendarOpened)}}
-          // callback that gets called on day press
           onDayPress={(day)=>{console.log('day pressed')}}
-          // callback that gets called when day changes while scrolling agenda list
           onDayChange={(day)=>{console.log('day changed')}}
-          // initially selected day
           selected={this.state.date}
           hideArrows = {false}
-          // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
           minDate={this.state.date}
           pagingEnabled={true}
-
-          // // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-          // maxDate={'2012-05-30'}
-          // Max amount of months allowed to scroll to the past. Default = 50
-          pastScrollRange={50}
-          // Max amount of months allowed to scroll to the future. Default = 50
-          futureScrollRange={50}
-          // specify how each item should be rendered in agenda
+          pastScrollRange={1}
+          futureScrollRange={2}
           renderItem={(item, firstItemInDay) => {return (<View />);}}
-          // specify how each date should be rendered. day can be undefined if the item is not first in that day.
           renderDay={(day, item) => {return (<View />);}}
-          // specify how empty date content with no items should be rendered
           renderEmptyDate={() => {return (<View />);}}
-          // specify how agenda knob should look like
-          // renderKnob={() => {return (<View style={{height: 100}}/>);}}
-          // specify what should be rendered instead of ActivityIndicator
-          renderEmptyData = {() => {return (<View />);}}
-          // specify your item comparison function for increased performance
+          renderEmptyData = {() => {return (  
+            <View style={{borderTopColor: 'gray', borderTopWidth: 0.3, flex: 1}}>
+              <ScrollView>
+                {this.state.teacher.map(list => (
+                    <TimeCell
+                        name = {list.name}
+                        key = {list.key}
+                        onPress = {() => this.onCellPress(list.name)}
+                    />
+                ))}
+              </ScrollView>
+            </View> 
+            );}}
           rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
-          // Hide knob button. Default = false
           hideKnob={false}
-          // By default, agenda dates are marked if they have at least one item, but you can override this if needed
-          
-          // If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make sure to also set the refreshing prop correctly.
-          onRefresh={() => console.log('refreshing...')}
-          // Set this true while waiting for new data from a refresh
-          refreshing={false}
-          // Add a custom RefreshControl component, used to provide pull-to-refresh functionality for the ScrollView.
-          refreshControl={null}
-          // agenda theme
           theme={{agendaKnobColor: 'gray'}}
           markedDates = {{
               [this.state.date]: {selected: true},
           }}   
-          // agenda container style
-          style={{}}
         />
-        {/* <ScrollView>
-          {this.state.teacher.map(list => (
-              <TimeCell
-                  name = {list.name}
-                  key = {list.key}
-                  onPress = {() => this.onCellPress(list.name)}
-              />
-          ))}
-        </ScrollView> */}
       </View>
     );
   }
