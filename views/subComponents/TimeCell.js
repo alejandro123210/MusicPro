@@ -11,13 +11,15 @@ import { Actions } from 'react-native-router-flux';
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-
 const TimeCell = props => {
-
+    
+    this.state = {
+        backgroundColor: props.backgroundColorOfCell
+    }
 
     //TODO: make this actually look good and right
     return (
-        <View style={styles.cellView}>
+        <View style={[styles.cellView, {backgroundColor: this.state.backgroundColor}]}>
             {/* animates the entire cell ^ */}
             <TouchableOpacity onPress={() => props.onPress()}>
                 {/* makes it selectable ^ */}
@@ -40,7 +42,7 @@ const TimeCell = props => {
 const styles = StyleSheet.create({
     cellView: {
         height: deviceHeight / 8,
-        backgroundColor: '#ffffff',
+        backgroundColor: 'white',
         marginTop: 2,
         marginLeft: 2.35,
         borderRadius: 15,
