@@ -75,7 +75,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
         },
         {
           name: '8 PM - 9 PM',
-          key: 9
+          key: 10
         },
         
     ]

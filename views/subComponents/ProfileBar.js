@@ -27,7 +27,7 @@ const profileBar = props => {
           <View style={styles.nameContainer}>
             <Text style={styles.profileText}>{props.name}</Text>
             <TouchableOpacity onPress={() => this.onPress()}>
-                <Text style={styles.settingsText}>settings</Text>
+                <Text style={styles.settingsText}>Settings</Text>
             </TouchableOpacity>
           </View>
         </View>

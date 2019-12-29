@@ -42,18 +42,23 @@ class Settings extends React.Component {
         return (
             // this is just random filler for the template, but this is where what the user sees is rendered
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.onPress()}>
-                    <Text style={styles.logoutButton}>Logout</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onPress()}>
-                    <Text style={styles.logoutButton}>Description</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onPress()}>
-                    <Text style={styles.logoutButton}>Logout</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onPress()}>
-                    <Text style={styles.logoutButton}>Logout</Text>
-                </TouchableOpacity>
+                <View style={styles.subContainer}>
+                    <TouchableOpacity onPress={() => this.onPress()}>
+                        <Text style={styles.regularButton}>Personal Information </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.onPress()}>
+                        <Text style={styles.regularButton}>About Us</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.onPress()}>
+                        <Text style={styles.regularButton}>FAQ</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.onPress()}>
+                        <Text style={styles.regularButton}>Report Bug or Suggest Feature </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.onPress()}>
+                        <Text style={styles.logoutButton}>Log out</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -61,15 +66,22 @@ class Settings extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: '#eee',
-      alignItems: 'center',
-      justifyContent: 'center'
+    flex: 1,
+    backgroundColor: '#eee',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   logoutButton: {
-      fontSize: 20,
-      color: 'black'
+    margin: 5,
+    fontSize: 20,
+    color: '#00aced'
+  },
+  regularButton: {
+    margin: 5,
+    fontSize: 20,
+    color: 'black'
   }
+
 });
 
 
