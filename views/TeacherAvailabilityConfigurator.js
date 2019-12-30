@@ -11,89 +11,15 @@ let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
 class TeacherAvailabilityConfigurator extends React.Component {
+
+  //we need the calendar to show the same list of objects every time, all of the possible times
+  //we need the screen to load the users availability for all of those times, even if they didn't set it yet
+  //we need the times to change depending on the day
+  //it will require some type of if empty logic
+
   state = {
     date: "",
-    inputValue: "",
-    teacherDashDisplay: "block",
-    teacherProfileScrollDisplay: "none",   
-    selectedDay: '', 
-    inputValue: '',
-    data: [],
-    teacher: 
-    [   
-      {
-            name: '7 AM - 8 AM',
-            available: true,
-            key: 0
-        },
-        {
-            name: '8 AM - 9 AM',
-            available: true,
-            key: 1
-        },
-        {
-            name: '9 AM - 10 AM',
-            available: true,
-            key: 2
-        },
-        {
-            name: '10 AM - 11 AM',
-            available: true,
-            key: 3
-        },
-        {
-            name: '11 AM - 12 PM',
-            available: true,
-            key: 4
-        },
-        {
-            name: '12 PM - 1 PM',
-            available: true,
-            key: 5
-        },
-        {
-            name: '1 PM - 2 PM',
-            available: true,
-            key: 6
-        },
-        {
-            name: '2 PM - 3 PM',
-            available: true,
-            key: 7
-        },
-        {
-            name: '3 PM - 4 PM',
-            available: true,
-            key: 8
-        },
-        {
-            name: '4 PM - 5 PM',
-            available: true,
-            key: 9
-        },
-        {
-          name: '5 PM - 6 PM',
-          available: true,
-          key: 10
-        },
-        {
-          name: '6 PM - 7 PM',
-          available: false,
-          key: 11
-        },
-        {
-          name: '7 PM - 8 PM',
-          available: true,
-          key: 12
-        },
-        {
-          name: '8 PM - 9 PM',
-          available: true,
-          key: 13
-        },
-        
-    ]
-
+    timeList:[]
   };
 
   componentDidMount() {
@@ -106,18 +32,38 @@ class TeacherAvailabilityConfigurator extends React.Component {
       date: year + "-" + month + "-" + date,
       today: year + "-" + month + "-" + date,
     });
+    this.loadTimes(this)
   };
+
+  loadTimes = (that) => {
+    var db = firebase.database();
+    var ref = db.ref(`users/${this.props.userData['uid']}/info/availability`)
+    ref.on('value', function(snapshot) {
+      //all lessons for user in database
+      var availabilityList = []
+      var availabilityData = (JSON.parse(JSON.stringify(snapshot.val())));
+      key = 0;
+      //for loop adds all users to state
+      for (day in availabilityData){
+        availabilityList.push(day)
+        console.log(day)
+        that.setState({ timeList: availabilityList })
+        that.forceUpdate();
+      }
+    });
+  }
 
 
   onCellPress = (time) => {
-    if(time.available == true){
-      time.available = false
-    } else {
-      time.available = true
-    }
-    timeList = this.state.teacher
-    timeList[time.key] = time
-    this.setState({ teacher: timeList })
+
+    // if(time.available == true){
+    //   time.available = false
+    // } else {
+    //   time.available = true
+    // }
+    // timeList = this.state.timeList
+    // timeList[time.key] = time
+    // this.setState({ timeList: timeList })
   }
 
   //sets the background color of the cell
@@ -157,12 +103,12 @@ class TeacherAvailabilityConfigurator extends React.Component {
           renderEmptyData = {() => {return (  
             <View style={{borderTopColor: 'gray', borderTopWidth: 0.3, flex: 1}}>
               <ScrollView>
-                {this.state.teacher.map(teacher => (
+                {this.state.timeList.map(time => (
                     <TimeCell
-                        name = {teacher.name}
-                        key = {teacher.key}
-                        onPress = {() => this.onCellPress(teacher)}
-                        backgroundColorOfCell = {this.setBackground(teacher.available)}
+                        name = {time.hours}
+                        key = {time.key}
+                        onPress = {() => this.onCellPress(time)}
+                        backgroundColorOfCell = {this.setBackground(time.available)}
                     />
                 ))}
               </ScrollView>
