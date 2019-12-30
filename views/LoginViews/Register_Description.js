@@ -7,7 +7,7 @@ import * as firebase from 'firebase'
 class Register_Description extends React.Component {
 
     state = {
-        description: ''
+        description: 'my description'
     }
 
     onPress = () => {
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     descriptionInputContainer: {
+        padding: 8,
         borderWidth: 0.5,
         borderColor: 'white',
         width: '80%',

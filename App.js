@@ -9,7 +9,6 @@ import Register_Instrument from './views/LoginViews/Register_Instrument'
 import Register_Description from './views/LoginViews/Register_Description'
 import StudentDash from './views/StudentDash'
 import TeacherDash from './views/TeacherDash'
-import Settings from './views/LoginViews/Settings'
 import ListOfTeachers from './views/ListOfTeachers'
 import Register_Location from './views/LoginViews/Register_Location';
 import CalendarForStudents from './views/CalendarForStudents';
@@ -18,6 +17,8 @@ import LessonRequests from './views/LessonRequests';
 import StudentLessonRequests from './views/StudentLessonRequests';
 
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import SettingsForStudents from './views/SettingsViews/SettingsForStudents';
+import SettingsForTeachers from './views/SettingsViews/SettingsForTeachers';
 
 
 export default function App() {
@@ -71,8 +72,13 @@ export default function App() {
           hideNavBar = { true }
         />
         <Scene
-          key = 'Settings'
-          component = { Settings }
+          key = 'SettingsForTeachers'
+          component = { SettingsForTeachers }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'SettingsForStudents'
+          component = { SettingsForStudents }
           hideNavBar = {false}
         />
         <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>

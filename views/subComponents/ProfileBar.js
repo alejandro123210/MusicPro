@@ -12,7 +12,13 @@ let deviceWidth = Dimensions.get("window").width;
 const profileBar = props => {
 
     onPress = () => {
-        Actions.Settings({userData: props.userData});
+        {if ( ( JSON.stringify(props.userData['userType']).slice(1,-1) ) == 'student'){
+            Actions.SettingsForStudents({userData: props.userData});
+        }
+        else{
+            console.log(JSON.stringify(props.userData['userType']).slice(1,-1))
+            Actions.SettingsForTeachers({userData: props.userData});
+        }}
     }
 
 
