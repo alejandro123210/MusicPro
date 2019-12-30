@@ -107,6 +107,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
         <ProfileBar 
             name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
             image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
+            userData={this.props.userData}
         />
         <Agenda
           loadItemsForMonth={(month) => {console.log('trigger items loading')}}

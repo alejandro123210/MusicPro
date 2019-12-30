@@ -12,7 +12,7 @@ let deviceWidth = Dimensions.get("window").width;
 const profileBar = props => {
 
     onPress = () => {
-        Actions.Settings();
+        Actions.Settings({userData: props.userData});
     }
 
 
