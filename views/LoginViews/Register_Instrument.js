@@ -7,7 +7,7 @@ import * as firebase from 'firebase'
 class Register_Instrument extends React.Component {
 
     state = {
-        instrument: ''
+        instrument: 'I currently selected no instruments'
     }
 
     //TODO: make this work differently so the user isn't typing a list in a text box
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     instrumentInputContainer: {
+        padding: 8,
         borderWidth: 0.5,
         borderColor: 'white',
         width: '80%',
