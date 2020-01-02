@@ -6,6 +6,7 @@ import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import TimeCell from './subComponents/TimeCell';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
+import DayBar from './subComponents/DayBar'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -19,7 +20,78 @@ class TeacherAvailabilityConfigurator extends React.Component {
 
   state = {
     date: "",
-    timeList:[]
+    timeList:[   
+      {
+            name: '7 AM - 8 AM',
+            available: false,
+            key: 0
+        },
+        {
+            name: '8 AM - 9 AM',
+            available: false,
+            key: 1
+        },
+        {
+            name: '9 AM - 10 AM',
+            available: false,
+            key: 2
+        },
+        {
+            name: '10 AM - 11 AM',
+            available: false,
+            key: 3
+        },
+        {
+            name: '11 AM - 12 PM',
+            available: false,
+            key: 4
+        },
+        {
+            name: '12 PM - 1 PM',
+            available: false,
+            key: 5
+        },
+        {
+            name: '1 PM - 2 PM',
+            available: false,
+            key: 6
+        },
+        {
+            name: '2 PM - 3 PM',
+            available: false,
+            key: 7
+        },
+        {
+            name: '3 PM - 4 PM',
+            available: false,
+            key: 8
+        },
+        {
+            name: '4 PM - 5 PM',
+            available: false,
+            key: 9
+        },
+        {
+          name: '5 PM - 6 PM',
+          available: false,
+          key: 10
+        },
+        {
+          name: '6 PM - 7 PM',
+          available: false,
+          key: 11
+        },
+        {
+          name: '7 PM - 8 PM',
+          available: false,
+          key: 12
+        },
+        {
+          name: '8 PM - 9 PM',
+          available: false,
+          key: 13
+        },
+    ]
   };
 
   componentDidMount() {
@@ -55,15 +127,14 @@ class TeacherAvailabilityConfigurator extends React.Component {
 
 
   onCellPress = (time) => {
-
-    // if(time.available == true){
-    //   time.available = false
-    // } else {
-    //   time.available = true
-    // }
-    // timeList = this.state.timeList
-    // timeList[time.key] = time
-    // this.setState({ timeList: timeList })
+    if(time.available == true){
+      time.available = false
+    } else {
+      time.available = true
+    }
+    timeList = this.state.timeList
+    timeList[time.key] = time
+    this.setState({ timeList: timeList })
   }
 
   //sets the background color of the cell
@@ -84,13 +155,16 @@ class TeacherAvailabilityConfigurator extends React.Component {
             name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
             image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
         />
-        <DayBar />
+        <DayBar
+          markedDay = {(day) => this.setState({day: day})}
+        />
         <ScrollView>
-          {this.state.teacher.map(list => (
+          {this.state.timeList.map(time => (
               <TimeCell
-                  name = {list.name}
-                  key = {list.key}
-                  onPress = {() => this.onCellPress(list.name)}
+                  name = {time.name}
+                  key = {time.key}
+                  onPress = {() => this.onCellPress(time)}
+                  backgroundColorOfCell = {this.setBackground(time.available)}
               />
           ))}
         </ScrollView>

@@ -17,74 +17,29 @@ const TimeCell = props => {
         backgroundColor: props.backgroundColorOfCell
     }
 
-    //TODO: make this actually look good and right
     return (
-        <View style={[styles.cellView, {backgroundColor: this.state.backgroundColor}]}>
-            {/* animates the entire cell ^ */}
-            <TouchableOpacity onPress={() => props.onPress()}>
-                {/* makes it selectable ^ */}
-                <View style={{ flexDirection: "row" }}>
-                    <View style={styles.nameAndDetails}>
-                        <View style={styles.topContainer}>
-                            {/* container for name/date */}
-                            <Text style={styles.name} >
-                                {props.name}
-                            </Text>
-                        </View>
-                        {/* last message view */}
-                    </View>
-                </View>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => props.onPress()}>
+            <View style={[styles.cellView, {backgroundColor: this.state.backgroundColor}]}>
+                <Text style={styles.timeText}>{props.name}</Text>
+            </View>
+        </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     cellView: {
         height: deviceHeight / 8,
-        backgroundColor: 'white',
         marginTop: 2,
         marginLeft: 2.35,
         borderRadius: 15,
-        borderColor: "pink",
-        //borderBottomColor: "pink",
+        borderColor: "gray",
         borderBottomWidth: 0.3,
         width: '98.9%',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    nameAndDetails: {
-        flexDirection: 'column',
-        width: '75%',
-        marginLeft: 20,
-        height: 100
-
-    },
-    name: {
-        fontSize: 20,
-        paddingTop: 10,
-        paddingRight: 1,
-        fontWeight: 'bold',
-    },
-    detailTextView: {
-        height: 60,
-    },
-    instrumentText: {
-        textAlign: 'right',
-        paddingTop: 15,
-    },
-    topContainer: {
-        flexDirection: 'row',
-        height: 40,
-        justifyContent: 'space-between',
-        width: '100%'
-
-    },
-    circle: {
-        height: 60,
-        width: 60,
-        // backgroundColor: '#a9a9a9',
-        borderRadius: 100000,
-        marginTop: 20,
-        marginLeft: 10,
+    timeText:{
+        fontSize: 20
     }
 });
 
