@@ -19,6 +19,8 @@ import StudentLessonRequests from './views/StudentLessonRequests';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import SettingsForStudents from './views/SettingsViews/SettingsForStudents';
 import SettingsForTeachers from './views/SettingsViews/SettingsForTeachers';
+import StudentsPersonalInfo from './views/SettingsViews/StudentsPersonalInfo';
+import TeachersPersonalInfo from './views/SettingsViews/TeachersPersonalInfo';
 
 
 export default function App() {
@@ -79,6 +81,16 @@ export default function App() {
         <Scene
           key = 'SettingsForStudents'
           component = { SettingsForStudents }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'StudentsPersonalInfo'
+          component = { StudentsPersonalInfo }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'TeachersPersonalInfo'
+          component = { TeachersPersonalInfo }
           hideNavBar = {false}
         />
         <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>

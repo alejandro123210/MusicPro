@@ -7,16 +7,22 @@ import { Actions } from 'react-native-router-flux'
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-class SettingsForTeachers extends React.Component {
+
+class SetingsForTeachers extends React.Component {
 
   onDeletePress = () => {
       this.deleteAccount()
   }
-   onPress = () => {
-       this.signOut()
-   }
- 
-   signOut = async () => {
+  onPress = () => {
+      this.signOut()
+  }
+
+  changeInfo = () =>{
+    Actions.TeachersPersonalInfo({userData: this.props.userData});
+}
+
+
+  signOut = async () => {
       try {
         await GoogleSignin.revokeAccess();
         await GoogleSignin.signOut();
@@ -24,25 +30,28 @@ class SettingsForTeachers extends React.Component {
         firebase.auth().signOut().then(function() {
           // Sign-out successful.
           Actions.Login();
+        
         }).catch(function(error) {
           alert('Sorry, there was a problem signing you out!')
         });
       } catch (error) {
         console.error(error);
         alert(error)
-    }
-   };
-
-    deleteAccount = async () => {
+      }
+    };
+  deleteAccount = async () => {
       // Alejandro please review my code!
       var user = firebase.auth().currentUser;
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      this.setState({ user: null }); 
       user.delete().then(function() {
         Actions.Login();
         alert("Account has been deleted")
       }, function(error) {
         // An error happened.
       });
-  };
+    };
  
    componentDidMount(){
        // alert('settings mounted')
@@ -58,39 +67,59 @@ class SettingsForTeachers extends React.Component {
        return (
            // this is just random filler for the template, but this is where what the user sees is rendered
            <View style={styles.container}>
-             <View style ={styles.imageContainer}>
-                    <Image
-                        source={{ uri: JSON.stringify(this.props.userData['photo']).slice(3,-3)}}
-                        style={styles.imageMain}
-                    />
+            <TouchableOpacity onPress={() => this.changeInfo(userData)}>
+             <View style={styles.profileContainer}>
+                <View style ={styles.imageContainer}>
+                      <Image
+                          source={{ uri: JSON.stringify(this.props.userData['photo']).slice(3,-3)}}
+                          style={styles.imageMain}
+                      />
                   </View>
-                  <Text style={styles.regularButton}>{JSON.stringify(this.props.userData['name']).slice(3,-3)}</Text>
-                  <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text> 
-                  <Text style={styles.statusBar}>{capitalize(JSON.stringify(this.props.userData['userType']).slice(1,-1))}</Text>
-                  <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instrument']).slice(1,-1)}</Text>
-                  <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['description']).replace('"','').replace('"','')}</Text> 
+                  <View style = {styles.descriptionContainer}>
+                      <Text style={styles.regularButton}>{JSON.stringify(this.props.userData['name']).slice(3,-3)}</Text>
+                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text>
+                      <Text style={styles.statusBar}>{capitalize(JSON.stringify(this.props.userData['userType']).slice(1,-1))}</Text>
+                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instrument']).slice(1,-1)}</Text>
+                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['description']).replace('"','').replace('"','')}</Text>
+                  </View>
+                </View>
+               </TouchableOpacity>     
                   <View style = {styles.emptyBlock}>
                   </View>
                <View style={styles.subContainer}>
+                  <View style={styles.buttonContainer}>
                    <TouchableOpacity onPress={() => this.onPress()}>
-                       <Text style={styles.regularButton}>About Us</Text>
+                      <View style={styles.buttonView}>
+                        <Text style={styles.regularButton}>About Us</Text>
+                      </View>
                    </TouchableOpacity>
                    <TouchableOpacity onPress={() => this.onPress()}>
+                    <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>FAQ</Text>
+                    </View>
                    </TouchableOpacity>
                    <TouchableOpacity onPress={() => this.onPress()}>
+                    <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Report Bugs </Text>
+                    </View>
                    </TouchableOpacity>
                    <TouchableOpacity onPress={() => this.onPress()}>
+                    <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Suggest Feature </Text>
+                    </View>
                    </TouchableOpacity>
+                  </View>
                </View>
                <View style = {styles.subContainer2}>
                    <TouchableOpacity onPress={() => this.onPress()}>
+                    <View style={styles.buttonView}>
                        <Text style={styles.logoutButton}>Log out</Text>
+                    </View>
                    </TouchableOpacity>
                    <TouchableOpacity onPress={() => this.onDeletePress()}>
+                    <View style={styles.buttonView}>
                        <Text style={styles.deleteAccount}>Delete Account</Text>
+                    </View>
                    </TouchableOpacity>
                </View>
            </View>
@@ -116,7 +145,7 @@ const locationPretty = (s) => {
 const styles = StyleSheet.create({
  container: {
    flex: 1,
-   backgroundColor: 'white',
+   backgroundColor: '#eee',
    alignItems: 'center',
    justifyContent: 'center'
  },
@@ -145,6 +174,9 @@ const styles = StyleSheet.create({
    justifyContent: 'center'
  },
  subContainer: {
+   flex: 1,
+   alignItems: 'center',
+   justifyContent: 'center',
    margin: 20,
    flex: 4,
  },
@@ -162,9 +194,34 @@ statusBar: {
   fontSize: 19,
   color: "grey",
 },
+profileContainer: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: deviceHeight/7,
+  width: deviceWidth,
+  backgroundColor: 'white',
+  flexDirection: 'row',
+},
+descriptionContainer: {
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+buttonView: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: deviceWidth,
+  height: deviceHeight/20,
+  backgroundColor: 'white',
+  borderRadius: 10,
+  borderColor: 'black',
+  margin: 5,
+},
+buttonContainer:{
+  flex: 1,
+}
 });
  
  
 //this lets the component get imported other places
-export default SettingsForTeachers;
+export default SetingsForTeachers;
 

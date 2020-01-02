@@ -8,7 +8,7 @@ let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
 
-class SettingsForStudents extends React.Component {
+class StudentsPersonalInfo extends React.Component {
 
   onDeletePress = () => {
       this.deleteAccount()
@@ -77,7 +77,7 @@ class SettingsForStudents extends React.Component {
                   </View>
                   <View style = {styles.descriptionContainer}>
                       <Text style={styles.regularButton}>{JSON.stringify(this.props.userData['name']).slice(3,-3)}</Text>
-                      {/* ONLY FOR TEACHERS <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text> */}
+                      {/* <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text> */}
                       <Text style={styles.statusBar}>{capitalize(JSON.stringify(this.props.userData['userType']).slice(1,-1))}</Text>
                       <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instrument']).slice(1,-1)}</Text>
                       {/* <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['description']).replace('"','').replace('"','')}</Text> */}
@@ -100,7 +100,7 @@ class SettingsForStudents extends React.Component {
                    </TouchableOpacity>
                    <TouchableOpacity onPress={() => this.onPress()}>
                     <View style={styles.buttonView}>
-                       <Text style={styles.regularButton}>Report Bugs </Text>
+                       <Text style={styles.regularButton}>YOU made it Bugs </Text>
                     </View>
                    </TouchableOpacity>
                    <TouchableOpacity onPress={() => this.onPress()}>
@@ -223,5 +223,5 @@ buttonContainer:{
  
  
 //this lets the component get imported other places
-export default SettingsForStudents;
+export default StudentsPersonalInfo;
 
