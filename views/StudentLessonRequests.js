@@ -99,6 +99,7 @@ class StudentLessonRequests extends React.Component {
         <ProfileBar 
             name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
             image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
+            userData={this.props.userData}
         />
         <View style={styles.dateBar}>
           <Text style={styles.dateText}>{this.state.date}</Text>
