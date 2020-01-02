@@ -20,7 +20,23 @@ class TeacherAvailabilityConfigurator extends React.Component {
 
   state = {
     date: "",
-    timeList:[   
+    day: "Mon",
+    times:{
+      Mon:[],
+      Tue:[],
+      Wed:[],
+      Thu:[],
+      Fri:[],
+      Sat:[],
+      Sun:[]
+    },
+  };
+
+  componentDidMount() {
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    var timesList = [   
       {
             name: '7 AM - 8 AM',
             available: false,
@@ -92,19 +108,30 @@ class TeacherAvailabilityConfigurator extends React.Component {
           key: 13
         },
     ]
-  };
-
-  componentDidMount() {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    console.log(date)
+    mondayTimes = JSON.parse(JSON.stringify( timesList ))
+    tuesdayTimes = JSON.parse(JSON.stringify( timesList ))
+    wednesdayTimes = JSON.parse(JSON.stringify( timesList ))
+    thursdayTimes = JSON.parse(JSON.stringify( timesList ))
+    fridayTimes = JSON.parse(JSON.stringify( timesList ))
+    saturdayTimes = JSON.parse(JSON.stringify( timesList ))
+    sundayTimes = JSON.parse(JSON.stringify( timesList ))
+    weekTimes = this.state.times
+    weekTimes["Mon"] = mondayTimes
+    weekTimes["Tue"] = tuesdayTimes
+    weekTimes["Wed"] = wednesdayTimes
+    weekTimes["Thu"] = thursdayTimes
+    weekTimes["Fri"] = fridayTimes
+    weekTimes["Sat"] = saturdayTimes
+    weekTimes["Sun"] = sundayTimes
     this.setState({
-      //Setting the value of the date time
       date: year + "-" + month + "-" + date,
       today: year + "-" + month + "-" + date,
-    });
-    this.loadTimes(this)
+      times: weekTimes,
+      Mon: mondayTimes,
+      Tue: tuesdayTimes
+    })
+    console.log("component did mount")
+    // this.loadTimes(this)
   };
 
   loadTimes = (that) => {
@@ -132,9 +159,11 @@ class TeacherAvailabilityConfigurator extends React.Component {
     } else {
       time.available = true
     }
-    timeList = this.state.timeList
-    timeList[time.key] = time
-    this.setState({ timeList: timeList })
+    console.log(this.state.day)
+    console.log(time)
+    listOfTimes = this.state.times
+    listOfTimes[this.state.day][time.key] = time
+    this.setState({ times: listOfTimes })
   }
 
   //sets the background color of the cell
@@ -160,7 +189,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
           markedDay = {(day) => this.setState({day: day})}
         />
         <ScrollView>
-          {this.state.timeList.map(time => (
+          {this.state.times[this.state.day].map(time => (
               <TimeCell
                   name = {time.name}
                   key = {time.key}
