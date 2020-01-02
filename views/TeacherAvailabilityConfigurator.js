@@ -131,7 +131,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
       Tue: tuesdayTimes
     })
     console.log("component did mount")
-    // this.loadTimes(this)
+    this.loadTimes(this)
   };
 
   loadTimes = (that) => {
@@ -139,16 +139,8 @@ class TeacherAvailabilityConfigurator extends React.Component {
     var ref = db.ref(`users/${this.props.userData['uid']}/info/availability`)
     ref.on('value', function(snapshot) {
       //all lessons for user in database
-      var availabilityList = []
       var availabilityData = (JSON.parse(JSON.stringify(snapshot.val())));
-      key = 0;
-      //for loop adds all users to state
-      for (day in availabilityData){
-        availabilityList.push(day)
-        console.log(day)
-        that.setState({ timeList: availabilityList })
-        that.forceUpdate();
-      }
+      that.setState({times: availabilityData})
     });
   }
 
@@ -159,11 +151,14 @@ class TeacherAvailabilityConfigurator extends React.Component {
     } else {
       time.available = true
     }
-    console.log(this.state.day)
-    console.log(time)
     listOfTimes = this.state.times
     listOfTimes[this.state.day][time.key] = time
     this.setState({ times: listOfTimes })
+    var db = firebase.database();
+    var ref = db.ref(`users/${this.props.userData['uid']}/info/`)
+    ref.update({
+        availability: this.state.times
+    })
   }
 
   //sets the background color of the cell
@@ -198,43 +193,6 @@ class TeacherAvailabilityConfigurator extends React.Component {
               />
           ))}
         </ScrollView>
-        {/* <Agenda
-          loadItemsForMonth={(month) => {}}
-          onCalendarToggled={(calendarOpened) => {}}
-          onDayPress={(day) => {
-              // console.log('selected day', day['dateString'])
-              this.setState({
-                date: day['dateString'],
-              })
-          }}
-          onDayChange={(day)=>{console.log('day changed')}}
-          current = { Date() }
-          hideArrows = {false}
-          minDate={this.state.today}
-          pagingEnabled={true}
-          pastScrollRange={1}
-          futureScrollRange={2}
-          renderEmptyData = {() => {return (  
-            <View style={{borderTopColor: 'gray', borderTopWidth: 0.3, flex: 1}}>
-              <ScrollView>
-                {this.state.timeList.map(time => (
-                    <TimeCell
-                        name = {time.hours}
-                        key = {time.key}
-                        onPress = {() => this.onCellPress(time)}
-                        backgroundColorOfCell = {this.setBackground(time.available)}
-                    />
-                ))}
-              </ScrollView>
-            </View> 
-            );}}
-          rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
-          hideKnob={false}
-          theme={{agendaKnobColor: 'gray'}}
-          markedDates = {{
-              [this.state.date]: {selected: true},
-          }}   
-        /> */}
       </View>
     );
   }
