@@ -84,7 +84,17 @@ class TeacherAvailabilityConfigurator extends React.Component {
             name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
             image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
         />
-        <Agenda
+        <DayBar />
+        <ScrollView>
+          {this.state.teacher.map(list => (
+              <TimeCell
+                  name = {list.name}
+                  key = {list.key}
+                  onPress = {() => this.onCellPress(list.name)}
+              />
+          ))}
+        </ScrollView>
+        {/* <Agenda
           loadItemsForMonth={(month) => {}}
           onCalendarToggled={(calendarOpened) => {}}
           onDayPress={(day) => {
@@ -120,7 +130,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
           markedDates = {{
               [this.state.date]: {selected: true},
           }}   
-        />
+        /> */}
       </View>
     );
   }
