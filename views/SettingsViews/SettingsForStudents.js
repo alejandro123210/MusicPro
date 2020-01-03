@@ -39,6 +39,8 @@ class SettingsForStudents extends React.Component {
         alert(error)
       }
     };
+
+    
   deleteAccount = async () => {
       // Alejandro please review my code!
       var user = firebase.auth().currentUser;
