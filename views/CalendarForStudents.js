@@ -41,9 +41,11 @@ class CalendarForStudents extends React.Component {
       availabilityListToPush["Fri"] = availabilityData["Fri"]
       availabilityListToPush["Sat"] = availabilityData["Sat"]
       availabilityListToPush["Sun"] = availabilityData["Sun"]
-      that.setState({
-        availabilityList: availabilityListToPush
-      })
+      if(availabilityData != null){
+        that.setState({
+          availabilityList: availabilityListToPush
+        })
+      }
     })
   };
 
