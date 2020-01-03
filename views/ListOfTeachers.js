@@ -59,11 +59,6 @@ componentDidMount(){
     });
 }
 
-
-handleTextChange = inputValue => {
-    this.setState({ inputValue });
-};
-
 onPress = (user) => {
     Actions.CalendarForStudents({
         userData: this.props.userData,

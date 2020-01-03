@@ -13,68 +13,39 @@ let deviceWidth = Dimensions.get("window").width;
 class CalendarForStudents extends React.Component {
   state = {
     date: "",
-    inputValue: "",
-    teacherDashDisplay: "block",
-    teacherProfileScrollDisplay: "none",   
-    selectedDay: '', 
-    inputValue: '',
-    data: [],
-    teacher: 
-    [
-        {
-            name: '10 AM - 12 AM',
-            key: 0
-        },
-        {
-            name: '12 PM - 2 PM',
-            key: 1
-        },
-        {
-            name: '4 PM - 6 PM',
-            key: 2
-        },
-        {
-            name: '8 PM - 10 PM',
-            key: 3
-        },
-        {
-            name: 'Not available',
-            key: 4
-        },
-        {
-            name: 'Not available',
-            key: 5
-        },
-        {
-            name: 'Not available',
-            key: 6
-        },
-        {
-            name: 'Not available',
-            key: 7
-        },
-    ]
-
+    availabilityList: {
+        Mon:[],
+        Tue:[],
+        Wed:[],
+        Thu:[],
+        Fri:[],
+        Sat:[],
+        Sun:[]
+      }
   };
 
   componentDidMount() {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    this.setState({
-      //Setting the value of the date time
-      date: year + "-" + month + "-" + date,
-    });
+    var todayDate = new Date().toISOString().slice(0,10);
+    this.setState({ date: todayDate });
+    var db = firebase.database();
+    var ref = db.ref(`users/${this.props.teacher['uid']}/info/availability`)
+    var availabilityListToPush = this.state.availabilityList
+    let that = this
+    ref.once("value")
+    .then(function(snapshot){
+      availabilityData = JSON.parse(JSON.stringify(snapshot.val()))
+      availabilityListToPush["Tue"] = availabilityData["Tue"]
+      availabilityListToPush["Mon"] = availabilityData["Mon"]
+      availabilityListToPush["Wed"] = availabilityData["Wed"]
+      availabilityListToPush["Thu"] = availabilityData["Thu"]
+      availabilityListToPush["Fri"] = availabilityData["Fri"]
+      availabilityListToPush["Sat"] = availabilityData["Sat"]
+      availabilityListToPush["Sun"] = availabilityData["Sun"]
+      that.setState({
+        availabilityList: availabilityListToPush
+      })
+    })
   };
-
-
-  handleTextChange = inputValue => {
-    this.setState({ inputValue });
-  };
-
-  onScheduledEventPressed = () => {
-      alert("Cancel event?")
-  }
 
   onCellPress = (time) => {
     // console.log('the user has selected: ')
@@ -133,11 +104,11 @@ class CalendarForStudents extends React.Component {
 
   render() {
     return (
-      
       <View style={styles.container}>
         <Calendar
             onDayPress={(day) => {
               this.setState({ date: day['dateString'] })
+              console.log(day['dateString'])
             }}
             minDate = { Date() }
             current = { Date() }
@@ -152,12 +123,12 @@ class CalendarForStudents extends React.Component {
             onPressArrowLeft={substractMonth => substractMonth()}
             onPressArrowRight={addMonth => addMonth()}
             markedDates = {{
-              [this.state.date]: {selected: true},
+              [this.state.date]: {selected: true, marked: true},
             }}            
           />
         
         <ScrollView>
-          {this.state.teacher.map(list => (
+          {this.state.availabilityList["Mon"].map(list => (
               <TimeCell
                   name = {list.name}
                   key = {list.key}
