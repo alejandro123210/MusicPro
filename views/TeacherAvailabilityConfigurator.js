@@ -140,7 +140,9 @@ class TeacherAvailabilityConfigurator extends React.Component {
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       var availabilityData = (JSON.parse(JSON.stringify(snapshot.val())));
-      that.setState({times: availabilityData})
+      if(snapshot.val() != null){
+        that.setState({times: availabilityData})
+      }
     });
   }
 
