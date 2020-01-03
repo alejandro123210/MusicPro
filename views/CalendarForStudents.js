@@ -14,14 +14,15 @@ class CalendarForStudents extends React.Component {
   state = {
     date: "",
     availabilityList: {
-        Mon:[],
-        Tue:[],
-        Wed:[],
-        Thu:[],
-        Fri:[],
-        Sat:[],
-        Sun:[]
-      }
+        '0':[],
+        '1':[],
+        '2':[],
+        '3':[],
+        '4':[],
+        '5':[],
+        '6':[]
+    },
+    selectedDay: "0"
   };
 
   componentDidMount() {
@@ -34,13 +35,13 @@ class CalendarForStudents extends React.Component {
     ref.once("value")
     .then(function(snapshot){
       availabilityData = JSON.parse(JSON.stringify(snapshot.val()))
-      availabilityListToPush["Tue"] = availabilityData["Tue"]
-      availabilityListToPush["Mon"] = availabilityData["Mon"]
-      availabilityListToPush["Wed"] = availabilityData["Wed"]
-      availabilityListToPush["Thu"] = availabilityData["Thu"]
-      availabilityListToPush["Fri"] = availabilityData["Fri"]
-      availabilityListToPush["Sat"] = availabilityData["Sat"]
-      availabilityListToPush["Sun"] = availabilityData["Sun"]
+      availabilityListToPush["0"] = that.removeUnavailableTimes(availabilityData["Mon"])
+      availabilityListToPush["1"] = that.removeUnavailableTimes(availabilityData["Tue"])
+      availabilityListToPush["2"] = that.removeUnavailableTimes(availabilityData["Wed"])
+      availabilityListToPush["3"] = that.removeUnavailableTimes(availabilityData["Thu"])
+      availabilityListToPush["4"] = that.removeUnavailableTimes(availabilityData["Fri"])
+      availabilityListToPush["5"] = that.removeUnavailableTimes(availabilityData["Sat"])
+      availabilityListToPush["6"] = that.removeUnavailableTimes(availabilityData["Sun"])
       if(availabilityData != null){
         that.setState({
           availabilityList: availabilityListToPush
@@ -48,6 +49,16 @@ class CalendarForStudents extends React.Component {
       }
     })
   };
+
+  removeUnavailableTimes = (day) => {
+    timesToAdd = []
+    for (key in day){
+      if(day[key]['available'] == true){
+        timesToAdd.push(day[key])
+      }
+    }
+    return timesToAdd
+  }
 
   onCellPress = (time) => {
     // console.log('the user has selected: ')
@@ -109,8 +120,11 @@ class CalendarForStudents extends React.Component {
       <View style={styles.container}>
         <Calendar
             onDayPress={(day) => {
-              this.setState({ date: day['dateString'] })
-              console.log(day['dateString'])
+              dayOfWeek = new Date(day['dateString']).getDay()
+              this.setState({ 
+                date: day['dateString'], 
+                selectedDay: dayOfWeek
+              })
             }}
             minDate = { Date() }
             current = { Date() }
@@ -130,7 +144,7 @@ class CalendarForStudents extends React.Component {
           />
         
         <ScrollView>
-          {this.state.availabilityList["Mon"].map(list => (
+          {this.state.availabilityList[this.state.selectedDay].map(list => (
               <TimeCell
                   name = {list.name}
                   key = {list.key}

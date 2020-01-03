@@ -48,16 +48,16 @@ class StudentLessonRequests extends React.Component {
         //for loop adds all users to state
         for (lessonKey in lessonsData){
             if(lessonsData[lessonKey]['status'] == 'undecided'){
-            var lessonToPush = {
-                name: lessonsData[lessonKey]['teacherName'],
-                time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-                key: key.toString(),
-                instrument: lessonsData[lessonKey]['teacherInstrument'],
-                studentID: lessonsData[lessonKey]['studentIDNum'],
-                teacherID: lessonsData[lessonKey]['teacherIDNum'],
-                teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
-                studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
-            }
+              var lessonToPush = {
+                  name: lessonsData[lessonKey]['teacherName'],
+                  time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
+                  key: key.toString(),
+                  instrument: lessonsData[lessonKey]['teacherInstrument'],
+                  studentID: lessonsData[lessonKey]['studentIDNum'],
+                  teacherID: lessonsData[lessonKey]['teacherIDNum'],
+                  teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
+                  studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+              }
             lessonsListInFunction.push(lessonToPush)
             key += 1;
             that.setState({ lessonsList: lessonsListInFunction })
