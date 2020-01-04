@@ -29,41 +29,45 @@ class LessonRequests extends React.Component {
 
     this.setState({
       //Setting the value of the date time
-      date:
-        "Today is: " + month + "/" + date + "/" + year
+      date: "Today is: " + month + "/" + date + "/" + year
     });
-    this.loadLessons()
+    this.loadLessons(this)
   };
 
   loadLessons = () => {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
-    var lessonsList = []
-    ref.once("value")
-    .then((snapshot) => {
+    let that = this
+    ref.on('value', function(snapshot) {
       //all lessons for user in database
+      var lessonsList = []
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
-      //for loop adds all users to state
-      for (lessonKey in lessonsData){
-        if(lessonsData[lessonKey]['status'] == 'undecided'){
+      for(lessonDate in lessonsData){
+        for (lessonKey in lessonsData[lessonDate]){
+          if(lessonsData[lessonDate][lessonKey]['status'] == 'undecided'){
             var lessonToPush = {
-                name: lessonsData[lessonKey]['studentName'],
-                time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-                key: key.toString(),
-                instrument: lessonsData[lessonKey]['studentInstrument'],
-                studentID: lessonsData[lessonKey]['studentIDNum'],
-                teacherID: lessonsData[lessonKey]['teacherIDNum'],
-                teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
-                studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+              name: lessonsData[lessonDate][lessonKey]['studentName'],
+              time: lessonsData[lessonDate][lessonKey]['date'] + ' at ' + lessonsData[lessonDate][lessonKey]['time'],
+              key: key.toString(),
+              timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
+              date: lessonsData[lessonDate][lessonKey]['date'],
+              instrument: lessonsData[lessonDate][lessonKey]['studentInstrument'],
+              studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
+              teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
+              teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
+              studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
             }
             lessonsList.push(lessonToPush)
             key += 1;
+          }
+          that.setState({ lessonsList: lessonsList })
+          that.forceUpdate();
         }
       }
-      this.setState({ lessonsList: lessonsList })
     });
   }
+
 
   onScheduledEventPressed = (lesson) => {
     // alert('pressed')
@@ -85,19 +89,27 @@ class LessonRequests extends React.Component {
 
   acceptLesson = (lesson) => {
     var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).update({status: 'confirmed'});
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).update({status: 'confirmed'});
-    this.loadLessons();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).update({status: 'confirmed'});
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).update({status: 'confirmed'});
+    // this.updateCalendar(false, lesson)
+    this.loadLessons(this);
     this.forceUpdate();
   }
 
   denyLesson = (lesson) => {
     var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).remove();
-    this.loadLessons();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
+    this.loadLessons(this);
     this.forceUpdate();
   }
+
+  // //this will change the users calendar so they are either available or not on a specific date at a specific time
+  // updateCalendar = (availability, lesson) => {
+  //   var db = firebase.database();
+  //   var ref = db.ref(`users/${this.props.userData['uid']}/info/realAvailability/${lesson.date}/${lesson.timeKey}`)
+  //   ref.update({available: availability})
+  // }
 
   render() {
     return (

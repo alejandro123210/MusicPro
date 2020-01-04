@@ -43,26 +43,31 @@ class TeacherDash extends React.Component {
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
       //for loop adds all users to state
-      for (lessonKey in lessonsData){
-        if(lessonsData[lessonKey]['status'] == 'confirmed'){
-          var lessonToPush = {
-            studentName: lessonsData[lessonKey]['studentName'],
-            time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-            key: key.toString(),
-            instrument: lessonsData[lessonKey]['studentInstrument'],
-            studentID: lessonsData[lessonKey]['studentIDNum'],
-            teacherID: lessonsData[lessonKey]['teacherIDNum'],
-            teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
-            studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+      for(lessonDate in lessonsData){
+        for (lessonKey in lessonsData[lessonDate]){
+          if(lessonsData[lessonDate][lessonKey]['status'] == 'confirmed'){
+            var lessonToPush = {
+              studentName: lessonsData[lessonDate][lessonKey]['studentName'],
+              time: lessonsData[lessonDate][lessonKey]['date'] + ' at ' + lessonsData[lessonDate][lessonKey]['time'],
+              key: key.toString(),
+              timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
+              date: lessonsData[lessonDate][lessonKey]['date'],
+              instrument: lessonsData[lessonDate][lessonKey]['studentInstrument'],
+              studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
+              teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
+              teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
+              studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
+            }
+            lessonsList.push(lessonToPush)
+            key += 1;
           }
-          lessonsList.push(lessonToPush)
-          key += 1;
+          that.setState({ lessonsList: lessonsList })
+          that.forceUpdate();
         }
-        that.setState({ lessonsList: lessonsList })
-        that.forceUpdate();
       }
     });
   }
+  
 
 
   onScheduledEventPressed = (lesson) => {
@@ -84,11 +89,19 @@ class TeacherDash extends React.Component {
 
   cancelLesson = (lesson) => {
     var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).remove();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
+    // this.updateCalendar(true, lesson)
     this.loadLessons(this);
     this.forceUpdate();
   }
+
+  // //this will change the users calendar so they are either available or not on a specific date at a specific time
+  // updateCalendar = (availability, lesson) => {
+  //   var db = firebase.database();
+  //   var ref = db.ref(`users/${this.props.userData['uid']}/info/realAvailability/${lesson.date}/${lesson.timeKey}`)
+  //   ref.update({available: availability})
+  // }
 
   render() {
     return (

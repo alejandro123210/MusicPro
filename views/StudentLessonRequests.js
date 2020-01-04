@@ -46,23 +46,25 @@ class StudentLessonRequests extends React.Component {
         var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
         key = 0;
         //for loop adds all users to state
-        for (lessonKey in lessonsData){
-            if(lessonsData[lessonKey]['status'] == 'undecided'){
+        for(lessonDate in lessonsData){  
+          for (lessonKey in lessonsData[lessonDate]){
+            if(lessonsData[lessonDate][lessonKey]['status'] == 'undecided'){
               var lessonToPush = {
-                  name: lessonsData[lessonKey]['teacherName'],
-                  time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
+                  name: lessonsData[lessonDate][lessonKey]['teacherName'],
+                  time: lessonsData[lessonDate][lessonKey]['date'] + ' at ' + lessonsData[lessonDate][lessonKey]['time'],
                   key: key.toString(),
-                  instrument: lessonsData[lessonKey]['teacherInstrument'],
-                  studentID: lessonsData[lessonKey]['studentIDNum'],
-                  teacherID: lessonsData[lessonKey]['teacherIDNum'],
-                  teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
-                  studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+                  instrument: lessonsData[lessonDate][lessonKey]['teacherInstrument'],
+                  studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
+                  teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
+                  teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
+                  studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
               }
             lessonsListInFunction.push(lessonToPush)
             key += 1;
             that.setState({ lessonsList: lessonsListInFunction })
             that.forceUpdate();
-            }
+          }
+          }
         }
     });
   }
@@ -86,8 +88,8 @@ class StudentLessonRequests extends React.Component {
 
   cancelRequest = (lesson) => {
     var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).remove();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
     this.loadLessons(this);
     this.forceUpdate();
   }

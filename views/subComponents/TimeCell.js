@@ -13,14 +13,15 @@ let deviceWidth = Dimensions.get("window").width;
 
 const TimeCell = props => {
     
-    this.state = {
-        backgroundColor: props.backgroundColorOfCell
+    state = {
+        backgroundColor: props.backgroundColor,
+        fontColor: props.fontColor
     }
-
+    
     return (
         <TouchableOpacity onPress={() => props.onPress()}>
-            <View style={[styles.cellView, {backgroundColor: this.state.backgroundColor}]}>
-                <Text style={styles.timeText}>{props.name}</Text>
+            <View style={[styles.cellView, {backgroundColor: state.backgroundColor}]}>
+                <Text style={[styles.timeText, {color: state.fontColor}]}>{props.name}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -36,10 +37,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.3,
         width: '98.9%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: 'white'
     },
     timeText:{
-        fontSize: 20
+        fontSize: 20,
+        color: 'black'
     }
 });
 

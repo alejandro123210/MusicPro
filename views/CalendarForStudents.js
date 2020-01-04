@@ -1,8 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert } from "react-native";
-import ProfileBar from './subComponents/ProfileBar'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import TimeCell from './subComponents/TimeCell';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
@@ -13,57 +11,57 @@ let deviceWidth = Dimensions.get("window").width;
 class CalendarForStudents extends React.Component {
   state = {
     date: "",
-    availabilityList: {
-        '0':[],
-        '1':[],
-        '2':[],
-        '3':[],
-        '4':[],
-        '5':[],
-        '6':[]
+    actualAvailability: {
+      '0':[],
+      '1':[],
+      '2':[],
+      '3':[],
+      '4':[],
+      '5':[],
+      '6':[]
     },
-    selectedDay: "0"
+    selectedDay: new Date().getDay(),
+    teacherLessons: [],
+    normalAvailability: {
+      '0':[],
+      '1':[],
+      '2':[],
+      '3':[],
+      '4':[],
+      '5':[],
+      '6':[]
+    },
   };
 
   componentDidMount() {
     var todayDate = new Date().toISOString().slice(0,10);
     this.setState({ date: todayDate });
     var db = firebase.database();
-    var ref = db.ref(`users/${this.props.teacher['uid']}/info/availability`)
-    var availabilityListToPush = this.state.availabilityList
+    var ref = db.ref(`users/${this.props.teacher['uid']}/info/`)
+    var availabilityListToPush = this.state.actualAvailability
     let that = this
     ref.once("value")
     .then(function(snapshot){
-      availabilityData = JSON.parse(JSON.stringify(snapshot.val()))
-      availabilityListToPush["0"] = that.removeUnavailableTimes(availabilityData["Mon"])
-      availabilityListToPush["1"] = that.removeUnavailableTimes(availabilityData["Tue"])
-      availabilityListToPush["2"] = that.removeUnavailableTimes(availabilityData["Wed"])
-      availabilityListToPush["3"] = that.removeUnavailableTimes(availabilityData["Thu"])
-      availabilityListToPush["4"] = that.removeUnavailableTimes(availabilityData["Fri"])
-      availabilityListToPush["5"] = that.removeUnavailableTimes(availabilityData["Sat"])
-      availabilityListToPush["6"] = that.removeUnavailableTimes(availabilityData["Sun"])
+      userData = JSON.parse(JSON.stringify(snapshot.val()))
+      availabilityData = userData['availability']
+      availabilityListToPush["0"] = availabilityData["Mon"]
+      availabilityListToPush["1"] = availabilityData["Tue"]
+      availabilityListToPush["2"] = availabilityData["Wed"]
+      availabilityListToPush["3"] = availabilityData["Thu"]
+      availabilityListToPush["4"] = availabilityData["Fri"]
+      availabilityListToPush["5"] = availabilityData["Sat"]
+      availabilityListToPush["6"] = availabilityData["Sun"]
       if(availabilityData != null){
         that.setState({
-          availabilityList: availabilityListToPush
+          actualAvailability: availabilityListToPush,
+          normalAvailability: JSON.parse(JSON.stringify(availabilityListToPush)),
+          teacherLessons: userData['lessons']
         })
       }
     })
   };
 
-  removeUnavailableTimes = (day) => {
-    timesToAdd = []
-    for (key in day){
-      if(day[key]['available'] == true){
-        timesToAdd.push(day[key])
-      }
-    }
-    return timesToAdd
-  }
-
   onCellPress = (time) => {
-    // console.log('the user has selected: ')
-    console.log(this.state.date)
-    // console.log(time)
     Alert.alert(
       'Are you sure?',
       'are you sure you want to request a lesson with ' + this.props.teacher.name,
@@ -88,10 +86,40 @@ class CalendarForStudents extends React.Component {
     var teacherInstrument = this.props.teacher.instrument;
     var date = this.state.date
     var time = time
+    var timeKey = ''
+    if(time == "7 AM - 8 AM"){
+      timeKey = 0
+    } else if (time == "8 AM - 9 AM"){
+      timeKey = 1
+    } else if (time == '9 AM - 10 AM'){
+      timeKey = 2
+    } else if (time == '10 AM - 11 AM'){
+      timeKey = 3
+    } else if (time == '11 AM - 12 PM'){
+      timeKey = 4
+    } else if (time == '12 PM - 1 PM'){
+      timeKey = 5
+    } else if (time == '1 PM - 2 PM'){
+      timeKey = 6
+    } else if (time == '2 PM - 3 PM'){
+      timeKey = 7
+    } else if (time == '3 PM - 4 PM'){
+      timeKey = 8
+    } else if (time == '4 PM - 5 PM'){
+      timeKey = 9
+    } else if (time == '5 PM - 6 PM'){
+      timeKey = 10
+    } else if (time == '6 PM - 7 PM'){
+      timeKey = 11
+    } else if (time == '7 PM - 8 PM'){
+      timeKey = 12
+    } else if (time == '8 PM - 9 PM'){
+      timeKey = 13
+    } 
     // console.log("Request confirmed for " + this.props.teacher.uid);
     var db = firebase.database();
-    var teacherRef = db.ref(`users/${this.props.teacher.uid}/info/lessons`)
-    var studentRef = db.ref(`users/${studentIDNum}/info/lessons`)
+    var teacherRef = db.ref(`users/${this.props.teacher.uid}/info/lessons/${date}`)
+    var studentRef = db.ref(`users/${studentIDNum}/info/lessons/${date}`)
     //we put both users names and ids so that later when the requeest is processed by the teacher 
     //both the student and teacher have their lessons updated 
     //(having both ids makes it easier to find each others profiles)
@@ -108,7 +136,8 @@ class CalendarForStudents extends React.Component {
       teacherInstrument: teacherInstrument,
       date: date,
       time: time,
-      status: 'undecided'
+      status: 'undecided',
+      timeKey: timeKey
     }
     teacherRef.child(teacherLessonRequestKey).update(lessonData)
     studentRef.child(studentLessonRequestKey).update(lessonData)
@@ -120,10 +149,31 @@ class CalendarForStudents extends React.Component {
       <View style={styles.container}>
         <Calendar
             onDayPress={(day) => {
+              //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
               dayOfWeek = new Date(day['dateString']).getDay()
+              //gets the normal user availability and parses it/stringifies it to avoid pointer problems
+              var normalAvailability = JSON.parse(JSON.stringify(this.state.normalAvailability))
+              //sets the state of actual availability to normal, normal is never changed, so it clears all data of lessons
+              this.setState({actualAvailability: normalAvailability})
+              //checks all dates for teacher's lessons, this may have to be changed if itmakes the phone slow
+              for(date in this.state.teacherLessons){
+                //if the date of the lessons is the same as the date string the calendar has, it checks the lesson times to remove the lesson
+                if(date == day['dateString']){              
+                  for(lessonKey in this.state.teacherLessons[date]){
+                    //key to remove is equal to the key for the lesson time
+                    var keyToRemove = this.state.teacherLessons[date][lessonKey]['timeKey']
+                    //gets the day of the week so it knows what day to change
+                    var normalAvailabilityForDay = normalAvailability[dayOfWeek]
+                    //sets the availability for that time at that day to false
+                    normalAvailabilityForDay[keyToRemove] = false
+                    //sets the state so it's shown in the list
+                    this.setState({actualAvailability: normalAvailability})
+                  }
+                }
+              }
               this.setState({ 
                 date: day['dateString'], 
-                selectedDay: dayOfWeek
+                selectedDay: dayOfWeek,
               })
             }}
             minDate = { Date() }
@@ -144,12 +194,17 @@ class CalendarForStudents extends React.Component {
           />
         
         <ScrollView>
-          {this.state.availabilityList[this.state.selectedDay].map(list => (
+          {this.state.actualAvailability[this.state.selectedDay].map(list => (
+            list.available?
               <TimeCell
                   name = {list.name}
                   key = {list.key}
                   onPress = {() => this.onCellPress(list.name)}
               />
+              :
+              <View>
+
+              </View>
           ))}
         </ScrollView>
       </View>
