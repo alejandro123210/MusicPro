@@ -84,44 +84,6 @@ class StudentsPersonalInfo extends React.Component {
                   </View>
                 </View>
                </TouchableOpacity>     
-                  <View style = {styles.emptyBlock}>
-                  </View>
-               <View style={styles.subContainer}>
-                  <View style={styles.buttonContainer}>
-                   <TouchableOpacity onPress={() => this.onPress()}>
-                      <View style={styles.buttonView}>
-                        <Text style={styles.regularButton}>About Us</Text>
-                      </View>
-                   </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
-                    <View style={styles.buttonView}>
-                       <Text style={styles.regularButton}>FAQ</Text>
-                    </View>
-                   </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
-                    <View style={styles.buttonView}>
-                       <Text style={styles.regularButton}>YOU made it Bugs </Text>
-                    </View>
-                   </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
-                    <View style={styles.buttonView}>
-                       <Text style={styles.regularButton}>Suggest Feature </Text>
-                    </View>
-                   </TouchableOpacity>
-                  </View>
-               </View>
-               <View style = {styles.subContainer2}>
-                   <TouchableOpacity onPress={() => this.onPress()}>
-                    <View style={styles.buttonView}>
-                       <Text style={styles.logoutButton}>Log out</Text>
-                    </View>
-                   </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onDeletePress()}>
-                    <View style={styles.buttonView}>
-                       <Text style={styles.deleteAccount}>Delete Account</Text>
-                    </View>
-                   </TouchableOpacity>
-               </View>
            </View>
        );
    }

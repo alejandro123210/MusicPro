@@ -21,7 +21,10 @@ import SettingsForStudents from './views/SettingsViews/SettingsForStudents';
 import SettingsForTeachers from './views/SettingsViews/SettingsForTeachers';
 import StudentsPersonalInfo from './views/SettingsViews/StudentsPersonalInfo';
 import TeachersPersonalInfo from './views/SettingsViews/TeachersPersonalInfo';
-
+import FAQPage from './views/SettingsViews/FAQPage';
+import AboutUsPage from './views/SettingsViews/AboutUsPage';
+import ReportBugsPage from './views/SettingsViews/ReportBugsPage';
+import SuggestFeaturePage from './views/SettingsViews/SuggestFeaturePage';
 
 export default function App() {
 
@@ -91,6 +94,26 @@ export default function App() {
         <Scene
           key = 'TeachersPersonalInfo'
           component = { TeachersPersonalInfo }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'FAQPage'
+          component = { FAQPage }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'ReportBugsPage'
+          component = { ReportBugsPage }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'AboutUsPage'
+          component = { AboutUsPage }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'SuggestFeaturePage'
+          component = { SuggestFeaturePage }
           hideNavBar = {false}
         />
         <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
