@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-class ReportBugsPage extends React.Component {
+class SuggestFeaturePage extends React.Component {
 
   render() {
     return (
       // this is just random filler for the template, but this is where what the user sees is rendered
       <View style={styles.container}>
-
+        <Text> HUi</Text>
       </View>
     );
   }
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
 
 
 //this lets the component get imported other places
-export default ReportBugsPage;
+export default SuggestFeaturePage;
