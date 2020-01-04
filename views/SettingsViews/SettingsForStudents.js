@@ -19,7 +19,19 @@ class SettingsForStudents extends React.Component {
 
   changeInfo = () =>{
     Actions.StudentsPersonalInfo({userData: this.props.userData});
-}
+  }
+  goToFAQPage = () =>{
+    Actions.FAQPage();
+  }
+  goToAboutUsPAge = () =>{
+    Actions.AboutUsPage()
+  }
+  goToReportBugsPage = () =>{
+    Actions.ReportBugsPage()
+  }
+  goToSuggestFeaturePage = () =>{
+    Actions.SuggestFeaturePage()
+  }
 
 
   signOut = async () => {
@@ -39,6 +51,8 @@ class SettingsForStudents extends React.Component {
         alert(error)
       }
     };
+
+    
   deleteAccount = async () => {
       // Alejandro please review my code!
       var user = firebase.auth().currentUser;
@@ -88,22 +102,22 @@ class SettingsForStudents extends React.Component {
                   </View>
                <View style={styles.subContainer}>
                   <View style={styles.buttonContainer}>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToAboutUsPAge()}>
                       <View style={styles.buttonView}>
                         <Text style={styles.regularButton}>About Us</Text>
                       </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToFAQPage()}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>FAQ</Text>
                     </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToReportBugsPage()}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Report Bugs </Text>
                     </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToSuggestFeaturePage()}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Suggest Feature </Text>
                     </View>
@@ -201,6 +215,8 @@ profileContainer: {
   width: deviceWidth,
   backgroundColor: 'white',
   flexDirection: 'row',
+  borderBottomColor: '#D3D3D3',
+  borderBottomWidth: 1,
 },
 descriptionContainer: {
   alignItems: 'center',

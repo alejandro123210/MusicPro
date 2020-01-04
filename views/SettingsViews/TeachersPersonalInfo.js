@@ -161,10 +161,10 @@ statusBar: {
 profileContainer: {
   alignItems: 'center',
   justifyContent: 'center',
-  height: deviceHeight/7,
+  height: deviceHeight/3.5,
   width: deviceWidth,
   backgroundColor: 'white',
-  flexDirection: 'row',
+  flexDirection: 'column',
 },
 descriptionContainer: {
   alignItems: 'center',

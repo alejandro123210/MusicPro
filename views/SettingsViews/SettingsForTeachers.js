@@ -19,7 +19,19 @@ class SetingsForTeachers extends React.Component {
 
   changeInfo = () =>{
     Actions.TeachersPersonalInfo({userData: this.props.userData});
-}
+  }
+  goToFAQPage = () =>{
+    Actions.FAQPage();
+  }
+  goToAboutUsPAge = () =>{
+    Actions.AboutUsPage()
+  }
+  goToReportBugsPage = () =>{
+    Actions.ReportBugsPage()
+  }
+  goToSuggestFeaturePage = () =>{
+    Actions.SuggestFeaturePage()
+  }
 
 
   signOut = async () => {
@@ -80,7 +92,6 @@ class SetingsForTeachers extends React.Component {
                       <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text>
                       <Text style={styles.statusBar}>{capitalize(JSON.stringify(this.props.userData['userType']).slice(1,-1))}</Text>
                       <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instrument']).slice(1,-1)}</Text>
-                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['description']).replace('"','').replace('"','')}</Text>
                   </View>
                 </View>
                </TouchableOpacity>     
@@ -88,22 +99,22 @@ class SetingsForTeachers extends React.Component {
                   </View>
                <View style={styles.subContainer}>
                   <View style={styles.buttonContainer}>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToAboutUsPAge()}>
                       <View style={styles.buttonView}>
                         <Text style={styles.regularButton}>About Us</Text>
                       </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToFAQPage()}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>FAQ</Text>
                     </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToReportBugsPage()}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Report Bugs </Text>
                     </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.goToSuggestFeaturePage()}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Suggest Feature </Text>
                     </View>

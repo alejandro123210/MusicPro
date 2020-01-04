@@ -46,8 +46,8 @@ componentDidMount(){
                     location: JSON.stringify(usersData[uid]['info']['location']).slice(3, -3),
                     instrument: JSON.stringify(usersData[uid]['info']['instrument']).slice(1, -1),
                     picture: JSON.stringify(usersData[uid]['info']['photo']).slice(3, -3),
-                    key: key,
-                    uid: uid
+                    uid: uid,
+                    key: key.toString(),
                 }
                 teachers.push(teacher)
                 this.setState({
@@ -58,11 +58,6 @@ componentDidMount(){
         }
     });
 }
-
-
-handleTextChange = inputValue => {
-    this.setState({ inputValue });
-};
 
 onPress = (user) => {
     Actions.CalendarForStudents({

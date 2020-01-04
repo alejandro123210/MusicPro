@@ -13,67 +13,51 @@ let deviceWidth = Dimensions.get("window").width;
 class CalendarForStudents extends React.Component {
   state = {
     date: "",
-    inputValue: "",
-    teacherDashDisplay: "block",
-    teacherProfileScrollDisplay: "none",   
-    selectedDay: '', 
-    inputValue: '',
-    data: [],
-    teacher: 
-    [
-        {
-            name: '10 AM - 12 AM',
-            key: 0
-        },
-        {
-            name: '12 PM - 2 PM',
-            key: 1
-        },
-        {
-            name: '4 PM - 6 PM',
-            key: 2
-        },
-        {
-            name: '8 PM - 10 PM',
-            key: 3
-        },
-        {
-            name: 'Not available',
-            key: 4
-        },
-        {
-            name: 'Not available',
-            key: 5
-        },
-        {
-            name: 'Not available',
-            key: 6
-        },
-        {
-            name: 'Not available',
-            key: 7
-        },
-    ]
-
+    availabilityList: {
+        '0':[],
+        '1':[],
+        '2':[],
+        '3':[],
+        '4':[],
+        '5':[],
+        '6':[]
+    },
+    selectedDay: "0"
   };
 
   componentDidMount() {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    this.setState({
-      //Setting the value of the date time
-      date: year + "-" + month + "-" + date,
-    });
+    var todayDate = new Date().toISOString().slice(0,10);
+    this.setState({ date: todayDate });
+    var db = firebase.database();
+    var ref = db.ref(`users/${this.props.teacher['uid']}/info/availability`)
+    var availabilityListToPush = this.state.availabilityList
+    let that = this
+    ref.once("value")
+    .then(function(snapshot){
+      availabilityData = JSON.parse(JSON.stringify(snapshot.val()))
+      availabilityListToPush["0"] = that.removeUnavailableTimes(availabilityData["Mon"])
+      availabilityListToPush["1"] = that.removeUnavailableTimes(availabilityData["Tue"])
+      availabilityListToPush["2"] = that.removeUnavailableTimes(availabilityData["Wed"])
+      availabilityListToPush["3"] = that.removeUnavailableTimes(availabilityData["Thu"])
+      availabilityListToPush["4"] = that.removeUnavailableTimes(availabilityData["Fri"])
+      availabilityListToPush["5"] = that.removeUnavailableTimes(availabilityData["Sat"])
+      availabilityListToPush["6"] = that.removeUnavailableTimes(availabilityData["Sun"])
+      if(availabilityData != null){
+        that.setState({
+          availabilityList: availabilityListToPush
+        })
+      }
+    })
   };
 
-
-  handleTextChange = inputValue => {
-    this.setState({ inputValue });
-  };
-
-  onScheduledEventPressed = () => {
-      alert("Cancel event?")
+  removeUnavailableTimes = (day) => {
+    timesToAdd = []
+    for (key in day){
+      if(day[key]['available'] == true){
+        timesToAdd.push(day[key])
+      }
+    }
+    return timesToAdd
   }
 
   onCellPress = (time) => {
@@ -133,61 +117,34 @@ class CalendarForStudents extends React.Component {
 
   render() {
     return (
-      
       <View style={styles.container}>
-        {/* <ProfileBar 
-            name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
-            image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
-        /> */}
         <Calendar
-            // Initially visible month. Default = Date()
-            // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-            //minDate={'2012-05-10'}
-            // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-            //maxDate={'2012-05-30'}
-            // Handler which gets executed on day press. Default = undefined
             onDayPress={(day) => {
-              // console.log('selected day', day)
-              this.setState({
-                date: day['dateString'],
+              dayOfWeek = new Date(day['dateString']).getDay()
+              this.setState({ 
+                date: day['dateString'], 
+                selectedDay: dayOfWeek
               })
             }}
             minDate = { Date() }
-            // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
             current = { Date() }
-            // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-            // Handler which gets executed on day long press. Default = undefined
-            // onDayLongPress={(day) => {console.log('selected day', day)}}
-            // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
             monthFormat={'MMM yyyy'}
-            // Handler which gets executed on day press. Default = undefined
-            // onDayPress={(day) => {console.log('selected day', day)}}
-            // Handler which gets executed on day long press. Default = undefined
             onDayLongPress={(day) => {console.log('selected day', day)}}
-            // Handler which gets executed when visible month changes in calendar. Default = undefined
             onMonthChange={(month) => {console.log('month changed', month)}}
-            // Hide month navigation arrows. Default = false  
             hideExtraDays={true}
-            // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-            // day from another month that is visible in calendar page. Default = false
             disableMonthChange={true}
-            // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
             firstDay={1}
-            // Hide day names. Default = false
             hideDayNames={false}
-            // Show week numbers to the left. Default = false
             showWeekNumbers={false}
-            // Handler which gets executed when press arrow icon left. It receive a callback can go back month
             onPressArrowLeft={substractMonth => substractMonth()}
-            // Handler which gets executed when press arrow icon left. It receive a callback can go next month
             onPressArrowRight={addMonth => addMonth()}
             markedDates = {{
-              [this.state.date]: {selected: true},
+              [this.state.date]: {selected: true, marked: true},
             }}            
           />
         
         <ScrollView>
-          {this.state.teacher.map(list => (
+          {this.state.availabilityList[this.state.selectedDay].map(list => (
               <TimeCell
                   name = {list.name}
                   key = {list.key}
