@@ -34,6 +34,7 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
+    console.log('CalendarForStudents mounted')
     var todayDate = new Date().toISOString().slice(0,10);
     this.setState({ date: todayDate });
     var db = firebase.database();

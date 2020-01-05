@@ -16,13 +16,12 @@ class LessonRequests extends React.Component {
 
   state = {
     date: "",
-    //TODO: add reject/cancel functionality 
-
     //this list is pulled from the db
     lessonsList: []
   };
   
   componentDidMount() {
+    console.log('LessonRequests mounted')
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -103,13 +102,6 @@ class LessonRequests extends React.Component {
     this.loadLessons(this);
     this.forceUpdate();
   }
-
-  // //this will change the users calendar so they are either available or not on a specific date at a specific time
-  // updateCalendar = (availability, lesson) => {
-  //   var db = firebase.database();
-  //   var ref = db.ref(`users/${this.props.userData['uid']}/info/realAvailability/${lesson.date}/${lesson.timeKey}`)
-  //   ref.update({available: availability})
-  // }
 
   render() {
     return (

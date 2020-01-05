@@ -13,22 +13,23 @@ let deviceWidth = Dimensions.get("window").width;
 //scheduledEventPressed 
 //^^ we delegate the onPress function to the view using the component because it's different when the person is a student/teacher
 
-const scheduledEventCell = props => {
+class ScheduledEventCell extends React.Component {
 
-
-    return(
-        <View key={props.name} style={styles.cellContainer}>
-        <TouchableOpacity onPress={() => props.onPress()}>
-            <View style={styles.nameContainer}>
-                <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-                    <Text style={styles.nameText}>{props.name}</Text>
-                    <Text style={styles.instrumentText}>{props.instrument}</Text>
-                </View>
-                <Text style={styles.infoText}>{props.time}</Text>
+    render(){
+        return(
+            <View key={this.props.name} style={styles.cellContainer}>
+                <TouchableOpacity onPress={() => this.props.onPress()}>
+                    <View style={styles.nameContainer}>
+                        <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+                            <Text style={styles.nameText}>{this.props.name}</Text>
+                            <Text style={styles.instrumentText}>{this.props.instrument}</Text>
+                        </View>
+                        <Text style={styles.infoText}>{this.props.time}</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
-        </TouchableOpacity>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -70,4 +71,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default scheduledEventCell;
+export default ScheduledEventCell;

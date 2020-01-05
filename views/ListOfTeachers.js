@@ -29,6 +29,7 @@ state = {
 //TODO: make this load in teachers that are nearby specifically 
 
 componentDidMount(){
+    console.log('ListOfTeachers mounted')
     var db = firebase.database();
     var ref = db.ref(`users/`)
     var teachers = []

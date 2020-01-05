@@ -10,42 +10,43 @@ import { Actions } from 'react-native-router-flux';
 //key
 
 //required props are name, key, date, lastmessage
-const tableCell = props => {
+class TableCell extends React.Component {
     
-
-    return (
-        <View style={styles.cellView}>
-            {/* animates the entire cell ^ */}
-            <TouchableOpacity onPress={() => props.onPress()}>
-                {/* makes it selectable ^ */}
-                <View style={{ flexDirection: "row" }}>
-                    {/* lets the circles be made */}
-                    <Image
-                        style={styles.circle}
-                        source={{ uri: props.image }}
-                    />
-                    {/* the circles itself ^ */}
-                    <View style={styles.nameAndDetails}>
-                        <View style={styles.topContainer}>
-                            {/* container for name/date */}
-                            <Text style={styles.name} >
-                                {props.name}
-                            </Text>
-                            <Text style={styles.instrumentText}>
-                                {props.location}
-                            </Text>
+    render(){
+        return (
+            <View style={styles.cellView}>
+                {/* animates the entire cell ^ */}
+                <TouchableOpacity onPress={() => this.props.onPress()}>
+                    {/* makes it selectable ^ */}
+                    <View style={{ flexDirection: "row" }}>
+                        {/* lets the circles be made */}
+                        <Image
+                            style={styles.circle}
+                            source={{ uri: this.props.image }}
+                        />
+                        {/* the circles itself ^ */}
+                        <View style={styles.nameAndDetails}>
+                            <View style={styles.topContainer}>
+                                {/* container for name/date */}
+                                <Text style={styles.name} >
+                                    {this.props.name}
+                                </Text>
+                                <Text style={styles.instrumentText}>
+                                    {this.props.location}
+                                </Text>
+                            </View>
+                            <View style={styles.detailTextView}>
+                                <Text style={styles.detailText} numberOfLines={3}>
+                                    {this.props.instrument}
+                                </Text>
+                            </View>
+                            {/* last message view */}
                         </View>
-                        <View style={styles.detailTextView}>
-                            <Text style={styles.detailText} numberOfLines={3}>
-                                {props.instrument}
-                            </Text>
-                        </View>
-                        {/* last message view */}
                     </View>
-                </View>
-            </TouchableOpacity>
-        </View>
-    );
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -96,4 +97,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default tableCell;
+export default TableCell;

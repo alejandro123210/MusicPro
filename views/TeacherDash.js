@@ -15,14 +15,12 @@ class TeacherDash extends React.Component {
 
   state = {
     date: "",
-    //TODO: load this in from firebase
-    //TODO: add accept/reject/cancel functionality 
-
     //this list is pulled from the db
     lessonsList: []
   };
   
   componentDidMount() {
+    console.log('TeacherDash mounted')
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year

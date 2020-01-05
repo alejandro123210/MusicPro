@@ -15,14 +15,12 @@ class StudentDash extends React.Component {
 
   state = {
     date: "",
-    //TODO: load this in from firebase
-    //TODO: add accept/reject/cancel functionality 
-
     //this list is pulled from the db
     lessonsList: []
   };
   
   componentDidMount() {
+    console.log("StudentDash Mounted")
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -37,7 +35,7 @@ class StudentDash extends React.Component {
 
   loadLessons = (that) => {
     var db = firebase.database();
-    var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
+    var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       var lessonsList = []

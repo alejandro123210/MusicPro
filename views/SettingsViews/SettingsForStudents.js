@@ -54,18 +54,30 @@ class SettingsForStudents extends React.Component {
 
     
   deleteAccount = async () => {
-      // Alejandro please review my code!
-      var user = firebase.auth().currentUser;
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      this.setState({ user: null }); 
-      user.delete().then(function() {
-        Actions.Login();
-        alert("Account has been deleted")
-      }, function(error) {
-        // An error happened.
-      });
-    };
+    var db = firebase.database()
+    var userLessonsRef = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
+    userLessonsRef.once("value")
+    .then((snapshot) => {
+      var lessonData = JSON.parse(JSON.stringify(snapshot.val()))
+      for(date in lessonData){
+        for(lessonKey in lessonData[date]){
+          db.ref(`users/${lessonData[date][lessonKey]['teacherIDNum']}/info/lessons/${lessonData[date][lessonKey]['date']}/${lessonData[date][lessonKey]['teacherLessonKey']}`).remove()
+        }
+      }
+      db.ref(`users/${this.props.userData['uid']}`).remove()
+    })
+    // Alejandro please review my code!
+    var user = firebase.auth().currentUser;
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
+    this.setState({ user: null }); 
+    user.delete().then(function() {
+      Actions.Login();
+      alert("Account has been deleted")
+    }, function(error) {
+      // An error happened.
+    });
+  };
  
    componentDidMount(){
        // alert('settings mounted')
