@@ -37,60 +37,32 @@ class StudentDash extends React.Component {
 
   loadLessons = (that) => {
     var db = firebase.database();
-    // alert(JSON.stringify(this.props.userData['uid']))
     var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
-    // ref.once("value")
-    // .then((snapshot) => {
-    // });
-    // ref.once("value")
-    // .then(function(snapshot){
-    //   //all lessons for user in database
-    //   var lessonsList = []
-    //   var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
-    //   key = 0;
-    //   //for loop adds all users to state
-    //   for (lessonKey in lessonsData){
-    //     if(lessonsData[lessonKey]['status'] == 'confirmed'){
-    //       var lessonToPush = {
-    //         name: lessonsData[lessonKey]['teacherName'],
-    //         time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-    //         key: key.toString(),
-    //         instrument: lessonsData[lessonKey]['studentInstrument'],
-    //         studentID: lessonsData[lessonKey]['studentIDNum'],
-    //         teacherID: lessonsData[lessonKey]['teacherIDNum'],
-    //         lessonKey: lessonKey
-    //       }
-    //       lessonsList.push(lessonToPush)
-    //       key += 1;
-    //     }
-    //     that.setState({
-    //       lessonsList: lessonsList
-    //     })
-    //   }
-    // });
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       var lessonsList = []
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
       //for loop adds all users to state
-      for (lessonKey in lessonsData){
-        if(lessonsData[lessonKey]['status'] == 'confirmed'){
-          var lessonToPush = {
-            teacherName: lessonsData[lessonKey]['teacherName'],
-            time: lessonsData[lessonKey]['date'] + ' at ' + lessonsData[lessonKey]['time'],
-            key: key.toString(),
-            instrument: lessonsData[lessonKey]['teacherInstrument'],
-            studentID: lessonsData[lessonKey]['studentIDNum'],
-            teacherID: lessonsData[lessonKey]['teacherIDNum'],
-            teacherLessonKey: lessonsData[lessonKey]['teacherLessonKey'],
-            studentLessonKey: lessonsData[lessonKey]['studentLessonKey'],
+      for (lessonDate in lessonsData){
+        for (lessonKey in lessonsData[lessonDate]){
+          if(lessonsData[lessonDate][lessonKey]['status'] == 'confirmed'){
+            var lessonToPush = {
+              teacherName: lessonsData[lessonDate][lessonKey]['teacherName'],
+              time: lessonsData[lessonDate][lessonKey]['date'] + ' at ' + lessonsData[lessonDate][lessonKey]['time'],
+              key: key.toString(),
+              instrument: lessonsData[lessonDate][lessonKey]['teacherInstrument'],
+              studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
+              teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
+              teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
+              studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
+            }
+            lessonsList.push(lessonToPush)
+            key += 1;
           }
-          lessonsList.push(lessonToPush)
-          key += 1;
+          that.setState({ lessonsList: lessonsList })
+          that.forceUpdate();
         }
-        that.setState({ lessonsList: lessonsList })
-        that.forceUpdate();
       }
     });
   }
@@ -115,8 +87,8 @@ class StudentDash extends React.Component {
 
   cancelLesson = (lesson) => {
     var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.studentLessonKey}`).remove();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
     this.loadLessons(this);
     this.forceUpdate();
   }
