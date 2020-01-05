@@ -29,13 +29,13 @@ class StudentDash extends React.Component {
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
-    let that = this;
-    this.loadLessons(that)
+    this.loadLessons()
   };
 
-  loadLessons = (that) => {
+  loadLessons = () => {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
+    let that = this
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       var lessonsList = []
@@ -49,6 +49,7 @@ class StudentDash extends React.Component {
               teacherName: lessonsData[lessonDate][lessonKey]['teacherName'],
               time: lessonsData[lessonDate][lessonKey]['date'] + ' at ' + lessonsData[lessonDate][lessonKey]['time'],
               key: key.toString(),
+              date: lessonsData[lessonDate][lessonKey]['date'],
               instrument: lessonsData[lessonDate][lessonKey]['teacherInstrument'],
               studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
               teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
@@ -61,6 +62,9 @@ class StudentDash extends React.Component {
           that.setState({ lessonsList: lessonsList })
           that.forceUpdate();
         }
+      }
+      if(lessonsData == null){
+        that.setState({ lessonsList: lessonsList })
       }
     });
   }
@@ -87,7 +91,7 @@ class StudentDash extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
-    this.loadLessons(this);
+    this.loadLessons();
     this.forceUpdate();
   }
 

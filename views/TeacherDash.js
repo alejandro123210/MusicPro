@@ -29,18 +29,18 @@ class TeacherDash extends React.Component {
       date:
         "Today is: " + month + "/" + date + "/" + year
     });
-    this.loadLessons(this)
-  };
+    this.loadLessons()
+  }
 
-  loadLessons = (that) => {
+  loadLessons = () => {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
+    let that = this
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       var lessonsList = []
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
-      //for loop adds all users to state
       for(lessonDate in lessonsData){
         for (lessonKey in lessonsData[lessonDate]){
           if(lessonsData[lessonDate][lessonKey]['status'] == 'confirmed'){
@@ -62,6 +62,9 @@ class TeacherDash extends React.Component {
           that.setState({ lessonsList: lessonsList })
           that.forceUpdate();
         }
+      }
+      if(lessonsData == null){
+        that.setState({ lessonsList: lessonsList })
       }
     });
   }
@@ -90,16 +93,8 @@ class TeacherDash extends React.Component {
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
     // this.updateCalendar(true, lesson)
-    this.loadLessons(this);
-    this.forceUpdate();
+    this.loadLessons();
   }
-
-  // //this will change the users calendar so they are either available or not on a specific date at a specific time
-  // updateCalendar = (availability, lesson) => {
-  //   var db = firebase.database();
-  //   var ref = db.ref(`users/${this.props.userData['uid']}/info/realAvailability/${lesson.date}/${lesson.timeKey}`)
-  //   ref.update({available: availability})
-  // }
 
   render() {
     return (

@@ -34,7 +34,6 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
-    console.log('CalendarForStudents mounted')
     var todayDate = new Date().toISOString().slice(0,10);
     this.setState({ date: todayDate });
     var db = firebase.database();
@@ -59,6 +58,11 @@ class CalendarForStudents extends React.Component {
           teacherLessons: userData['lessons']
         })
       }
+      var moment = require('moment');
+      var m = moment();
+      var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
+      console.log(roundUp.format('YYYY-MM-DD'));  // outputs Tue Feb 17 2017 13:00:00 GMT+0000
+      that.removeUnavailableTimes(roundUp.format('YYYY-MM-DD'))
     })
   };
 
@@ -145,6 +149,29 @@ class CalendarForStudents extends React.Component {
     Actions.StudentLessonRequest({userData: this.props.userData})
   }
 
+  removeUnavailableTimes = (dateString) => {
+    //gets the normal user availability and parses it/stringifies it to avoid pointer problems
+    var normalAvailability = JSON.parse(JSON.stringify(this.state.normalAvailability))
+    //sets the state of actual availability to normal, normal is never changed, so it clears all data of lessons
+    this.setState({actualAvailability: normalAvailability})
+    //checks all dates for teacher's lessons, this may have to be changed if itmakes the phone slow
+    for(date in this.state.teacherLessons){
+      //if the date of the lessons is the same as the date string the calendar has, it checks the lesson times to remove the lesson
+      if(date == dateString){   
+        for(lessonKey in this.state.teacherLessons[date]){
+          //key to remove is equal to the key for the lesson time
+          var keyToRemove = this.state.teacherLessons[date][lessonKey]['timeKey']
+          //gets the day of the week so it knows what day to change
+          var normalAvailabilityForDay = normalAvailability[dayOfWeek]
+          //sets the availability for that time at that day to false
+          normalAvailabilityForDay[keyToRemove] = false
+          //sets the state so it's shown in the list
+          this.setState({actualAvailability: normalAvailability})
+        }
+      }
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -152,30 +179,11 @@ class CalendarForStudents extends React.Component {
             onDayPress={(day) => {
               //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
               dayOfWeek = new Date(day['dateString']).getDay()
-              //gets the normal user availability and parses it/stringifies it to avoid pointer problems
-              var normalAvailability = JSON.parse(JSON.stringify(this.state.normalAvailability))
-              //sets the state of actual availability to normal, normal is never changed, so it clears all data of lessons
-              this.setState({actualAvailability: normalAvailability})
-              //checks all dates for teacher's lessons, this may have to be changed if itmakes the phone slow
-              for(date in this.state.teacherLessons){
-                //if the date of the lessons is the same as the date string the calendar has, it checks the lesson times to remove the lesson
-                if(date == day['dateString']){              
-                  for(lessonKey in this.state.teacherLessons[date]){
-                    //key to remove is equal to the key for the lesson time
-                    var keyToRemove = this.state.teacherLessons[date][lessonKey]['timeKey']
-                    //gets the day of the week so it knows what day to change
-                    var normalAvailabilityForDay = normalAvailability[dayOfWeek]
-                    //sets the availability for that time at that day to false
-                    normalAvailabilityForDay[keyToRemove] = false
-                    //sets the state so it's shown in the list
-                    this.setState({actualAvailability: normalAvailability})
-                  }
-                }
-              }
               this.setState({ 
                 date: day['dateString'], 
                 selectedDay: dayOfWeek,
               })
+              this.removeUnavailableTimes(day['dateString'])
             }}
             minDate = { Date() }
             current = { Date() }

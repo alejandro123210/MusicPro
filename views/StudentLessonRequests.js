@@ -32,38 +32,43 @@ class StudentLessonRequests extends React.Component {
         "Today is: " + month + "/" + date + "/" + year
     });
     let that = this
-    this.loadLessons(that)
+    this.loadLessons()
   };
 
-  loadLessons = (that) => {
+  loadLessons = () => {
     var db = firebase.database();
-    var ref = db.ref(`users/${JSON.stringify(this.props.userData['uid']).slice(1, -1)}/info/lessons`)
+    var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
+    let that = this
     ref.on('value', function(snapshot) {
-        //all lessons for user in database
-        var lessonsListInFunction = []
-        var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
-        key = 0;
-        //for loop adds all users to state
-        for(lessonDate in lessonsData){  
-          for (lessonKey in lessonsData[lessonDate]){
-            if(lessonsData[lessonDate][lessonKey]['status'] == 'undecided'){
-              var lessonToPush = {
-                  name: lessonsData[lessonDate][lessonKey]['teacherName'],
-                  time: lessonsData[lessonDate][lessonKey]['date'] + ' at ' + lessonsData[lessonDate][lessonKey]['time'],
-                  key: key.toString(),
-                  instrument: lessonsData[lessonDate][lessonKey]['teacherInstrument'],
-                  studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
-                  teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
-                  teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
-                  studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
-              }
-            lessonsListInFunction.push(lessonToPush)
+      //all lessons for user in database
+      var lessonsList = []
+      var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
+      key = 0;
+      //for loop adds all users to state
+      for (lessonDate in lessonsData){
+        for (lessonKey in lessonsData[lessonDate]){
+          if(lessonsData[lessonDate][lessonKey]['status'] == 'undecided'){
+            var lessonToPush = {
+              name: lessonsData[lessonDate][lessonKey]['teacherName'],
+              time: lessonsData[lessonDate][lessonKey]['date'] + ' at ' + lessonsData[lessonDate][lessonKey]['time'],
+              key: key.toString(),
+              date: lessonsData[lessonDate][lessonKey]['date'],
+              instrument: lessonsData[lessonDate][lessonKey]['teacherInstrument'],
+              studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
+              teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
+              teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
+              studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
+            }
+            lessonsList.push(lessonToPush)
             key += 1;
-            that.setState({ lessonsList: lessonsListInFunction })
-            that.forceUpdate();
           }
-          }
+          that.setState({ lessonsList: lessonsList })
+          that.forceUpdate();
         }
+      }
+      if(lessonsData == null){
+        that.setState({ lessonsList: lessonsList })
+      }
     });
   }
 
@@ -88,7 +93,8 @@ class StudentLessonRequests extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
-    this.loadLessons(this);
+    this.loadLessons();
+    console.log(this.state.lessonsList)
     this.forceUpdate();
   }
 
