@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux'
 import * as firebase from 'firebase'
+import InstrumentTag from '../subComponents/instrumentTag';
 
 class Register_Instrument extends React.Component {
 
     state = {
-        instrument: 'I currently selected no instruments'
+        instruments: [],
+        instrument: ''
     }
 
     //TODO: make this work differently so the user isn't typing a list in a text box
@@ -22,7 +24,7 @@ class Register_Instrument extends React.Component {
                 uid: user.uid,
                 name: JSON.stringify(this.props.userInfo['user']['name']),
                 userType: "student",
-                instrument: this.state.instrument,
+                instruments: this.state.instruments,
                 photo: JSON.stringify(this.props.userInfo['user']['photo']),
                 lessons: []
             });
@@ -35,7 +37,7 @@ class Register_Instrument extends React.Component {
             
         } else {
             Actions.Register_Location({
-                instrument: this.state.instrument,
+                instruments: this.state.instruments,
                 userType: this.props.userType,
                 userInfo: this.props.userInfo
             });
@@ -43,25 +45,58 @@ class Register_Instrument extends React.Component {
         
     }
 
+    onSubmitPressed = () => {
+        let instrument = this.state.instrument
+        var instruments = this.state.instruments
+        if(instrument != ''){
+            instruments.push(instrument)
+            this.setState({ instruments })
+            this.setState({ instrument: '' })
+            this.textInput.clear()
+            console.log(this.state.instruments)
+        }
+    }
+
+    onTagPressed = () => {
+        var instruments = this.state.instruments
+        instruments.splice(instruments.indexOf('B'), 1);
+        this.setState({ instruments })
+    }
+
     render() {
         return (
             <KeyboardAwareScrollView
-            style={{ backgroundColor: '#274156' }}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            contentContainerStyle={styles.container}
-            scrollEnabled={true}
+                style={{ backgroundColor: '#274156' }}
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                contentContainerStyle={styles.container}
+                scrollEnabled={false}
+                keyboardShouldPersistTaps={'always'}
             >   
                 {this.props.userType == "student"?
                 <Text style={styles.questionText}>What instruments do you want to learn?</Text>
                 :
                 <Text style={styles.questionText}>What instruments do you want to teach?</Text>
                 }
-                <View style={styles.instrumentInputContainer}>
+                <View style={styles.instrumentTagScrollViewContainer}>
+                    <ScrollView horizontal={true} keyboardShouldPersistTaps={'always'} bounces={false}>
+                        {this.state.instruments.map(instrument => (
+                            <InstrumentTag
+                                instrument={instrument}
+                                onPress={() => this.onTagPressed(instrument)}
+                            />
+                        ))}
+                    </ScrollView>
+                </View>
+                <View style={styles.instrumentTextInputContainer}>
                     <TextInput 
                         style={styles.instrumentInput} 
-                        multiline={true} 
+                        multiline={false} 
                         onChangeText={(instrument) => this.setState({instrument: instrument})}
-                        placeholder = 'tuba, trombone, baritone'
+                        placeholder = 'Please enter 1 instrument at a time'
+                        onSubmitEditing={() => this.onSubmitPressed()}
+                        ref={input => { this.textInput = input }}
+                        blurOnSubmit={false}
+                        returnKeyType='go'
                     />
                 </View>
                 <TouchableOpacity onPress={() => this.onPress()}>
@@ -82,19 +117,25 @@ const styles = StyleSheet.create({
     questionText: {
         fontSize: 30,
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingBottom: 40
     },
-    instrumentInputContainer: {
-        padding: 8,
-        borderWidth: 0.5,
-        borderColor: 'white',
-        width: '80%',
-        height: "10%",
-        marginTop: 30
+    instrumentTagScrollViewContainer: {
+        // backgroundColor: 'black',
+        height: 45,
+        width: '100%',
+        paddingBottom: 10
+    },
+    instrumentTextInputContainer: {
+        borderRadius: 30,
+        backgroundColor: 'white',
+        height: 35,
+        width: '80%'
     },
     instrumentInput: {
         flex: 1,
-        color: 'white'
+        color: 'gray',
+        paddingLeft: 10
     },
     doneButton: {
         color: 'white',

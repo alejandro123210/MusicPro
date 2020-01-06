@@ -7,7 +7,7 @@ import * as firebase from 'firebase'
 class Register_Description extends React.Component {
 
     state = {
-        description: 'my description'
+        description: ''
     }
 
     onPress = () => {
@@ -19,7 +19,7 @@ class Register_Description extends React.Component {
             uid: user.uid,
             name: JSON.stringify(this.props.userInfo['user']['name']),
             userType: "teacher",
-            instrument: this.props.instrument,
+            instruments: this.props.instruments,
             photo: JSON.stringify(this.props.userInfo['user']['photo']),
             location: this.props.location,
             description: this.state.description,

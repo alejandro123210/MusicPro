@@ -23,7 +23,7 @@ class Register_Location extends React.Component {
                location: JSON.stringify(location)
             })
             Actions.Register_Description({
-              instrument: this.props.instrument,
+              instruments: this.props.instruments,
               userType: this.props.userType,
               userInfo: this.props.userInfo,
               location: this.state.location

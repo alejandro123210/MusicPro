@@ -50,7 +50,7 @@ class TeacherDash extends React.Component {
               key: key.toString(),
               timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
               date: lessonsData[lessonDate][lessonKey]['date'],
-              instrument: lessonsData[lessonDate][lessonKey]['studentInstrument'],
+              instruments: lessonsData[lessonDate][lessonKey]['studentInstruments'],
               studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
               teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
               teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
@@ -114,7 +114,7 @@ class TeacherDash extends React.Component {
                 name = { lesson.studentName }
                 time = { lesson.time }
                 key = { lesson.key }
-                instrument = { lesson.instrument }
+                instruments = { lesson.instruments }
                 status = { lesson.status }
                 onPress = {() => this.onScheduledEventPressed(lesson) }
             />

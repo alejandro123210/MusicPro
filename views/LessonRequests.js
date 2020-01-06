@@ -51,7 +51,7 @@ class LessonRequests extends React.Component {
               key: key.toString(),
               timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
               date: lessonsData[lessonDate][lessonKey]['date'],
-              instrument: lessonsData[lessonDate][lessonKey]['studentInstrument'],
+              instruments: lessonsData[lessonDate][lessonKey]['studentInstruments'],
               studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
               teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
               teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
@@ -124,7 +124,7 @@ class LessonRequests extends React.Component {
                 name = { lesson.name }
                 time = { lesson.time }
                 key = { lesson.key }
-                instrument = { lesson.instrument }
+                instruments = { lesson.instruments}
                 status = { lesson.status }
                 onPress = {() => this.onScheduledEventPressed(lesson) }
             />

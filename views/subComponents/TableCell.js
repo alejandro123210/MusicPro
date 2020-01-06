@@ -37,7 +37,7 @@ class TableCell extends React.Component {
                             </View>
                             <View style={styles.detailTextView}>
                                 <Text style={styles.detailText} numberOfLines={3}>
-                                    {this.props.instrument}
+                                    {this.props.instruments}
                                 </Text>
                             </View>
                             {/* last message view */}

@@ -22,7 +22,7 @@ class RequestedEventCell extends React.Component {
                 <View style={styles.nameContainer}>
                     <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
                         <Text style={styles.nameText}>{this.props.name}</Text>
-                        <Text style={styles.instrumentText}>{this.props.instrument}</Text>
+                        <Text style={styles.instrumentText}>{this.props.instruments}</Text>
                     </View>
                     <Text style={styles.infoText}>{this.props.time}</Text>
                 </View>
