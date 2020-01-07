@@ -110,6 +110,7 @@ export default class LoginController extends Component {
   getCurrentUserInfo = async () => {
     try {
       const userInfo = await GoogleSignin.signInSilently();
+      console.log('attempting to sign in silently')
       this.setState({ userInfo });
       // alert(userInfo)
       //auto login:
@@ -155,10 +156,12 @@ export default class LoginController extends Component {
         // user has not signed in yet
         this.setState({ loggedIn: false });
         // alert(error.code)
+        console.log(error)
       } else {
         // some other error
         this.setState({ loggedIn: false });
         alert(error)
+        console.log(error)
       }
     }
   };
