@@ -15,20 +15,22 @@ class ReviewBox extends React.Component {
 
     render(){
         return(
-            <View style={styles.container}>
-                <View style={styles.title}>
-                    <Text style={styles.reviewerName}>{this.state.reviewerName}</Text>
-                    <Rating
-                        count={5}
-                        startingValue={this.state.starCount}
-                        style={{paddingRight: 20}}
-                        imageSize={18}
-                        // onFinishRating={(rating) => this.quickRate(rating)}
-                        readonly ={true}
-                    />
-                </View>
-                <View style={styles.description}>
-                    <Text>{this.state.review}</Text>
+            <View style={styles.shadow}>
+                <View style={styles.container}>
+                    <View style={styles.title}>
+                        <Text style={styles.reviewerName}>{this.state.reviewerName}</Text>
+                        <Rating
+                            count={5}
+                            startingValue={this.state.starCount}
+                            style={{paddingRight: 20}}
+                            imageSize={18}
+                            // onFinishRating={(rating) => this.quickRate(rating)}
+                            readonly ={true}
+                        />
+                    </View>
+                    <View style={styles.description}>
+                        <Text>{this.state.review}</Text>
+                    </View>
                 </View>
             </View>
         )
@@ -37,12 +39,19 @@ class ReviewBox extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    shadow: {
+        shadowColor: 'gray',
+        shadowOffset: {width: 0, height: 0.3},
+        shadowOpacity: 0.4,
+        shadowRadius: 10,
+        width: deviceWidth,
+        alignItems: 'center'
+    },
     container: {
-        width: deviceWidth-10,
+        width: deviceWidth-20,
         marginTop: 20,        
-        borderWidth: 0.5,
         borderRadius: 10,
-        borderColor: 'black',
+        backgroundColor: 'white'
     },
     title: {
         flexDirection: 'row',
