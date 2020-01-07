@@ -40,10 +40,10 @@ class SettingsForStudents extends React.Component {
     Actions.AboutUsPage()
   }
   goToReportBugsPage = () =>{
-    Actions.ReportBugsPage()
+    Actions.ReportBugsPage({userData: this.props.userData})
   }
   goToSuggestFeaturePage = () =>{
-    Actions.SuggestFeaturePage()
+    Actions.SuggestFeaturePage({userData: this.props.userData})
   }
 
 

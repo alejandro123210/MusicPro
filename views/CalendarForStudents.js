@@ -84,6 +84,10 @@ class CalendarForStudents extends React.Component {
   }
 
   confirmLessonRequest = (time) => {
+    // Actions.RequestLessonDetail({
+    //   teacher: this.props.teacher,
+    //   userData: this.props.userData
+    // })
     var studentName = this.props.userData['name'].slice(1,-1)
     var studentIDNum = this.props.userData['uid']
     var studentInstruments = this.props.userData['instruments']
