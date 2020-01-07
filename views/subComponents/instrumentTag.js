@@ -5,14 +5,15 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 class InstrumentTag extends React.Component{
 
     state = {
-        instrument: this.props.instrument
+        instrument: this.props.instrument,
+        colorOfCell: this.props.colorOfCell
     }
 
     render(){
         return(
             <TouchableOpacity onPress={() => this.props.onPress()}>
-                <View style={styles.container}>
-                    <Text style={styles.text}>{this.state.instrument}</Text>
+                <View style={[styles.container, {borderColor: this.state.colorOfCell}]}>
+                    <Text style={[styles.text, {color: this.state.colorOfCell}]}>{this.state.instrument}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -22,15 +23,13 @@ class InstrumentTag extends React.Component{
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
-        borderColor: 'white',
         borderRadius: 30,
         height: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 5,
+        margin: 5,
     },
     text: {
-        color: 'white',
         padding: 5
     }
 });

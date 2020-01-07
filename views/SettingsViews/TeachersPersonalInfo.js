@@ -79,7 +79,7 @@ class TeachersPersonalInfo extends React.Component {
                       <Text style={styles.regularButton}>{JSON.stringify(this.props.userData['name']).slice(3,-3)}</Text>
                       <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text>
                       <Text style={styles.statusBar}>{capitalize(JSON.stringify(this.props.userData['userType']).slice(1,-1))}</Text>
-                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instrument']).slice(1,-1)}</Text>
+                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instruments'])}</Text>
                       <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['description']).replace('"','').replace('"','')}</Text>
                   </View>
                 </View>

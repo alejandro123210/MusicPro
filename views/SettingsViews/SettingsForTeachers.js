@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Dimensions, Text, userData } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Dimensions, Text, Alert } from 'react-native';
 import * as firebase from 'firebase';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import { Actions } from 'react-native-router-flux'
@@ -11,7 +11,19 @@ let deviceWidth = Dimensions.get("window").width;
 class SetingsForTeachers extends React.Component {
 
   onDeletePress = () => {
-      this.deleteAccount()
+    Alert.alert(
+      'Are you sure?',
+      'are you sure you want to delete your account?',
+      [
+        {text: 'Delete', onPress: () => this.deleteAccount()},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
   }
   onPress = () => {
       this.signOut()
@@ -93,7 +105,7 @@ class SetingsForTeachers extends React.Component {
        return (
            // this is just random filler for the template, but this is where what the user sees is rendered
            <View style={styles.container}>
-            <TouchableOpacity onPress={() => this.changeInfo(userData)}>
+            <TouchableOpacity onPress={() => this.changeInfo(this.props.userData)}>
              <View style={styles.profileContainer}>
                 <View style ={styles.imageContainer}>
                       <Image

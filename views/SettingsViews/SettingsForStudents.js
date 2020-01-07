@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Dimensions, Text, userData } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Dimensions, Text, Alert } from 'react-native';
 import * as firebase from 'firebase';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import { Actions } from 'react-native-router-flux'
@@ -11,8 +11,21 @@ let deviceWidth = Dimensions.get("window").width;
 class SettingsForStudents extends React.Component {
 
   onDeletePress = () => {
-      this.deleteAccount()
+    Alert.alert(
+      'Are you sure?',
+      'are you sure you want to delete your account?',
+      [
+        {text: 'Delete', onPress: () => this.deleteAccount()},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
   }
+  
   onPress = () => {
       this.signOut()
   }

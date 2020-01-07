@@ -83,6 +83,7 @@ class Register_Instrument extends React.Component {
                             <InstrumentTag
                                 instrument={instrument}
                                 onPress={() => this.onTagPressed(instrument)}
+                                colorOfCell = 'white'
                             />
                         ))}
                     </ScrollView>
