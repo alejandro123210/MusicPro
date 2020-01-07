@@ -4,6 +4,7 @@ import * as firebase from 'firebase'
 import InstrumentTag from './subComponents/instrumentTag';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Actions } from 'react-native-router-flux'
+import ReviewBox from './subComponents/ReviewBox';
 
 
 
@@ -25,7 +26,29 @@ class TeacherInfo extends React.Component {
             uid: '',
             reviewRating: '',
             reviews: []
-        }
+        },
+        placeHolderReviews:[
+            {
+                name: 'Sandy Pants',
+                starCount: 0.5,
+                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
+            },
+            {
+                name: 'Sandy Pants',
+                starCount: 4,
+                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
+            },
+            {
+                name: 'Sandy Pants',
+                starCount: 2,
+                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
+            },
+            {
+                name: 'Sandy Pants',
+                starCount: 5,
+                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
+            },
+        ]
     }
 
     componentDidMount(){
@@ -100,6 +123,18 @@ class TeacherInfo extends React.Component {
                 <TouchableOpacity onPress={() => this.onLeaveReviewPressed()} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Leave a Review</Text>
                 </TouchableOpacity>
+                <View style={styles.reviewsTitleContainer}>
+                    <Text style={styles.reviewsTitleText}> Reviews: </Text>
+                </View>
+                <View style={styles.writtenReviewContainer}>
+                    {this.state.placeHolderReviews.map(review => (
+                        <ReviewBox
+                            name = {review.name}
+                            review = {review.description}
+                            starCount = {review.starCount}
+                        />
+                    ))}
+                </View> 
             </ScrollView>
         )
     }
@@ -107,10 +142,10 @@ class TeacherInfo extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-        // justifyContent: 'center'
+        // justifyContent: 'center',
     },
     imageContainer: {
         width: deviceWidth / 3,
@@ -153,6 +188,23 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white'
     },
+    reviewsTitleContainer: {
+        flexDirection: 'row',
+        width: deviceWidth - 10,
+        marginTop: 40,
+        borderBottomColor: 'black',
+        borderBottomWidth: 0.3
+    },
+    reviewsTitleText: {
+        flex: 1,
+        fontSize: 20,
+        paddingLeft: 10
+    },
+    writtenReviewContainer: {
+        width: deviceWidth,
+        alignItems: 'center',
+        paddingBottom: 40
+    }
 })
 
 export default TeacherInfo;

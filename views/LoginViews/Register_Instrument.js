@@ -1,9 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux'
 import * as firebase from 'firebase'
 import InstrumentTag from '../subComponents/instrumentTag';
+
+let deviceHeight = Dimensions.get("window").height;
+let deviceWidth = Dimensions.get("window").width;
 
 class Register_Instrument extends React.Component {
 
@@ -78,7 +81,7 @@ class Register_Instrument extends React.Component {
                 <Text style={styles.questionText}>What instruments do you want to teach?</Text>
                 }
                 <View style={styles.instrumentTagScrollViewContainer}>
-                    <ScrollView horizontal={true} keyboardShouldPersistTaps={'always'} bounces={false}>
+                    <View style={styles.grid}>
                         {this.state.instruments.map(instrument => (
                             <InstrumentTag
                                 instrument={instrument}
@@ -86,7 +89,7 @@ class Register_Instrument extends React.Component {
                                 colorOfCell = 'white'
                             />
                         ))}
-                    </ScrollView>
+                    </View>
                 </View>
                 <View style={styles.instrumentTextInputContainer}>
                     <TextInput 
@@ -121,17 +124,25 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingBottom: 40
     },
-    instrumentTagScrollViewContainer: {
-        // backgroundColor: 'black',
-        height: 45,
-        width: '100%',
-        paddingBottom: 10
+    grid: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        margin: 10,
+        width: deviceWidth-10
     },
+    // instrumentTagScrollViewContainer: {
+    //     // backgroundColor: 'black',
+    //     height: 45,
+    //     width: '100%',
+    //     paddingBottom: 10
+    // },
     instrumentTextInputContainer: {
         borderRadius: 30,
         backgroundColor: 'white',
         height: 35,
-        width: '80%'
+        width: '80%',
+        paddingTop: 1
     },
     instrumentInput: {
         flex: 1,

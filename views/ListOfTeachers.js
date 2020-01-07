@@ -61,10 +61,6 @@ componentDidMount(){
 }
 
 onPress = (teacher) => {
-    // Actions.CalendarForStudents({
-    //     userData: this.props.userData,
-    //     teacher: teacher
-    // });
     Actions.TeacherInfo({
         userData: this.props.userData,
         teacher: teacher
