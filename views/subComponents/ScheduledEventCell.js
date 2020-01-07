@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderRadius: 15,
-        margin: 3,
         borderWidth: 1,
         borderBottomWidth: 2,
         borderColor: "grey",
+        marginTop: 10
     },
     textContainer: {
         flexDirection: "column",
