@@ -24,31 +24,9 @@ class TeacherInfo extends React.Component {
             instruments: [],
             photo: this.props.teacher['photo'],
             uid: '',
-            reviewRating: '',
+            reviewRating: 5,
             reviews: []
         },
-        placeHolderReviews:[
-            {
-                name: 'Sandy Pants',
-                starCount: 0.5,
-                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
-            },
-            {
-                name: 'Sandy Pants',
-                starCount: 4,
-                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
-            },
-            {
-                name: 'Sandy Pants',
-                starCount: 2,
-                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
-            },
-            {
-                name: 'Sandy Pants',
-                starCount: 5,
-                description: 'that man is the best damn teacher Ive ever had, He ate my ass 3 times last week'
-            },
-        ]
     }
 
     componentDidMount(){
@@ -59,6 +37,19 @@ class TeacherInfo extends React.Component {
         ref.once("value")
         .then((snapshot) => {
             var teacherData = JSON.parse(JSON.stringify(snapshot.val()))
+            var reviews = []
+            var reviewStars = []
+            var averageStars = 5
+            if(teacherData['reviews'] != null){
+                for(review in teacherData['reviews']){
+                    reviews.push(teacherData['reviews'][review])
+                    reviewStars.push(teacherData['reviews'][review]['starCount'])
+                }
+            }
+            const arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length
+            if (reviewStars.length != 0){
+                averageStars = arrAvg(reviewStars)
+            }
             let allTeacherData = {
                 name: teacherData['name'].slice(1, -1),
                 location: teacherData['location'],
@@ -66,8 +57,8 @@ class TeacherInfo extends React.Component {
                 instruments: teacherData['instruments'],
                 photo: teacherData['photo'].slice(1, -1),
                 uid: teacherData['uid'],
-                reviewRating: teacherData['reviewRating'],
-                reviews: teacherData['reviews']
+                reviewRating: averageStars,
+                reviews: reviews
             }
             this.setState({ allTeacherData })
         })
@@ -82,7 +73,10 @@ class TeacherInfo extends React.Component {
     }
     
     onLeaveReviewPressed = () => {
-
+        Actions.ReviewTeacher({
+            userData: this.props.userData,
+            teacher: this.state.teacher
+        })
     }
 
     // quickRate = (rating) => {
@@ -101,7 +95,7 @@ class TeacherInfo extends React.Component {
                 <Text style={styles.nameText}>{this.state.allTeacherData.name}</Text>
                 <Rating 
                     count={5}
-                    startingValue={5}
+                    startingValue={this.state.allTeacherData.reviewRating}
                     style={{padding: 10}}
                     imageSize={30}
                     // onFinishRating={(rating) => this.quickRate(rating)}
@@ -127,7 +121,7 @@ class TeacherInfo extends React.Component {
                     <Text style={styles.reviewsTitleText}> Reviews: </Text>
                 </View>
                 <View style={styles.writtenReviewContainer}>
-                    {this.state.placeHolderReviews.map(review => (
+                    {this.state.allTeacherData.reviews.map(review => (
                         <ReviewBox
                             name = {review.name}
                             review = {review.description}
