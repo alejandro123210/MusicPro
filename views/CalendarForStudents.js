@@ -64,13 +64,6 @@ class CalendarForStudents extends React.Component {
       var moment = require('moment');
       var m = moment();
       var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
-      // console.log(roundUp.format('YYYY-MM-DD'));  // outputs Tue Feb 17 2017 13:00:00 GMT+0000
-      //removes the unavailbale times from the initial date
-      // console.log(that.state.selectedDay)
-      // console.log(roundUp.format('YYYY-MM-DD'))
-      // for(times in that.state.actualAvailability[that.state.selectedDay]){
-      //   console.log(that.state.actualAvailability[that.state.selectedDay][times])
-      // }
       that.removeUnavailableTimes(roundUp.format('YYYY-MM-DD'))
     })
   };
