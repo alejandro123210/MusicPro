@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Dimensions, Text, userData } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Dimensions, Text, Alert } from 'react-native';
 import * as firebase from 'firebase';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import { Actions } from 'react-native-router-flux'
@@ -11,7 +11,19 @@ let deviceWidth = Dimensions.get("window").width;
 class SetingsForTeachers extends React.Component {
 
   onDeletePress = () => {
-      this.deleteAccount()
+    Alert.alert(
+      'Are you sure?',
+      'are you sure you want to delete your account?',
+      [
+        {text: 'Delete', onPress: () => this.deleteAccount()},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
   }
   onPress = () => {
       this.signOut()
@@ -27,10 +39,10 @@ class SetingsForTeachers extends React.Component {
     Actions.AboutUsPage()
   }
   goToReportBugsPage = () =>{
-    Actions.ReportBugsPage()
+    Actions.ReportBugsPage({userData: this.props.userData})
   }
   goToSuggestFeaturePage = () =>{
-    Actions.SuggestFeaturePage()
+    Actions.SuggestFeaturePage({userData: this.props.userData})
   }
 
 
@@ -51,19 +63,33 @@ class SetingsForTeachers extends React.Component {
         alert(error)
       }
     };
+
+
   deleteAccount = async () => {
-      // Alejandro please review my code!
-      var user = firebase.auth().currentUser;
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      this.setState({ user: null }); 
-      user.delete().then(function() {
-        Actions.Login();
-        alert("Account has been deleted")
-      }, function(error) {
-        // An error happened.
-      });
-    };
+    var db = firebase.database()
+    var userLessonsRef = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
+    userLessonsRef.once("value")
+    .then((snapshot) => {
+      var lessonData = JSON.parse(JSON.stringify(snapshot.val()))
+      for(date in lessonData){
+        for(lessonKey in lessonData[date]){
+          db.ref(`users/${lessonData[date][lessonKey]['studentIDNum']}/info/lessons/${lessonData[date][lessonKey]['date']}/${lessonData[date][lessonKey]['studentLessonKey']}`).remove()
+        }
+      }
+      db.ref(`users/${this.props.userData['uid']}`).remove()
+    })
+    // Alejandro please review my code!
+    var user = firebase.auth().currentUser;
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
+    this.setState({ user: null }); 
+    user.delete().then(function() {
+      Actions.Login();
+      alert("Account has been deleted")
+    }, function(error) {
+      // An error happened.
+    });
+  };
  
    componentDidMount(){
        // alert('settings mounted')
@@ -79,7 +105,7 @@ class SetingsForTeachers extends React.Component {
        return (
            // this is just random filler for the template, but this is where what the user sees is rendered
            <View style={styles.container}>
-            <TouchableOpacity onPress={() => this.changeInfo(userData)}>
+            <TouchableOpacity onPress={() => this.changeInfo(this.props.userData)}>
              <View style={styles.profileContainer}>
                 <View style ={styles.imageContainer}>
                       <Image
@@ -90,8 +116,8 @@ class SetingsForTeachers extends React.Component {
                   <View style = {styles.descriptionContainer}>
                       <Text style={styles.regularButton}>{JSON.stringify(this.props.userData['name']).slice(3,-3)}</Text>
                       <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text>
-                      <Text style={styles.statusBar}>{capitalize(JSON.stringify(this.props.userData['userType']).slice(1,-1))}</Text>
-                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instrument']).slice(1,-1)}</Text>
+                      <Text style={styles.statusBar}>{capitalize(this.props.userData['userType'])}</Text>
+                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instruments'])}</Text>
                   </View>
                 </View>
                </TouchableOpacity>     

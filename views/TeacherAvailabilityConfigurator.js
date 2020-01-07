@@ -34,6 +34,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
   };
 
   componentDidMount() {
+    console.log("TeacherAvailabilityConfigurator mounted")
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year

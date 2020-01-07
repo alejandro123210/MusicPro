@@ -25,6 +25,9 @@ import FAQPage from './views/SettingsViews/FAQPage';
 import AboutUsPage from './views/SettingsViews/AboutUsPage';
 import ReportBugsPage from './views/SettingsViews/ReportBugsPage';
 import SuggestFeaturePage from './views/SettingsViews/SuggestFeaturePage';
+import TeacherInfo from './views/TeacherInfo';
+import ReviewTeacher from './views/ReviewTeacher';
+import RequestLessonDetail from './views/RequestLessonDetail';
 
 export default function App() {
 
@@ -115,6 +118,21 @@ export default function App() {
           key = 'SuggestFeaturePage'
           component = { SuggestFeaturePage }
           hideNavBar = {false}
+        />
+        <Scene
+          key = 'TeacherInfo'
+          component = { TeacherInfo }
+          hideNavBar = {false}
+        />
+        <Scene
+          key = 'ReviewTeacher'
+          component = { ReviewTeacher }
+          hideNavBar = { false }
+        />
+        <Scene
+          key = 'RequestLessonDetail'
+          component = { RequestLessonDetail }
+          hideNavBar = { false }
         />
         <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
             <Scene 

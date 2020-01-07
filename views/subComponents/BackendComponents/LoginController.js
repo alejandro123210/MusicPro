@@ -96,13 +96,13 @@ export default class LoginController extends Component {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
-        alert(error)
+        alert(error.code)
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        alert(error)
+        alert(error.code)
       } else {
         // some other error happened
-        alert(error)
+        alert(error.code)
       }
     }
   };
@@ -110,6 +110,7 @@ export default class LoginController extends Component {
   getCurrentUserInfo = async () => {
     try {
       const userInfo = await GoogleSignin.signInSilently();
+      console.log('attempting to sign in silently')
       this.setState({ userInfo });
       // alert(userInfo)
       //auto login:
@@ -154,24 +155,25 @@ export default class LoginController extends Component {
       if (error.code === statusCodes.SIGN_IN_REQUIRED) {
         // user has not signed in yet
         this.setState({ loggedIn: false });
-        // alert(error.code)
+        console.log(error)
       } else {
         // some other error
         this.setState({ loggedIn: false });
         alert(error)
+        console.log(error)
       }
     }
   };
 
-  signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // signOut = async () => {
+  //   try {
+  //     await GoogleSignin.revokeAccess();
+  //     await GoogleSignin.signOut();
+  //     this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   render() {
     return (

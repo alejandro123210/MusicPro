@@ -29,6 +29,7 @@ state = {
 //TODO: make this load in teachers that are nearby specifically 
 
 componentDidMount(){
+    console.log('ListOfTeachers mounted')
     var db = firebase.database();
     var ref = db.ref(`users/`)
     var teachers = []
@@ -44,7 +45,7 @@ componentDidMount(){
                 var teacher = {
                     name: JSON.stringify(usersData[uid]['info']['name']).slice(3, -3),
                     location: JSON.stringify(usersData[uid]['info']['location']).slice(3, -3),
-                    instrument: JSON.stringify(usersData[uid]['info']['instrument']).slice(1, -1),
+                    instruments: JSON.stringify(usersData[uid]['info']['instruments']),
                     picture: JSON.stringify(usersData[uid]['info']['photo']).slice(3, -3),
                     uid: uid,
                     key: key.toString(),
@@ -59,11 +60,11 @@ componentDidMount(){
     });
 }
 
-onPress = (user) => {
-    Actions.CalendarForStudents({
+onPress = (teacher) => {
+    Actions.TeacherInfo({
         userData: this.props.userData,
-        teacher: user
-    });
+        teacher: teacher
+    })
 }
 
   render() {
@@ -91,7 +92,7 @@ onPress = (user) => {
                     <TableCell
                         image = {user.picture}
                         name = {user.name}
-                        instrument = {user.instrument}
+                        instruments = {user.instruments}
                         location = {user.location}
                         key = {user.key}
                         onPress = {() => this.onPress(user)}

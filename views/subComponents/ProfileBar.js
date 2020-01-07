@@ -9,35 +9,36 @@ let deviceWidth = Dimensions.get("window").width;
 //name
 //imageURL
 
-const profileBar = props => {
+class ProfileBar extends React.Component {
 
     onPress = () => {
-        {if ( ( JSON.stringify(props.userData['userType']).slice(1,-1) ) == 'student'){
-            Actions.SettingsForStudents({userData: props.userData});
+        console.log(this.props.userData['name'])
+        {if (this.props.userData['userType'] == 'student'){
+            Actions.SettingsForStudents({userData: this.props.userData});
         }
         else{
-            console.log(JSON.stringify(props.userData['userType']).slice(1,-1))
-            Actions.SettingsForTeachers({userData: props.userData});
+            Actions.SettingsForTeachers({userData: this.props.userData});
         }}
     }
 
-
-    return(
-        <View style={styles.topBar}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: props.image }}
-              style={styles.imageMain}
-            />
-          </View>
-          <View style={styles.nameContainer}>
-            <Text style={styles.profileText}>{props.name}</Text>
-            <TouchableOpacity onPress={() => this.onPress()}>
-                <Text style={styles.settingsText}>Settings</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-    );
+    render(){
+        return(
+            <View style={styles.topBar}>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={{ uri: this.props.image }}
+                  style={styles.imageMain}
+                />
+              </View>
+              <View style={styles.nameContainer}>
+                <Text style={styles.profileText}>{this.props.name}</Text>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Text style={styles.settingsText}>Settings</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -79,4 +80,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default profileBar;
+export default ProfileBar;

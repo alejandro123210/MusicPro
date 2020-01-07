@@ -16,13 +16,12 @@ class LessonRequests extends React.Component {
 
   state = {
     date: "",
-    //TODO: add reject/cancel functionality 
-
     //this list is pulled from the db
     lessonsList: []
   };
   
   componentDidMount() {
+    console.log('LessonRequests mounted')
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -31,7 +30,7 @@ class LessonRequests extends React.Component {
       //Setting the value of the date time
       date: "Today is: " + month + "/" + date + "/" + year
     });
-    this.loadLessons(this)
+    this.loadLessons()
   };
 
   loadLessons = () => {
@@ -52,7 +51,7 @@ class LessonRequests extends React.Component {
               key: key.toString(),
               timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
               date: lessonsData[lessonDate][lessonKey]['date'],
-              instrument: lessonsData[lessonDate][lessonKey]['studentInstrument'],
+              instruments: lessonsData[lessonDate][lessonKey]['studentInstruments'],
               studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
               teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
               teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
@@ -64,6 +63,9 @@ class LessonRequests extends React.Component {
           that.setState({ lessonsList: lessonsList })
           that.forceUpdate();
         }
+      }
+      if(lessonsData == null){
+        that.setState({ lessonsList: lessonsList })
       }
     });
   }
@@ -92,7 +94,7 @@ class LessonRequests extends React.Component {
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).update({status: 'confirmed'});
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).update({status: 'confirmed'});
     // this.updateCalendar(false, lesson)
-    this.loadLessons(this);
+    this.loadLessons();
     this.forceUpdate();
   }
 
@@ -100,16 +102,9 @@ class LessonRequests extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
-    this.loadLessons(this);
+    this.loadLessons();
     this.forceUpdate();
   }
-
-  // //this will change the users calendar so they are either available or not on a specific date at a specific time
-  // updateCalendar = (availability, lesson) => {
-  //   var db = firebase.database();
-  //   var ref = db.ref(`users/${this.props.userData['uid']}/info/realAvailability/${lesson.date}/${lesson.timeKey}`)
-  //   ref.update({available: availability})
-  // }
 
   render() {
     return (
@@ -129,7 +124,7 @@ class LessonRequests extends React.Component {
                 name = { lesson.name }
                 time = { lesson.time }
                 key = { lesson.key }
-                instrument = { lesson.instrument }
+                instruments = { lesson.instruments}
                 status = { lesson.status }
                 onPress = {() => this.onScheduledEventPressed(lesson) }
             />
