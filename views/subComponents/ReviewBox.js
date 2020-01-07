@@ -56,8 +56,6 @@ const styles = StyleSheet.create({
     },
     description: {
         width: deviceWidth - 20,
-        justifyContent: 'center',
-        alignItems: 'center',
         padding: 10
     }
 })
