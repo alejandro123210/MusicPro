@@ -96,13 +96,13 @@ export default class LoginController extends Component {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
-        alert(error)
+        alert(error.code)
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        alert(error)
+        alert(error.code)
       } else {
         // some other error happened
-        alert(error)
+        alert(error.code)
       }
     }
   };
