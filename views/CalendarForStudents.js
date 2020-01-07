@@ -92,6 +92,8 @@ class CalendarForStudents extends React.Component {
     var studentName = this.props.userData['name'].slice(1,-1)
     var studentIDNum = this.props.userData['uid']
     var studentInstruments = this.props.userData['instruments']
+    var teacherImage = this.props.teacher.picture;
+    var studentImage = this.props.userData['photo']
     var teacherName = this.props.teacher.name;
     var teacherIDNum = this.props.teacher.uid;
     var teacherInstruments = this.props.teacher.instruments;
@@ -145,6 +147,8 @@ class CalendarForStudents extends React.Component {
       teacherLessonKey: teacherLessonRequestKey,
       studentInstruments: studentInstruments,
       teacherInstruments: teacherInstruments,
+      teacherImage: teacherImage,
+      studentImage: studentImage,
       date: date,
       time: time,
       status: 'undecided',
@@ -236,25 +240,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white"
   },
-  dateBar: {
-    height: deviceHeight / 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomWidth: 3,
-    borderColor: "#eeeced"
-  },
-  searchBar:{
-    height: deviceHeight/10,
-    flexDirection: 'row',
-    alignItems: 'center',
- },
-  dateText: {
-    fontSize: 18,
-    color: "#838081",
-    fontFamily: "HelveticaNeue-Medium",
-    marginTop: 5
-  }
 });
 
 //this lets the component get imported other places

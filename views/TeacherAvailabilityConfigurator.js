@@ -308,33 +308,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white"
   },
-  dateBar: {
-    height: deviceHeight / 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomWidth: 3,
-    borderColor: "#eeeced"
-  },
-  searchBar:{
-    height: deviceHeight/10,
-    flexDirection: 'row',
-    alignItems: 'center',
- },
-  dateText: {
-    fontSize: 18,
-    color: "#838081",
-    fontFamily: "HelveticaNeue-Medium",
-    marginTop: 5
-  },
-  dateText2: {
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 18,
-    color: "black",
-    fontFamily: "HelveticaNeue-Medium",
-    marginTop: 5
-}
 });
 
 //this lets the component get imported other places
