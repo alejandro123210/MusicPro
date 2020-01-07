@@ -20,7 +20,7 @@ class CalendarForStudents extends React.Component {
       '5':[],
       '6':[]
     },
-    selectedDay: new Date().getDay(),
+    selectedDay: 0,
     teacherLessons: [],
     normalAvailability: {
       '0':[],
@@ -34,6 +34,9 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
+    var day = new Date().getDay()
+    this.setState({selectedDay: day});
+    console.log('selected day when component mounts ' + day)
     var todayDate = new Date().toISOString().slice(0,10);
     this.setState({ date: todayDate });
     var db = firebase.database();
@@ -63,6 +66,11 @@ class CalendarForStudents extends React.Component {
       var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
       // console.log(roundUp.format('YYYY-MM-DD'));  // outputs Tue Feb 17 2017 13:00:00 GMT+0000
       //removes the unavailbale times from the initial date
+      // console.log(that.state.selectedDay)
+      // console.log(roundUp.format('YYYY-MM-DD'))
+      // for(times in that.state.actualAvailability[that.state.selectedDay]){
+      //   console.log(that.state.actualAvailability[that.state.selectedDay][times])
+      // }
       that.removeUnavailableTimes(roundUp.format('YYYY-MM-DD'))
     })
   };
@@ -172,6 +180,7 @@ class CalendarForStudents extends React.Component {
           normalAvailabilityForDay[keyToRemove] = false
           //sets the state so it's shown in the list
           this.setState({actualAvailability: normalAvailability})
+          // this.forceUpdate()
         }
       }
     }
@@ -184,11 +193,15 @@ class CalendarForStudents extends React.Component {
             onDayPress={(day) => {
               //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
               dayOfWeek = new Date(day['dateString']).getDay()
-              this.setState({ 
-                date: day['dateString'], 
-                selectedDay: dayOfWeek,
-              })
-              this.removeUnavailableTimes(day['dateString'])
+              dayOfWeek += 1
+              if(dayOfWeek == 7){
+                dayOfWeek = 0
+              }
+              var dateString = day['dateString']
+              this.setState({date: dateString, selectedDay: dayOfWeek}, function () {
+                this.removeUnavailableTimes(dateString)
+                console.log(dayOfWeek)
+              });
             }}
             minDate = { Date() }
             current = { Date() }
@@ -206,7 +219,6 @@ class CalendarForStudents extends React.Component {
               [this.state.date]: {selected: true, marked: true},
             }}            
           />
-        
         <ScrollView>
           {this.state.actualAvailability[this.state.selectedDay].map(list => (
             list.available?
