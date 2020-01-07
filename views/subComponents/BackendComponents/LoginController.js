@@ -155,7 +155,6 @@ export default class LoginController extends Component {
       if (error.code === statusCodes.SIGN_IN_REQUIRED) {
         // user has not signed in yet
         this.setState({ loggedIn: false });
-        // alert(error.code)
         console.log(error)
       } else {
         // some other error
@@ -166,15 +165,15 @@ export default class LoginController extends Component {
     }
   };
 
-  signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // signOut = async () => {
+  //   try {
+  //     await GoogleSignin.revokeAccess();
+  //     await GoogleSignin.signOut();
+  //     this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   render() {
     return (
