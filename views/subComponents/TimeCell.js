@@ -19,7 +19,7 @@ const TimeCell = props => {
     }
     
     return (
-        <TouchableOpacity onPress={() => props.onPress()}>
+        <TouchableOpacity onPress={() => props.onPress()} delayPressIn={70} activeOpacity={0.9}>
             <View style={[styles.cellView, {backgroundColor: state.backgroundColor}]}>
                 <Text style={[styles.timeText, {color: state.fontColor}]}>{props.name}</Text>
             </View>

@@ -1,7 +1,9 @@
 import React from 'react'
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+let deviceHeight = Dimensions.get("window").height;
+let deviceWidth = Dimensions.get("window").width;
 
 class LargePrompt extends React.Component{
 
@@ -49,13 +51,13 @@ const styles = StyleSheet.create({
     titleText: {
       fontSize: 30,
       color: 'white',
-      marginTop: 30
+      marginTop: 80
     },
     inputContainer: {
       borderRadius: 30,
       backgroundColor: 'white',
       height: 200,
-      width: '80%',
+      width: deviceWidth - 40,
       paddingTop: 1,
       marginTop: 30,
     },

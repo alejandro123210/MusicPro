@@ -22,7 +22,7 @@ class TeacherCell extends React.Component {
 
     render(){
         return (
-            <TouchableOpacity style={styles.shadow} onPress={() => this.props.onPress()}>
+            <TouchableOpacity style={styles.shadow} onPress={() => this.props.onPress()} delayPressIn={70} activeOpacity={0.7}>
                 <View style={styles.container}>
                     <View style={styles.topBar}>
                         <Image 

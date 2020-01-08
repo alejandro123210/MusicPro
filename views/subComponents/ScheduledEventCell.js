@@ -37,7 +37,12 @@ class ScheduledEventCell extends React.Component {
     render(){
         return(
             <View style={styles.shadow}>
-                <TouchableOpacity style={[styles.cellContainer, {backgroundColor: this.state.backgroundColor}]} onPress={() => this.props.onPress()}>
+                <TouchableOpacity 
+                    style={[styles.cellContainer, {backgroundColor: this.state.backgroundColor}]} 
+                    onPress={() => this.props.onPress()}
+                    delayPressIn={70}
+                    activeOpacity={0.8}
+                >
                     <View style={styles.textContainer}>
                         <Text style={styles.nameText}>Lesson with {this.state.name}</Text>
                         <Text style={styles.infoText}>{this.state.date}</Text>
