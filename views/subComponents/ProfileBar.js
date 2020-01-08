@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderBottomWidth: 0.3,
         borderBottomColor: "grey",
-        marginTop: 10
+        marginTop: Platform.OS === 'ios'? 10 : 0
     },
     imageContainer: {
         width: deviceWidth / 4,

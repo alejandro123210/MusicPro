@@ -198,7 +198,8 @@ const styles = StyleSheet.create({
     writtenReviewContainer: {
         width: deviceWidth,
         alignItems: 'center',
-        paddingBottom: 40
+        paddingBottom: 40,
+        backgroundColor:  Platform.OS === 'ios'? 'white' : '#f5f5f5'
     }
 })
 

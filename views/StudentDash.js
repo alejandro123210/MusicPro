@@ -1,7 +1,7 @@
 //Teacher Dash screen is the main screen on the teacher side of the app
 //has to 3 link buttons but two of them link to the same screen for now
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
+import { Text, View, StyleSheet, Dimensions, ScrollView, Alert, Platform } from "react-native";
 import ProfileBar from "./subComponents/ProfileBar";
 import ScheduledEventCell from "./subComponents/ScheduledEventCell";
 import Geolocation from '@react-native-community/geolocation';
@@ -120,8 +120,8 @@ class StudentDash extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "white"
+    flex: 1, 
+    backgroundColor: Platform.OS === 'ios'? 'white' : '#f5f5f5'
   },
 });
 

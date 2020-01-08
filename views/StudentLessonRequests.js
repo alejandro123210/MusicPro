@@ -122,7 +122,7 @@ class StudentLessonRequests extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor:  Platform.OS === 'ios'? 'white' : '#f5f5f5'
   },
 });
 
