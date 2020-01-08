@@ -30,7 +30,7 @@ class ScheduledEventCell extends React.Component {
         if(this.state.confirmed == true){
             this.setState({backgroundColor: '#274156'})
         } else {
-            this.setState({backgroundColor: 'green'})
+            this.setState({backgroundColor: '#25A21F'})
         }
     }
 

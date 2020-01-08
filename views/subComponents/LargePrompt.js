@@ -15,11 +15,11 @@ class LargePrompt extends React.Component{
     render(){
         return(
             <KeyboardAwareScrollView 
-            style={{ backgroundColor: '#274156' }}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            contentContainerStyle={styles.container}
-            scrollEnabled={false}
-            keyboardShouldPersistTaps={'always'}
+              style={{ backgroundColor: '#274156' }}
+              resetScrollToCoords={{ x: 0, y: 0 }}
+              contentContainerStyle={styles.container}
+              scrollEnabled={false}
+              keyboardShouldPersistTaps={'always'}
             >
             <Text style={styles.titleText}>{this.state.title}</Text>
             <View style={styles.inputContainer}>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#274156',
-      // justifyContent: 'center',
+      justifyContent: 'center',
       alignItems: 'center'
     },
     titleText: {
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     },
     doneText: {
       fontSize: 20,
-      color: 'white'
+      color: 'white',
+      marginBottom: 300
     },
 });
 

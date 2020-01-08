@@ -6,16 +6,26 @@ class InstrumentTag extends React.Component{
 
     state = {
         instrument: this.props.instrument,
-        colorOfCell: this.props.colorOfCell
+        colorOfCell: this.props.colorOfCell,
+        active: this.props.active
     }
 
     render(){
         return(
-            <TouchableOpacity onPress={() => this.props.onPress()}>
-                <View style={[styles.container, {borderColor: this.state.colorOfCell}]}>
-                    <Text style={[styles.text, {color: this.state.colorOfCell}]}>{this.state.instrument}</Text>
-                </View>
-            </TouchableOpacity>
+            <View>
+                {this.state.active?
+                    <TouchableOpacity onPress={() => this.props.onPress()}>
+                        <View style={[styles.container, {borderColor: this.state.colorOfCell}]}>
+                            <Text style={[styles.text, {color: this.state.colorOfCell}]}>{this.state.instrument}</Text>
+                        </View>
+                    </TouchableOpacity>
+                :
+                    <View style={[styles.container, {borderColor: this.state.colorOfCell}]}>
+                        <Text style={[styles.text, {color: this.state.colorOfCell}]}>{this.state.instrument}</Text>
+                    </View>
+                }
+            </View>
+            
         )
     }
 }

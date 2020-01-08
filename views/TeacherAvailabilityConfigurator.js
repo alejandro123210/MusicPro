@@ -265,7 +265,9 @@ class TeacherAvailabilityConfigurator extends React.Component {
 
   setBackgroundColor = (available) => {
     if(available){
-      return 'green'  
+      return '#274156'  
+    } else {
+      return 'gray'
     }
   }
 
