@@ -53,6 +53,7 @@ export default function App() {
           key = 'Login'
           component = { Login }
           hideNavBar = { true }
+          gesturesEnabled = { false }
         />
         <Scene 
           key = 'CalendarForStudents'
