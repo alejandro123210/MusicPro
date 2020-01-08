@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert } from "react-native";
+import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert, Platform } from "react-native";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import TimeCell from './subComponents/TimeCell';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
+import HoursCell from "./subComponents/HoursCell";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -208,6 +209,7 @@ class CalendarForStudents extends React.Component {
             hideExtraDays={true}
             disableMonthChange={true}
             firstDay={1}
+            style={{borderBottomWidth: 0.3, borderBottomColor: '#C8C8C8'}}
             hideDayNames={false}
             showWeekNumbers={false}
             onPressArrowLeft={substractMonth => substractMonth()}
@@ -215,14 +217,16 @@ class CalendarForStudents extends React.Component {
             markedDates = {{
               [this.state.date]: {selected: true, marked: true},
             }}            
-          />
-        <ScrollView>
-          {this.state.actualAvailability[this.state.selectedDay].map(list => (
-            list.available?
-              <TimeCell
-                  name = {list.name}
-                  key = {list.key}
-                  onPress = {() => this.onCellPress(list.name)}
+        />
+        {/* <View style={styles.selectTimeContainer}>
+            <Text style={styles.selectTimeText}>Select a time</Text> 
+        </View> */}
+        <ScrollView contentContainerStyle={{alignItems: 'center', paddingBottom: 20}}>
+          {this.state.actualAvailability[this.state.selectedDay].map(time => (
+            time.available?
+              <HoursCell
+                  name = {time.name}
+                  onPress = {() => this.onCellPress(time.name)}
               />
               :
               <View>
@@ -238,8 +242,19 @@ class CalendarForStudents extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: Platform.OS === 'ios'? 'white' : '#f5f5f5'
   },
+  // selectTimeContainer:{
+  //   width: deviceWidth,
+  //   borderBottomColor: 'gray',
+  //   borderBottomWidth: 0.3,
+  //   paddingVertical: 10,
+  //   backgroundColor: 'white'
+  // },
+  // selectTimeText:{
+  //   fontSize: 25,
+  //   paddingLeft: 10
+  // }
 });
 
 //this lets the component get imported other places
