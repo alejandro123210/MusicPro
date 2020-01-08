@@ -57,7 +57,7 @@ class TeacherCell extends React.Component {
                             }
                         </View>        
                     </View>
-                    <TouchableOpacity style={styles.bottomButtons} onPress={() => this.props.onBookPressed()}>
+                    <TouchableOpacity style={styles.bottomButtons} onPress={() => this.props.onBookPressed()} activeOpacity={0.7}>
                         <Text style={styles.bookText}>Book a lesson</Text>
                     </TouchableOpacity>
                 </View>
