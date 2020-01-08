@@ -30,12 +30,9 @@ const TimeCell = props => {
 const styles = StyleSheet.create({
     cellView: {
         height: deviceHeight / 8,
-        marginTop: 2,
-        marginLeft: 2.35,
+        marginTop: 5,
         borderRadius: 15,
-        borderColor: "gray",
-        borderBottomWidth: 0.3,
-        width: '98.9%',
+        width: deviceWidth - 10,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white'

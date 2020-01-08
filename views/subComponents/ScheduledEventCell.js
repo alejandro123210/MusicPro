@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     cellContainer: {
-        width: deviceWidth - 5,
-        height: deviceHeight / 8,
+        width: deviceWidth - 10,
+        height: 110,
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderRadius: 15,
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
         height: 60,
         width: 60,
         borderRadius: 100000,
-        margin: 20,
-        paddingRight: 20
+        marginRight: 20,
+        marginTop: 20
     },
     infoText: {
         fontSize: 16,

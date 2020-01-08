@@ -306,7 +306,9 @@ class TeacherAvailabilityConfigurator extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 });
 
