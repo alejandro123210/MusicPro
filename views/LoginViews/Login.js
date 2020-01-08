@@ -56,14 +56,14 @@ class Login extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#eee',
+    backgroundColor: '#274156',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
   title: {
     fontSize: 70,
-    color: 'dodgerblue',
+    color: 'white',
   },
 });
 
