@@ -174,8 +174,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.3,
         borderBottomColor: 'gray',
         height: 50,
-        width: deviceWidth,
-        backgroundColor: '#274156'
+        width: deviceWidth -20 ,
+        backgroundColor: '#274156',
+        borderRadius: 10
         
     },
     buttonText: {
