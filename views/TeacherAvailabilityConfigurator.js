@@ -267,7 +267,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     if(available){
       return '#274156'  
     } else {
-      return 'gray'
+      return '#C8C8C8'
     }
   }
 
