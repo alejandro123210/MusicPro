@@ -15,37 +15,39 @@ class Register_Instrument extends React.Component {
         instrument: ''
     }
 
-    //TODO: make this work differently so the user isn't typing a list in a text box
 
     onPress = () => {
-        if(this.props.userType == "student"){
-            var user = firebase.auth().currentUser
-            var db = firebase.database();
-            var ref = db.ref(`users/${user.uid}/info/`);
-            ref.set({
-                email: user.email,
-                uid: user.uid,
-                name: JSON.stringify(this.props.userInfo['user']['name']),
-                userType: "student",
-                instruments: this.state.instruments,
-                photo: JSON.stringify(this.props.userInfo['user']['photo']),
-                lessons: []
-            });
-            ref.once('value').then(function (snapshot){
-                var userData = snapshot.val();
-                Actions.StudentMain({userData: userData});
-            }).catch(function (error){
-                alert(error)
-            })
-            
+        if(this.state.instruments.count != 0){
+            if(this.props.userType == "student"){
+                var user = firebase.auth().currentUser
+                var db = firebase.database();
+                var ref = db.ref(`users/${user.uid}/info/`);
+                ref.set({
+                    email: user.email,
+                    uid: user.uid,
+                    name: JSON.stringify(this.props.userInfo['user']['name']),
+                    userType: "student",
+                    instruments: this.state.instruments,
+                    photo: JSON.stringify(this.props.userInfo['user']['photo']),
+                    lessons: []
+                });
+                ref.once('value').then(function (snapshot){
+                    var userData = snapshot.val();
+                    Actions.StudentMain({userData: userData});
+                }).catch(function (error){
+                    alert(error)
+                })
+                
+            } else {
+                Actions.Register_Location({
+                    instruments: this.state.instruments,
+                    userType: this.props.userType,
+                    userInfo: this.props.userInfo
+                });
+            }
         } else {
-            Actions.Register_Location({
-                instruments: this.state.instruments,
-                userType: this.props.userType,
-                userInfo: this.props.userInfo
-            });
+            alert('you must enter at least 1 instrument')
         }
-        
     }
 
     onSubmitPressed = () => {
@@ -99,24 +101,17 @@ class Register_Instrument extends React.Component {
                         multiline={false} 
                         onChangeText={(instrument) => this.setState({instrument: instrument})}
                         placeholder = 'Please enter 1 instrument at a time'
-                        placeholderTextColor={'black'}
                         onSubmitEditing={() => this.onSubmitPressed()}
                         ref={input => { this.textInput = input }}
                         blurOnSubmit={false}
                         returnKeyType='go'
                     />
                 </View>
-                { this.state.instruments.length != 0 ? (
                 <View>
                     <TouchableOpacity onPress={() => this.onPress()}>
                         <Text style={styles.doneButton}>Done!</Text>
                     </TouchableOpacity>
                 </View>     
-                ) : ( 
-                <View>
-                    <Text style={styles.doneButton}>Select at least one instrument! and press enter</Text>
-                </View>
-                )}
             </KeyboardAwareScrollView>
         );
     }
