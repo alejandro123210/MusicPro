@@ -126,6 +126,7 @@ class TeacherInfo extends React.Component {
                             name = {review.name}
                             review = {review.description}
                             starCount = {review.starCount}
+                            key = {this.state.allTeacherData.reviews.findIndex(reviewToFind => review == reviewToFind)}
                         />
                     ))}
                 </View> 

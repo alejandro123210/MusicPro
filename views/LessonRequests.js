@@ -146,6 +146,7 @@ class LessonRequests extends React.Component {
                 instruments = { lesson.instruments }
                 confirmed = {false}
                 onPress = {() => this.onScheduledEventPressed(lesson) }
+                key = {lesson.key}
             />
           ))}
           </View>

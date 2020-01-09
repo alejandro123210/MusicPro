@@ -22,6 +22,7 @@ class Register_Description extends React.Component {
             instruments: this.props.instruments,
             photo: JSON.stringify(this.props.userInfo['user']['photo']),
             location: this.props.location,
+            coordinates: this.props.coordinates,
             description: description,
             lessons: [],
             availability: []

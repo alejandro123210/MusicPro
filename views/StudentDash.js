@@ -137,6 +137,7 @@ class StudentDash extends React.Component {
                 instruments = { lesson.instruments }
                 confirmed = {true}
                 onPress = {() => this.onScheduledEventPressed(lesson) }
+                key = {lesson.key}
             />
           ))}
           </View>)

@@ -4,6 +4,8 @@ import ProfileBar from './subComponents/ProfileBar'
 import TeacherCell from './subComponents/TeacherCell';
 import * as firebase from 'firebase';
 import { Actions } from 'react-native-router-flux'
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
 
 
 let deviceHeight = Dimensions.get('window').height;
@@ -12,7 +14,8 @@ let deviceWidth = Dimensions.get('window').width;
 class ListOfTeachers extends React.Component {
 
 state = {
-    teachers: []
+    teachers: [],
+    coordinates: {}
 }
 
 //TODO: make this load in teachers that are nearby specifically 
@@ -29,7 +32,6 @@ loadTeachers = async () => {
         //for loop adds all users to state
         for (uid in usersData){
             // alert(uid)
-
             //this takes all reviews and averages all the star ratings, this is inefficient, will be changed
             var averageStars = 5
             var reviewStars = []
@@ -42,9 +44,12 @@ loadTeachers = async () => {
             if (reviewStars.length != 0){
                 averageStars = arrAvg(reviewStars)
             }
-
             //this is the section that pulls all the teachers
             if(JSON.stringify(usersData[uid]['info']['userType']) == '"teacher"'){
+                //gets the distance 
+                var geodist = require('geodist')
+                var dist = geodist(this.state.coordinates, usersData[uid]['info']['coordinates'])
+                //create the teacher object to push to the list
                 var teacher = {
                     name: usersData[uid]['info']['name'].slice(1, -1),
                     location: usersData[uid]['info']['location'].slice(1, -1),
@@ -52,9 +57,11 @@ loadTeachers = async () => {
                     picture: usersData[uid]['info']['photo'].slice(1, -1),
                     uid: uid,
                     key: key.toString(),
-                    starCount: averageStars
+                    starCount: averageStars,
+                    distance: dist
                 }
                 teachers.push(teacher)
+                teachers.sort((a, b) => (a.distance > b.distance) ? 1 : -1)
                 this.setState({ teachers: teachers })
                 key = key + 1;
             }
@@ -62,7 +69,28 @@ loadTeachers = async () => {
     });
 }
 
+findCoordinates = () => {
+    Geolocation.getCurrentPosition(
+        position => {
+            const location = JSON.stringify(position);
+            const long = position['coords']['longitude']
+            const lat = position['coords']['latitude']
+            const coordinates = {
+                lat: lat,
+                lng: long,
+            }
+            // console.log(coordinates)
+            this.setState({coordinates})
+        },
+        error => Alert.alert(error.message),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+};
+
 componentDidMount(){
+    // this.setState({coordinates: {lng: -74.481544, lat: 40.796768}})
+    this.findCoordinates()
+    // console.log(this.findCoordinates())
     console.log('ListOfTeachers mounted') 
     this.loadTeachers();
 }
@@ -90,17 +118,18 @@ onBookPressed = (teacher) => {
                 userData={this.props.userData}
             />
             <ScrollView>
-                {this.state.teachers.map(user => (
+                {this.state.teachers.map(teacher => (
                     <TeacherCell
-                        image = {user.picture}
-                        name = {user.name}
-                        instruments = {user.instruments}
-                        starCount = {user.starCount}
-                        location = {user.location}
-                        onPress = {() => this.onPress(user)}
-                        onBookPressed = {() => this.onBookPressed(user)}
-                        uid = {user.uid}  
-                        key = {user.key}                      
+                        image = {teacher.picture}
+                        name = {teacher.name}
+                        instruments = {teacher.instruments}
+                        starCount = {teacher.starCount}
+                        location = {teacher.location}
+                        onPress = {() => this.onPress(teacher)}
+                        onBookPressed = {() => this.onBookPressed(teacher)}
+                        uid = {teacher.uid}  
+                        key = {teacher.key}    
+                        distance = {teacher.distance}                 
                     />
                 ))}
             </ScrollView>

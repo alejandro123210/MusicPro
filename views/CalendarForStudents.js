@@ -37,7 +37,6 @@ class CalendarForStudents extends React.Component {
   componentDidMount() {
     var day = new Date().getDay()
     this.setState({selectedDay: day});
-    console.log('selected day when component mounts ' + day)
     var todayDate = new Date().toISOString().slice(0,10);
     this.setState({ date: todayDate });
     var db = firebase.database();
@@ -55,6 +54,7 @@ class CalendarForStudents extends React.Component {
       availabilityListToPush["4"] = availabilityData["Thu"]
       availabilityListToPush["5"] = availabilityData["Fri"]
       availabilityListToPush["6"] = availabilityData["Sat"]
+      console.log("availability key = " + availabilityData["Sun"][0]['key'])
       if(availabilityData != null){
         that.setState({
           actualAvailability: availabilityListToPush,
@@ -227,7 +227,7 @@ class CalendarForStudents extends React.Component {
               <HoursCell
                   name = {time.name}
                   onPress = {() => this.onCellPress(time.name)}
-                  key = {time.timeKey}
+                  key = {time.key}
               />
               :
               <View>

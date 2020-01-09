@@ -9,6 +9,7 @@ class Register_Location extends React.Component {
 
   state = {
     location: '',
+    coordinates: {},
     zip: ''
   }
 
@@ -18,15 +19,17 @@ class Register_Location extends React.Component {
     Geocoder.from(this.state.zip)
         .then(json => {
             var location = json.results[0].address_components[1]['long_name'];
-            console.log(location)
+            var coordinates = json.results[0]["geometry"]["location"]
             this.setState({
-               location: JSON.stringify(location)
+               location: JSON.stringify(location),
+               coordinates: coordinates
             })
             Actions.Register_Description({
               instruments: this.props.instruments,
               userType: this.props.userType,
               userInfo: this.props.userInfo,
-              location: this.state.location
+              location: this.state.location,
+              coordinates: this.state.coordinates
             })
         })
         .catch(error => alert(error));

@@ -16,7 +16,8 @@ class TeacherCell extends React.Component {
         name: this.props.name,
         location: this.props.location,
         instruments: this.props.instruments,
-        starCount: this.props.starCount
+        starCount: this.props.starCount,
+        distance: this.props.distance
         //ONpress
     }
 
@@ -39,7 +40,7 @@ class TeacherCell extends React.Component {
                                 // onFinishRating={(rating) => this.quickRate(rating)}
                                 readonly ={true}
                             />
-                            <Text style={styles.locationText}>{this.state.location}</Text>
+                            <Text style={styles.locationText}>{this.state.location} ({this.props.distance} mi)</Text>
                         </View>
                     </View>
                     <View style={styles.midSection}>
