@@ -99,7 +99,8 @@ onBookPressed = (teacher) => {
                         location = {user.location}
                         onPress = {() => this.onPress(user)}
                         onBookPressed = {() => this.onBookPressed(user)}
-                        uid = {user.uid}                        
+                        uid = {user.uid}  
+                        key = {user.key}                      
                     />
                 ))}
             </ScrollView>

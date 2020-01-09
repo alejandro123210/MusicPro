@@ -227,6 +227,7 @@ class CalendarForStudents extends React.Component {
               <HoursCell
                   name = {time.name}
                   onPress = {() => this.onCellPress(time.name)}
+                  key = {time.timeKey}
               />
               :
               <View>

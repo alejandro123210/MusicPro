@@ -102,9 +102,9 @@ class StudentLessonRequests extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
-    this.loadLessons();
-    // console.log(this.state.lessonsList)
-    this.forceUpdate();
+    // this.loadLessons();
+    // // console.log(this.state.lessonsList)
+    // this.forceUpdate();
   }
 
   render() {
@@ -137,6 +137,7 @@ class StudentLessonRequests extends React.Component {
                 instruments = { lesson.instruments }
                 confirmed = {false}
                 onPress = {() => this.onScheduledEventPressed(lesson) }
+                key = { lesson.key }
               />
             ))}
           </View>
