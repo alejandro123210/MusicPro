@@ -34,6 +34,9 @@ class StudentDash extends React.Component {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/`)
     let that = this
+    var moment = require('moment');
+    var m = moment();
+    var currentDate = m.format('YYYY-MM-DD')
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       if(snapshot.val() != null){
@@ -41,9 +44,6 @@ class StudentDash extends React.Component {
         var allData = (JSON.parse(JSON.stringify(snapshot.val())));
         var lessonsData = allData['lessons']
         key = 0;
-        var moment = require('moment');
-        var m = moment();
-        var currentDate = m.format('YYYY-MM-DD')
         //for loop adds all users to state
         for (lessonDate in lessonsData){
           for (lessonKey in lessonsData[lessonDate]){

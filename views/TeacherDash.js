@@ -34,15 +34,14 @@ class TeacherDash extends React.Component {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
     let that = this
-    
+    var moment = require('moment');
+    var m = moment();
+    var currentDate = m.format('YYYY-MM-DD')
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       var lessonsList = []
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
-      var moment = require('moment');
-      var m = moment();
-      var currentDate = m.format('YYYY-MM-DD')
       for(lessonDate in lessonsData){
         for (lessonKey in lessonsData[lessonDate]){
           if(lessonsData[lessonDate][lessonKey]['status'] == 'confirmed'){
