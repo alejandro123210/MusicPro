@@ -120,7 +120,15 @@ class StudentDash extends React.Component {
         />
         <DateBar />
         <ScrollView>
-          {this.state.lessonsList.map(lesson => (
+          { this.state.lessonsList.length == 0 ? 
+          (<View>
+            <Text>
+              No lessons yet!
+            </Text>
+          </View>) 
+          :
+          (<View>
+            {this.state.lessonsList.map(lesson => (
             <ScheduledEventCell 
                 name = { lesson.teacherName }
                 time = { lesson.time }
@@ -131,6 +139,8 @@ class StudentDash extends React.Component {
                 onPress = {() => this.onScheduledEventPressed(lesson) }
             />
           ))}
+          </View>)
+          }
         </ScrollView>
       </View>
     );

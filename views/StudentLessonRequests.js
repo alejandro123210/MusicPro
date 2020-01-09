@@ -118,17 +118,29 @@ class StudentLessonRequests extends React.Component {
         />
         <DateBar />
         <ScrollView>
-          {this.state.lessonsList.map(lesson => (
-            <ScheduledEventCell 
-              name = { lesson.teacherName }
-              time = { lesson.time }
-              date = { lesson.date }
-              image = { lesson.teacherImage }
-              instruments = { lesson.instruments }
-              confirmed = {false}
-              onPress = {() => this.onScheduledEventPressed(lesson) }
-            />
-          ))}
+          { this.state.lessonsList.length == 0 ? (
+            <View>
+              <Text>
+                No Request yet
+              </Text>
+            </View>
+          )
+          :
+          (
+          <View>
+            {this.state.lessonsList.map(lesson => (
+              <ScheduledEventCell 
+                name = { lesson.teacherName }
+                time = { lesson.time }
+                date = { lesson.date }
+                image = { lesson.teacherImage }
+                instruments = { lesson.instruments }
+                confirmed = {false}
+                onPress = {() => this.onScheduledEventPressed(lesson) }
+              />
+            ))}
+          </View>
+            )}
         </ScrollView>
       </View>
     );

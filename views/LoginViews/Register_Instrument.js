@@ -98,15 +98,24 @@ class Register_Instrument extends React.Component {
                         multiline={false} 
                         onChangeText={(instrument) => this.setState({instrument: instrument})}
                         placeholder = 'Please enter 1 instrument at a time'
+                        placeholderTextColor={'black'}
                         onSubmitEditing={() => this.onSubmitPressed()}
                         ref={input => { this.textInput = input }}
                         blurOnSubmit={false}
                         returnKeyType='go'
                     />
                 </View>
-                <TouchableOpacity onPress={() => this.onPress()}>
-                    <Text style={styles.doneButton}>Done!</Text>
-                </TouchableOpacity>
+                { this.state.instruments.length != 0 ? (
+                <View>
+                    <TouchableOpacity onPress={() => this.onPress()}>
+                        <Text style={styles.doneButton}>Done!</Text>
+                    </TouchableOpacity>
+                </View>     
+                ) : ( 
+                <View>
+                    <Text style={styles.doneButton}>Select at least one instrument! and press enter</Text>
+                </View>
+                )}
             </KeyboardAwareScrollView>
         );
     }
