@@ -48,7 +48,7 @@ class ScheduledEventCell extends React.Component {
                         <Text style={styles.nameText}>Lesson with {this.state.name}</Text>
                         <Text style={styles.infoText}>{this.state.date}</Text>
                         <Text style={styles.infoText}>{this.props.time}</Text>
-                        <Text style={styles.instrumentText}>{this.state.instruments.join(', ')}</Text>
+                        <Text style={styles.infoText}>{this.state.instruments.join(', ')}</Text>
                     </View>
                     <Image 
                         style={styles.circle}
