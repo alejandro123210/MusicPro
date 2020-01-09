@@ -40,7 +40,7 @@ class TeacherCell extends React.Component {
                                 // onFinishRating={(rating) => this.quickRate(rating)}
                                 readonly ={true}
                             />
-                            <Text style={styles.locationText}>{this.state.location} ({this.props.distance} mi)</Text>
+                            <Text style={styles.locationText}>{this.state.location} (≈{this.props.distance} mi)</Text>
                         </View>
                     </View>
                     <View style={styles.midSection}>
