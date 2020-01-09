@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image, Dimensions, ScrollView, TextInput } from 'react-native';
-import ProfileBar from './subComponents/ProfileBar'
-import TeacherCell from './subComponents/TeacherCell';
+import ProfileBar from '../subComponents/ProfileBar'
+import TeacherCell from '../subComponents/TeacherCell';
 import * as firebase from 'firebase';
 import { Actions } from 'react-native-router-flux'
 import Geolocation from '@react-native-community/geolocation';
@@ -17,8 +17,6 @@ state = {
     teachers: [],
     coordinates: {}
 }
-
-//TODO: make this load in teachers that are nearby specifically 
 
 loadTeachers = async () => {
     var db = firebase.database();

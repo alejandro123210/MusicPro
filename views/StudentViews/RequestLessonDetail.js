@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { Rating } from 'react-native-ratings';
-import InstrumentTag from './subComponents/instrumentTag';
+import InstrumentTag from '../subComponents/instrumentTag';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
 

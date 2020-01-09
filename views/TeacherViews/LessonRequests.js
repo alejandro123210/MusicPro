@@ -2,17 +2,18 @@
 //has to 3 link buttons but two of them link to the same screen for now
 import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView, Alert, Platform } from "react-native";
-import ProfileBar from "./subComponents/ProfileBar";
-import ScheduledEventCell from "./subComponents/ScheduledEventCell";
+import ProfileBar from "../subComponents/ProfileBar";
+import ScheduledEventCell from "../subComponents/ScheduledEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
-import DateBar from './subComponents/DateBar'
+import { Actions } from 'react-native-router-flux'
+import DateBar from '../subComponents/DateBar'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-class TeacherDash extends React.Component {
+class LessonRequests extends React.Component {
 
   state = {
     //this list is pulled from the db
@@ -20,9 +21,9 @@ class TeacherDash extends React.Component {
   };
   
   componentDidMount() {
-    console.log('TeacherDash mounted')
+    console.log('LessonRequests mounted')
     this.loadLessons()
-  }
+  };
 
   removePastLessons = (lesson) => {
     var db = firebase.database()
@@ -44,9 +45,9 @@ class TeacherDash extends React.Component {
       key = 0;
       for(lessonDate in lessonsData){
         for (lessonKey in lessonsData[lessonDate]){
-          if(lessonsData[lessonDate][lessonKey]['status'] == 'confirmed'){
+          if(lessonsData[lessonDate][lessonKey]['status'] == 'undecided'){
             var lessonToPush = {
-             teacherName: lessonsData[lessonDate][lessonKey]['teacherName'],
+              teacherName: lessonsData[lessonDate][lessonKey]['teacherName'],
               studentName: lessonsData[lessonDate][lessonKey]['studentName'],
               time: lessonsData[lessonDate][lessonKey]['time'],
               key: key.toString(),
@@ -78,32 +79,41 @@ class TeacherDash extends React.Component {
       }
     });
   }
-  
 
 
   onScheduledEventPressed = (lesson) => {
     // alert('pressed')
     Alert.alert(
-      'Cancel Lesson?',
-      'are you sure you want to cancel your lesson with ' + lesson.studentName + '?',
+      'Do you Accept?',
+      'do you accept this lesson with ' + lesson.name,
       [
-        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(lesson)},
+        {text: 'Confirm Lesson', onPress: () => this.acceptLesson(lesson)},
         {
-          text: 'Nevermind',
+          text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
+        {text: 'Deny', onPress: () => this.denyLesson(lesson)}
       ],
       {cancelable: true},
     );
   }
 
-  cancelLesson = (lesson) => {
+  acceptLesson = (lesson) => {
+    var db = firebase.database();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).update({status: 'confirmed'});
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).update({status: 'confirmed'});
+    // this.updateCalendar(false, lesson)
+    this.loadLessons();
+    this.forceUpdate();
+  }
+
+  denyLesson = (lesson) => {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
-    // this.updateCalendar(true, lesson)
     this.loadLessons();
+    this.forceUpdate();
   }
 
   render() {
@@ -118,15 +128,14 @@ class TeacherDash extends React.Component {
         <DateBar />
         <ScrollView>
           {this.state.lessonsList.length == 0 ? 
-          (
-            <View>
-              <Text>
-                No lessons yet
-              </Text>
-            </View>
+          (<View>
+            <Text>
+              No requests yet
+            </Text>
+          </View>
           )
           :
-          ( 
+          (
             <View>
             {this.state.lessonsList.map(lesson => (
             <ScheduledEventCell 
@@ -135,14 +144,14 @@ class TeacherDash extends React.Component {
                 date = { lesson.date }
                 image = { lesson.studentImage.slice(1,-1) }
                 instruments = { lesson.instruments }
-                confirmed = {true}
+                confirmed = {false}
                 onPress = {() => this.onScheduledEventPressed(lesson) }
                 key = {lesson.key}
             />
-            ))}
-            </View>
+          ))}
+          </View>
           )
-           }
+          } 
         </ScrollView>
       </View>
     );
@@ -157,4 +166,4 @@ const styles = StyleSheet.create({
 });
 
 //this lets the component get imported other places
-export default TeacherDash;
+export default LessonRequests;

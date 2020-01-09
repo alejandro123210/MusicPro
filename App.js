@@ -2,20 +2,30 @@ import React from 'react';
 import { Router, Scene, Tabs } from 'react-native-router-flux';
 import * as firebase from 'firebase';
 
+//login views
 import LaunchScreen from './views/LoginViews/LaunchScreen'
 import Login from './views/LoginViews/Login'
 import Register from './views/LoginViews/Register'
 import Register_Instrument from './views/LoginViews/Register_Instrument'
 import Register_Description from './views/LoginViews/Register_Description'
-import StudentDash from './views/StudentDash'
-import TeacherDash from './views/TeacherDash'
-import ListOfTeachers from './views/ListOfTeachers'
 import Register_Location from './views/LoginViews/Register_Location';
-import CalendarForStudents from './views/CalendarForStudents';
-import TeacherAvailabilityConfigurator from './views/TeacherAvailabilityConfigurator';
-import LessonRequests from './views/LessonRequests';
-import StudentLessonRequests from './views/StudentLessonRequests';
 
+//teacher views
+import TeacherAvailabilityConfigurator from './views/TeacherViews/TeacherAvailabilityConfigurator';
+import LessonRequests from './views/TeacherViews/LessonRequests';
+import TeacherDash from './views/TeacherViews/TeacherDash'
+
+
+//student views
+import StudentLessonRequests from './views/StudentViews/StudentLessonRequests';
+import CalendarForStudents from './views/StudentViews/CalendarForStudents';
+import StudentDash from './views/StudentViews/StudentDash'
+import ListOfTeachers from './views/StudentViews/ListOfTeachers'
+import TeacherInfo from './views/StudentViews/TeacherInfo';
+import ReviewTeacher from './views/StudentViews/ReviewTeacher';
+import RequestLessonDetail from './views/StudentViews/RequestLessonDetail';
+
+//settings views
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import SettingsForStudents from './views/SettingsViews/SettingsForStudents';
 import SettingsForTeachers from './views/SettingsViews/SettingsForTeachers';
@@ -25,9 +35,6 @@ import FAQPage from './views/SettingsViews/FAQPage';
 import AboutUsPage from './views/SettingsViews/AboutUsPage';
 import ReportBugsPage from './views/SettingsViews/ReportBugsPage';
 import SuggestFeaturePage from './views/SettingsViews/SuggestFeaturePage';
-import TeacherInfo from './views/TeacherInfo';
-import ReviewTeacher from './views/ReviewTeacher';
-import RequestLessonDetail from './views/RequestLessonDetail';
 
 export default function App() {
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert, Platform } from "react-native";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import TimeCell from './subComponents/TimeCell';
+import TimeCell from '../subComponents/TimeCell';
 import * as firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
-import HoursCell from "./subComponents/HoursCell";
+import HoursCell from "../subComponents/HoursCell";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;

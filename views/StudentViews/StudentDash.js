@@ -2,12 +2,12 @@
 //has to 3 link buttons but two of them link to the same screen for now
 import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView, Alert, Platform } from "react-native";
-import ProfileBar from "./subComponents/ProfileBar";
-import ScheduledEventCell from "./subComponents/ScheduledEventCell";
+import ProfileBar from "../subComponents/ProfileBar";
+import ScheduledEventCell from "../subComponents/ScheduledEventCell";
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
-import DateBar from "./subComponents/DateBar";
+import DateBar from "../subComponents/DateBar";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
