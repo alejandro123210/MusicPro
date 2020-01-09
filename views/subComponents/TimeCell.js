@@ -19,23 +19,25 @@ const TimeCell = props => {
     }
     
     return (
-        <TouchableOpacity onPress={() => props.onPress()}>
-            <View style={[styles.cellView, {backgroundColor: state.backgroundColor}]}>
+        <View>
+            <TouchableOpacity 
+                onPress={() => props.onPress()} 
+                delayPressIn={70} 
+                activeOpacity={0.9} 
+                style={[styles.cellView, {backgroundColor: state.backgroundColor}]}
+            >
                 <Text style={[styles.timeText, {color: state.fontColor}]}>{props.name}</Text>
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     cellView: {
-        height: deviceHeight / 8,
-        marginTop: 2,
-        marginLeft: 2.35,
+        height: 110,
+        marginTop: 5,
         borderRadius: 15,
-        borderColor: "gray",
-        borderBottomWidth: 0.3,
-        width: '98.9%',
+        width: deviceWidth - 10,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white'

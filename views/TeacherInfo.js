@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     },
     nameText: {
         fontSize: 20,
-        paddingTop: 20
+        paddingTop: 20,
     },
     descriptionText: {
         padding: 20,
@@ -174,8 +174,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.3,
         borderBottomColor: 'gray',
         height: 50,
-        width: deviceWidth,
-        backgroundColor: '#274156'
+        width: deviceWidth -20 ,
+        backgroundColor: '#274156',
+        borderRadius: 10
         
     },
     buttonText: {
@@ -197,7 +198,8 @@ const styles = StyleSheet.create({
     writtenReviewContainer: {
         width: deviceWidth,
         alignItems: 'center',
-        paddingBottom: 40
+        paddingBottom: 40,
+        backgroundColor:  Platform.OS === 'ios'? 'white' : '#f5f5f5'
     }
 })
 

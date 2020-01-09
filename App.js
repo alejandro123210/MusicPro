@@ -44,15 +44,16 @@ export default function App() {
   return (
     <Router>
       <Scene key='root'>
-        {/* <Scene
+        <Scene
           key = 'LaunchScreen'
           component = { LaunchScreen }
           hideNavBar = { true }
-        /> */}
+        />
         <Scene
           key = 'Login'
           component = { Login }
           hideNavBar = { true }
+          gesturesEnabled = { false }
         />
         <Scene 
           key = 'CalendarForStudents'

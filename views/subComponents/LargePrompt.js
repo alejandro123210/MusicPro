@@ -1,7 +1,9 @@
 import React from 'react'
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+let deviceHeight = Dimensions.get("window").height;
+let deviceWidth = Dimensions.get("window").width;
 
 class LargePrompt extends React.Component{
 
@@ -13,11 +15,11 @@ class LargePrompt extends React.Component{
     render(){
         return(
             <KeyboardAwareScrollView 
-            style={{ backgroundColor: '#274156' }}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            contentContainerStyle={styles.container}
-            scrollEnabled={false}
-            keyboardShouldPersistTaps={'always'}
+              style={{ backgroundColor: '#274156' }}
+              resetScrollToCoords={{ x: 0, y: 0 }}
+              contentContainerStyle={styles.container}
+              scrollEnabled={false}
+              keyboardShouldPersistTaps={'always'}
             >
             <Text style={styles.titleText}>{this.state.title}</Text>
             <View style={styles.inputContainer}>
@@ -43,19 +45,19 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#274156',
-      // justifyContent: 'center',
+      justifyContent: 'center',
       alignItems: 'center'
     },
     titleText: {
       fontSize: 30,
       color: 'white',
-      marginTop: 30
+      marginTop: 80
     },
     inputContainer: {
       borderRadius: 30,
       backgroundColor: 'white',
       height: 200,
-      width: '80%',
+      width: deviceWidth - 40,
       paddingTop: 1,
       marginTop: 30,
     },
@@ -71,7 +73,8 @@ const styles = StyleSheet.create({
     },
     doneText: {
       fontSize: 20,
-      color: 'white'
+      color: 'white',
+      marginBottom: 300
     },
 });
 

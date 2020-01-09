@@ -1,38 +1,77 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ImageBackground, Dimensions} from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import * as firebase from 'firebase'
 
-let deviceHeight = Dimensions.get('window').height;
-let deviceWidth = Dimensions.get('window').width;
+
 
 class LaunchScreen extends React.Component {
 
-    loginPressed = () => {
-        // we give login all the props to not get an error, but they are not used
-        Actions.Login({
-            alreadyRegistered: true,
-            instrument: '',
-            description: '',
-            usertype: ''
-        });
+    componentDidMount(){
+        GoogleSignin.configure({
+            webClientId: '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com', 
+            offlineAccess: true, 
+            hostedDomain: '', 
+            forceConsentPrompt: true, 
+            iosClientId: '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com'
+          });
+        this.getCurrentUserInfo();
     }
 
-    signupPressed = () => {
-        Actions.Register();
-    }
+    getCurrentUserInfo = async () => {
+        try {
+          const userInfo = await GoogleSignin.signInSilently();
+          console.log('attempting to sign in silently')
+          this.setState({ userInfo });
+          // alert(userInfo)
+          //auto login:
+          const googleCredential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken);     
+          firebase.auth().signInWithCredential(googleCredential)
+            .then(appUser => { 
+              var user = firebase.auth().currentUser
+              var db = firebase.database();
+              var ref = db.ref(`users/${user.uid}/info/`);
+              ref.once('value')
+              .then(function(snapshot){
+                //if the user DOES have data in the database:
+                var userData = snapshot.val();
+                // alert(userData)
+                //this is the user type (teacher/student)
+                if (userData != null){ //if they have data in the database
+                  var userType = JSON.stringify(userData['userType']);
+                  //here if the function finds if the user is a student/teacher, it loads each respective view
+                  console.log(userType)
+                  if (userType == '"student"'){
+                    //if the user is a student
+                    Actions.StudentMain({userData: userData});
+                    console.log('studentmain called')
+                    
+                    // Actions.popTo('StudentMain', {userData: userData})
+                    // alert('Login Controller was called')
+                  } else if (userType == '"teacher"'){
+                    //if the user is a teacher
+                    Actions.TeacherMain({userData: userData});
+                    console.log('teachermain called')
+                    
+                    // Actions.popTo('TeacherMain', {userData: userData})
+                    // alert('Login Controller was called')
+                  }
+                } else {
+                  Actions.Login({userInfo: userInfo});
+                }
+                
+              });
+            })
+        } catch (error) {
+            Actions.Login()
+        }
+    };
     
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>MusicPro</Text>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => this.loginPressed()} style={styles.button} activeOpacity={.6}>
-                        <Text style={styles.buttonText}>login</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.signupPressed()} style={styles.button} activeOpacity={.6}>
-                        <Text style={styles.buttonText}>sign up</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         );
     }
@@ -42,33 +81,13 @@ class LaunchScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#eee',
-        alignItems: 'center'
-    },
-    buttonContainer: {
+        backgroundColor: '#274156',
         alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column-reverse',
-        height: '100%',
-        width: '100%',
-    },
-    button: {
-        height: 50,
-        width: '95%',
-        backgroundColor: 'white',
-        marginBottom: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 10,
-    },
-    buttonText: {
-        fontSize: 30,
-        color: 'black'
+        justifyContent: 'center'
     },
     title: {
-        fontSize: 70,
-        paddingTop: '40%',
         color: 'white',
+        fontSize: 80
     }
 });
 

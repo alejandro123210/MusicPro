@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert } from "react-native";
+import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert, Platform } from "react-native";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import TimeCell from './subComponents/TimeCell';
-import * as firebase from 'firebase'
-import { Actions } from 'react-native-router-flux'
+import * as firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
+import HoursCell from "./subComponents/HoursCell";
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -18,9 +19,9 @@ class CalendarForStudents extends React.Component {
       '3':[],
       '4':[],
       '5':[],
-      '6':[]
+      '6':[],
     },
-    selectedDay: new Date().getDay(),
+    selectedDay: 0,
     teacherLessons: [],
     normalAvailability: {
       '0':[],
@@ -29,11 +30,14 @@ class CalendarForStudents extends React.Component {
       '3':[],
       '4':[],
       '5':[],
-      '6':[]
+      '6':[],
     },
   };
 
   componentDidMount() {
+    var day = new Date().getDay()
+    this.setState({selectedDay: day});
+    console.log('selected day when component mounts ' + day)
     var todayDate = new Date().toISOString().slice(0,10);
     this.setState({ date: todayDate });
     var db = firebase.database();
@@ -61,8 +65,6 @@ class CalendarForStudents extends React.Component {
       var moment = require('moment');
       var m = moment();
       var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
-      // console.log(roundUp.format('YYYY-MM-DD'));  // outputs Tue Feb 17 2017 13:00:00 GMT+0000
-      //removes the unavailbale times from the initial date
       that.removeUnavailableTimes(roundUp.format('YYYY-MM-DD'))
     })
   };
@@ -91,6 +93,8 @@ class CalendarForStudents extends React.Component {
     var studentName = this.props.userData['name'].slice(1,-1)
     var studentIDNum = this.props.userData['uid']
     var studentInstruments = this.props.userData['instruments']
+    var teacherImage = this.props.teacher.picture;
+    var studentImage = this.props.userData['photo']
     var teacherName = this.props.teacher.name;
     var teacherIDNum = this.props.teacher.uid;
     var teacherInstruments = this.props.teacher.instruments;
@@ -144,6 +148,8 @@ class CalendarForStudents extends React.Component {
       teacherLessonKey: teacherLessonRequestKey,
       studentInstruments: studentInstruments,
       teacherInstruments: teacherInstruments,
+      teacherImage: teacherImage,
+      studentImage: studentImage,
       date: date,
       time: time,
       status: 'undecided',
@@ -172,6 +178,7 @@ class CalendarForStudents extends React.Component {
           normalAvailabilityForDay[keyToRemove] = false
           //sets the state so it's shown in the list
           this.setState({actualAvailability: normalAvailability})
+          // this.forceUpdate()
         }
       }
     }
@@ -184,11 +191,15 @@ class CalendarForStudents extends React.Component {
             onDayPress={(day) => {
               //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
               dayOfWeek = new Date(day['dateString']).getDay()
-              this.setState({ 
-                date: day['dateString'], 
-                selectedDay: dayOfWeek,
-              })
-              this.removeUnavailableTimes(day['dateString'])
+              dayOfWeek += 1
+              if(dayOfWeek == 7){
+                dayOfWeek = 0
+              }
+              var dateString = day['dateString']
+              this.setState({date: dateString, selectedDay: dayOfWeek}, function () {
+                this.removeUnavailableTimes(dateString)
+                console.log(dayOfWeek)
+              });
             }}
             minDate = { Date() }
             current = { Date() }
@@ -198,6 +209,7 @@ class CalendarForStudents extends React.Component {
             hideExtraDays={true}
             disableMonthChange={true}
             firstDay={1}
+            style={{borderBottomWidth: 0.3, borderBottomColor: '#C8C8C8'}}
             hideDayNames={false}
             showWeekNumbers={false}
             onPressArrowLeft={substractMonth => substractMonth()}
@@ -205,15 +217,16 @@ class CalendarForStudents extends React.Component {
             markedDates = {{
               [this.state.date]: {selected: true, marked: true},
             }}            
-          />
-        
-        <ScrollView>
-          {this.state.actualAvailability[this.state.selectedDay].map(list => (
-            list.available?
-              <TimeCell
-                  name = {list.name}
-                  key = {list.key}
-                  onPress = {() => this.onCellPress(list.name)}
+        />
+        {/* <View style={styles.selectTimeContainer}>
+            <Text style={styles.selectTimeText}>Select a time</Text> 
+        </View> */}
+        <ScrollView contentContainerStyle={{alignItems: 'center', paddingBottom: 20}}>
+          {this.state.actualAvailability[this.state.selectedDay].map(time => (
+            time.available?
+              <HoursCell
+                  name = {time.name}
+                  onPress = {() => this.onCellPress(time.name)}
               />
               :
               <View>
@@ -229,27 +242,8 @@ class CalendarForStudents extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: Platform.OS === 'ios'? 'white' : '#f5f5f5'
   },
-  dateBar: {
-    height: deviceHeight / 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomWidth: 3,
-    borderColor: "#eeeced"
-  },
-  searchBar:{
-    height: deviceHeight/10,
-    flexDirection: 'row',
-    alignItems: 'center',
- },
-  dateText: {
-    fontSize: 18,
-    color: "#838081",
-    fontFamily: "HelveticaNeue-Medium",
-    marginTop: 5
-  }
 });
 
 //this lets the component get imported other places

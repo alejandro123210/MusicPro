@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { View } from 'react-native';
 import { Actions } from 'react-native-router-flux'
 import * as firebase from 'firebase'
+import LargePrompt from '../subComponents/LargePrompt';
 
 class Register_Description extends React.Component {
 
@@ -10,7 +10,7 @@ class Register_Description extends React.Component {
         description: ''
     }
 
-    onPress = () => {
+    onPress = (description) => {
         var user = firebase.auth().currentUser
         var db = firebase.database();
         var ref = db.ref(`users/${user.uid}/info/`);
@@ -22,7 +22,7 @@ class Register_Description extends React.Component {
             instruments: this.props.instruments,
             photo: JSON.stringify(this.props.userInfo['user']['photo']),
             location: this.props.location,
-            description: this.state.description,
+            description: description,
             lessons: [],
             availability: []
         });
@@ -36,59 +36,13 @@ class Register_Description extends React.Component {
 
     render() {
         return (
-            <KeyboardAwareScrollView
-            style={{ backgroundColor: '#274156' }}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            contentContainerStyle={styles.container}
-            scrollEnabled={true}
-            >
-                <Text style={styles.questionText}>Describe yourself, your experience, etc</Text>
-                <View style={styles.descriptionInputContainer}>
-                    <TextInput 
-                        style={styles.descriptionInput} 
-                        multiline={true} 
-                        onChangeText={(description) => this.setState({description: description})}
-                        placeholder = 'I have taught for 10 years... etc'
-                    />
-                </View>
-                <TouchableOpacity onPress={() => this.onPress()}>
-                    <Text style={styles.doneButton}>Done!</Text>
-                </TouchableOpacity>
-            </KeyboardAwareScrollView>
+            <LargePrompt
+                donePressed = {(description) => this.onPress(description)}
+                title = 'Describe yourself, your experience, etc'
+            />
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#274156',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    questionText: {
-        fontSize: 30,
-        color: 'white',
-        textAlign: 'center'
-    },
-    descriptionInputContainer: {
-        padding: 8,
-        borderWidth: 0.5,
-        borderColor: 'white',
-        width: '80%',
-        height: "10%",
-        marginTop: 30
-    },
-    descriptionInput: {
-        flex: 1,
-        color: 'white'
-    },
-    doneButton: {
-        color: 'white',
-        fontSize: 20,
-        paddingTop: 20
-    }
-});
 
 
 //this lets the component get imported other places

@@ -87,6 +87,7 @@ class Register_Instrument extends React.Component {
                                 instrument={instrument}
                                 onPress={() => this.onTagPressed(instrument)}
                                 colorOfCell = 'white'
+                                active = {true}
                             />
                         ))}
                     </View>

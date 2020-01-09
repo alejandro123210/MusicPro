@@ -105,7 +105,7 @@ class SetingsForTeachers extends React.Component {
        return (
            // this is just random filler for the template, but this is where what the user sees is rendered
            <View style={styles.container}>
-            <TouchableOpacity onPress={() => this.changeInfo(this.props.userData)}>
+            <TouchableOpacity onPress={() => this.changeInfo(this.props.userData)} activeOpacity={0.7}>
              <View style={styles.profileContainer}>
                 <View style ={styles.imageContainer}>
                       <Image
@@ -125,22 +125,22 @@ class SetingsForTeachers extends React.Component {
                   </View>
                <View style={styles.subContainer}>
                   <View style={styles.buttonContainer}>
-                   <TouchableOpacity onPress={() => this.goToAboutUsPAge()}>
+                   <TouchableOpacity onPress={() => this.goToAboutUsPAge()} activeOpacity={0.7}>
                       <View style={styles.buttonView}>
                         <Text style={styles.regularButton}>About Us</Text>
                       </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.goToFAQPage()}>
+                   <TouchableOpacity onPress={() => this.goToFAQPage()} activeOpacity={0.7}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>FAQ</Text>
                     </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.goToReportBugsPage()}>
+                   <TouchableOpacity onPress={() => this.goToReportBugsPage()} activeOpacity={0.7}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Report Bugs </Text>
                     </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.goToSuggestFeaturePage()}>
+                   <TouchableOpacity onPress={() => this.goToSuggestFeaturePage()} activeOpacity={0.7}>
                     <View style={styles.buttonView}>
                        <Text style={styles.regularButton}>Suggest Feature </Text>
                     </View>
@@ -148,12 +148,12 @@ class SetingsForTeachers extends React.Component {
                   </View>
                </View>
                <View style = {styles.subContainer2}>
-                   <TouchableOpacity onPress={() => this.onPress()}>
+                   <TouchableOpacity onPress={() => this.onPress()} activeOpacity={0.7}>
                     <View style={styles.buttonView}>
                        <Text style={styles.logoutButton}>Log out</Text>
                     </View>
                    </TouchableOpacity>
-                   <TouchableOpacity onPress={() => this.onDeletePress()}>
+                   <TouchableOpacity onPress={() => this.onDeletePress()} activeOpacity={0.7}>
                     <View style={styles.buttonView}>
                        <Text style={styles.deleteAccount}>Delete Account</Text>
                     </View>

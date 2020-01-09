@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
+
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
+
 
 class ReviewTeacher extends React.Component {
 
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: 'white',
         height: 200,
-        width: '80%',
+        width: deviceWidth - 20,
         paddingTop: 1,
         marginTop: 30,
     },
