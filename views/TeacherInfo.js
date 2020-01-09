@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     },
     nameText: {
         fontSize: 20,
-        paddingTop: 20
+        paddingTop: 20,
     },
     descriptionText: {
         padding: 20,

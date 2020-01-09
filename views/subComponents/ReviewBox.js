@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         paddingTop: 10
     },
     reviewerName: {
-        fontSize: 18
+        fontSize: 18,
     },
     description: {
         width: deviceWidth - 20,
