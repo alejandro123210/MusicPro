@@ -2,8 +2,8 @@ import React from "react";
 import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert, Platform } from "react-native";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import TimeCell from './subComponents/TimeCell';
-import * as firebase from 'firebase'
-import { Actions } from 'react-native-router-flux'
+import * as firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import HoursCell from "./subComponents/HoursCell";
 
 let deviceHeight = Dimensions.get("window").height;
@@ -19,7 +19,7 @@ class CalendarForStudents extends React.Component {
       '3':[],
       '4':[],
       '5':[],
-      '6':[]
+      '6':[],
     },
     selectedDay: 0,
     teacherLessons: [],
@@ -30,7 +30,7 @@ class CalendarForStudents extends React.Component {
       '3':[],
       '4':[],
       '5':[],
-      '6':[]
+      '6':[],
     },
   };
 
@@ -244,17 +244,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Platform.OS === 'ios'? 'white' : '#f5f5f5'
   },
-  // selectTimeContainer:{
-  //   width: deviceWidth,
-  //   borderBottomColor: 'gray',
-  //   borderBottomWidth: 0.3,
-  //   paddingVertical: 10,
-  //   backgroundColor: 'white'
-  // },
-  // selectTimeText:{
-  //   fontSize: 25,
-  //   paddingLeft: 10
-  // }
 });
 
 //this lets the component get imported other places
