@@ -9,7 +9,6 @@ import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
 import DateBar from './subComponents/DateBar'
 
-
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
@@ -25,23 +24,34 @@ class TeacherDash extends React.Component {
     this.loadLessons()
   }
 
+  removePastLessons = (lesson) => {
+    var db = firebase.database()
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}`).remove();
+  }
+
   loadLessons = () => {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
     let that = this
+    
     ref.on('value', function(snapshot) {
       //all lessons for user in database
       var lessonsList = []
       var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
       key = 0;
+      var moment = require('moment');
+      var m = moment();
+      var currentDate = m.format('YYYY-MM-DD')
       for(lessonDate in lessonsData){
         for (lessonKey in lessonsData[lessonDate]){
           if(lessonsData[lessonDate][lessonKey]['status'] == 'confirmed'){
             var lessonToPush = {
-              teacherName: lessonsData[lessonDate][lessonKey]['teacherName'],
+             teacherName: lessonsData[lessonDate][lessonKey]['teacherName'],
               studentName: lessonsData[lessonDate][lessonKey]['studentName'],
               time: lessonsData[lessonDate][lessonKey]['time'],
               key: key.toString(),
+              timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
               date: lessonsData[lessonDate][lessonKey]['date'],
               instruments: lessonsData[lessonDate][lessonKey]['teacherInstruments'],
               studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
@@ -51,9 +61,15 @@ class TeacherDash extends React.Component {
               teacherImage: lessonsData[lessonDate][lessonKey]['teacherImage'],
               studentImage: lessonsData[lessonDate][lessonKey]['studentImage']
             }
-            lessonsList.push(lessonToPush)
-            key += 1;
+            if(lessonToPush.date < currentDate){
+              that.removePastLessons(lessonToPush)
+            } else {
+              lessonsList.push(lessonToPush)
+              key += 1;
+            }
           }
+          lessonsList.sort((a, b) => (a.timeKey > b.timeKey) ? -1 : 1)
+          lessonsList.sort((a, b) => (a.date > b.date) ? 1 : -1)
           that.setState({ lessonsList: lessonsList })
           that.forceUpdate();
         }
