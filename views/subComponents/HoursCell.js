@@ -17,26 +17,6 @@ class HoursCell extends React.Component {
         fontColor: '',
         //needs onPress prop
     }
-
-    // componentDidMount(){
-    //     if(this.state.available){
-    //         this.setState({backgroundColor: ''})
-    //     }
-    // }
-
-    // setBackgroundColor = (available) => {
-    //     if(available){
-    //       return '#274156'  
-    //     } else {
-    //       return '#C8C8C8'
-    //     }
-    //   }
-    
-    //   setFontColor = (available) => {
-    //     if(available){
-    //       return 'white'
-    //     }
-    //   }
     
     render() {
         return (
@@ -44,7 +24,7 @@ class HoursCell extends React.Component {
                 <TouchableOpacity 
                     onPress={() => this.props.onPress()} 
                     delayPressIn={70} 
-                    activeOpacity={0.9} 
+                    activeOpacity={0.4} 
                     style={styles.cellView}
                 >
                     <Text style={styles.timeText}>{this.state.name}</Text>

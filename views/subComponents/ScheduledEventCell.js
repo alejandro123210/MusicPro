@@ -32,6 +32,7 @@ class ScheduledEventCell extends React.Component {
         } else {
             this.setState({backgroundColor: '#25A21F'})
         }
+        
     }
 
     render(){
@@ -47,6 +48,7 @@ class ScheduledEventCell extends React.Component {
                         <Text style={styles.nameText}>Lesson with {this.state.name}</Text>
                         <Text style={styles.infoText}>{this.state.date}</Text>
                         <Text style={styles.infoText}>{this.props.time}</Text>
+                        <Text style={styles.instrumentText}>{this.state.instruments.join(', ')}</Text>
                     </View>
                     <Image 
                         style={styles.circle}
@@ -104,7 +106,6 @@ const styles = StyleSheet.create({
         color: "white",
         fontFamily: "HelveticaNeue-Light",
         marginTop: 4,
-        marginLeft: 10
     }
 });
 

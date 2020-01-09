@@ -7,15 +7,45 @@ class InstrumentTag extends React.Component{
     state = {
         instrument: this.props.instrument,
         colorOfCell: this.props.colorOfCell,
-        active: this.props.active
+        type: this.props.type,
+
+        backgroundColor: 'white',
+        highlighted: false
+    }
+
+    highlight = () => {
+        if(this.state.highlighted){
+            this.setState({
+                backgroundColor: 'white',
+                colorOfCell: this.props.colorOfCell,
+                highlighted: false
+            })
+        } else {
+            this.setState({
+                backgroundColor: this.props.colorOfCell,
+                colorOfCell: 'white',
+                highlighted: true
+            })
+        }
+        const instrument = {
+            instrument: this.state.instrument,
+            selected: !this.state.highlighted
+        }
+        this.props.onPress(instrument)
     }
 
     render(){
         return(
             <View>
-                {this.state.active?
+                {this.state.type == 'tappable'?
                     <TouchableOpacity onPress={() => this.props.onPress()}>
                         <View style={[styles.container, {borderColor: this.state.colorOfCell}]}>
+                            <Text style={[styles.text, {color: this.state.colorOfCell}]}>{this.state.instrument}</Text>
+                        </View>
+                    </TouchableOpacity>
+                : this.state.type == 'highlightable' ?
+                    <TouchableOpacity onPress={() => this.highlight()}>
+                        <View style={[styles.container, {borderColor: this.state.colorOfCell, backgroundColor: this.state.backgroundColor}]}>
                             <Text style={[styles.text, {color: this.state.colorOfCell}]}>{this.state.instrument}</Text>
                         </View>
                     </TouchableOpacity>

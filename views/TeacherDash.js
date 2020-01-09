@@ -52,7 +52,7 @@ class TeacherDash extends React.Component {
               key: key.toString(),
               timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
               date: lessonsData[lessonDate][lessonKey]['date'],
-              instruments: lessonsData[lessonDate][lessonKey]['teacherInstruments'],
+              instruments: lessonsData[lessonDate][lessonKey]['selectedInstruments'],
               studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
               teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
               teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],

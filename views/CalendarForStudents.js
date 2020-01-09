@@ -70,95 +70,15 @@ class CalendarForStudents extends React.Component {
   };
 
   onCellPress = (time) => {
-    Alert.alert(
-      'Are you sure?',
-      'are you sure you want to request a lesson with ' + this.props.teacher.name,
-      [
-        {text: 'Confirm Request', onPress: () => this.confirmLessonRequest(time)},
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-      ],
-      {cancelable: true},
-    );
+    Actions.RequestLessonDetail({
+      teacher: this.props.teacher,
+      userData: this.props.userData,
+      time: time,
+      date: this.state.date
+    })
   }
 
-  confirmLessonRequest = (time) => {
-    // Actions.RequestLessonDetail({
-    //   teacher: this.props.teacher,
-    //   userData: this.props.userData
-    // })
-    var studentName = this.props.userData['name'].slice(1,-1)
-    var studentIDNum = this.props.userData['uid']
-    var studentInstruments = this.props.userData['instruments']
-    var teacherImage = this.props.teacher.picture;
-    var studentImage = this.props.userData['photo']
-    var teacherName = this.props.teacher.name;
-    var teacherIDNum = this.props.teacher.uid;
-    var teacherInstruments = this.props.teacher.instruments;
-    var date = this.state.date
-    var time = time
-    var timeKey = ''
-    if(time == "7 AM - 8 AM"){
-      timeKey = 0
-    } else if (time == "8 AM - 9 AM"){
-      timeKey = 1
-    } else if (time == '9 AM - 10 AM'){
-      timeKey = 2
-    } else if (time == '10 AM - 11 AM'){
-      timeKey = 3
-    } else if (time == '11 AM - 12 PM'){
-      timeKey = 4
-    } else if (time == '12 PM - 1 PM'){
-      timeKey = 5
-    } else if (time == '1 PM - 2 PM'){
-      timeKey = 6
-    } else if (time == '2 PM - 3 PM'){
-      timeKey = 7
-    } else if (time == '3 PM - 4 PM'){
-      timeKey = 8
-    } else if (time == '4 PM - 5 PM'){
-      timeKey = 9
-    } else if (time == '5 PM - 6 PM'){
-      timeKey = 10
-    } else if (time == '6 PM - 7 PM'){
-      timeKey = 11
-    } else if (time == '7 PM - 8 PM'){
-      timeKey = 12
-    } else if (time == '8 PM - 9 PM'){
-      timeKey = 13
-    } 
-    // console.log("Request confirmed for " + this.props.teacher.uid);
-    var db = firebase.database();
-    var teacherRef = db.ref(`users/${this.props.teacher.uid}/info/lessons/${date}`)
-    var studentRef = db.ref(`users/${studentIDNum}/info/lessons/${date}`)
-    //we put both users names and ids so that later when the requeest is processed by the teacher 
-    //both the student and teacher have their lessons updated 
-    //(having both ids makes it easier to find each others profiles)
-    var teacherLessonRequestKey = teacherRef.push().key
-    var studentLessonRequestKey = studentRef.push().key
-    var lessonData = {
-      studentName: studentName,
-      teacherName: teacherName,
-      studentIDNum: studentIDNum,
-      teacherIDNum: teacherIDNum,
-      studentLessonKey: studentLessonRequestKey,
-      teacherLessonKey: teacherLessonRequestKey,
-      studentInstruments: studentInstruments,
-      teacherInstruments: teacherInstruments,
-      teacherImage: teacherImage,
-      studentImage: studentImage,
-      date: date,
-      time: time,
-      status: 'undecided',
-      timeKey: timeKey
-    }
-    teacherRef.child(teacherLessonRequestKey).update(lessonData)
-    studentRef.child(studentLessonRequestKey).update(lessonData)
-    Actions.StudentLessonRequest({userData: this.props.userData})
-  }
+
 
   removeUnavailableTimes = (dateString) => {
     //gets the normal user availability and parses it/stringifies it to avoid pointer problems

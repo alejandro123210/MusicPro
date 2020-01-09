@@ -89,7 +89,7 @@ class Register_Instrument extends React.Component {
                                 instrument={instrument}
                                 onPress={() => this.onTagPressed(instrument)}
                                 colorOfCell = 'white'
-                                active = {true}
+                                type = 'tappable'
                                 key = {this.state.instruments.findIndex(instrumentinArray => instrument == instrumentinArray)}
                             />
                         ))}

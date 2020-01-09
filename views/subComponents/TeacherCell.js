@@ -49,7 +49,6 @@ class TeacherCell extends React.Component {
                                 this.state.instruments.map(instrument => (
                                     <InstrumentTag
                                         instrument={instrument}
-                                        onPress={() => {}}
                                         colorOfCell = '#274156'
                                         key = {this.state.instruments.findIndex(instrumentinArray => instrument == instrumentinArray)}
                                     />
