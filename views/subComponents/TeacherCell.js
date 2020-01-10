@@ -6,6 +6,7 @@ import InstrumentTag from './instrumentTag';
 let deviceWidth = Dimensions.get("window").width;
 
 function teacherCell({image, name, location, instruments, starCount, distance, onPress, onBookPressed}){
+    
     return(
         <TouchableOpacity style={styles.shadow} onPress={() => onPress()} delayPressIn={70} activeOpacity={0.7}>
             <View style={styles.container}>

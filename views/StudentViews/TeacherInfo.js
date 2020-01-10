@@ -76,10 +76,6 @@ class TeacherInfo extends React.Component {
         })
     }
 
-    // quickRate = (rating) => {
-    //     console.log(rating)
-    // }
-
     render(){
         return(
             <ScrollView contentContainerStyle={styles.container} backgroundColor='white' bounces={false}>

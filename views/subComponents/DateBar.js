@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, Dimensions } from 'react-native'
 
 let deviceHeight = Dimensions.get("window").height;
 
-export function dateBar() {
+function dateBar() {
   var date = new Date().getDate(); //Current Date
   var month = new Date().getMonth() + 1; //Current Month
   var year = new Date().getFullYear(); //Current Year

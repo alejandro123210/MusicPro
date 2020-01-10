@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Image } from 'rea
 
 let deviceWidth = Dimensions.get("window").width;
 
-export function scheduledEventCell({ studentName, teacherName, instruments, time, date, studentImage, teacherImage, status, userType, onPress }) {
+function scheduledEventCell({ studentName, teacherName, instruments, time, date, studentImage, teacherImage, status, userType, onPress }) {
 
     //get the time of the lesson
     moment = require('moment');

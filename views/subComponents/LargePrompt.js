@@ -2,42 +2,35 @@ import React from 'react'
 import { View, StyleSheet, TextInput, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-class LargePrompt extends React.Component{
+function largePrompt({title, donePressed}){
 
-    state = {
-        title: this.props.title,
-        description: ''
-    }
+  var description = ''
 
-  render(){
-    return(
-      <KeyboardAwareScrollView 
-        style={{ backgroundColor: '#274156' }}
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={styles.container}
-        scrollEnabled={false}
-        keyboardShouldPersistTaps={'always'}
-      >
-        <Text style={styles.titleText}>{this.state.title}</Text>
-        <View style={styles.inputContainer}>
-          <TextInput 
-              style={styles.input} 
-              multiline={true} 
-              onChangeText={(description) => this.setState({description: description})}
-              ref={input => { this.textInput = input }}
-              blurOnSubmit={false}
-              returnKeyType='go'
-          />
-        </View>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.donePressed(this.state.description)}>
-          <Text style={styles.doneText}>Done</Text>
-        </TouchableOpacity>
-      </KeyboardAwareScrollView>
-    )
-  }
+  return (
+    <KeyboardAwareScrollView 
+      style={{ backgroundColor: '#274156' }}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.container}
+      scrollEnabled={false}
+      keyboardShouldPersistTaps={'always'}
+    >
+      <Text style={styles.titleText}>{title}</Text>
+      <View style={styles.inputContainer}>
+        <TextInput 
+            style={styles.input} 
+            multiline={true} 
+            onChangeText={(enteredText) => description = enteredText}
+            blurOnSubmit={false}
+            returnKeyType='go'
+        />
+      </View>
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => donePressed(description)}>
+        <Text style={styles.doneText}>Done</Text>
+      </TouchableOpacity>
+    </KeyboardAwareScrollView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -79,4 +72,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LargePrompt
+export default largePrompt

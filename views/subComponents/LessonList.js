@@ -18,7 +18,7 @@ class LessonList extends React.Component {
         lessonsList: [],
     }
 
-    async componentDidMount(){
+    componentDidMount(){
         loadLessons(this.state.userData, this.state.lessonType, this)
     }
 
