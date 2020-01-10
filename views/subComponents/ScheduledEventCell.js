@@ -19,6 +19,7 @@ class ScheduledEventCell extends React.Component {
         instruments: this.props.instruments,
         time: this.props.time,
         date: this.props.date,
+        dateAndTime: '',
         studentImage: this.props.studentImage,
         teacherImage: this.props.teacherImage,
         status: this.props.status,
@@ -30,6 +31,10 @@ class ScheduledEventCell extends React.Component {
     }
     
     componentDidMount(){
+        var moment = require('moment');
+        var dateInPlainEnglish = moment(this.state.date).format('MMMM Do')
+        var dateAndTime = dateInPlainEnglish + ' at ' + this.state.time 
+        this.setState({dateAndTime})
         if(this.state.status == 'confirmed'){
             this.setState({backgroundColor: '#274156'})
         } else {
@@ -59,8 +64,8 @@ class ScheduledEventCell extends React.Component {
                 >
                     <View style={styles.textContainer}>
                         <Text style={styles.nameText}>Lesson with {this.state.name}</Text>
-                        <Text style={styles.infoText}>{this.state.date}</Text>
-                        <Text style={styles.infoText}>{this.props.time}</Text>
+                        <Text style={styles.infoText}>{this.state.dateAndTime}</Text>
+                        {/* <Text style={styles.infoText}>{this.props.time}</Text> */}
                         <Text style={styles.infoText}>{this.state.instruments.join(', ')}</Text>
                     </View>
                     <Image 
@@ -84,7 +89,7 @@ const styles = StyleSheet.create({
     },
     cellContainer: {
         width: deviceWidth - 10,
-        height: 110,
+        height: 90,
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderRadius: 15,
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
         width: 60,
         borderRadius: 100000,
         marginRight: 20,
-        marginTop: 20
+        marginTop: 15
     },
     infoText: {
         fontSize: 16,
