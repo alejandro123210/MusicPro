@@ -20,7 +20,6 @@ class TeacherAvailabilityConfigurator extends React.Component {
   //it will require some type of if empty logic
 
   state = {
-    date: "",
     day: "Mon",
     times:{
       Mon:[],
@@ -35,9 +34,6 @@ class TeacherAvailabilityConfigurator extends React.Component {
 
   componentDidMount() {
     console.log("TeacherAvailabilityConfigurator mounted")
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
     var timesList = [   
       {
             name: '7 AM - 8 AM',
@@ -125,13 +121,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     weekTimes["Fri"] = fridayTimes
     weekTimes["Sat"] = saturdayTimes
     weekTimes["Sun"] = sundayTimes
-    this.setState({
-      date: year + "-" + month + "-" + date,
-      today: year + "-" + month + "-" + date,
-      times: weekTimes,
-      Mon: mondayTimes,
-      Tue: tuesdayTimes
-    })
+    this.setState({ times: weekTimes })
     console.log("component did mount")
     this.loadTimes(this)
   };
@@ -139,7 +129,8 @@ class TeacherAvailabilityConfigurator extends React.Component {
   loadTimes = (that) => {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/availability`)
-    ref.on('value', function(snapshot) {
+    ref.once('value')
+    .then(snapshot => {
       //all lessons for user in database
       var availabilityData = (JSON.parse(JSON.stringify(snapshot.val())));
       if(snapshot.val() != null){
@@ -161,7 +152,6 @@ class TeacherAvailabilityConfigurator extends React.Component {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData['uid']}/info/`)
     ref.update({ availability: this.state.times })
-    // this.configureMonthlyAvailability(listOfTimes)
   }
 
   setBackgroundColor = (available) => {
