@@ -1,3 +1,7 @@
+//this component handles all cases where there is a list of lessons being loaded,
+//it loads the lessons, handles all taps, and renders the entire screen for:
+// TeacherDash, StudentDash, LessonRequests, StudentLessonRequests
+
 import React from "react";
 import { Text, View, StyleSheet, ScrollView, Alert, Platform } from "react-native";
 import ProfileBar from "../subComponents/ProfileBar";

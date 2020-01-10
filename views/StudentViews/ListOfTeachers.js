@@ -65,7 +65,6 @@ loadTeachers = async () => {
 findCoordinates = () => {
     Geolocation.getCurrentPosition(
         position => {
-            const location = JSON.stringify(position);
             const long = position['coords']['longitude']
             const lat = position['coords']['latitude']
             const coordinates = {

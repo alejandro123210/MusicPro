@@ -59,7 +59,8 @@ class CalendarForStudents extends React.Component {
       }
       var moment = require('moment');
       var m = moment();
-      //certain times of day are not working because I'm not quite sure how the calendar api configured certain things. 
+      //certain times of day are not working because I'm not quite sure how the calendar api configured certain things.
+      //this roundUp variable may have to be used and may not, I'm still not sure 
       var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
       that.removeUnavailableTimes(m.format('YYYY-MM-DD'))
     })
