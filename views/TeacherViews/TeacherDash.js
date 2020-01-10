@@ -8,10 +8,10 @@ class TeacherDash extends React.Component {
   render() {
     return (
       <LessonList
-        userData={this.props.userData}
+        userData = {this.props.userData}
         lessonType = 'confirmed'
       />
-    )
+    );
   }
 }
 

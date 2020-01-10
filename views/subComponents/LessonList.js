@@ -19,7 +19,6 @@ class LessonList extends React.Component {
 
     componentDidMount(){
         loadLessons(this.state.userData, this.state.lessonType, this)
-        console.log(this.props.userData['userType'])
     }
 
     onScheduledEventPressed = (lesson) => {
@@ -100,37 +99,25 @@ class LessonList extends React.Component {
                 <DateBar />
                 {this.state.lessonsList.length != 0?
                     <ScrollView>
-                        {this.state.userData['userType'] == 'student'?
-                            this.state.lessonsList.map(lesson => (
-                                <ScheduledEventCell 
-                                    name = { lesson.teacherName }
-                                    time = { lesson.time }
-                                    date = { lesson.date }
-                                    image = { lesson.teacherImage }
-                                    instruments = { lesson.instruments }
-                                    status = { this.state.lessonType }
-                                    onPress = {() => this.onScheduledEventPressed(lesson) }
-                                    key = {lesson.key}
-                                />
-                            ))
-                        :
-                            this.state.lessonsList.map(lesson => (
-                                <ScheduledEventCell 
-                                    name = { lesson.studentName }
-                                    time = { lesson.time }
-                                    date = { lesson.date }
-                                    image = { lesson.studentImage }
-                                    instruments = { lesson.instruments }
-                                    status = { this.state.lessonType }
-                                    onPress = {() => this.onScheduledEventPressed(lesson) }
-                                    key = {lesson.key}
-                                />
-                            ))
-                        }
+                        {this.state.lessonsList.map(lesson => (
+                            <ScheduledEventCell 
+                                userType = { this.state.userData['userType']}
+                                teacherName = { lesson.teacherName }
+                                studentName = { lesson.studentName }
+                                time = { lesson.time }
+                                date = { lesson.date }
+                                teacherImage = { lesson.teacherImage }
+                                studentImage = { lesson.studentImage }
+                                instruments = { lesson.instruments }
+                                status = { this.state.lessonType }
+                                onPress = {() => this.onScheduledEventPressed(lesson) }
+                                key = {lesson.key}
+                            />
+                        ))}
                     </ScrollView>
                 :
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text>no lessons yet!</Text>
+                        <Text style={{color: 'gray', fontSize: 30}}>no lessons yet!</Text>
                     </View>
                 }
             </View>

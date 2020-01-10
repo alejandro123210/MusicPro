@@ -33,7 +33,7 @@ class RequestLessonDetail extends React.Component {
       var studentName = this.props.userData['name'].slice(1,-1)
       var studentIDNum = this.props.userData['uid']
       var teacherImage = this.props.teacher.picture;
-      var studentImage = this.props.userData['photo']
+      var studentImage = this.props.userData['photo'].slice(1, -1)
       var teacherName = this.props.teacher.name;
       var teacherIDNum = this.props.teacher.uid;
       var date = this.props.date

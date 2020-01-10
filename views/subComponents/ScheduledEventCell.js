@@ -16,14 +16,19 @@ let deviceWidth = Dimensions.get("window").width;
 class ScheduledEventCell extends React.Component {
 
     state = {
-        name: this.props.name,
+        studentName: this.props.studentName,
+        teacherName: this.props.teacherName,
         instruments: this.props.instruments,
         time: this.props.time,
         date: this.props.date,
-        image: this.props.image,
+        studentImage: this.props.studentImage,
+        teacherImage: this.props.teacherImage,
         status: this.props.status,
+        userType: this.props.userType,
 
-        backgroundColor: ''
+        backgroundColor: '',
+        image: '',
+        name: ''
     }
     
     componentDidMount(){
@@ -32,7 +37,17 @@ class ScheduledEventCell extends React.Component {
         } else {
             this.setState({backgroundColor: '#25A21F'})
         }
-        
+        if(this.state.userType == 'teacher'){
+            this.setState({
+                image: this.state.studentImage,
+                name: this.state.studentName
+            })
+        } else {
+            this.setState({
+                image: this.state.teacherImage,
+                name: this.state.teacherName
+            })
+        }
     }
 
     render(){

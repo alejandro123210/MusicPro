@@ -37,7 +37,7 @@ export const loadLessons = (userData, lessonType, that) => {
               teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
               studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
               teacherImage: lessonsData[lessonDate][lessonKey]['teacherImage'],
-              studentImage: lessonsData[lessonDate][lessonKey]['studentImage']
+              studentImage: lessonsData[lessonDate][lessonKey]['studentImage'],
             }
             if(lessonToPush.date < currentDate){
               that.removePastLessons(lessonToPush)

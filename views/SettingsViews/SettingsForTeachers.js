@@ -53,7 +53,7 @@ class SetingsForTeachers extends React.Component {
         this.setState({ user: null }); // Remember to remove the user from your app's state as well
         firebase.auth().signOut().then(function() {
           // Sign-out successful.
-          Actions.Login();
+          Actions.Login({userData: null});
         
         }).catch(function(error) {
           alert('Sorry, there was a problem signing you out!')
@@ -84,7 +84,7 @@ class SetingsForTeachers extends React.Component {
     await GoogleSignin.signOut();
     this.setState({ user: null }); 
     user.delete().then(function() {
-      Actions.Login();
+      Actions.Login({userData: null});
       alert("Account has been deleted")
     }, function(error) {
       // An error happened.
