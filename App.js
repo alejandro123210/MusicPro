@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Scene, Tabs } from 'react-native-router-flux';
+import { Image, View } from 'react-native'
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';
@@ -34,6 +35,47 @@ import FAQPage from './views/SettingsViews/FAQPage';
 import AboutUsPage from './views/SettingsViews/AboutUsPage';
 import ReportBugsPage from './views/SettingsViews/ReportBugsPage';
 import SuggestFeaturePage from './views/SettingsViews/SuggestFeaturePage';
+
+//Create a dedicated class that will manage the icon
+function CalendarIcon() {
+  return (
+    <View style={{flexDirection:'column', alignItems:'center', alignSelf:'center', justifyContent: 'center'}}>
+      <Image source={require('./views/Assets/calendar.png')} style={{height: 20, width: 20}}/>
+    </View>
+  );
+}
+
+function TeachersIcon() {
+  return (
+    <View style={{flex:1, flexDirection:'column', alignItems:'center', alignSelf:'center', justifyContent: 'center'}}>
+      <Image source={require('./views/Assets/teacher.png')} style={{height: 20, width: 20}}/>
+    </View>
+  );
+}
+
+function BellIcon() {
+  return (
+    <View style={{flex:1, flexDirection:'column', alignItems:'center', alignSelf:'center', justifyContent: 'center'}}>
+      <Image source={require('./views/Assets/bell.png')} style={{height: 20, width: 20}}/>
+    </View>
+  );
+}
+
+function RequestIcon() {
+  return (
+    <View style={{flex:1, flexDirection:'column', alignItems:'center', alignSelf:'center', justifyContent: 'center'}}>
+      <Image source={require('./views/Assets/request.png')} style={{height: 20, width: 20}}/>
+    </View>
+  );
+}
+
+function EditIcon() {
+  return (
+    <View style={{flex:1, flexDirection:'column', alignItems:'center', alignSelf:'center', justifyContent: 'center'}}>
+      <Image source={require('./views/Assets/edit.png')} style={{height: 20, width: 20}}/>
+    </View>
+  );
+}
 
 export default function App() {
 
@@ -148,6 +190,7 @@ export default function App() {
               tabBarLabel = 'My Schedule'
               hideNavBar = { true }
               gesturesEnabled = { false }
+              icon = { CalendarIcon }
             />
             <Scene 
               key = 'ListOfTeachers'
@@ -155,6 +198,7 @@ export default function App() {
               tabBarLabel = 'Teachers'
               hideNavBar = { true }
               gesturesEnabled = { false }
+              icon = { TeachersIcon }
             />
             <Scene
               key = 'StudentLessonRequest'
@@ -162,6 +206,7 @@ export default function App() {
               tabBarLabel = 'Requests'
               hideNavBar = { true }
               gesturesEnabled = { false }
+              icon = { RequestIcon }
             />
         </Scene>
         <Scene key='TeacherMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
@@ -171,12 +216,14 @@ export default function App() {
             tabBarLabel = 'My Schedule '
             hideNavBar = { true }
             gesturesEnabled = { false }
+            icon = { CalendarIcon }
           />
           <Scene
             key = 'LessonRequests'
             component = { LessonRequests }
             tabBarLabel = 'Requests'
             gesturesEnabled = { false }
+            icon = { BellIcon }
           />
           <Scene 
             key = 'TeacherAvailabilityConfigurator'
@@ -184,6 +231,7 @@ export default function App() {
             tabBarLabel = 'Set Availability'
             hideNavBar = { false }
             gesturesEnabled = {false}
+            icon = { EditIcon }
           />
         </Scene>
       </Scene>

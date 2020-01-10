@@ -31,7 +31,8 @@ function profileBar({userData}){
           <View style={styles.nameContainer}>
             <Text style={styles.profileText}>{name}</Text>
             <TouchableOpacity onPress={() => onSettingsPressed()}>
-                <Text style={styles.settingsText}>Settings</Text>
+                {/* <Text style={styles.settingsText}>Settings</Text> */}
+                <Image source={require('../Assets/settings.png')} style={styles.settingsIcon}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -74,6 +75,12 @@ const styles = StyleSheet.create({
         paddingRight: 8,
         marginTop: 5,
         fontSize: 18
+    },
+    settingsIcon: {
+        height: 30,
+        width: 30,
+        marginTop: 5,
+        marginRight: 15
     }
 })
 
