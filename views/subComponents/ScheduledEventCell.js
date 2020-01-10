@@ -27,7 +27,7 @@ class ScheduledEventCell extends React.Component {
         userType: this.props.userType,
 
         backgroundColor: '',
-        image: '',
+        image: 'https://i.stack.imgur.com/l60Hf.png',
         name: ''
     }
     

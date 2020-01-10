@@ -64,8 +64,9 @@ class CalendarForStudents extends React.Component {
       }
       var moment = require('moment');
       var m = moment();
+      //certain times of day are not working because I'm not quite sure how the calendar api configured certain things. 
       var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
-      that.removeUnavailableTimes(roundUp.format('YYYY-MM-DD'))
+      that.removeUnavailableTimes(m.format('YYYY-MM-DD'))
     })
   };
 
@@ -147,12 +148,10 @@ class CalendarForStudents extends React.Component {
               <HoursCell
                   name = {time.name}
                   onPress = {() => this.onCellPress(time.name)}
-                  key = {time.key}
+                  key = {this.state.actualAvailability[this.state.selectedDay].findIndex(timeInArray => time == timeInArray)}
               />
               :
-              <View>
-
-              </View>
+              <View />
           ))}
         </ScrollView>
       </View>
