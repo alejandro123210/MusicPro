@@ -57,3 +57,9 @@ export var loadLessons = (userData, lessonType, that) => {
       }
     });
 }
+
+export const cancelLessons = (lesson) => {
+    var db = firebase.database();
+    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
+    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
+}

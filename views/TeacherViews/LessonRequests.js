@@ -9,7 +9,7 @@ import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
 import DateBar from '../subComponents/DateBar'
-import { loadLessons } from '../subComponents/BackendComponents/BackendFunctions'
+import { loadLessons, cancelLessons } from '../subComponents/BackendComponents/BackendFunctions'
 
 
 let deviceHeight = Dimensions.get("window").height;
@@ -27,13 +27,6 @@ class LessonRequests extends React.Component {
     loadLessons(this.props.userData, 'undecided', this)
   };
 
-  removePastLessons = (lesson) => {
-    var db = firebase.database()
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}`).remove();
-  }
-
-
   onScheduledEventPressed = (lesson) => {
     // alert('pressed')
     Alert.alert(
@@ -46,7 +39,7 @@ class LessonRequests extends React.Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Deny', onPress: () => this.denyLesson(lesson)}
+        {text: 'Deny', onPress: () => cancelLessons(lesson)}
       ],
       {cancelable: true},
     );
@@ -56,12 +49,6 @@ class LessonRequests extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).update({status: 'confirmed'});
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).update({status: 'confirmed'});
-  }
-
-  denyLesson = (lesson) => {
-    var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
   }
 
   render() {

@@ -8,7 +8,7 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
 import DateBar from "../subComponents/DateBar";
-import { loadLessons, loadLessonsOnce } from '../subComponents/BackendComponents/BackendFunctions'
+import { loadLessons, cancelLessons } from '../subComponents/BackendComponents/BackendFunctions'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -31,7 +31,7 @@ class StudentDash extends React.Component {
       'Cancel Lesson?',
       'are you sure you want to cancel your lesson with ' + lesson.teacherName + '?',
       [
-        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(lesson)},
+        {text: 'Cancel Lesson', onPress: () => cancelLessons(lesson)},
         {
           text: 'Nevermind',
           onPress: () => console.log('Cancel Pressed'),
@@ -40,12 +40,6 @@ class StudentDash extends React.Component {
       ],
       {cancelable: true},
     );
-  }
-
-  cancelLesson = (lesson) => {
-    var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
   }
 
   render() {

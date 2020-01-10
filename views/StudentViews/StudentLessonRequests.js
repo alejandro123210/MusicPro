@@ -9,7 +9,7 @@ import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
 import DateBar from '../subComponents/DateBar'
-import { loadLessons } from '../subComponents/BackendComponents/BackendFunctions'
+import { loadLessons, cancelLessons } from '../subComponents/BackendComponents/BackendFunctions'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -38,7 +38,7 @@ class StudentLessonRequests extends React.Component {
       'Cancel Request?',
       'Are you sure you want to cancel your lesson with ' + lesson.name,
       [
-        {text: 'Cancel Request', onPress: () => this.cancelRequest(lesson)},
+        {text: 'Cancel Request', onPress: () => cancelLessons(lesson)},
         {
           text: 'nevermind',
           onPress: () => console.log('Cancel Pressed'),
@@ -47,12 +47,6 @@ class StudentLessonRequests extends React.Component {
       ],
       {cancelable: true},
     );
-  }
-
-  cancelRequest = (lesson) => {
-    var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
   }
 
   render() {

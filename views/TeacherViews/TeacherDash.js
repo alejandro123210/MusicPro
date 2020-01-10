@@ -8,7 +8,7 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import * as firebase from 'firebase'
 import DateBar from '../subComponents/DateBar'
-import { loadLessons } from '../subComponents/BackendComponents/BackendFunctions'
+import { loadLessons, cancelLessons } from '../subComponents/BackendComponents/BackendFunctions'
 
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -25,20 +25,13 @@ class TeacherDash extends React.Component {
     loadLessons(this.props.userData, 'confirmed', this)
   }
 
-  removePastLessons = (lesson) => {
-    var db = firebase.database()
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}`).remove();
-  }
-
-
   onScheduledEventPressed = (lesson) => {
     // alert('pressed')
     Alert.alert(
       'Cancel Lesson?',
       'are you sure you want to cancel your lesson with ' + lesson.studentName + '?',
       [
-        {text: 'Cancel Lesson', onPress: () => this.cancelLesson(lesson)},
+        {text: 'Cancel Lesson', onPress: () => cancelLessons(lesson)},
         {
           text: 'Nevermind',
           onPress: () => console.log('Cancel Pressed'),
@@ -47,13 +40,6 @@ class TeacherDash extends React.Component {
       ],
       {cancelable: true},
     );
-  }
-
-  cancelLesson = (lesson) => {
-    var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
-    // this.updateCalendar(true, lesson)
   }
 
   render() {
