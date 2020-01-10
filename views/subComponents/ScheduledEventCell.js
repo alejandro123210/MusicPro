@@ -21,13 +21,13 @@ class ScheduledEventCell extends React.Component {
         time: this.props.time,
         date: this.props.date,
         image: this.props.image,
-        confirmed: this.props.confirmed,
+        status: this.props.status,
 
         backgroundColor: ''
     }
     
     componentDidMount(){
-        if(this.state.confirmed == true){
+        if(this.state.status == 'confirmed'){
             this.setState({backgroundColor: '#274156'})
         } else {
             this.setState({backgroundColor: '#25A21F'})

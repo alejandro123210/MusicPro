@@ -2,7 +2,7 @@ import React from 'react'
 import * as firebase from 'firebase'
 
 
-export var loadLessons = (userData, lessonType, that) => {
+export const loadLessons = (userData, lessonType, that) => {
     //this handles lessons that have passed
     removePastLessons = (lesson) => {
         var db = firebase.database()
