@@ -1,13 +1,10 @@
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView, Alert, Platform } from "react-native";
+import { Text, View, StyleSheet, ScrollView, Alert, Platform } from "react-native";
 import ProfileBar from "../subComponents/ProfileBar";
 import ScheduledEventCell from "../subComponents/ScheduledEventCell";
 import DateBar from "../subComponents/DateBar";
 import { cancelLessons, loadLessons } from './BackendComponents/BackendFunctions'
 import * as firebase from 'firebase'
-
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
 
 class LessonList extends React.Component {
 

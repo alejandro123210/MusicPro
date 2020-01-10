@@ -1,6 +1,4 @@
-import React from 'react'
 import * as firebase from 'firebase'
-
 
 export const loadLessons = (userData, lessonType, that) => {
     //this handles lessons that have passed

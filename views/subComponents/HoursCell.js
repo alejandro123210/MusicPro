@@ -1,11 +1,7 @@
 import React from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Text, StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
 
-
-let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
-
 
 //this class will be changed to fit in more screens
 class HoursCell extends React.Component {

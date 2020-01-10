@@ -2,7 +2,6 @@ import React from 'react'
 import { Text, View, StyleSheet, Dimensions } from 'react-native'
 import { Rating } from 'react-native-ratings'
 
-let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
 class ReviewBox extends React.Component {

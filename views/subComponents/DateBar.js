@@ -2,7 +2,6 @@ import React from 'react'
 import {Text, View, StyleSheet, Dimensions } from 'react-native'
 
 let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
 
 class DateBar extends React.Component{
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 
 class DayBar extends React.Component {
 

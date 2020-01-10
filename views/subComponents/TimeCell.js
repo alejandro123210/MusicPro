@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
 //required props:
 //name
@@ -8,7 +7,6 @@ import { Actions } from 'react-native-router-flux';
 
 //required props are name, key, date, lastmessage
 
-let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
 const TimeCell = props => {

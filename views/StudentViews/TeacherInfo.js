@@ -2,13 +2,10 @@ import React from 'react'
 import { View, StyleSheet, Dimensions, Image, Text, ScrollView, TouchableOpacity } from 'react-native'
 import * as firebase from 'firebase'
 import InstrumentTag from '../subComponents/instrumentTag';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 import { Actions } from 'react-native-router-flux'
 import ReviewBox from '../subComponents/ReviewBox';
 
-
-
-let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
 

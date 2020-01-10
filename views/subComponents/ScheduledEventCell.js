@@ -1,8 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Image } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
-let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
 //required props: 

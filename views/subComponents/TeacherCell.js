@@ -1,12 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { Rating } from 'react-native-ratings'
 import InstrumentTag from './instrumentTag';
-import * as firebase from 'firebase'
 
-
-let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
 class TeacherCell extends React.Component {

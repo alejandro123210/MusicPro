@@ -1,16 +1,9 @@
 import React from "react";
-import { Text, View, StyleSheet, Dimensions, ScrollView, Image, TextInput, Alert } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import ProfileBar from '../subComponents/ProfileBar'
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import ScheduledEventCell from "../subComponents/ScheduledEventCell";
 import TimeCell from '../subComponents/TimeCell';
 import * as firebase from 'firebase'
-import { Actions } from 'react-native-router-flux'
 import DayBar from '../subComponents/DayBar'
-
-
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
 
 class TeacherAvailabilityConfigurator extends React.Component {
 

@@ -1,15 +1,10 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions, ScrollView, TextInput } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import ProfileBar from '../subComponents/ProfileBar'
 import TeacherCell from '../subComponents/TeacherCell';
 import * as firebase from 'firebase';
 import { Actions } from 'react-native-router-flux'
 import Geolocation from '@react-native-community/geolocation';
-import Geocoder from 'react-native-geocoding';
-
-
-let deviceHeight = Dimensions.get('window').height;
-let deviceWidth = Dimensions.get('window').width;
 
 class ListOfTeachers extends React.Component {
 

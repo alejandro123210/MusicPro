@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
 
-let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
 
