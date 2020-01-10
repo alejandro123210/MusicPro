@@ -54,7 +54,6 @@ class TeacherDash extends React.Component {
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
     // this.updateCalendar(true, lesson)
-    this.loadLessons();
   }
 
   render() {

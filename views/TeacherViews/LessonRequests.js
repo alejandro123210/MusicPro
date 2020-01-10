@@ -56,17 +56,12 @@ class LessonRequests extends React.Component {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).update({status: 'confirmed'});
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).update({status: 'confirmed'});
-    // this.updateCalendar(false, lesson)
-    this.loadLessons();
-    this.forceUpdate();
   }
 
   denyLesson = (lesson) => {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`).remove();
-    this.loadLessons();
-    this.forceUpdate();
   }
 
   render() {
