@@ -42,16 +42,15 @@ class CalendarForStudents extends React.Component {
     .then(function(snapshot){
       var availabilityListToPush = that.state.actualAvailability
       userData = JSON.parse(JSON.stringify(snapshot.val()))
-      availabilityData = userData['availability']
-      availabilityListToPush["0"] = availabilityData["Sun"]
-      availabilityListToPush["1"] = availabilityData["Mon"]
-      availabilityListToPush["2"] = availabilityData["Tue"]
-      availabilityListToPush["3"] = availabilityData["Wed"]
-      availabilityListToPush["4"] = availabilityData["Thu"]
-      availabilityListToPush["5"] = availabilityData["Fri"]
-      availabilityListToPush["6"] = availabilityData["Sat"]
-      console.log("availability key = " + availabilityData["Sun"][0]['key'])
-      if(availabilityData != null){
+      if(userData['availability'] != null){
+        availabilityData = userData['availability']
+        availabilityListToPush["0"] = availabilityData["Sun"]
+        availabilityListToPush["1"] = availabilityData["Mon"]
+        availabilityListToPush["2"] = availabilityData["Tue"]
+        availabilityListToPush["3"] = availabilityData["Wed"]
+        availabilityListToPush["4"] = availabilityData["Thu"]
+        availabilityListToPush["5"] = availabilityData["Fri"]
+        availabilityListToPush["6"] = availabilityData["Sat"]
         that.setState({
           actualAvailability: availabilityListToPush,
           normalAvailability: JSON.parse(JSON.stringify(availabilityListToPush)),
