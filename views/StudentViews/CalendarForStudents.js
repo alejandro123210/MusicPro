@@ -139,9 +139,9 @@ class CalendarForStudents extends React.Component {
           {this.state.actualAvailability[this.state.selectedDay].map(time => (
             time.available?
               <HoursCell
-                  name = {time.name}
-                  onPress = {() => this.onCellPress(time.name)}
-                  key = {this.state.actualAvailability[this.state.selectedDay].findIndex(timeInArray => time == timeInArray)}
+                name = {time.name}
+                onPress = {() => this.onCellPress(time.name)}
+                key = {this.state.actualAvailability[this.state.selectedDay].findIndex(timeInArray => time == timeInArray)}
               />
               :
               <View />

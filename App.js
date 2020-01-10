@@ -2,24 +2,24 @@ import React from 'react';
 import { Router, Scene, Tabs } from 'react-native-router-flux';
 
 //login views
-import LaunchScreen from './views/LoginViews/LaunchScreen'
-import Login from './views/LoginViews/Login'
-import Register from './views/LoginViews/Register'
-import Register_Instrument from './views/LoginViews/Register_Instrument'
-import Register_Description from './views/LoginViews/Register_Description'
+import LaunchScreen from './views/LoginViews/LaunchScreen';
+import Login from './views/LoginViews/Login';
+import Register from './views/LoginViews/Register';
+import Register_Instrument from './views/LoginViews/Register_Instrument';
+import Register_Description from './views/LoginViews/Register_Description';
 import Register_Location from './views/LoginViews/Register_Location';
 
 //teacher views
 import TeacherAvailabilityConfigurator from './views/TeacherViews/TeacherAvailabilityConfigurator';
 import LessonRequests from './views/TeacherViews/LessonRequests';
-import TeacherDash from './views/TeacherViews/TeacherDash'
+import TeacherDash from './views/TeacherViews/TeacherDash';
 
 
 //student views
 import StudentLessonRequests from './views/StudentViews/StudentLessonRequests';
 import CalendarForStudents from './views/StudentViews/CalendarForStudents';
-import StudentDash from './views/StudentViews/StudentDash'
-import ListOfTeachers from './views/StudentViews/ListOfTeachers'
+import StudentDash from './views/StudentViews/StudentDash';
+import ListOfTeachers from './views/StudentViews/ListOfTeachers';
 import TeacherInfo from './views/StudentViews/TeacherInfo';
 import ReviewTeacher from './views/StudentViews/ReviewTeacher';
 import RequestLessonDetail from './views/StudentViews/RequestLessonDetail';

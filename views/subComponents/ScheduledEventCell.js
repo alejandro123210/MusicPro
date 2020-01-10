@@ -3,79 +3,54 @@ import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Image } from 'rea
 
 let deviceWidth = Dimensions.get("window").width;
 
-//required props: 
-//name
-//time
-//key
-//instrument
-//scheduledEventPressed 
-//^^ we delegate the onPress function to the view using the component because it's different when the person is a student/teacher
+export function scheduledEventCell({ studentName, teacherName, instruments, time, date, studentImage, teacherImage, status, userType, onPress }) {
 
-class ScheduledEventCell extends React.Component {
+    //get the time of the lesson
+    moment = require('moment');
+    dateInPlainEnglish = moment(date).format('MMMM Do')
+    dateAndTime = dateInPlainEnglish + ' at ' + time 
 
-    state = {
-        studentName: this.props.studentName,
-        teacherName: this.props.teacherName,
-        instruments: this.props.instruments,
-        time: this.props.time,
-        date: this.props.date,
-        dateAndTime: '',
-        studentImage: this.props.studentImage,
-        teacherImage: this.props.teacherImage,
-        status: this.props.status,
-        userType: this.props.userType,
-
-        backgroundColor: '',
-        image: 'https://i.stack.imgur.com/l60Hf.png',
-        name: ''
+    //image is a default in case it doesn't want to load
+    //name and background color are set in the next statements
+    backgroundColor = '',
+    image = 'https://i.stack.imgur.com/l60Hf.png',
+    name = ''
+    //if it's a confirmed lesson, background color is blue, if not it is green
+    if(status == 'confirmed'){
+        backgroundColor = '#274156'
+    } else {
+        backgroundColor = '#25A21F'
+    }
+    //if the user is a teacher it will show the student's name, if it's a student it will show the teacher's
+    if(userType == 'teacher'){
+        image = studentImage,
+        name = studentName
+    } else {
+        image = teacherImage,
+        name = teacherName
     }
     
-    componentDidMount(){
-        var moment = require('moment');
-        var dateInPlainEnglish = moment(this.state.date).format('MMMM Do')
-        var dateAndTime = dateInPlainEnglish + ' at ' + this.state.time 
-        this.setState({dateAndTime})
-        if(this.state.status == 'confirmed'){
-            this.setState({backgroundColor: '#274156'})
-        } else {
-            this.setState({backgroundColor: '#25A21F'})
-        }
-        if(this.state.userType == 'teacher'){
-            this.setState({
-                image: this.state.studentImage,
-                name: this.state.studentName
-            })
-        } else {
-            this.setState({
-                image: this.state.teacherImage,
-                name: this.state.teacherName
-            })
-        }
-    }
-
-    render(){
-        return(
-            <View style={styles.shadow}>
-                <TouchableOpacity 
-                    style={[styles.cellContainer, {backgroundColor: this.state.backgroundColor}]} 
-                    onPress={() => this.props.onPress()}
-                    delayPressIn={70}
-                    activeOpacity={0.8}
-                >
-                    <View style={styles.textContainer}>
-                        <Text style={styles.nameText}>Lesson with {this.state.name}</Text>
-                        <Text style={styles.infoText}>{this.state.dateAndTime}</Text>
-                        {/* <Text style={styles.infoText}>{this.props.time}</Text> */}
-                        <Text style={styles.infoText}>{this.state.instruments.join(', ')}</Text>
-                    </View>
-                    <Image 
-                        style={styles.circle}
-                        source = {{uri: this.state.image}}
-                    />
-                </TouchableOpacity>
-            </View>
-        );
-    }
+    return (
+        <View style={styles.shadow}>
+            <TouchableOpacity 
+                style={[styles.cellContainer, {backgroundColor: backgroundColor}]} 
+                onPress={() => onPress()}
+                delayPressIn={70}
+                activeOpacity={0.8}
+            >
+                <View style={styles.textContainer}>
+                    <Text style={styles.nameText}>Lesson with {name}</Text>
+                    <Text style={styles.infoText}>{dateAndTime}</Text>
+                    {/* <Text style={styles.infoText}>{this.props.time}</Text> */}
+                    <Text style={styles.infoText}>{instruments.join(', ')}</Text>
+                </View>
+                <Image 
+                    style={styles.circle}
+                    source = {{uri: image}}
+                />
+            </TouchableOpacity>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -127,4 +102,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ScheduledEventCell;
+export default scheduledEventCell;

@@ -104,11 +104,7 @@ onBookPressed = (teacher) => {
   render() {
     return (
         <View style={styles.container}>
-            <ProfileBar 
-                name={JSON.stringify(this.props.userData['name']).slice(3,-3)}
-                image={JSON.stringify(this.props.userData['photo']).slice(3,-3)}
-                userData={this.props.userData}
-            />
+            <ProfileBar userData={this.props.userData} />
             <ScrollView>
                 {this.state.teachers.map(teacher => (
                     <TeacherCell

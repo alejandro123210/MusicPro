@@ -4,37 +4,27 @@ import { Rating } from 'react-native-ratings'
 
 let deviceWidth = Dimensions.get("window").width;
 
-class ReviewBox extends React.Component {
-
-    state = {
-        reviewerName: this.props.name,
-        review: this.props.review,
-        starCount: this.props.starCount
-    }
-
-    render(){
-        return(
-            <View style={styles.shadow}>
-                <View style={styles.container}>
-                    <View style={styles.title}>
-                        <Text style={styles.reviewerName}>{this.state.reviewerName}</Text>
-                        <Rating
-                            count={5}
-                            startingValue={this.state.starCount}
-                            style={{paddingRight: 20}}
-                            imageSize={18}
-                            // onFinishRating={(rating) => this.quickRate(rating)}
-                            readonly ={true}
-                        />
-                    </View>
-                    <View style={styles.description}>
-                        <Text>{this.state.review}</Text>
-                    </View>
+function reviewBox({name, review, starCount }){
+    return(
+        <View style={styles.shadow}>
+            <View style={styles.container}>
+                <View style={styles.title}>
+                    <Text style={styles.reviewerName}>{name}</Text>
+                    <Rating
+                        count={5}
+                        startingValue={starCount}
+                        style={{paddingRight: 20}}
+                        imageSize={18}
+                        // onFinishRating={(rating) => this.quickRate(rating)}
+                        readonly ={true}
+                    />
+                </View>
+                <View style={styles.description}>
+                    <Text>{review}</Text>
                 </View>
             </View>
-        )
-    }
-
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -68,4 +58,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ReviewBox
+export default reviewBox

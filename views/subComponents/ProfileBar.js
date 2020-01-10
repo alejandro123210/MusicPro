@@ -2,44 +2,40 @@ import React from 'react';
 import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 
-//required props: 
-//name
-//imageURL
+function profileBar({userData}){
 
-class ProfileBar extends React.Component {
+    var name = JSON.stringify(userData['name']).slice(3,-3)
+    var photo = JSON.stringify(userData['photo']).slice(3,-3)
 
-    onPress = () => {
-        console.log(this.props.userData['name'])
-        {if (this.props.userData['userType'] == 'student'){
-            Actions.SettingsForStudents({userData: this.props.userData});
+    onSettingsPressed = () => {
+        console.log(userData['name'])
+        {if (userData['userType'] == 'student'){
+            Actions.SettingsForStudents({userData: userData});
         }
         else{
-            Actions.SettingsForTeachers({userData: this.props.userData});
+            Actions.SettingsForTeachers({userData: userData});
         }}
     }
 
-    render(){
-        return(
-            <View style={styles.topBar}>
-              <View style={styles.imageContainer}>
-                <Image
-                  source={{ uri: this.props.image }}
-                  style={styles.imageMain}
-                />
-              </View>
-              <View style={styles.nameContainer}>
-                <Text style={styles.profileText}>{this.props.name}</Text>
-                <TouchableOpacity onPress={() => this.onPress()}>
-                    <Text style={styles.settingsText}>Settings</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-        );
-    }
+    return(
+        <View style={styles.topBar}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={{ uri: photo }}
+              style={styles.imageMain}
+            />
+          </View>
+          <View style={styles.nameContainer}>
+            <Text style={styles.profileText}>{name}</Text>
+            <TouchableOpacity onPress={() => onSettingsPressed()}>
+                <Text style={styles.settingsText}>Settings</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -81,4 +77,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ProfileBar;
+export default profileBar;

@@ -3,30 +3,17 @@ import {Text, View, StyleSheet, Dimensions } from 'react-native'
 
 let deviceHeight = Dimensions.get("window").height;
 
-class DateBar extends React.Component{
+export function dateBar() {
+  var date = new Date().getDate(); //Current Date
+  var month = new Date().getMonth() + 1; //Current Month
+  var year = new Date().getFullYear(); //Current Year
+  var fullDateText = "Today is: " + month + "/" + date + "/" + year
 
-    state = {
-        date: ''
-    }
-
-    componentDidMount(){
-        var date = new Date().getDate(); //Current Date
-        var month = new Date().getMonth() + 1; //Current Month
-        var year = new Date().getFullYear(); //Current Year
-        this.setState({
-          //Setting the value of the date time
-          date: "Today is: " + month + "/" + date + "/" + year
-        });
-    }
-
-    render(){
-        return(
-            <View style={styles.dateBar}>
-                <Text style={styles.dateText}>{this.state.date}</Text>
-            </View>
-        )
-    }
-
+  return(
+    <View style={styles.dateBar}>
+      <Text style={styles.dateText}>{fullDateText}</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -47,4 +34,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DateBar
+export default dateBar

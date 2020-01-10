@@ -12,33 +12,32 @@ class LargePrompt extends React.Component{
         description: ''
     }
 
-    render(){
-        return(
-            <KeyboardAwareScrollView 
-              style={{ backgroundColor: '#274156' }}
-              resetScrollToCoords={{ x: 0, y: 0 }}
-              contentContainerStyle={styles.container}
-              scrollEnabled={false}
-              keyboardShouldPersistTaps={'always'}
-            >
-            <Text style={styles.titleText}>{this.state.title}</Text>
-            <View style={styles.inputContainer}>
-                <TextInput 
-                    style={styles.input} 
-                    multiline={true} 
-                    onChangeText={(description) => this.setState({description: description})}
-                    ref={input => { this.textInput = input }}
-                    blurOnSubmit={false}
-                    returnKeyType='go'
-                />
-            </View>
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.donePressed(this.state.description)}>
-              <Text style={styles.doneText}>Done</Text>
-            </TouchableOpacity>
-          </KeyboardAwareScrollView>
-        )
-    }
-
+  render(){
+    return(
+      <KeyboardAwareScrollView 
+        style={{ backgroundColor: '#274156' }}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        scrollEnabled={false}
+        keyboardShouldPersistTaps={'always'}
+      >
+        <Text style={styles.titleText}>{this.state.title}</Text>
+        <View style={styles.inputContainer}>
+          <TextInput 
+              style={styles.input} 
+              multiline={true} 
+              onChangeText={(description) => this.setState({description: description})}
+              ref={input => { this.textInput = input }}
+              blurOnSubmit={false}
+              returnKeyType='go'
+          />
+        </View>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.donePressed(this.state.description)}>
+          <Text style={styles.doneText}>Done</Text>
+        </TouchableOpacity>
+      </KeyboardAwareScrollView>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -51,7 +50,8 @@ const styles = StyleSheet.create({
     titleText: {
       fontSize: 30,
       color: 'white',
-      marginTop: 80
+      marginTop: 80,
+      textAlign: 'center'
     },
     inputContainer: {
       borderRadius: 30,
@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         color: 'gray',
-        margin: 10
+        margin: 10,
+        textAlignVertical: 'top'
     },
     buttonContainer: {
       alignItems: 'center',

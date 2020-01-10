@@ -3,32 +3,22 @@ import { Text, StyleSheet, View, TouchableOpacity, Dimensions } from 'react-nati
 
 let deviceWidth = Dimensions.get("window").width;
 
-//this class will be changed to fit in more screens
-class HoursCell extends React.Component {
-    
-    state = {
-        available: this.props.available,
-        name: this.props.name,
-        backgroundColor: '',
-        fontColor: '',
-        //needs onPress prop
-    }
-    
-    render() {
-        return (
-            <View style={styles.shadow}>
-                <TouchableOpacity 
-                    onPress={() => this.props.onPress()} 
-                    delayPressIn={70} 
-                    activeOpacity={0.4} 
-                    style={styles.cellView}
-                >
-                    <Text style={styles.timeText}>{this.state.name}</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
+//theres a way to make this work for TeacherAvailabilityConfigurator as well
+function hoursCell({ name, onPress }){
+    return(
+        <View style={styles.shadow}>
+            <TouchableOpacity 
+                onPress={() => onPress()} 
+                delayPressIn={70} 
+                activeOpacity={0.4} 
+                style={styles.cellView}
+            >
+                <Text style={styles.timeText}>{name}</Text>
+            </TouchableOpacity>
+        </View>
+    )
 }
+
 
 const styles = StyleSheet.create({
     shadow: {
@@ -54,4 +44,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HoursCell;
+export default hoursCell;

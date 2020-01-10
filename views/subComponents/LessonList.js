@@ -3,11 +3,11 @@
 // TeacherDash, StudentDash, LessonRequests, StudentLessonRequests
 
 import React from "react";
-import { Text, View, StyleSheet, ScrollView, Alert, Platform } from "react-native";
+import { Text, View, StyleSheet, ScrollView, Alert, Platform, TouchableOpacity, FlatList } from "react-native";
 import ProfileBar from "../subComponents/ProfileBar";
 import ScheduledEventCell from "../subComponents/ScheduledEventCell";
 import DateBar from "../subComponents/DateBar";
-import { cancelLessons, loadLessons } from './BackendComponents/BackendFunctions'
+import { cancelLessons, loadLessons, loadLessonsOnce } from './BackendComponents/BackendFunctions'
 import * as firebase from 'firebase'
 
 class LessonList extends React.Component {
@@ -18,7 +18,7 @@ class LessonList extends React.Component {
         lessonsList: [],
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         loadLessons(this.state.userData, this.state.lessonType, this)
     }
 
@@ -92,11 +92,7 @@ class LessonList extends React.Component {
     render(){
         return(
             <View style={styles.container}>
-                <ProfileBar 
-                    name={JSON.stringify(this.state.userData['name']).slice(3,-3)}
-                    image={JSON.stringify(this.state.userData['photo']).slice(3,-3)}
-                    userData={this.state.userData}
-                />
+                <ProfileBar userData={this.state.userData} />
                 <DateBar />
                 {this.state.lessonsList.length != 0?
                     <ScrollView>

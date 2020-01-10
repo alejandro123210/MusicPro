@@ -9,22 +9,17 @@ import { Text, StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'rea
 
 let deviceWidth = Dimensions.get("window").width;
 
-const TimeCell = props => {
-    
-    state = {
-        backgroundColor: props.backgroundColor,
-        fontColor: props.fontColor
-    }
-    
+function timeCell({backgroundColor, name, fontColor, onPress}){
+
     return (
         <View>
             <TouchableOpacity 
-                onPress={() => props.onPress()} 
+                onPress={() => onPress()} 
                 delayPressIn={70} 
                 activeOpacity={0.9} 
-                style={[styles.cellView, {backgroundColor: state.backgroundColor}]}
+                style={[styles.cellView, {backgroundColor: backgroundColor}]}
             >
-                <Text style={[styles.timeText, {color: state.fontColor}]}>{props.name}</Text>
+                <Text style={[styles.timeText, {color: fontColor}]}>{name}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -46,4 +41,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TimeCell;
+export default timeCell;

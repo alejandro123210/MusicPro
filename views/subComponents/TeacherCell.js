@@ -5,62 +5,49 @@ import InstrumentTag from './instrumentTag';
 
 let deviceWidth = Dimensions.get("window").width;
 
-class TeacherCell extends React.Component {
-
-    state = {
-        image: this.props.image,
-        name: this.props.name,
-        location: this.props.location,
-        instruments: this.props.instruments,
-        starCount: this.props.starCount,
-        distance: this.props.distance
-        //ONpress
-    }
-
-    render(){
-        return (
-            <TouchableOpacity style={styles.shadow} onPress={() => this.props.onPress()} delayPressIn={70} activeOpacity={0.7}>
-                <View style={styles.container}>
-                    <View style={styles.topBar}>
-                        <Image 
-                            style={styles.circle}
-                            source={{uri: this.state.image}}
+function teacherCell({image, name, location, instruments, starCount, distance, onPress, onBookPressed}){
+    return(
+        <TouchableOpacity style={styles.shadow} onPress={() => onPress()} delayPressIn={70} activeOpacity={0.7}>
+            <View style={styles.container}>
+                <View style={styles.topBar}>
+                    <Image 
+                        style={styles.circle}
+                        source={{uri: image}}
+                    />
+                    <View style={styles.nameContainer}>
+                        <Text style={styles.nameText}>{name}</Text>
+                        <Rating 
+                            count={5}
+                            startingValue={starCount}
+                            style={{paddingTop: 10}}
+                            imageSize={20}
+                            // onFinishRating={(rating) => this.quickRate(rating)}
+                            readonly ={true}
                         />
-                        <View style={styles.nameContainer}>
-                            <Text style={styles.nameText}>{this.state.name}</Text>
-                            <Rating 
-                                count={5}
-                                startingValue={this.state.starCount}
-                                style={{paddingTop: 10}}
-                                imageSize={20}
-                                // onFinishRating={(rating) => this.quickRate(rating)}
-                                readonly ={true}
-                            />
-                            <Text style={styles.locationText}>{this.state.location} (≈{this.props.distance} mi)</Text>
-                        </View>
+                        <Text style={styles.locationText}>{location} (≈{distance} mi)</Text>
                     </View>
-                    <View style={styles.midSection}>
-                        <View style={styles.instrumentsContainer}>
-                            {this.state.instruments != null? 
-                                this.state.instruments.map(instrument => (
-                                    <InstrumentTag
-                                        instrument={instrument}
-                                        colorOfCell = '#274156'
-                                        key = {this.state.instruments.findIndex(instrumentinArray => instrument == instrumentinArray)}
-                                    />
-                                ))
-                            :
-                                <View/>
-                            }
-                        </View>        
-                    </View>
-                    <TouchableOpacity style={styles.bottomButtons} onPress={() => this.props.onBookPressed()} activeOpacity={0.7}>
-                        <Text style={styles.bookText}>Book a lesson</Text>
-                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
-        );
-    }
+                <View style={styles.midSection}>
+                    <View style={styles.instrumentsContainer}>
+                        {instruments != null? 
+                            instruments.map(instrument => (
+                                <InstrumentTag
+                                    instrument={instrument}
+                                    colorOfCell = '#274156'
+                                    key = {instruments.findIndex(instrumentinArray => instrument == instrumentinArray)}
+                                />
+                            ))
+                        :
+                            <View/>
+                        }
+                    </View>        
+                </View>
+                <TouchableOpacity style={styles.bottomButtons} onPress={() => onBookPressed()} activeOpacity={0.7}>
+                    <Text style={styles.bookText}>Book a lesson</Text>
+                </TouchableOpacity>
+            </View>
+        </TouchableOpacity>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -124,4 +111,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TeacherCell;
+export default teacherCell;
