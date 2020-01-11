@@ -114,7 +114,7 @@ class LessonList extends React.Component {
                     </ScrollView>
                 :
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{color: 'gray', fontSize: 30, textAlign: 'center'}}>No lessons at the moment :/</Text>
+                        <Text style={{color: 'gray', fontSize: 25, textAlign: 'center'}}>No lessons at the moment :/</Text>
                     </View>
                 }
             </View>

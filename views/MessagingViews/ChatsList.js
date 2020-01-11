@@ -33,6 +33,7 @@ class ChatsList extends React.Component {
         })
     }
 
+
     onCellPressed = (conversation) => {
         var otherUser = {
             name: conversation.userName,
@@ -60,7 +61,6 @@ class ChatsList extends React.Component {
             ],
             {cancelable: true},
         );
-
     }
 
     deleteMessages = (conversation) => {

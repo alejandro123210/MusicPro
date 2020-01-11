@@ -94,18 +94,21 @@ class Chat extends React.Component {
 
     render(){
         return(
-            <GiftedChat
-                messages={this.state.messages}
-                onSend={messages => this.onSend(messages)}
-                user={{
-                    _id: this.state.userData['uid'],
-                    name: this.state.userData['name'],
-                    avatar: this.state.userData['photo']
-                }}
-                onPressAvatar = {() => this.avatarPressed()}
-                showAvatarForEveryMessage = {false}
-                renderBubble = {this.renderBubble}
-            />
+            <View style={{backgroundColor: 'white', flex: 1}}>
+                <GiftedChat
+                    messages={this.state.messages}
+                    onSend={messages => this.onSend(messages)}
+                    user={{
+                        _id: this.state.userData['uid'],
+                        name: this.state.userData['name'],
+                        avatar: this.state.userData['photo']
+                    }}
+                    onPressAvatar = {() => this.avatarPressed()}
+                    showAvatarForEveryMessage = {false}
+                    renderBubble = {this.renderBubble}
+                    
+                />
+            </View>
         )
     }
 }
