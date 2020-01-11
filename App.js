@@ -35,6 +35,8 @@ import FAQPage from './views/SettingsViews/FAQPage';
 import AboutUsPage from './views/SettingsViews/AboutUsPage';
 import ReportBugsPage from './views/SettingsViews/ReportBugsPage';
 import SuggestFeaturePage from './views/SettingsViews/SuggestFeaturePage';
+import Chat from './views/MessagingViews/Chat';
+import ChatsList from './views/MessagingViews/ChatsList';
 
 //Create a dedicated class that will manage the icon
 function CalendarIcon() {
@@ -183,6 +185,14 @@ export default function App() {
           component = { RequestLessonDetail }
           hideNavBar = { false }
         />
+        <Scene
+          key = 'Chat'
+          component = { Chat }          
+        />
+        <Scene
+          key = 'ChatsList'
+          component = { ChatsList }
+        />
         <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
             <Scene 
               key = 'StudentDash'
@@ -233,7 +243,7 @@ export default function App() {
             gesturesEnabled = {false}
             icon = { EditIcon }
           />
-        </Scene>
+        </Scene>     
       </Scene>
     </Router>
     

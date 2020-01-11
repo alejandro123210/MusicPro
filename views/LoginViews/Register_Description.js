@@ -17,10 +17,10 @@ class Register_Description extends React.Component {
         ref.set({
             email: user.email,
             uid: user.uid,
-            name: JSON.stringify(this.props.userInfo['user']['name']),
+            name: this.props.userInfo['user']['name'],
             userType: "teacher",
             instruments: this.props.instruments,
-            photo: JSON.stringify(this.props.userInfo['user']['photo']),
+            photo: this.props.userInfo['user']['photo'],
             location: this.props.location,
             coordinates: this.props.coordinates,
             description: description,

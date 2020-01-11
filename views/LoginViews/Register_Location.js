@@ -21,7 +21,7 @@ class Register_Location extends React.Component {
             var location = json.results[0].address_components[1]['long_name'];
             var coordinates = json.results[0]["geometry"]["location"]
             this.setState({
-               location: JSON.stringify(location),
+               location: location,
                coordinates: coordinates
             })
             Actions.Register_Description({

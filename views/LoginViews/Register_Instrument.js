@@ -25,10 +25,10 @@ class Register_Instrument extends React.Component {
                 ref.set({
                     email: user.email,
                     uid: user.uid,
-                    name: JSON.stringify(this.props.userInfo['user']['name']),
+                    name: this.props.userInfo['user']['name'],
                     userType: "student",
                     instruments: this.state.instruments,
-                    photo: JSON.stringify(this.props.userInfo['user']['photo']),
+                    photo: this.props.userInfo['user']['photo'],
                     lessons: []
                 });
                 ref.once('value').then(function (snapshot){

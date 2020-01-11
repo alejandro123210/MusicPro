@@ -44,10 +44,10 @@ loadTeachers = async () => {
                 var dist = geodist(this.state.coordinates, usersData[uid]['info']['coordinates'])
                 //create the teacher object to push to the list
                 var teacher = {
-                    name: usersData[uid]['info']['name'].slice(1, -1),
-                    location: usersData[uid]['info']['location'].slice(1, -1),
+                    name: usersData[uid]['info']['name'],
+                    location: usersData[uid]['info']['location'],
                     instruments: usersData[uid]['info']['instruments'],
-                    picture: usersData[uid]['info']['photo'].slice(1, -1),
+                    photo: usersData[uid]['info']['photo'],
                     uid: uid,
                     key: key.toString(),
                     starCount: averageStars,
@@ -108,7 +108,7 @@ onBookPressed = (teacher) => {
             <ScrollView>
                 {this.state.teachers.map(teacher => (
                     <TeacherCell
-                        image = {teacher.picture}
+                        image = {teacher.photo}
                         name = {teacher.name}
                         instruments = {teacher.instruments}
                         starCount = {teacher.starCount}

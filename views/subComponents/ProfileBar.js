@@ -7,32 +7,35 @@ let deviceWidth = Dimensions.get("window").width;
 
 function profileBar({userData}){
 
-    var name = JSON.stringify(userData['name']).slice(3,-3)
-    var photo = JSON.stringify(userData['photo']).slice(3,-3)
+    var name = userData['name']
+    var photo = userData['photo']
+    
+    onMessagesPressed = () => {
+        Actions.ChatsList({userData})
+    }
 
     onSettingsPressed = () => {
-        console.log(userData['name'])
-        {if (userData['userType'] == 'student'){
+        if (userData['userType'] == 'student'){
             Actions.SettingsForStudents({userData: userData});
         }
         else{
             Actions.SettingsForTeachers({userData: userData});
-        }}
+        }
     }
 
     return(
         <View style={styles.topBar}>
-          <View style={styles.imageContainer}>
+          <TouchableOpacity style={styles.imageContainer} onPress={() => onSettingsPressed()}>
             <Image
               source={{ uri: photo }}
               style={styles.imageMain}
             />
-          </View>
+          </TouchableOpacity>
           <View style={styles.nameContainer}>
             <Text style={styles.profileText}>{name}</Text>
-            <TouchableOpacity onPress={() => onSettingsPressed()}>
+            <TouchableOpacity onPress={() => onMessagesPressed()}>
                 {/* <Text style={styles.settingsText}>Settings</Text> */}
-                <Image source={require('../Assets/settings.png')} style={styles.settingsIcon}/>
+                <Image source={require('../Assets/message.png')} style={styles.settingsIcon}/>
             </TouchableOpacity>
           </View>
         </View>

@@ -48,11 +48,11 @@ class TeacherInfo extends React.Component {
                 averageStars = arrAvg(reviewStars)
             }
             let allTeacherData = {
-                name: teacherData['name'].slice(1, -1),
+                name: teacherData['name'],
                 location: teacherData['location'],
                 description: teacherData['description'],
                 instruments: teacherData['instruments'],
-                photo: teacherData['photo'].slice(1, -1),
+                photo: teacherData['photo'],
                 uid: teacherData['uid'],
                 reviewRating: averageStars,
                 reviews: reviews
@@ -73,6 +73,13 @@ class TeacherInfo extends React.Component {
         Actions.ReviewTeacher({
             userData: this.props.userData,
             teacher: this.state.teacher
+        })
+    }
+
+    onMessagePressed = () => {
+        Actions.Chat({
+            userData: this.props.userData,
+            otherUser: this.state.teacher
         })
     }
 
@@ -108,7 +115,10 @@ class TeacherInfo extends React.Component {
                     <Text style={styles.buttonText}>Book a lesson</Text> 
                 </TouchableOpacity> 
                 <TouchableOpacity onPress={() => this.onLeaveReviewPressed()} style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>Leave a Review</Text>
+                    <Text style={styles.buttonText}>Leave a review</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.onMessagePressed()} style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>Send a message</Text>
                 </TouchableOpacity>
                 <View style={styles.reviewsTitleContainer}>
                     <Text style={styles.reviewsTitleText}> Reviews: </Text>

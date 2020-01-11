@@ -21,6 +21,7 @@
     "react-native-calendar": "^0.13.1",
     "react-native-calendars": "^1.214.0",
     "react-native-geocoding": "^0.4.0",
+    "react-native-gifted-chat": "^0.13.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-ratings": "^6.5.0",
     "react-native-router-flux": "^4.0.6"

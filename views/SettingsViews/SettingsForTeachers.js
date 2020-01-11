@@ -109,15 +109,15 @@ class SetingsForTeachers extends React.Component {
              <View style={styles.profileContainer}>
                 <View style ={styles.imageContainer}>
                       <Image
-                          source={{ uri: JSON.stringify(this.props.userData['photo']).slice(3,-3)}}
+                          source={{ uri: this.props.userData['photo']}}
                           style={styles.imageMain}
                       />
                   </View>
                   <View style = {styles.descriptionContainer}>
-                      <Text style={styles.regularButton}>{JSON.stringify(this.props.userData['name']).slice(3,-3)}</Text>
-                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['location']).slice(3,-3)}</Text>
+                      <Text style={styles.regularButton}>{this.props.userData['name']}</Text>
+                      <Text style={styles.statusBar}>{this.props.userData['location']}</Text>
                       <Text style={styles.statusBar}>{capitalize(this.props.userData['userType'])}</Text>
-                      <Text style={styles.statusBar}>{JSON.stringify(this.props.userData['instruments'])}</Text>
+                      <Text style={styles.statusBar}>{this.props.userData['instruments']}</Text>
                   </View>
                 </View>
                </TouchableOpacity>     
