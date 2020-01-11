@@ -2,15 +2,15 @@ import React from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 
 
-function conversationCell({conversation, onCellPressed}){
+function conversationCell({conversation, onCellPressed, onCellLongPressed}){
 
     var moment = require('moment')
     var timeOfMessaage = moment(conversation.lastMessageAt).format('MM-DD-YYYY')
 
     return(
         //this conditional is here to prevent app from crashing on database changes
-        conversation.messages != undefined? 
-            <TouchableOpacity style={styles.container} onPress={() => onCellPressed()}>
+         
+            <TouchableOpacity style={styles.container} onPress={() => onCellPressed()} onLongPress={() => onCellLongPressed()}>
                 <Image
                     source = {{uri: conversation.userPhoto}}
                     style = {styles.photo}
@@ -21,12 +21,14 @@ function conversationCell({conversation, onCellPressed}){
                         <Text style={styles.timeText}>{timeOfMessaage}</Text>
                     </View>
                     <View style={styles.lastMessageContainer}>
+                    {conversation.messages != undefined?
                         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.lastMessageText}>{conversation.messages[0]['text']}</Text>
+                    :   
+                        <Text style={styles.lastMessageText}>No messages yet</Text>
+                    }
                     </View>
                 </View>
             </TouchableOpacity>
-        :
-            <View/>
     )
 }
 

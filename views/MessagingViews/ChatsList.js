@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView} from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
 import * as firebase from 'firebase'
-import ConversationCell from '../subComponents/TableCells/conversationCell';
+import ConversationCell from '../subComponents/TableCells/ConversationCell';
 import { Actions } from 'react-native-router-flux';
 
 class ChatsList extends React.Component {
@@ -45,6 +45,31 @@ class ChatsList extends React.Component {
         })
     }
 
+    onCellLongPressed = (conversation) => {
+        Alert.alert(
+            'Delete Messages?',
+            'are you sure you want to delete your messages with ' + conversation.userName + '?',
+            [
+            {text: 'delete', onPress: () => this.deleteMessages(conversation)},
+            {
+                text: 'Nevermind',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            ],
+            {cancelable: true},
+        );
+
+    }
+
+    deleteMessages = (conversation) => {
+        var db = firebase.database()
+        var userRef = db.ref(`Messages/${this.state.userData['uid']}/${conversation.uid}`)
+        var otherUserRef = db.ref(`Messages/${conversation.uid}/${this.state.userData['uid']}`)
+        userRef.remove()
+        otherUserRef.remove()
+    }
+
     render(){
         return(
             <ScrollView>
@@ -53,6 +78,7 @@ class ChatsList extends React.Component {
                         conversation = {conversation}
                         key = {this.state.conversations.findIndex(convoToFind => convoToFind == conversation)}
                         onCellPressed = {() => this.onCellPressed(conversation)}
+                        onCellLongPressed = {() => this.onCellLongPressed(conversation)}
                     />
                 ))}
             </ScrollView>

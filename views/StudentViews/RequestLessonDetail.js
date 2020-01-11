@@ -29,10 +29,10 @@ class RequestLessonDetail extends React.Component {
 
   confirmRequest = () => {
     if(this.state.selectedInstruments.length > 0){
-      var studentName = this.props.userData['name'].slice(1,-1)
+      var studentName = this.props.userData['name']
       var studentIDNum = this.props.userData['uid']
-      var teacherImage = this.props.teacher.picture;
-      var studentImage = this.props.userData['photo'].slice(1, -1)
+      var teacherImage = this.props.teacher.photo;
+      var studentImage = this.props.userData['photo']
       var teacherName = this.props.teacher.name;
       var teacherIDNum = this.props.teacher.uid;
       var date = this.props.date
@@ -94,9 +94,29 @@ class RequestLessonDetail extends React.Component {
       teacherRef.child(teacherLessonRequestKey).update(lessonData)
       studentRef.child(studentLessonRequestKey).update(lessonData)
       Actions.StudentLessonRequest({userData: this.props.userData})
+
+      //start a conversation just
+      var moment = require('moment')
+      var currentDate = moment().format('MM-DD-YYYY')
+      let userMessageData = {
+        lastMessageAt: currentDate,
+        userName: lessonData.teacherName,
+        userPhoto: lessonData.teacherImage
+      }
+      let otherUserMessageData = {
+        lastMessageAt: currentDate,
+        userName: this.state.userData['name'],
+        userPhoto: this.state.userData['photo']
+      }
+      var userRef = db.ref(`Messages/${this.state.userData['uid']}/${lessonData.teacherIDNum}/`)
+      var otherUserRef = db.ref(`Messages/${lessonData.teacherIDNum}/${this.state.userData['uid']}/`)
+      userRef.update(userMessageData)
+      otherUserRef.update(otherUserMessageData)
     } else {
       alert('you have to pick an instrument!')
     }
+
+
   }
 
   selectInstrument = (instrument) => {
@@ -116,7 +136,7 @@ class RequestLessonDetail extends React.Component {
         <View style={styles.container}>
           <View style={styles.imageContainer}>
           <Image 
-              source={{ uri: this.state.teacher.picture }}
+              source={{ uri: this.state.teacher.photo }}
               style={styles.imageMain}
             />
           </View>

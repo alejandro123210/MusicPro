@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux';
 
 class Chat extends React.Component {
 
@@ -9,8 +10,6 @@ class Chat extends React.Component {
         messages: [],
         userData: this.props.userData,
         otherUser: this.props.otherUser,
-
-        uid: this.props.userData['uid']
     }
 
     componentDidMount() {
@@ -65,7 +64,15 @@ class Chat extends React.Component {
         }
     }
 
-      
+    avatarPressed = () => {
+        if(this.state.userData['userType'] == 'student'){
+            const teacher = {
+                uid: this.state.otherUser.uid
+            }
+            Actions.TeacherInfo({teacher: teacher})
+        }
+    }      
+
     render(){
         return(
             <GiftedChat
@@ -73,8 +80,10 @@ class Chat extends React.Component {
                 onSend={messages => this.onSend(messages)}
                 user={{
                     _id: this.state.userData['uid'],
-                    name: this.state.userData['name']
+                    name: this.state.userData['name'],
+                    avatar: this.state.userData['photo']
                 }}
+                onPressAvatar = {() => this.avatarPressed()}
             />
         )
     }
