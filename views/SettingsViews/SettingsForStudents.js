@@ -48,26 +48,31 @@ class SettingsForStudents extends React.Component {
 
 
   signOut = async () => {
-      try {
-        await GoogleSignin.revokeAccess();
-        await GoogleSignin.signOut();
-        this.setState({ user: null }); // Remember to remove the user from your app's state as well
-        firebase.auth().signOut().then(function() {
-          // Sign-out successful.
-          Actions.Login({userData: null});
-        
-        }).catch(function(error) {
-          alert('Sorry, there was a problem signing you out!')
-        });
-      } catch (error) {
-        console.error(error);
-        alert(error)
-      }
-    };
+    //removing listener
+    var db = firebase.database()
+    db.ref(`users/${this.props.userData['uid']}/info/lessons`).off()
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      this.setState({ user: null }); // Remember to remove the user from your app's state as well
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        Actions.Login({userData: null});
+      
+      }).catch(function(error) {
+        alert('Sorry, there was a problem signing you out!')
+      });
+    } catch (error) {
+      console.error(error);
+      alert(error)
+    }
+  };
 
     
   deleteAccount = async () => {
     var db = firebase.database()
+    //remove listener
+    db.ref(`users/${this.props.userData['uid']}/info/lessons`).off()
     var userLessonsRef = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
     userLessonsRef.once("value")
     .then((snapshot) => {

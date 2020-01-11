@@ -8,7 +8,7 @@ class ChatsList extends React.Component {
 
     state = {
         conversations: [],
-        userData: this.props.userData
+        userData: this.props.userData,
     }
     
     componentWillMount(){
@@ -30,6 +30,12 @@ class ChatsList extends React.Component {
             }
             that.setState({conversations})
         })
+    }
+
+    componentWillUnmount(){
+        console.log('unmounted')
+        var db = firebase.database()
+        db.ref(`Messages/${this.state.userData['uid']}/`).off()
     }
 
     onCellPressed = (conversation) => {
@@ -72,16 +78,23 @@ class ChatsList extends React.Component {
 
     render(){
         return(
-            <ScrollView>
-                {this.state.conversations.map(conversation => (
-                    <ConversationCell
-                        conversation = {conversation}
-                        key = {this.state.conversations.findIndex(convoToFind => convoToFind == conversation)}
-                        onCellPressed = {() => this.onCellPressed(conversation)}
-                        onCellLongPressed = {() => this.onCellLongPressed(conversation)}
-                    />
-                ))}
-            </ScrollView>
+            this.state.conversations.length != 0?
+                <ScrollView>
+                    {this.state.conversations.map(conversation => (
+                        <ConversationCell
+                            conversation = {conversation}
+                            key = {this.state.conversations.findIndex(convoToFind => convoToFind == conversation)}
+                            onCellPressed = {() => this.onCellPressed(conversation)}
+                            onCellLongPressed = {() => this.onCellLongPressed(conversation)}
+                        />
+                    ))}
+                </ScrollView>
+            :
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{color: 'gray', textAlign: 'center', fontSize: 30}}>No messages</Text>
+                </View>
+            
+ 
         )
     }
 }

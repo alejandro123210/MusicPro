@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux';
 
@@ -24,6 +24,12 @@ class Chat extends React.Component {
             }
             that.setState({messages})
         })
+    }
+
+    componentWillUnmount(){
+        console.log('unmounted')
+        var db = firebase.database()
+        db.ref(`Messages/${this.state.userData['uid']}/${this.state.otherUser.uid}/messages`).off()
     }
 
     onSend = async (messages = []) => {
@@ -73,6 +79,19 @@ class Chat extends React.Component {
     //     }
     }      
 
+    renderBubble (props) {
+        return (
+          <Bubble
+            {...props}
+            wrapperStyle={{
+              right: {
+                backgroundColor: "#274156"
+              }
+            }}
+          />
+        )
+    }
+
     render(){
         return(
             <GiftedChat
@@ -85,6 +104,7 @@ class Chat extends React.Component {
                 }}
                 onPressAvatar = {() => this.avatarPressed()}
                 showAvatarForEveryMessage = {false}
+                renderBubble = {this.renderBubble}
             />
         )
     }

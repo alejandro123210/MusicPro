@@ -13,6 +13,7 @@ state = {
     coordinates: {}
 }
 
+//we may want to change this to ref.on so that the stars update, the other option is to add a refresh
 loadTeachers = async () => {
     var db = firebase.database();
     var ref = db.ref(`users/`)
