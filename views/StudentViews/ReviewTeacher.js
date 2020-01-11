@@ -21,7 +21,7 @@ class ReviewTeacher extends React.Component {
         var db = firebase.database();
         var ref = db.ref(`users/${this.state.teacher.uid}/info/reviews`)
         var reviewData = {
-            name: this.state.userData['name'].slice(1,-1),
+            name: this.state.userData['name'],
             description: this.state.review,
             starCount: this.state.rating
         }
