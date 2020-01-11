@@ -65,12 +65,12 @@ class Chat extends React.Component {
     }
 
     avatarPressed = () => {
-        if(this.state.userData['userType'] == 'student'){
-            const teacher = {
-                uid: this.state.otherUser.uid
-            }
-            Actions.TeacherInfo({teacher: teacher})
-        }
+    //     if(this.state.userData['userType'] == 'student'){
+    //         const teacher = {
+    //             uid: this.state.otherUser.uid
+    //         }
+    //         Actions.TeacherInfo({teacher: teacher})
+    //     }
     }      
 
     render(){
