@@ -97,7 +97,7 @@ class RequestLessonDetail extends React.Component {
 
       //start a conversation just
       var moment = require('moment')
-      var currentDate = moment().format('MM-DD-YYYY')
+      var currentDate = moment().format()
       let userMessageData = {
         lastMessageAt: currentDate,
         userName: lessonData.teacherName,

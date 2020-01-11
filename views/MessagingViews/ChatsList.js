@@ -20,7 +20,7 @@ class ChatsList extends React.Component {
             var conversations = []
             for(userKey in conversationsData){
                 let conversation = {
-                    lastMessageAt: conversationsData[userKey],
+                    lastMessageAt: conversationsData[userKey]['lastMessageAt'],
                     messages: conversationsData[userKey]['messages'],
                     userName: conversationsData[userKey]['userName'],
                     userPhoto: conversationsData[userKey]['userPhoto'],
@@ -28,14 +28,9 @@ class ChatsList extends React.Component {
                 }
                 conversations.push(conversation)
             }
+            conversations.sort((a, b) => (a.lastMessageAt > b.lastMessageAt) ? -1 : 1)
             that.setState({conversations})
         })
-    }
-
-    componentWillUnmount(){
-        console.log('unmounted')
-        var db = firebase.database()
-        db.ref(`Messages/${this.state.userData['uid']}/`).off()
     }
 
     onCellPressed = (conversation) => {
