@@ -84,6 +84,7 @@ class Chat extends React.Component {
                     avatar: this.state.userData['photo']
                 }}
                 onPressAvatar = {() => this.avatarPressed()}
+                showAvatarForEveryMessage = {false}
             />
         )
     }
