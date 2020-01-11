@@ -4,7 +4,7 @@ import * as firebase from 'firebase'
 import InstrumentTag from '../subComponents/instrumentTag';
 import { Rating } from 'react-native-ratings';
 import { Actions } from 'react-native-router-flux'
-import ReviewBox from '../subComponents/ReviewBox';
+import ReviewBox from '../subComponents/TableCells/ReviewBox';
 
 let deviceWidth = Dimensions.get("window").width;
 

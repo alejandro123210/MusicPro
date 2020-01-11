@@ -5,7 +5,7 @@
 import React from "react";
 import { Text, View, StyleSheet, ScrollView, Alert, Platform, TouchableOpacity, FlatList } from "react-native";
 import ProfileBar from "../subComponents/ProfileBar";
-import ScheduledEventCell from "../subComponents/ScheduledEventCell";
+import ScheduledEventCell from "./TableCells/ScheduledEventCell";
 import DateBar from "../subComponents/DateBar";
 import { cancelLessons, loadLessons, loadLessonsOnce } from './BackendComponents/BackendFunctions'
 import * as firebase from 'firebase'
@@ -114,7 +114,7 @@ class LessonList extends React.Component {
                     </ScrollView>
                 :
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{color: 'gray', fontSize: 30}}>no lessons yet!</Text>
+                        <Text style={{color: 'gray', fontSize: 30, textAlign: 'center'}}>No lessons at the moment :/</Text>
                     </View>
                 }
             </View>

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import ProfileBar from '../subComponents/ProfileBar'
-import TimeCell from '../subComponents/TimeCell';
+import TimeCell from '../subComponents/TableCells/TimeCell';
 import * as firebase from 'firebase'
 import DayBar from '../subComponents/DayBar'
 

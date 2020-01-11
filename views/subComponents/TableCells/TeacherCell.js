@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Rating } from 'react-native-ratings'
-import InstrumentTag from './instrumentTag';
+import InstrumentTag from '../instrumentTag';
 
 let deviceWidth = Dimensions.get("window").width;
 

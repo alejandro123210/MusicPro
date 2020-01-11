@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import ProfileBar from '../subComponents/ProfileBar'
-import TeacherCell from '../subComponents/TeacherCell';
+import TeacherCell from '../subComponents/TableCells/TeacherCell';
 import * as firebase from 'firebase';
 import { Actions } from 'react-native-router-flux'
 import Geolocation from '@react-native-community/geolocation';

@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, Platform } from "react-native";
 import {Calendar } from 'react-native-calendars';
 import * as firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
-import HoursCell from "../subComponents/HoursCell";
+import HoursCell from "../subComponents/TableCells/HoursCell";
 
 class CalendarForStudents extends React.Component {
   state = {
