@@ -88,8 +88,6 @@ class ChatsList extends React.Component {
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{color: 'gray', textAlign: 'center', fontSize: 30}}>No messages</Text>
                 </View>
-            
- 
         )
     }
 }

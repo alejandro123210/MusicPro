@@ -193,11 +193,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    marginTop: 30
+    marginTop: 10,
+    width: deviceWidth -20,
+    textAlign: 'center'
     // color: '#274156'
   },
   time: {
-    marginTop: 10
+    marginTop: 20
   },
   onWhatInstrumentText: {
     paddingTop: 60, 

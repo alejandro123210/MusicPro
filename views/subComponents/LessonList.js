@@ -5,10 +5,10 @@
 import React from "react";
 import { Text, View, StyleSheet, ScrollView, Alert, Platform, TouchableOpacity, FlatList } from "react-native";
 import ProfileBar from "../subComponents/ProfileBar";
-import ScheduledEventCell from "./TableCells/ScheduledEventCell";
 import DateBar from "../subComponents/DateBar";
 import { cancelLessons, loadLessons, loadLessonsOnce } from './BackendComponents/BackendFunctions'
 import * as firebase from 'firebase'
+import LessonCell from "./TableCells/LessonCell";
 
 class LessonList extends React.Component {
 
@@ -95,20 +95,20 @@ class LessonList extends React.Component {
                 <ProfileBar userData={this.state.userData} />
                 <DateBar />
                 {this.state.lessonsList.length != 0?
-                    <ScrollView>
+                    <ScrollView contentContainerStyle={{paddingBottom: 20}}>
                         {this.state.lessonsList.map(lesson => (
-                            <ScheduledEventCell 
-                                userType = { this.state.userData['userType']}
-                                teacherName = { lesson.teacherName }
-                                studentName = { lesson.studentName }
+                            <LessonCell
+                                name = {this.state.userData['userType']=='student' ? lesson.teacherName : lesson.studentName}
+                                image = {this.state.userData['userType']=='student' ? lesson.teacherImage : lesson.studentImage}
                                 time = { lesson.time }
                                 date = { lesson.date }
-                                teacherImage = { lesson.teacherImage }
-                                studentImage = { lesson.studentImage }
                                 instruments = { lesson.instruments }
-                                status = { this.state.lessonType }
-                                onPress = {() => this.onScheduledEventPressed(lesson) }
-                                key = {lesson.key}
+                                onConfirmPressed = {() => this.acceptLesson(lesson)}
+                                onDenyPressed = {() => this.onScheduledEventPressed(lesson)}
+                                onCancelPressed = {() => this.onScheduledEventPressed(lesson)}
+                                key = { lesson.key }
+                                userType = {this.state.userData['userType']}
+                                request = {this.state.lessonType == 'undecided'? true: false}
                             />
                         ))}
                     </ScrollView>
