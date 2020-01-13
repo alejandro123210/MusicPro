@@ -102,8 +102,11 @@ const styles = StyleSheet.create({
     },
     tagView: {
         marginTop: 5,
+        paddingRight: 10,
         flexWrap: 'wrap',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: deviceWidth - 120
     },
     buttonsContainer: {
         flexDirection: 'row',
