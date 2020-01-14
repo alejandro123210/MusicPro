@@ -108,7 +108,7 @@ class CalendarForStudents extends React.Component {
             onDayPress={(day) => {
               //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
               dayOfWeek = new Date(day['dateString']).getDay()
-              dayOfWeek += 1
+              // dayOfWeek += 1
               if(dayOfWeek == 7){
                 dayOfWeek = 0
               }
