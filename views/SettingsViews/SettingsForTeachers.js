@@ -70,9 +70,9 @@ class SetingsForTeachers extends React.Component {
 
   deleteAccount = async () => {
     var db = firebase.database()
-    //remove listener
-    db.ref(`users/${this.props.userData['uid']}/info/lessons`).off()
     var userLessonsRef = db.ref(`users/${this.props.userData['uid']}/info/lessons`)
+    //this turns off the listener that's created by loadLessons
+    userLessonsRef.off()
     userLessonsRef.once("value")
     .then((snapshot) => {
       var lessonData = JSON.parse(JSON.stringify(snapshot.val()))
