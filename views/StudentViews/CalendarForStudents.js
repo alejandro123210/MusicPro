@@ -109,9 +109,9 @@ class CalendarForStudents extends React.Component {
               //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
               dayOfWeek = new Date(day['dateString']).getDay()
               // dayOfWeek += 1
-              if(dayOfWeek == 7){
-                dayOfWeek = 0
-              }
+              // if(dayOfWeek == 7){
+              //   dayOfWeek = 0
+              // }
               var dateString = day['dateString']
               this.setState({date: dateString, selectedDay: dayOfWeek}, function () {
                 this.removeUnavailableTimes(dateString)
