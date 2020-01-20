@@ -79,6 +79,14 @@ function EditIcon() {
   );
 }
 
+function ChatIcon() {
+  return (
+    <View style={{flex:1, flexDirection:'column', alignItems:'center', alignSelf:'center', justifyContent: 'center'}}>
+      <Image source={require('./views/Assets/message.png')} style={{height: 20, width: 20}}/>
+    </View>
+  );
+}
+
 export default function App() {
 
   const firebase = require("firebase");
@@ -189,10 +197,6 @@ export default function App() {
           key = 'Chat'
           component = { Chat }          
         />
-        <Scene
-          key = 'ChatsList'
-          component = { ChatsList }
-        />
         <Scene key='StudentMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
             <Scene 
               key = 'StudentDash'
@@ -218,6 +222,12 @@ export default function App() {
               gesturesEnabled = { false }
               icon = { RequestIcon }
             />
+            <Scene
+              key = 'ChatsList'
+              tabBarLabel = 'Chats'
+              component = { ChatsList }
+              icon = { ChatIcon }
+            />
         </Scene>
         <Scene key='TeacherMain' hideNavBar = { true } tabs={true} wrap={false} gesturesEnabled={false}>
           <Scene
@@ -242,6 +252,12 @@ export default function App() {
             hideNavBar = { false }
             gesturesEnabled = {false}
             icon = { EditIcon }
+          />
+          <Scene
+            key = 'ChatsList'
+            tabBarLabel = 'Chats'
+            component = { ChatsList }
+            icon = { ChatIcon }
           />
         </Scene>     
       </Scene>

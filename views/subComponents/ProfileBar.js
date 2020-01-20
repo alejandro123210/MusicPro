@@ -9,10 +9,6 @@ function profileBar({userData}){
 
     var name = userData['name']
     var photo = userData['photo']
-    
-    onMessagesPressed = () => {
-        Actions.ChatsList({userData})
-    }
 
     onSettingsPressed = () => {
         if (userData['userType'] == 'student'){
@@ -25,17 +21,17 @@ function profileBar({userData}){
 
     return(
         <View style={styles.topBar}>
-          <TouchableOpacity style={styles.imageContainer} onPress={() => onSettingsPressed()}>
+          <View style={styles.imageContainer} onPress={() => onSettingsPressed()}>
             <Image
               source={{ uri: photo }}
               style={styles.imageMain}
             />
-          </TouchableOpacity>
+          </View>
           <View style={styles.nameContainer}>
             <Text style={styles.profileText}>{name}</Text>
-            <TouchableOpacity onPress={() => onMessagesPressed()}>
+            <TouchableOpacity onPress={() => onSettingsPressed()}>
                 {/* <Text style={styles.settingsText}>Settings</Text> */}
-                <Image source={require('../Assets/message.png')} style={styles.messagingIcon}/>
+                <Image source={require('../Assets/settings.png')} style={styles.messagingIcon}/>
             </TouchableOpacity>
           </View>
         </View>

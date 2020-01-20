@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
 import * as firebase from 'firebase'
 import ConversationCell from '../subComponents/TableCells/ConversationCell';
 import { Actions } from 'react-native-router-flux';
+import ProfileBar from '../subComponents/ProfileBar';
 
 class ChatsList extends React.Component {
 
@@ -74,7 +75,11 @@ class ChatsList extends React.Component {
     render(){
         return(
             this.state.conversations.length != 0?
-                <ScrollView>
+            <View style={styles.container}>
+                <ProfileBar
+                    userData = {this.state.userData}
+                />
+                <ScrollView bounces={false}>
                     {this.state.conversations.map(conversation => (
                         <ConversationCell
                             conversation = {conversation}
@@ -84,12 +89,24 @@ class ChatsList extends React.Component {
                         />
                     ))}
                 </ScrollView>
+            </View>
             :
+            <View style={styles.container}>
+                <ProfileBar
+                    userData = {this.state.userData}
+                />
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{color: 'gray', textAlign: 'center', fontSize: 30}}>No messages</Text>
                 </View>
+            </View>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        backgroundColor: Platform.OS === 'ios'? 'white' : '#f5f5f5'
+    },
+})
 export default ChatsList
