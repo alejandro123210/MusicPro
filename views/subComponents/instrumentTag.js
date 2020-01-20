@@ -1,5 +1,64 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+
+// function instrumentTag({ instrument, colorOfCell, type, onPress }){
+
+//     // var highlighted = false
+//     const [highlighted, setHighlighted] = useState()
+//     const [thisColorOfCell, setColor] = useState();
+//     const [backgroundColorOfCell, setBackgroundColorOfCell] = useState()
+
+//     useEffect(() => {
+//         if(highlighted == undefined){
+//             setHighlighted(false)
+//             setColor(colorOfCell)
+//             setBackgroundColorOfCell('white')
+//         }
+//     })
+
+//     highlight = () => {
+//         if(highlighted){
+//             setBackgroundColorOfCell('white')
+//             setColor(colorOfCell)
+//             setHighlighted(false)
+//         } else {
+//             setBackgroundColorOfCell(colorOfCell)
+//             setColor('white')
+//             setHighlighted(true)
+//         }
+//         const instrument = {
+//             instrument: instrument,
+//             selected: highlighted
+//         }
+//         console.log('highlighted ' + highlighted)
+//         // onPress(instrument)
+//     }
+
+//     return(
+//         <View>
+//             {type == 'tappable'?
+//                 <TouchableOpacity 
+//                     onPress={() => onPress()}
+//                     style={[styles.container, {borderColor: thisColorOfCell}]}
+//                 >
+//                     <Text style={[styles.text, {color: thisColorOfCell}]}>{instrument}</Text>
+//                 </TouchableOpacity>
+//             : type == 'highlightable' ?
+//                 <TouchableOpacity 
+//                     onPress={() => highlight()} 
+//                     style={[styles.container, {borderColor: thisColorOfCell, backgroundColor: backgroundColorOfCell}]}
+//                 >
+//                     <Text style={[styles.text, {color: thisColorOfCell}]}>{instrument}</Text>
+//                 </TouchableOpacity>
+//             :
+//                 <View style={[styles.container, {borderColor: thisColorOfCell}]}>
+//                     <Text style={[styles.text, {color: thisColorOfCell}]}>{instrument}</Text>
+//                 </View>
+//             }
+//         </View>
+//     )
+
+// }
 
 
 class InstrumentTag extends React.Component{
@@ -29,7 +88,7 @@ class InstrumentTag extends React.Component{
         }
         const instrument = {
             instrument: this.state.instrument,
-            selected: !this.state.highlighted
+            selected: this.state.highlighted
         }
         this.props.onPress(instrument)
     }
@@ -47,7 +106,7 @@ class InstrumentTag extends React.Component{
                 : this.state.type == 'highlightable' ?
                     <TouchableOpacity 
                         onPress={() => this.highlight()} 
-                        style={[styles.container, {borderColor: this.state.colorOfCell, backgroundColor: this.state.backgroundColor}]}
+                        style={[styles.container, {backgroundColor: this.state.backgroundColor}]}
                     >
                         <Text style={[styles.text, {color: this.state.colorOfCell}]}>{this.state.instrument}</Text>
                     </TouchableOpacity>

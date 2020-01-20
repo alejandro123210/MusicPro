@@ -121,13 +121,14 @@ class RequestLessonDetail extends React.Component {
 
   selectInstrument = (instrument) => {
     var selectedInstruments = this.state.selectedInstruments
-    if(instrument.selected == true){
+    if(instrument.selected == false){
       selectedInstruments.push(instrument.instrument)
       this.setState({selectedInstruments})
     } else {
       selectedInstruments.pop(instrument.instrument)
       this.setState({selectedInstruments})
     }
+    console.log(this.state.selectedInstruments)
   }
   
 
