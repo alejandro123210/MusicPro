@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
 import * as firebase from 'firebase'
-import ConversationCell from '../subComponents/TableCells/ConversationCell';
+import ConversationCell from '../subComponents/TableCells/conversationCell';
 import { Actions } from 'react-native-router-flux';
 import ProfileBar from '../subComponents/ProfileBar';
 
