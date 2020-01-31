@@ -178,14 +178,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         margin: 10,
-        borderTopWidth: 0.3,
-        borderBottomWidth: 0.3,
-        borderBottomColor: 'gray',
         height: 50,
         width: deviceWidth -20 ,
         backgroundColor: '#274156',
         borderRadius: 10
-        
     },
     buttonText: {
         fontSize: 20,

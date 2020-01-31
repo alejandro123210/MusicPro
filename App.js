@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Scene, Tabs } from 'react-native-router-flux';
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { Image, View } from 'react-native'
 
 //login views
@@ -26,17 +27,15 @@ import ReviewTeacher from './views/StudentViews/ReviewTeacher';
 import RequestLessonDetail from './views/StudentViews/RequestLessonDetail';
 
 //settings views
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import SettingsForStudents from './views/SettingsViews/SettingsForStudents';
-import SettingsForTeachers from './views/SettingsViews/SettingsForTeachers';
-import StudentsPersonalInfo from './views/SettingsViews/StudentsPersonalInfo';
-import TeachersPersonalInfo from './views/SettingsViews/TeachersPersonalInfo';
-import FAQPage from './views/SettingsViews/FAQPage';
-import AboutUsPage from './views/SettingsViews/AboutUsPage';
 import ReportBugsPage from './views/SettingsViews/ReportBugsPage';
 import SuggestFeaturePage from './views/SettingsViews/SuggestFeaturePage';
+import Settings from './views/SettingsViews/Settings'
+
+
+//chat views
 import Chat from './views/MessagingViews/Chat';
 import ChatsList from './views/MessagingViews/ChatsList';
+import settings from './views/SettingsViews/Settings';
 
 //Create a dedicated class that will manage the icon
 function CalendarIcon() {
@@ -139,43 +138,18 @@ export default function App() {
           hideNavBar = { true }
         />
         <Scene
-          key = 'SettingsForTeachers'
-          component = { SettingsForTeachers }
-          hideNavBar = {false}
-        />
-        <Scene
-          key = 'SettingsForStudents'
-          component = { SettingsForStudents }
-          hideNavBar = {false}
-        />
-        <Scene
-          key = 'StudentsPersonalInfo'
-          component = { StudentsPersonalInfo }
-          hideNavBar = {false}
-        />
-        <Scene
-          key = 'TeachersPersonalInfo'
-          component = { TeachersPersonalInfo }
-          hideNavBar = {false}
-        />
-        <Scene
-          key = 'FAQPage'
-          component = { FAQPage }
-          hideNavBar = {false}
-        />
-        <Scene
           key = 'ReportBugsPage'
           component = { ReportBugsPage }
           hideNavBar = {false}
         />
         <Scene
-          key = 'AboutUsPage'
-          component = { AboutUsPage }
+          key = 'SuggestFeaturePage'
+          component = { SuggestFeaturePage }
           hideNavBar = {false}
         />
         <Scene
-          key = 'SuggestFeaturePage'
-          component = { SuggestFeaturePage }
+          key = 'Settings'
+          component ={ Settings }
           hideNavBar = {false}
         />
         <Scene

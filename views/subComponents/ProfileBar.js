@@ -11,12 +11,7 @@ function profileBar({userData}){
     var photo = userData['photo']
 
     onSettingsPressed = () => {
-        if (userData['userType'] == 'student'){
-            Actions.SettingsForStudents({userData: userData});
-        }
-        else{
-            Actions.SettingsForTeachers({userData: userData});
-        }
+        Actions.Settings({userData: userData})
     }
 
     return(
