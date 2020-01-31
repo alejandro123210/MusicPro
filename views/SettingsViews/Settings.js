@@ -49,6 +49,7 @@ function settings({userData}){
     deleteAccount = async () => {
         var db = firebase.database()
         var userLessonsRef = db.ref(`users/${userData['uid']}/info/lessons`)
+        var userMessagesRef = db.ref(`Messages/${userData['uid']}`)
         //this turns off the listener that's created by loadLessons
         userLessonsRef.off()
         userLessonsRef.once("value")
@@ -61,7 +62,15 @@ function settings({userData}){
           }
           db.ref(`users/${userData['uid']}`).remove()
         })
-        // Alejandro please review my code!
+        userMessagesRef.once("value")
+        .then((snapshot) => {
+            var messagesData = JSON.parse(JSON.stringify(snapshot.val()))
+            for(userID in messagesData){
+                db.ref(`Messages/${userID}/${userData['uid']}`).remove()
+                console.log(userID)
+            }
+            userMessagesRef.remove()
+        })
         var user = firebase.auth().currentUser;
         await GoogleSignin.revokeAccess();
         await GoogleSignin.signOut();
