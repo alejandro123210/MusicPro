@@ -13,9 +13,9 @@ class LaunchScreen extends React.Component {
             webClientId: '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com', 
             offlineAccess: true, 
             hostedDomain: '', 
-            forceConsentPrompt: true, 
+            forceConsentPrompt: false, 
             iosClientId: '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com'
-          });
+        });
         this.getCurrentUserInfo();
     }
 

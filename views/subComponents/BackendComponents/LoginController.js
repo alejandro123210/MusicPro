@@ -16,7 +16,7 @@ export default class LoginController extends Component {
       webClientId: '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com', 
       offlineAccess: true, 
       hostedDomain: '', 
-      forceConsentPrompt: true, 
+      forceConsentPrompt: false, 
       iosClientId: '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com'
     });
     this.getCurrentUserInfo();
@@ -112,7 +112,7 @@ export default class LoginController extends Component {
       this.setState({ userInfo });
       // alert(userInfo)
       //auto login:
-      const googleCredential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken);     
+      const googleCredential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken);   
       firebase.auth().signInWithCredential(googleCredential)
         .then(appUser => { 
           var user = firebase.auth().currentUser
