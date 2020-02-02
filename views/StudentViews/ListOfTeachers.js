@@ -42,7 +42,9 @@ loadTeachers = async () => {
             if(JSON.stringify(usersData[uid]['info']['userType']) == '"teacher"'){
                 //gets the distance 
                 var geodist = require('geodist')
+                console.log('user coords are ' + this.state.coordinates['lat'])
                 var dist = geodist(this.state.coordinates, usersData[uid]['info']['coordinates'])
+                console.log('distance is ' + dist)
                 //create the teacher object to push to the list
                 var teacher = {
                     name: usersData[uid]['info']['name'],
@@ -63,7 +65,7 @@ loadTeachers = async () => {
     });
 }
 
-findCoordinates = () => {
+findCoordinatesAndLoadTeachers = () => {
     Geolocation.getCurrentPosition(
         position => {
             const long = position['coords']['longitude']
@@ -73,7 +75,10 @@ findCoordinates = () => {
                 lng: long,
             }
             // console.log(coordinates)
-            this.setState({coordinates})
+            this.setState({coordinates}, function(){
+                //we use the callback after state is set because it will make teachers load once we know where the user is
+                this.loadTeachers()
+            })
         },
         error => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -81,11 +86,8 @@ findCoordinates = () => {
 };
 
 componentDidMount(){
-    // this.setState({coordinates: {lng: -74.481544, lat: 40.796768}})
-    this.findCoordinates()
-    // console.log(this.findCoordinates())
-    console.log('ListOfTeachers mounted') 
-    this.loadTeachers();
+    console.log('ListOfTeachers Mounted')
+    this.findCoordinatesAndLoadTeachers()
 }
 
 onPress = (teacher) => {
