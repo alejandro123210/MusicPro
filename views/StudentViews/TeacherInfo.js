@@ -115,13 +115,13 @@ class TeacherInfo extends React.Component {
                         />
                     ))}
                 </View>
-                <TouchableOpacity onPress={() => this.onBookPressed()} style={styles.buttonContainer}>
+                <TouchableOpacity onPress={() => this.onBookPressed()} style={styles.buttonContainer} delayPressIn={70} activeOpacity={0.7}>
                     <Text style={styles.buttonText}>Book a lesson</Text> 
                 </TouchableOpacity> 
-                <TouchableOpacity onPress={() => this.onLeaveReviewPressed()} style={styles.buttonContainer}>
+                <TouchableOpacity onPress={() => this.onLeaveReviewPressed()} style={styles.buttonContainer} delayPressIn={70} activeOpacity={0.7}>
                     <Text style={styles.buttonText}>Leave a review</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.onMessagePressed()} style={styles.buttonContainer}>
+                <TouchableOpacity onPress={() => this.onMessagePressed()} style={styles.buttonContainer} delayPressIn={70} activeOpacity={0.7}>
                     <Text style={styles.buttonText}>Send a message</Text>
                 </TouchableOpacity>
                 <View style={styles.reviewsTitleContainer}>

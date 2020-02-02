@@ -61,6 +61,7 @@ class ReviewTeacher extends React.Component {
                         ref={input => { this.textInput = input }}
                         blurOnSubmit={false}
                         returnKeyType='go'
+                        textAlignVertical ='top'
                     />
                 </View>
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onDonePressed()}>
