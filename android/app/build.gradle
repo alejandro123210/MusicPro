@@ -181,6 +181,10 @@ android {
 dependencies {
     implementation project(':@react-native-community_geolocation')
     implementation project(':@react-native-community_google-signin')
+    //notifications
+    implementation project(':react-native-notifications')
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 //    implementation(project(":react-native-google-signin"))
@@ -202,4 +206,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
