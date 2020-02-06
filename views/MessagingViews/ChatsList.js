@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Alert, FlatList } from 'react-native';
 import * as firebase from 'firebase'
 import ConversationCell from '../subComponents/TableCells/conversationCell';
 import { Actions } from 'react-native-router-flux';
@@ -12,7 +12,7 @@ class ChatsList extends React.Component {
         userData: this.props.userData,
     }
     
-    componentWillMount(){
+    componentDidMount(){
         var db = firebase.database()
         var ref = db.ref(`Messages/${this.state.userData['uid']}/`)
         let that = this
@@ -79,16 +79,17 @@ class ChatsList extends React.Component {
                 <ProfileBar
                     userData = {this.state.userData}
                 />
-                <ScrollView bounces={false}>
-                    {this.state.conversations.map(conversation => (
+                <FlatList
+                    data={this.state.conversations}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem = {({ item }) => (
                         <ConversationCell
-                            conversation = {conversation}
-                            key = {this.state.conversations.findIndex(convoToFind => convoToFind == conversation)}
-                            onCellPressed = {() => this.onCellPressed(conversation)}
-                            onCellLongPressed = {() => this.onCellLongPressed(conversation)}
+                            conversation={item}
+                            onCellPressed = {() => this.onCellLongPressed(item)}
+                            onCellLongPressed = {() => this.onCellLongPressed(item)}
                         />
-                    ))}
-                </ScrollView>
+                    )}
+                />
             </View>
             :
             <View style={styles.container}>
