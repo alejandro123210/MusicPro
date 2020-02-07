@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import ProfileBar from '../subComponents/ProfileBar'
 import TeacherCell from '../subComponents/TableCells/TeacherCell';
 import * as firebase from 'firebase';
@@ -108,22 +108,23 @@ onBookPressed = (teacher) => {
     return (
         <View style={styles.container}>
             <ProfileBar userData={this.props.userData} />
-            <ScrollView>
-                {this.state.teachers.map(teacher => (
+            <FlatList
+                data={this.state.teachers}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem = {({ item }) => (
                     <TeacherCell
-                        image = {teacher.photo}
-                        name = {teacher.name}
-                        instruments = {teacher.instruments}
-                        starCount = {teacher.starCount}
-                        location = {teacher.location}
-                        onPress = {() => this.onPress(teacher)}
-                        onBookPressed = {() => this.onBookPressed(teacher)}
-                        uid = {teacher.uid}  
-                        key = {teacher.key}    
-                        distance = {teacher.distance}                 
+                        image = {item.photo}
+                        name = {item.name}
+                        instruments = {item.instruments}
+                        starCount = {item.starCount}
+                        location = {item.location}
+                        onPress = {() => this.onPress(item)}
+                        onBookPressed = {() => this.onBookPressed(item)}
+                        uid = {item.uid}  
+                        distance = {item.distance}    
                     />
-                ))}
-            </ScrollView>
+                )}
+            />
         </View>
     );
   }

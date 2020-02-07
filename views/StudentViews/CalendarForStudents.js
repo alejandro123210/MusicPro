@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Platform } from "react-native";
+import { View, StyleSheet, ScrollView, Platform, FlatList } from "react-native";
 import {Calendar } from 'react-native-calendars';
 import * as firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
@@ -135,18 +135,19 @@ class CalendarForStudents extends React.Component {
               [this.state.date]: {selected: true, marked: true},
             }}            
         />
-        <ScrollView contentContainerStyle={{alignItems: 'center', paddingBottom: 20}}>
-          {this.state.actualAvailability[this.state.selectedDay].map(time => (
-            time.available?
+        <FlatList
+          data={this.state.actualAvailability[this.state.selectedDay]}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem = {({ item }) => (
+            item.available?
               <HoursCell
-                name = {time.name}
-                onPress = {() => this.onCellPress(time.name)}
-                key = {this.state.actualAvailability[this.state.selectedDay].findIndex(timeInArray => time == timeInArray)}
+                name = {item.name}
+                onPress = {() => this.onCellPress(item.name)}
               />
-              :
-              <View />
-          ))}
-        </ScrollView>
+            :
+              <View/>
+          )}
+        />
       </View>
     );
   }

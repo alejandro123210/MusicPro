@@ -1,15 +1,26 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import InstrumentTag from '../instrumentTag';
 
 let deviceWidth = Dimensions.get("window").width;
 
-function lessonCell({ name, image, instruments, time, date, request, onDenyPressed, onCancelPressed, onConfirmPressed, userType }){
+function lessonCell({ lesson, request, onDenyPressed, onCancelPressed, onConfirmPressed, userType }){
 
     //get the time of the lesson
     moment = require('moment');
-    dateInPlainEnglish = moment(date).format('MMMM Do')
-    dateAndTime = dateInPlainEnglish + ' at ' + time 
+    dateInPlainEnglish = moment(lesson.date).format('MMMM Do')
+    dateAndTime = dateInPlainEnglish + ' at ' + lesson.time 
+
+    //set image/name based on user type
+    var image;
+    var name;
+    if (userType == 'student'){
+        image = lesson.teacherImage
+        name = lesson.teacherName
+    } else {
+        image = lesson.studentImage
+        name = lesson.studentName
+    }
 
     return(
         <View style={styles.shadow}>     
@@ -24,11 +35,11 @@ function lessonCell({ name, image, instruments, time, date, request, onDenyPress
                         }
                         <Text style ={styles.dateText}>{dateAndTime}</Text>
                         <View style={styles.tagView}>
-                            {instruments.map(instrument => (
+                            {lesson.instruments.map(instrument => (
                                 <InstrumentTag 
                                     instrument = { instrument }
                                     colorOfCell = '#274156'
-                                    key = {instruments.findIndex(instrumentToFind => instrumentToFind == instrument)}
+                                    key = {lesson.instruments.findIndex(instrumentToFind => instrumentToFind == instrument)}
                                 />
                             ))}
                         </View>

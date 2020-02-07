@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, FlatList } from "react-native";
 import ProfileBar from '../subComponents/ProfileBar'
 import TimeCell from '../subComponents/TableCells/TimeCell';
 import * as firebase from 'firebase'
@@ -168,18 +168,19 @@ class TeacherAvailabilityConfigurator extends React.Component {
         <DayBar
           markedDay = {(day) => this.setState({day: day})}
         />
-        <ScrollView>
-          {this.state.times[this.state.day].map(time => (
-              <TimeCell
-                  name = {time.name}
-                  key = {time.key}
-                  onPress = {() => this.onCellPress(time)}
-                  available = {time.available}
-                  backgroundColor = {this.setBackgroundColor(time.available)}
-                  fontColor = {this.setFontColor(time.available)}
-              />
-          ))}
-        </ScrollView>
+        <FlatList
+          data={this.state.times[this.state.day]}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <TimeCell
+              name = {item.name}
+              onPress ={() => this.onCellPress(item)}
+              available={item.available}
+              backgroundColor = {this.setBackgroundColor(item.available)}
+              fontColor = {this.setFontColor(item.available)}
+            />
+          )}
+        />
       </View>
     );
   }

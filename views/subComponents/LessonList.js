@@ -3,7 +3,7 @@
 // TeacherDash, StudentDash, LessonRequests, StudentLessonRequests
 
 import React from "react";
-import { Text, View, StyleSheet, ScrollView, Alert, Platform, TouchableOpacity, FlatList } from "react-native";
+import { Text, View, StyleSheet, Alert, Platform, FlatList } from "react-native";
 import ProfileBar from "../subComponents/ProfileBar";
 import DateBar from "../subComponents/DateBar";
 import { cancelLessons, loadLessons, loadLessonsOnce } from './BackendComponents/BackendFunctions'
@@ -95,23 +95,20 @@ class LessonList extends React.Component {
                 <ProfileBar userData={this.state.userData} />
                 <DateBar />
                 {this.state.lessonsList.length != 0?
-                    <ScrollView contentContainerStyle={{paddingBottom: 20}}>
-                        {this.state.lessonsList.map(lesson => (
+                    <FlatList
+                        data={this.state.lessonsList}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem = {({ item }) => (
                             <LessonCell
-                                name = {this.state.userData['userType']=='student' ? lesson.teacherName : lesson.studentName}
-                                image = {this.state.userData['userType']=='student' ? lesson.teacherImage : lesson.studentImage}
-                                time = { lesson.time }
-                                date = { lesson.date }
-                                instruments = { lesson.instruments }
-                                onConfirmPressed = {() => this.acceptLesson(lesson)}
-                                onDenyPressed = {() => this.onScheduledEventPressed(lesson)}
-                                onCancelPressed = {() => this.onScheduledEventPressed(lesson)}
-                                key = { lesson.key }
+                                lesson = {item}
+                                onConfirmPressed = {() => this.acceptLesson(item)}
+                                onDenyPressed = {() => this.onScheduledEventPressed(item)}
+                                onCancelPressed = {() => this.onScheduledEventPressed(item)}
                                 userType = {this.state.userData['userType']}
                                 request = {this.state.lessonType == 'undecided'? true: false}
                             />
-                        ))}
-                    </ScrollView>
+                        )}
+                    />
                 :
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{color: 'gray', fontSize: 25, textAlign: 'center'}}>No lessons at the moment :/</Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Image, Text, Alert } from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Dimensions, Image, Text, Alert } from 'react-native';
 import InstrumentTag from '../subComponents/instrumentTag';
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'

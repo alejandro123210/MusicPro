@@ -8,6 +8,7 @@ import ReviewBox from '../subComponents/TableCells/ReviewBox';
 
 let deviceWidth = Dimensions.get("window").width;
 
+//TODO: use a flatalist here somehow
 
 class TeacherInfo extends React.Component {
 
