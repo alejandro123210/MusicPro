@@ -12,7 +12,7 @@ class ChatsList extends React.Component {
         userData: this.props.userData,
     }
     
-    componentWillMount(){
+    componentDidMount(){
         var db = firebase.database()
         var ref = db.ref(`Messages/${this.state.userData['uid']}/`)
         let that = this
