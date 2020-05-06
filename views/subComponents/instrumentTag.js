@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable eqeqeq */
+import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 // function instrumentTag({ instrument, colorOfCell, type, onPress }){
