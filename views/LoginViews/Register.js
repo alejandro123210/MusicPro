@@ -1,41 +1,45 @@
+/* eslint-disable eqeqeq */
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, TextInput, Dimensions, ImageBackground } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import * as firebase from 'firebase';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
 class Register extends React.Component {
-  
   state = {
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
     student: true,
-  }
+  };
 
   studentPressed = () => {
     Actions.Register_Instrument({
       userType: 'student',
-      userInfo: this.props.userInfo
+      userInfo: this.props.userInfo,
     });
-  }
+  };
 
   teacherPressed = () => {
     Actions.Register_Instrument({
       userType: 'teacher',
-      userInfo: this.props.userInfo
+      userInfo: this.props.userInfo,
     });
-  }
+  };
 
   //firebase account creation and automatic login
   // onDonePressed = () => {
   //   //if the passwords match
   //   if(this.state.password == this.state.confirmPassword){
-  //     //this creates a database reference to copy the info to the database 
+  //     //this creates a database reference to copy the info to the database
   //     var db = firebase.database();
   //     //this creates an accessible reference to this.state, we could also use .bind(this)
   //     var name = this.state.name;
@@ -49,7 +53,7 @@ class Register extends React.Component {
   //         alert(errorMessage);
   //         problemWithLogin = true;
   //       }).then(function() {
-  //         //brings up the users data from auth 
+  //         //brings up the users data from auth
   //         var user = firebase.auth().currentUser;
   //         //checks if there was a problem, there are better ways to do this (this is temporary)
   //         if (problemWithLogin == false){
@@ -77,7 +81,7 @@ class Register extends React.Component {
   //         alert(errorMessage);
   //         problemWithLogin = true;
   //       }).then(function() {
-  //         //brings up the users data from auth 
+  //         //brings up the users data from auth
   //         var user = firebase.auth().currentUser;
   //         //checks if there was a problem, there are better ways to do this (this is temporary)
   //         if (problemWithLogin == false){
@@ -108,29 +112,21 @@ class Register extends React.Component {
     return (
       <View style={styles.container}>
         {/* this is where the student/teacher selector goes */}
-        <Text style={styles.startText}> 
-          I'm a 
-        </Text>
+        <Text style={styles.startText}>I'm a</Text>
         <View style={styles.studentTeacherContainer}>
           <TouchableOpacity onPress={() => this.studentPressed()}>
-            {this.state.student == true? 
-            <Text style={styles.studentButton}>
-              Student
-            </Text> 
-            : 
-            <Text style={styles.studentButtonDisabled}>
-              Student
-            </Text>}
+            {this.state.student == true ? (
+              <Text style={styles.studentButton}>Student</Text>
+            ) : (
+              <Text style={styles.studentButtonDisabled}>Student</Text>
+            )}
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.teacherPressed()}>
-            {this.state.student == true? 
-            <Text style={styles.teacherButtonDisabled}>
-              Teacher
-            </Text> 
-            : 
-            <Text style={styles.teacherButton}>
-              Teacher
-            </Text>}
+            {this.state.student == true ? (
+              <Text style={styles.teacherButtonDisabled}>Teacher</Text>
+            ) : (
+              <Text style={styles.teacherButton}>Teacher</Text>
+            )}
           </TouchableOpacity>
         </View>
         {/* this is where the prompts go */}
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#274156',
     alignItems: 'center',
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   startText: {
     fontSize: 30,
@@ -152,7 +148,7 @@ const styles = StyleSheet.create({
   },
   studentTeacherContainer: {
     flexDirection: 'row',
-    paddingTop: 20
+    paddingTop: 20,
   },
   studentButton: {
     fontSize: 40,
@@ -160,7 +156,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontFamily: 'HelveticaNeue-Medium',
   },
-  studentButtonDisabled:{
+  studentButtonDisabled: {
     fontSize: 40,
     paddingRight: 20,
     color: 'grey',
@@ -179,7 +175,7 @@ const styles = StyleSheet.create({
     fontFamily: 'HelveticaNeue-Medium',
   },
   promptsContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textInputStyle: {
     fontSize: 24,
@@ -188,8 +184,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   userInfoInput: {
-    height: deviceHeight*.08,
-    width: deviceWidth*.9,
+    height: deviceHeight * 0.08,
+    width: deviceWidth * 0.9,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -197,15 +193,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   doneButton: {
-    height: deviceHeight*.09,
-    width: deviceHeight*.11,
+    height: deviceHeight * 0.09,
+    width: deviceHeight * 0.11,
     backgroundColor: '#2c2828',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
     borderRadius: 5,
   },
-  buttonText:{
+  buttonText: {
     fontSize: 20,
     color: 'white',
     fontWeight: 'bold',

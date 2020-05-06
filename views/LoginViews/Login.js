@@ -1,28 +1,23 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, ImageBackground, TouchableHighlight } from "react-native";
-import { Actions } from "react-native-router-flux";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import * as firebase from 'firebase';
-import LoginController from '../subComponents/BackendComponents/LoginController'
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import LoginController from '../subComponents/BackendComponents/LoginController';
 
-let deviceHeight = Dimensions.get("window").height;
-let deviceWidth = Dimensions.get("window").width;
-
+let deviceWidth = Dimensions.get('window').width;
 
 class Login extends React.Component {
-
   state = {
     loginType: 'socialMedia',
     email: '',
     password: '',
     confirmPassword: '',
-    fullName: ''
-  }
+    fullName: '',
+  };
 
   // createAccount = () => {
   //   let that = this
   //   if (this.state.password == this.state.confirmPassword){
-  //     //variable that tells the function if there was an error 
+  //     //variable that tells the function if there was an error
   //     var problemWithLogin = false;
   //     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
   //     .catch(function(error){
@@ -58,7 +53,7 @@ class Login extends React.Component {
   //       console.log(error, 'error occured at function loggedIn');
   //     }
   //   }else{
-  //     // if they are empty 
+  //     // if they are empty
   //     console.log('Missing email or password');
   //   }
   // }
@@ -68,8 +63,8 @@ class Login extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>MusicPro</Text>
         <View style={{flexDirection: 'column', alignItems: 'center'}}>
-            <LoginController />
-          </View>
+          <LoginController />
+        </View>
       </View>
       // <KeyboardAwareScrollView
       // style={{ backgroundColor: '#274156' }}
@@ -77,13 +72,13 @@ class Login extends React.Component {
       // contentContainerStyle={styles.container}
       // scrollEnabled={false}
       // keyboardShouldPersistTaps={'always'}
-      // >   
+      // >
       //   <Text style={styles.title}>MusicPro</Text>
       //   { this.state.loginType == 'socialMedia' ?
       //     <View style={{flexDirection: 'column', alignItems: 'center'}}>
       //       <LoginController />
-      //       <TouchableOpacity 
-      //         onPress={() => this.setState({loginType: 'emailRegister'})} 
+      //       <TouchableOpacity
+      //         onPress={() => this.setState({loginType: 'emailRegister'})}
       //         style={styles.loginWithEmailContainer}
       //       >
       //         <Text style={styles.loginWithEmailText}>Sign up with email</Text>
@@ -95,11 +90,11 @@ class Login extends React.Component {
       //         <Text style={styles.loginWithEmailText}> Login with email </Text>
       //       </TouchableOpacity>
       //     </View>
-      //   : this.state.loginType == 'emailRegister' ? 
+      //   : this.state.loginType == 'emailRegister' ?
       //   <View style={styles.inputsContainer}>
       //     <View style={styles.textInputContainer}>
-      //       <TextInput 
-      //         multiline={false} 
+      //       <TextInput
+      //         multiline={false}
       //         onChangeText={(name) => this.setState({fullName: name})}
       //         placeholder = 'first and last name'
       //         ref={input => { this.textInput = input }}
@@ -108,8 +103,8 @@ class Login extends React.Component {
       //       />
       //     </View>
       //     <View style={styles.textInputContainer}>
-      //       <TextInput 
-      //         multiline={false} 
+      //       <TextInput
+      //         multiline={false}
       //         onChangeText={(email) => this.setState({email: email})}
       //         placeholder = 'email'
       //         ref={input => { this.textInput = input }}
@@ -118,8 +113,8 @@ class Login extends React.Component {
       //       />
       //     </View>
       //     <View style={styles.textInputContainer}>
-      //       <TextInput 
-      //         multiline={false} 
+      //       <TextInput
+      //         multiline={false}
       //         onChangeText={(password) => this.setState({password: password})}
       //         placeholder = 'password'
       //         ref={input => { this.textInput = input }}
@@ -129,8 +124,8 @@ class Login extends React.Component {
       //       />
       //     </View>
       //     <View style={styles.textInputContainer}>
-      //       <TextInput 
-      //         multiline={false} 
+      //       <TextInput
+      //         multiline={false}
       //         onChangeText={(confirmPassword) => this.setState({confirmPassword: confirmPassword})}
       //         placeholder = 'Confirm password'
       //         ref={input => { this.textInput = input }}
@@ -143,11 +138,11 @@ class Login extends React.Component {
       //       <Text style={{color: 'white', marginTop: 20, fontSize: 20}}>Singup</Text>
       //     </TouchableOpacity>
       //   </View>
-      //   : 
+      //   :
       //   <View style={styles.inputsContainer}>
       //     <View style={styles.textInputContainer}>
-      //       <TextInput 
-      //         multiline={false} 
+      //       <TextInput
+      //         multiline={false}
       //         onChangeText={(email) => this.setState({email: email})}
       //         placeholder = 'email'
       //         ref={input => { this.textInput = input }}
@@ -156,8 +151,8 @@ class Login extends React.Component {
       //       />
       //     </View>
       //     <View style={styles.textInputContainer}>
-      //       <TextInput 
-      //         multiline={false} 
+      //       <TextInput
+      //         multiline={false}
       //         onChangeText={(password) => this.setState({password: password})}
       //         placeholder = 'password'
       //         ref={input => { this.textInput = input }}
@@ -190,16 +185,16 @@ const styles = StyleSheet.create({
   loginWithEmailContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 30,
   },
-  loginWithEmailText:{
+  loginWithEmailText: {
     fontSize: 20,
-    color: 'white'
+    color: 'white',
   },
   inputsContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  textInputContainer:{
+  textInputContainer: {
     backgroundColor: 'white',
     color: 'gray',
     borderRadius: 20,
@@ -207,12 +202,11 @@ const styles = StyleSheet.create({
     width: deviceWidth - 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   emailInput: {
     textAlignVertical: 'center',
-  }
-
+  },
 });
 
 //this lets the component get imported other places
