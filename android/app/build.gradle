@@ -179,8 +179,6 @@ android {
 }
 
 dependencies {
-    implementation project(':@react-native-community_google-signin')
-    implementation project(':@react-native-community_geolocation')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 //    implementation(project(":react-native-google-signin"))
