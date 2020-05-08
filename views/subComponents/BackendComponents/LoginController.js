@@ -25,7 +25,7 @@ export default class LoginController extends Component {
         '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com',
       offlineAccess: true,
       hostedDomain: '',
-      forceConsentPrompt: true,
+      forceConsentPrompt: false,
       iosClientId:
         '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com',
     });
@@ -60,7 +60,7 @@ export default class LoginController extends Component {
       firebase
         .auth()
         .signInWithCredential(googleCredential)
-        .then(appUser => {
+        .then((appUser) => {
           console.log('firebase attempting sign in');
           var user = firebase.auth().currentUser;
           var ref = db.ref(`users/${user.uid}/info/`);
@@ -69,7 +69,7 @@ export default class LoginController extends Component {
           // }, function (errorObject) {
           //   alert("The read failed: " + errorObject.code);
           // });
-          ref.once('value').then(function(snapshot) {
+          ref.once('value').then(function (snapshot) {
             console.log('reading the database');
             if (snapshot.val() == null) {
               console.log('user not fully signed up');
@@ -131,11 +131,11 @@ export default class LoginController extends Component {
       firebase
         .auth()
         .signInWithCredential(googleCredential)
-        .then(appUser => {
+        .then((appUser) => {
           var user = firebase.auth().currentUser;
           var db = firebase.database();
           var ref = db.ref(`users/${user.uid}/info/`);
-          ref.once('value').then(function(snapshot) {
+          ref.once('value').then(function (snapshot) {
             //if the user DOES have data in the database:
             var userData = snapshot.val();
             // alert(userData)
