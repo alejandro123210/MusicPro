@@ -34,11 +34,15 @@ target 'MusicPro' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
+
+
+  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
+
+
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
-  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
+  pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
 
   target 'MusicProTests' do
     inherit! :search_paths
