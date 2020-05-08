@@ -13,11 +13,21 @@ export default class LoginController extends Component {
   }
   componentDidMount() {
     GoogleSignin.configure({
+<<<<<<< Updated upstream
       webClientId: '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com', 
       offlineAccess: true, 
       hostedDomain: '', 
       forceConsentPrompt: false, 
       iosClientId: '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com'
+=======
+      webClientId:
+        '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com',
+      offlineAccess: true,
+      hostedDomain: '',
+      forceConsentPrompt: false,
+      iosClientId:
+        '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com',
+>>>>>>> Stashed changes
     });
     this.getCurrentUserInfo();
     // alert(this.state.userInfo)
@@ -41,6 +51,7 @@ export default class LoginController extends Component {
       var db = firebase.database()
       console.log('database reference made')
       var problemWithLogin = false;
+<<<<<<< Updated upstream
       const googleCredential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken); 
       console.log('auth credential obtained')
       var isUserSignedInAlready = false
@@ -50,16 +61,38 @@ export default class LoginController extends Component {
         console.log('firebase attempting sign in')
         var user = firebase.auth().currentUser
         var ref = db.ref(`users/${user.uid}/info/`);
+=======
+      const googleCredential = firebase.auth.GoogleAuthProvider.credential(
+        userInfo.idToken,
+      );
+      console.log('auth credential obtained');
+      var isUserSignedInAlready = false;
+      console.log('user is not fully signed in yet');
+      firebase
+        .auth()
+        .signInWithCredential(googleCredential)
+        .then((appUser) => {
+          console.log('firebase attempting sign in');
+          var user = firebase.auth().currentUser;
+          var ref = db.ref(`users/${user.uid}/info/`);
+>>>>>>> Stashed changes
           // ref.on("value", function(snapshot) {
 
           // }, function (errorObject) {
           //   alert("The read failed: " + errorObject.code);
           // });
+<<<<<<< Updated upstream
           ref.once('value')
           .then(function(snapshot) {
             console.log('reading the database')
             if(snapshot.val() == null){
               console.log('user not fully signed up')
+=======
+          ref.once('value').then(function (snapshot) {
+            console.log('reading the database');
+            if (snapshot.val() == null) {
+              console.log('user not fully signed up');
+>>>>>>> Stashed changes
               //if the user does not have data in the database:
               //the user at this point has an account in auth, but we need to create the data for the database
               Actions.Register({userInfo: userInfo});
@@ -112,6 +145,7 @@ export default class LoginController extends Component {
       this.setState({ userInfo });
       // alert(userInfo)
       //auto login:
+<<<<<<< Updated upstream
       const googleCredential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken);   
       firebase.auth().signInWithCredential(googleCredential)
         .then(appUser => { 
@@ -120,6 +154,19 @@ export default class LoginController extends Component {
           var ref = db.ref(`users/${user.uid}/info/`);
           ref.once('value')
           .then(function(snapshot){
+=======
+      const googleCredential = firebase.auth.GoogleAuthProvider.credential(
+        userInfo.idToken,
+      );
+      firebase
+        .auth()
+        .signInWithCredential(googleCredential)
+        .then((appUser) => {
+          var user = firebase.auth().currentUser;
+          var db = firebase.database();
+          var ref = db.ref(`users/${user.uid}/info/`);
+          ref.once('value').then(function (snapshot) {
+>>>>>>> Stashed changes
             //if the user DOES have data in the database:
             var userData = snapshot.val();
             // alert(userData)

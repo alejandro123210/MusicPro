@@ -5892,7 +5892,35 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
+<<<<<<< Updated upstream
 react-native-iphone-x-helper@^1.0.3:
+=======
+react-native-fcm@^16.2.4:
+  version "16.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-16.2.4.tgz#1ed0cf6a9712949c178ee01265cc0b98b103dfc3"
+  integrity sha512-1bUunJMz4PbnvWeFgSjdcEvSU3JIFz0T3N4b4XiyeZtF5pMEBYVx10kkWR+xF4AevPeE1+zpeiVxsa+XwcysZA==
+
+react-native-geocoding@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-geocoding/-/react-native-geocoding-0.4.0.tgz#e22c97500bfccc25273499ab3af87c27ac6ede8f"
+  integrity sha512-iXIqdLHDGVyhWLJyWGRFRdvQa3hDQoCX4MLwKA9zja3gQxZ91v51CLGrbvxCckOGzoxu2/WA6e8TM74rrPxlsA==
+
+react-native-gifted-chat@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/react-native-gifted-chat/-/react-native-gifted-chat-0.13.0.tgz#0151a092a2e8b3c3a754f2b6ffe3ca3069d8dac8"
+  integrity sha512-vUFQTX1bIaKgabaQW5E8frLGbzxJFVoUR/Mvpu619dimp2CnmFgmDsq0K7rCzramYF3U+cCuhhHAmjTFYImXhA==
+  dependencies:
+    "@expo/react-native-action-sheet" "3.4.1"
+    moment "^2.19.0"
+    prop-types "15.7.2"
+    react-native-communications "2.2.1"
+    react-native-iphone-x-helper "^1.2.0"
+    react-native-lightbox "^0.8.1"
+    react-native-parsed-text "https://github.com/EvanBacon/react-native-parsed-text.git"
+    uuid "3.3.3"
+
+react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.2.0:
+>>>>>>> Stashed changes
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
