@@ -5,7 +5,7 @@ import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 
 class ReportBugsPage extends React.Component {
-  uploadData = description => {
+  uploadData = (description) => {
     var db = firebase.database();
     var ref = db.ref('bugs');
     ref.push(description);
@@ -20,7 +20,7 @@ class ReportBugsPage extends React.Component {
     return (
       // this is just random filler for the template, but this is where what the user sees is rendered
       <LargePrompt
-        donePressed={description => this.uploadData(description)}
+        donePressed={(description) => this.uploadData(description)}
         title="Report a Bug"
       />
     );

@@ -32,11 +32,11 @@ class LaunchScreen extends React.Component {
       firebase
         .auth()
         .signInWithCredential(googleCredential)
-        .then(appUser => {
+        .then((appUser) => {
           var user = firebase.auth().currentUser;
           var db = firebase.database();
           var ref = db.ref(`users/${user.uid}/info/`);
-          ref.once('value').then(function(snapshot) {
+          ref.once('value').then(function (snapshot) {
             //if the user DOES have data in the database:
             var userData = snapshot.val();
             // alert(userData)

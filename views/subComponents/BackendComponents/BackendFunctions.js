@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 
 export var loadLessons = (userData, lessonType, that) => {
   //this handles lessons that have passed
-  removePastLessons = lesson => {
+  removePastLessons = (lesson) => {
     var db = firebase.database();
     db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}`).remove();
     db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}`).remove();
@@ -15,7 +15,7 @@ export var loadLessons = (userData, lessonType, that) => {
   var moment = require('moment');
   var m = moment();
   var currentDate = m.format('YYYY-MM-DD');
-  ref.on('value', function(snapshot) {
+  ref.on('value', function (snapshot) {
     //all lessons for user in database
     var lessonsList = [];
     var lessonsData = JSON.parse(JSON.stringify(snapshot.val()));
@@ -118,16 +118,12 @@ export var loadLessons = (userData, lessonType, that) => {
 //     });
 // }
 
-export const cancelLessons = lesson => {
+export const cancelLessons = (lesson) => {
   var db = firebase.database();
   db.ref(
-    `users/${lesson.teacherID}/info/lessons/${lesson.date}/${
-      lesson.teacherLessonKey
-    }`,
+    `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
   ).remove();
   db.ref(
-    `users/${lesson.studentID}/info/lessons/${lesson.date}/${
-      lesson.studentLessonKey
-    }`,
+    `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
   ).remove();
 };

@@ -51,12 +51,12 @@ function teacherCell({
         <View style={styles.midSection}>
           <View style={styles.instrumentsContainer}>
             {instruments != null ? (
-              instruments.map(instrument => (
+              instruments.map((instrument) => (
                 <InstrumentTag
                   instrument={instrument}
                   colorOfCell="#274156"
                   key={instruments.findIndex(
-                    instrumentinArray => instrument == instrumentinArray,
+                    (instrumentinArray) => instrument == instrumentinArray,
                   )}
                 />
               ))

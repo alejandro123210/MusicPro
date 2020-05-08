@@ -133,7 +133,7 @@ class RequestLessonDetail extends React.Component {
     }
   };
 
-  selectInstrument = instrument => {
+  selectInstrument = (instrument) => {
     var selectedInstruments = this.state.selectedInstruments;
     if (instrument.selected == false) {
       selectedInstruments.push(instrument.instrument);
@@ -167,14 +167,16 @@ class RequestLessonDetail extends React.Component {
         <Text style={styles.onWhatInstrumentText}> On what instrument? </Text>
         <View style={styles.line} />
         <View style={styles.instrumentsContainer}>
-          {this.state.teacher.instruments.map(instrument => (
+          {this.state.teacher.instruments.map((instrument) => (
             <InstrumentTag
               instrument={instrument}
               colorOfCell="#274156"
               type="highlightable"
-              onPress={thisInstrument => this.selectInstrument(thisInstrument)}
+              onPress={(thisInstrument) =>
+                this.selectInstrument(thisInstrument)
+              }
               key={this.state.teacher.instruments.findIndex(
-                instrumentinArray => instrument == instrumentinArray,
+                (instrumentinArray) => instrument == instrumentinArray,
               )}
             />
           ))}

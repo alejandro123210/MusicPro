@@ -35,7 +35,7 @@ class ReviewTeacher extends React.Component {
     Actions.StudentDash({userData: this.state.userData});
   };
 
-  starRate = rating => {
+  starRate = (rating) => {
     this.setState({rating: rating});
   };
 
@@ -54,15 +54,15 @@ class ReviewTeacher extends React.Component {
           reviews={['Terrible', 'Meh', 'Ok', 'Good', 'Great']}
           defaultRating={5}
           size={20}
-          onFinishRating={rating => this.starRate(rating)}
+          onFinishRating={(rating) => this.starRate(rating)}
         />
         <View style={styles.reviewInputContainer}>
           <TextInput
             style={styles.reviewInput}
             multiline={true}
-            onChangeText={review => this.setState({review: review})}
+            onChangeText={(review) => this.setState({review: review})}
             placeholder="Leave your review here..."
-            ref={input => {
+            ref={(input) => {
               this.textInput = input;
             }}
             blurOnSubmit={false}

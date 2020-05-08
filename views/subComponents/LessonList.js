@@ -37,7 +37,7 @@ class LessonList extends React.Component {
     loadLessons(this.state.userData, this.state.lessonType, this);
   }
 
-  onScheduledEventPressed = lesson => {
+  onScheduledEventPressed = (lesson) => {
     if (
       this.state.userData.userType == 'student' &&
       this.props.lessonType == 'confirmed'
@@ -116,17 +116,13 @@ class LessonList extends React.Component {
     }
   };
 
-  acceptLesson = lesson => {
+  acceptLesson = (lesson) => {
     var db = firebase.database();
     db.ref(
-      `users/${lesson.teacherID}/info/lessons/${lesson.date}/${
-        lesson.teacherLessonKey
-      }`,
+      `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
     ).update({status: 'confirmed'});
     db.ref(
-      `users/${lesson.studentID}/info/lessons/${lesson.date}/${
-        lesson.studentLessonKey
-      }`,
+      `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
     ).update({status: 'confirmed'});
   };
 
@@ -137,7 +133,7 @@ class LessonList extends React.Component {
         <DateBar />
         {this.state.lessonsList.length != 0 ? (
           <ScrollView contentContainerStyle={{paddingBottom: 20}}>
-            {this.state.lessonsList.map(lesson => (
+            {this.state.lessonsList.map((lesson) => (
               <LessonCell
                 name={
                   this.state.userData.userType == 'student'

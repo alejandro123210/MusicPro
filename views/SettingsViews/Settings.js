@@ -45,11 +45,11 @@ function settings({userData}) {
       firebase
         .auth()
         .signOut()
-        .then(function() {
+        .then(function () {
           // Sign-out successful.
           Actions.Login({userData: null});
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert('Sorry, there was a problem signing you out!');
         });
     } catch (error) {
@@ -64,20 +64,18 @@ function settings({userData}) {
     var userMessagesRef = db.ref(`Messages/${userData.uid}`);
     //this turns off the listener that's created by loadLessons
     userLessonsRef.off();
-    userLessonsRef.once('value').then(snapshot => {
+    userLessonsRef.once('value').then((snapshot) => {
       var lessonData = JSON.parse(JSON.stringify(snapshot.val()));
       for (date in lessonData) {
         for (lessonKey in lessonData[date]) {
           db.ref(
-            `users/${lessonData[date][lessonKey].teacherIDNum}/info/lessons/${
-              lessonData[date][lessonKey].date
-            }/${lessonData[date][lessonKey].teacherLessonKey}`,
+            `users/${lessonData[date][lessonKey].teacherIDNum}/info/lessons/${lessonData[date][lessonKey].date}/${lessonData[date][lessonKey].teacherLessonKey}`,
           ).remove();
         }
       }
       db.ref(`users/${userData.uid}`).remove();
     });
-    userMessagesRef.once('value').then(snapshot => {
+    userMessagesRef.once('value').then((snapshot) => {
       var messagesData = JSON.parse(JSON.stringify(snapshot.val()));
       for (userID in messagesData) {
         db.ref(`Messages/${userID}/${userData.uid}`).remove();
@@ -89,11 +87,11 @@ function settings({userData}) {
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
     user.delete().then(
-      function() {
+      function () {
         Actions.Login({userData: null});
         alert('Account has been deleted');
       },
-      function(error) {
+      function (error) {
         // An error happened.
       },
     );
@@ -114,7 +112,7 @@ function settings({userData}) {
       </View>
       <Text style={styles.nameText}>{userData.name}</Text>
       <View style={styles.grid}>
-        {userData.instruments.map(instrument => (
+        {userData.instruments.map((instrument) => (
           <InstrumentTag
             instrument={instrument}
             onPress={() => {}}

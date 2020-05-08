@@ -44,7 +44,7 @@ class TeacherInfo extends React.Component {
       uid: this.state.teacher.uid,
     };
     var ref = db.ref(`users/${teacher.uid}/info`);
-    ref.once('value').then(snapshot => {
+    ref.once('value').then((snapshot) => {
       var teacherData = JSON.parse(JSON.stringify(snapshot.val()));
       var reviews = [];
       var reviewStars = [];
@@ -55,7 +55,7 @@ class TeacherInfo extends React.Component {
           reviewStars.push(teacherData.reviews[review].starCount);
         }
       }
-      const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+      const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
       if (reviewStars.length != 0) {
         averageStars = arrAvg(reviewStars);
       }
@@ -119,7 +119,7 @@ class TeacherInfo extends React.Component {
           {this.state.allTeacherData.description}
         </Text>
         <View style={styles.grid}>
-          {this.state.allTeacherData.instruments.map(instrument => (
+          {this.state.allTeacherData.instruments.map((instrument) => (
             <InstrumentTag
               instrument={instrument}
               onPress={() => {}}
@@ -146,13 +146,13 @@ class TeacherInfo extends React.Component {
           <Text style={styles.reviewsTitleText}> Reviews: </Text>
         </View>
         <View style={styles.writtenReviewContainer}>
-          {this.state.allTeacherData.reviews.map(review => (
+          {this.state.allTeacherData.reviews.map((review) => (
             <ReviewBox
               name={review.name}
               review={review.description}
               starCount={review.starCount}
               key={this.state.allTeacherData.reviews.findIndex(
-                reviewToFind => review == reviewToFind,
+                (reviewToFind) => review == reviewToFind,
               )}
             />
           ))}

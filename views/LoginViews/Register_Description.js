@@ -9,7 +9,7 @@ class Register_Description extends React.Component {
     description: '',
   };
 
-  onPress = description => {
+  onPress = (description) => {
     var user = firebase.auth().currentUser;
     var db = firebase.database();
     var ref = db.ref(`users/${user.uid}/info/`);
@@ -28,11 +28,11 @@ class Register_Description extends React.Component {
     });
     ref
       .once('value')
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         var userData = snapshot.val();
         Actions.TeacherMain({userData: userData});
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert(error);
       });
   };
@@ -40,7 +40,7 @@ class Register_Description extends React.Component {
   render() {
     return (
       <LargePrompt
-        donePressed={description => this.onPress(description)}
+        donePressed={(description) => this.onPress(description)}
         title="Describe yourself, your experience, etc"
       />
     );

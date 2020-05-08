@@ -43,12 +43,12 @@ function lessonCell({
             )}
             <Text style={styles.dateText}>{dateAndTime}</Text>
             <View style={styles.tagView}>
-              {instruments.map(instrument => (
+              {instruments.map((instrument) => (
                 <InstrumentTag
                   instrument={instrument}
                   colorOfCell="#274156"
                   key={instruments.findIndex(
-                    instrumentToFind => instrumentToFind == instrument,
+                    (instrumentToFind) => instrumentToFind == instrument,
                   )}
                 />
               ))}

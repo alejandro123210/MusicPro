@@ -18,7 +18,7 @@ class ChatsList extends React.Component {
     var db = firebase.database();
     var ref = db.ref(`Messages/${this.state.userData.uid}/`);
     let that = this;
-    ref.on('value', function(snapshot) {
+    ref.on('value', function (snapshot) {
       var conversationsData = JSON.parse(JSON.stringify(snapshot.val()));
       var conversations = [];
       for (userKey in conversationsData) {
@@ -38,7 +38,7 @@ class ChatsList extends React.Component {
     });
   }
 
-  onCellPressed = conversation => {
+  onCellPressed = (conversation) => {
     var otherUser = {
       name: conversation.userName,
       photo: conversation.userPhoto,
@@ -51,7 +51,7 @@ class ChatsList extends React.Component {
     });
   };
 
-  onCellLongPressed = conversation => {
+  onCellLongPressed = (conversation) => {
     Alert.alert(
       'Delete Messages?',
       'are you sure you want to delete your messages with ' +
@@ -69,7 +69,7 @@ class ChatsList extends React.Component {
     );
   };
 
-  deleteMessages = conversation => {
+  deleteMessages = (conversation) => {
     var db = firebase.database();
     var userRef = db.ref(
       `Messages/${this.state.userData.uid}/${conversation.uid}`,
@@ -86,11 +86,11 @@ class ChatsList extends React.Component {
       <View style={styles.container}>
         <ProfileBar userData={this.state.userData} />
         <ScrollView bounces={false}>
-          {this.state.conversations.map(conversation => (
+          {this.state.conversations.map((conversation) => (
             <ConversationCell
               conversation={conversation}
               key={this.state.conversations.findIndex(
-                convoToFind => convoToFind == conversation,
+                (convoToFind) => convoToFind == conversation,
               )}
               onCellPressed={() => this.onCellPressed(conversation)}
               onCellLongPressed={() => this.onCellLongPressed(conversation)}

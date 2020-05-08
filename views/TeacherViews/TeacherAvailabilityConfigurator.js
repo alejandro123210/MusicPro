@@ -121,10 +121,10 @@ class TeacherAvailabilityConfigurator extends React.Component {
     this.loadTimes(this);
   }
 
-  loadTimes = that => {
+  loadTimes = (that) => {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData.uid}/info/availability`);
-    ref.once('value').then(snapshot => {
+    ref.once('value').then((snapshot) => {
       //all lessons for user in database
       var availabilityData = JSON.parse(JSON.stringify(snapshot.val()));
       if (snapshot.val() != null) {
@@ -133,7 +133,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     });
   };
 
-  onCellPress = time => {
+  onCellPress = (time) => {
     if (time.available == true) {
       time.available = false;
     } else {
@@ -147,7 +147,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     ref.update({availability: this.state.times});
   };
 
-  setBackgroundColor = available => {
+  setBackgroundColor = (available) => {
     if (available) {
       return '#274156';
     } else {
@@ -155,7 +155,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     }
   };
 
-  setFontColor = available => {
+  setFontColor = (available) => {
     if (available) {
       return 'white';
     }
@@ -165,9 +165,9 @@ class TeacherAvailabilityConfigurator extends React.Component {
     return (
       <View style={styles.container}>
         <ProfileBar userData={this.props.userData} />
-        <DayBar markedDay={day => this.setState({day: day})} />
+        <DayBar markedDay={(day) => this.setState({day: day})} />
         <ScrollView>
-          {this.state.times[this.state.day].map(time => (
+          {this.state.times[this.state.day].map((time) => (
             <TimeCell
               name={time.name}
               key={time.key}

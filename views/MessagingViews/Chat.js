@@ -15,12 +15,10 @@ class Chat extends React.Component {
   componentDidMount() {
     var db = firebase.database();
     var ref = db.ref(
-      `Messages/${this.state.userData.uid}/${
-        this.state.otherUser.uid
-      }/messages`,
+      `Messages/${this.state.userData.uid}/${this.state.otherUser.uid}/messages`,
     );
     let that = this;
-    ref.on('value', function(snapshot) {
+    ref.on('value', function (snapshot) {
       var messageData = JSON.parse(JSON.stringify(snapshot.val()));
       var messages = [];
       // eslint-disable-next-line no-undef
@@ -36,9 +34,7 @@ class Chat extends React.Component {
     console.log('unmounted');
     var db = firebase.database();
     db.ref(
-      `Messages/${this.state.userData.uid}/${
-        this.state.otherUser.uid
-      }/messages`,
+      `Messages/${this.state.userData.uid}/${this.state.otherUser.uid}/messages`,
     ).off();
   }
 
@@ -48,7 +44,7 @@ class Chat extends React.Component {
       firstMessage = true;
     }
 
-    await this.setState(previousState => ({
+    await this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
     var messagesToPush = this.state.messages;
@@ -111,7 +107,7 @@ class Chat extends React.Component {
       <View style={{backgroundColor: 'white', flex: 1}}>
         <GiftedChat
           messages={this.state.messages}
-          onSend={messages => this.onSend(messages)}
+          onSend={(messages) => this.onSend(messages)}
           user={{
             _id: this.state.userData.uid,
             name: this.state.userData.name,

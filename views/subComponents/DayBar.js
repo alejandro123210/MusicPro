@@ -12,7 +12,7 @@ class DayBar extends React.Component {
     this.props.markedDay(this.state.selected);
   }
 
-  setDay = day => {
+  setDay = (day) => {
     this.setState({selected: day});
     this.props.markedDay(day);
   };

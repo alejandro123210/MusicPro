@@ -43,7 +43,7 @@ class CalendarForStudents extends React.Component {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.teacher.uid}/info/`);
     let that = this;
-    ref.once('value').then(function(snapshot) {
+    ref.once('value').then(function (snapshot) {
       var availabilityListToPush = that.state.actualAvailability;
       userData = JSON.parse(JSON.stringify(snapshot.val()));
       if (userData.availability != null) {
@@ -75,7 +75,7 @@ class CalendarForStudents extends React.Component {
     });
   }
 
-  onCellPress = time => {
+  onCellPress = (time) => {
     Actions.RequestLessonDetail({
       teacher: this.props.teacher,
       userData: this.props.userData,
@@ -84,7 +84,7 @@ class CalendarForStudents extends React.Component {
     });
   };
 
-  removeUnavailableTimes = dateString => {
+  removeUnavailableTimes = (dateString) => {
     //gets the normal user availability and parses it/stringifies it to avoid pointer problems
     var normalAvailability = JSON.parse(
       JSON.stringify(this.state.normalAvailability),
@@ -115,7 +115,7 @@ class CalendarForStudents extends React.Component {
     return (
       <View style={styles.container}>
         <Calendar
-          onDayPress={day => {
+          onDayPress={(day) => {
             //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
             dayOfWeek = new Date(day.dateString).getDay();
             // dayOfWeek += 1
@@ -125,7 +125,7 @@ class CalendarForStudents extends React.Component {
             var dateString = day.dateString;
             this.setState(
               {date: dateString, selectedDay: dayOfWeek},
-              function() {
+              function () {
                 this.removeUnavailableTimes(dateString);
                 console.log(dayOfWeek);
               },
@@ -134,10 +134,10 @@ class CalendarForStudents extends React.Component {
           minDate={Date()}
           current={Date()}
           monthFormat={'MMM yyyy'}
-          onDayLongPress={day => {
+          onDayLongPress={(day) => {
             console.log('selected day', day);
           }}
-          onMonthChange={month => {
+          onMonthChange={(month) => {
             console.log('month changed', month);
           }}
           hideExtraDays={true}
@@ -146,22 +146,22 @@ class CalendarForStudents extends React.Component {
           style={{borderBottomWidth: 0.3, borderBottomColor: '#C8C8C8'}}
           hideDayNames={false}
           showWeekNumbers={false}
-          onPressArrowLeft={substractMonth => substractMonth()}
-          onPressArrowRight={addMonth => addMonth()}
+          onPressArrowLeft={(substractMonth) => substractMonth()}
+          onPressArrowRight={(addMonth) => addMonth()}
           markedDates={{
             [this.state.date]: {selected: true, marked: true},
           }}
         />
         <ScrollView
           contentContainerStyle={{alignItems: 'center', paddingBottom: 20}}>
-          {this.state.actualAvailability[this.state.selectedDay].map(time =>
+          {this.state.actualAvailability[this.state.selectedDay].map((time) =>
             time.available ? (
               <HoursCell
                 name={time.name}
                 onPress={() => this.onCellPress(time.name)}
                 key={this.state.actualAvailability[
                   this.state.selectedDay
-                ].findIndex(timeInArray => time == timeInArray)}
+                ].findIndex((timeInArray) => time == timeInArray)}
               />
             ) : (
               <View />

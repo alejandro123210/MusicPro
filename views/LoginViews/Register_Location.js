@@ -23,7 +23,7 @@ class Register_Location extends React.Component {
     // alert(this.state.zip)
     Geocoder.init('AIzaSyAupzaW4QDOYo09xPAml62_tO_8_SYKiPk');
     Geocoder.from(this.state.zip)
-      .then(json => {
+      .then((json) => {
         var location = json.results[0].address_components[1].long_name;
         var coordinates = json.results[0].geometry.location;
         this.setState({
@@ -38,7 +38,7 @@ class Register_Location extends React.Component {
           coordinates: this.state.coordinates,
         });
       })
-      .catch(error => alert(error));
+      .catch((error) => alert(error));
   };
 
   render() {
@@ -55,7 +55,7 @@ class Register_Location extends React.Component {
         <View style={styles.promptContainer}>
           <TextInput
             style={styles.textInput}
-            onChangeText={zipCode => this.setState({zip: zipCode})}
+            onChangeText={(zipCode) => this.setState({zip: zipCode})}
             placeholder="zip code"
             textAlign={'center'}
           />

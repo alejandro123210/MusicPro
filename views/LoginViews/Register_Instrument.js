@@ -40,11 +40,11 @@ class Register_Instrument extends React.Component {
         });
         ref
           .once('value')
-          .then(function(snapshot) {
+          .then(function (snapshot) {
             var userData = snapshot.val();
             Actions.StudentMain({userData: userData});
           })
-          .catch(function(error) {
+          .catch(function (error) {
             alert(error);
           });
       } else {
@@ -96,14 +96,14 @@ class Register_Instrument extends React.Component {
         )}
         <View style={styles.instrumentTagScrollViewContainer}>
           <View style={styles.grid}>
-            {this.state.instruments.map(instrument => (
+            {this.state.instruments.map((instrument) => (
               <InstrumentTag
                 instrument={instrument}
                 onPress={() => this.onTagPressed(instrument)}
                 colorOfCell="white"
                 type="tappable"
                 key={this.state.instruments.findIndex(
-                  instrumentinArray => instrument == instrumentinArray,
+                  (instrumentinArray) => instrument == instrumentinArray,
                 )}
               />
             ))}
@@ -113,10 +113,12 @@ class Register_Instrument extends React.Component {
           <TextInput
             style={styles.instrumentInput}
             multiline={false}
-            onChangeText={instrument => this.setState({instrument: instrument})}
+            onChangeText={(instrument) =>
+              this.setState({instrument: instrument})
+            }
             placeholder="Please enter 1 instrument at a time"
             onSubmitEditing={() => this.onSubmitPressed()}
-            ref={input => {
+            ref={(input) => {
               this.textInput = input;
             }}
             blurOnSubmit={false}

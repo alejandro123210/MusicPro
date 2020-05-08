@@ -19,7 +19,7 @@ class ListOfTeachers extends React.Component {
     var db = firebase.database();
     var ref = db.ref('users/');
     var teachers = [];
-    ref.once('value').then(snapshot => {
+    ref.once('value').then((snapshot) => {
       //all users in database
       var usersData = JSON.parse(JSON.stringify(snapshot.val()));
       var key = 0;
@@ -34,7 +34,7 @@ class ListOfTeachers extends React.Component {
             reviewStars.push(usersData[uid].info.reviews[review].starCount);
           }
         }
-        const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+        const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
         if (reviewStars.length != 0) {
           averageStars = arrAvg(reviewStars);
         }
@@ -68,7 +68,7 @@ class ListOfTeachers extends React.Component {
 
   findCoordinates = () => {
     Geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         const long = position.coords.longitude;
         const lat = position.coords.latitude;
         const coordinates = {
@@ -78,7 +78,7 @@ class ListOfTeachers extends React.Component {
         // console.log(coordinates)
         this.setState({coordinates});
       },
-      error => Alert.alert(error.message),
+      (error) => Alert.alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   };
@@ -91,14 +91,14 @@ class ListOfTeachers extends React.Component {
     this.loadTeachers();
   }
 
-  onPress = teacher => {
+  onPress = (teacher) => {
     Actions.TeacherInfo({
       userData: this.props.userData,
       teacher: teacher,
     });
   };
 
-  onBookPressed = teacher => {
+  onBookPressed = (teacher) => {
     Actions.CalendarForStudents({
       userData: this.props.userData,
       teacher: teacher,
@@ -110,7 +110,7 @@ class ListOfTeachers extends React.Component {
       <View style={styles.container}>
         <ProfileBar userData={this.props.userData} />
         <ScrollView>
-          {this.state.teachers.map(teacher => (
+          {this.state.teachers.map((teacher) => (
             <TeacherCell
               image={teacher.photo}
               name={teacher.name}
