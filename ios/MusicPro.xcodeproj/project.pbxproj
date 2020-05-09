@@ -12,13 +12,14 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		165903A5629E4D8E597892A0 /* libPods-MusicProTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3520643331EB17324ACBE058 /* libPods-MusicProTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* MusicProTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MusicProTests.m */; };
 		59D9CD8BA8DC334B5BF53DD3 /* libPods-MusicPro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4BDD92DB3FB7E182BC31FB /* libPods-MusicPro.a */; };
 		84164212B1BEDEC74BBF9463 /* libPods-MusicPro-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5842992B17F949B76750D339 /* libPods-MusicPro-tvOS.a */; };
+		AA539A2E039DAEC18A681F0E /* libPods-MusicPro-MusicProTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1303A5C861F306C74B7F800C /* libPods-MusicPro-MusicProTests.a */; };
+		BD6A737E246662E7002BF23D /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6A737D246662E7002BF23D /* Dummy.swift */; };
 		BD74A6F923A493CF00BF53C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */; };
 		F1B56A68340E7258DC10AFAB /* libPods-MusicPro-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51471B35C9948382616A37E4 /* libPods-MusicPro-tvOSTests.a */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* MusicProTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicProTests.m; sourceTree = "<group>"; };
 		04539B5EC5A363EA1E29034A /* Pods-MusicPro-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-tvOSTests/Pods-MusicPro-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1303A5C861F306C74B7F800C /* libPods-MusicPro-MusicProTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPro-MusicProTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* MusicPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MusicPro/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MusicPro/AppDelegate.m; sourceTree = "<group>"; };
@@ -57,12 +59,15 @@
 		27E85B5E185F2B46C11DC55C /* Pods-MusicProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicProTests/Pods-MusicProTests.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* MusicPro-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MusicPro-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* MusicPro-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MusicPro-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3520643331EB17324ACBE058 /* libPods-MusicProTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicProTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51471B35C9948382616A37E4 /* libPods-MusicPro-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPro-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5842992B17F949B76750D339 /* libPods-MusicPro-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPro-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B9190DE360D82AC503D718B /* Pods-MusicPro-MusicProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-MusicProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-MusicProTests/Pods-MusicPro-MusicProTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7F4BDD92DB3FB7E182BC31FB /* libPods-MusicPro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DFD77EFECBDFD3332B98174 /* Pods-MusicPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro/Pods-MusicPro.debug.xcconfig"; sourceTree = "<group>"; };
 		9F0CCA06A4BACCE6586A05C8 /* Pods-MusicPro-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-tvOSTests/Pods-MusicPro-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		A3442EDBEC07EDB50E2CC70E /* Pods-MusicPro-MusicProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-MusicProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-MusicProTests/Pods-MusicPro-MusicProTests.release.xcconfig"; sourceTree = "<group>"; };
+		BD6A737824665581002BF23D /* MusicPro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicPro-Bridging-Header.h"; sourceTree = "<group>"; };
+		BD6A737D246662E7002BF23D /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBCA60A14B9463A7541A8315 /* Pods-MusicPro-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-tvOS/Pods-MusicPro-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		DF21F82158FA39D5BDD915A4 /* Pods-MusicProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicProTests/Pods-MusicProTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -76,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				165903A5629E4D8E597892A0 /* libPods-MusicProTests.a in Frameworks */,
+				AA539A2E039DAEC18A681F0E /* libPods-MusicPro-MusicProTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,11 +135,13 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				BD6A737D246662E7002BF23D /* Dummy.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				BD6A737824665581002BF23D /* MusicPro-Bridging-Header.h */,
 			);
 			name = MusicPro;
 			sourceTree = "<group>";
@@ -147,7 +154,7 @@
 				7F4BDD92DB3FB7E182BC31FB /* libPods-MusicPro.a */,
 				5842992B17F949B76750D339 /* libPods-MusicPro-tvOS.a */,
 				51471B35C9948382616A37E4 /* libPods-MusicPro-tvOSTests.a */,
-				3520643331EB17324ACBE058 /* libPods-MusicProTests.a */,
+				1303A5C861F306C74B7F800C /* libPods-MusicPro-MusicProTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -196,6 +203,8 @@
 				9F0CCA06A4BACCE6586A05C8 /* Pods-MusicPro-tvOSTests.release.xcconfig */,
 				DF21F82158FA39D5BDD915A4 /* Pods-MusicProTests.debug.xcconfig */,
 				27E85B5E185F2B46C11DC55C /* Pods-MusicProTests.release.xcconfig */,
+				6B9190DE360D82AC503D718B /* Pods-MusicPro-MusicProTests.debug.xcconfig */,
+				A3442EDBEC07EDB50E2CC70E /* Pods-MusicPro-MusicProTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -211,6 +220,7 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				C898AB4CC433ADAD904F2B17 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -288,12 +298,15 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = Facebook;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1130;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -436,6 +449,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C898AB4CC433ADAD904F2B17 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MusicPro-MusicProTests/Pods-MusicPro-MusicProTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MusicPro-MusicProTests/Pods-MusicPro-MusicProTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C9CF980F6D7AC8E8935A71A8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -529,7 +560,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MusicProTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MusicPro-MusicProTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -552,6 +583,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				BD6A737E246662E7002BF23D /* Dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -603,8 +635,9 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF21F82158FA39D5BDD915A4 /* Pods-MusicProTests.debug.xcconfig */;
+			baseConfigurationReference = 6B9190DE360D82AC503D718B /* Pods-MusicPro-MusicProTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -626,8 +659,9 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 27E85B5E185F2B46C11DC55C /* Pods-MusicProTests.release.xcconfig */;
+			baseConfigurationReference = A3442EDBEC07EDB50E2CC70E /* Pods-MusicPro-MusicProTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = MusicProTests/Info.plist;
@@ -648,7 +682,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8DFD77EFECBDFD3332B98174 /* Pods-MusicPro.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = MusicPro/Info.plist;
@@ -660,6 +696,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MusicPro;
+				SWIFT_OBJC_BRIDGING_HEADER = "MusicPro-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -668,7 +707,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FBCDC0F751D3F32FAB93128C /* Pods-MusicPro.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MusicPro/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -679,6 +720,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MusicPro;
+				SWIFT_OBJC_BRIDGING_HEADER = "MusicPro-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -797,6 +840,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -832,6 +876,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FB_SONARKIT_ENABLED=1";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -840,6 +885,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -850,6 +896,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -886,6 +933,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

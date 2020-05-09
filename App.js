@@ -1,5 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
+
+//@format
+//@flow strict-local
+
 import React from 'react';
 import {Router, Scene, Tabs} from 'react-native-router-flux';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';

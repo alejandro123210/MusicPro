@@ -75,7 +75,6 @@ target 'MusicPro' do
 
 
 
-  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
 
 
