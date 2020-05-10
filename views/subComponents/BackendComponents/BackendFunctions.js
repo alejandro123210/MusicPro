@@ -8,7 +8,11 @@ export const registerFCM = (userData) => {
   //registers the token in the native modules and updates the database with the user's token
   if (Platform.OS === 'android') {
     NativeModules.CustomFCMModule.getFCMToken((err, token) => {
-      console.log(err, token);
+      //if there's an error log it
+      if (err !== null) {
+        console.log('FCM token registration error: ' + err);
+      }
+      //add fcm token to user file
       fcm_token = token;
       var db = firebase.database();
       db.ref(`users/${userData.uid}/info/`).update({fcm_token: fcm_token});
