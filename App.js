@@ -6,7 +6,7 @@
 
 import React from 'react';
 import {Router, Scene, Tabs} from 'react-native-router-flux';
-import {Image, View} from 'react-native';
+import {Image, View, Platform, NativeModules} from 'react-native';
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';
@@ -149,6 +149,12 @@ function ChatIcon() {
 }
 
 export default function App() {
+  // if (Platform.OS === 'android') {
+  //   NativeModules.Device.getDeviceName((err, name) => {
+  //     console.log(err, name);
+  //   });
+  // }
+
   const firebase = require('firebase');
   const firebaseConfig = {
     apiKey: 'AIzaSyBxNgaiPS_gdg_M-A7TMsFEwJjmqg88sRA',

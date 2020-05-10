@@ -87,7 +87,7 @@ apply from: "../../node_modules/react-native/react.gradle"
  *   - An APK that only works on x86 devices
  * The advantage is the size of the APK is reduced by about 4MB.
  * Upload all the APKs to the Play Store and people will download
- * the correct one based on the CPU architecture of their device.
+ * the correct one based on the CPU architecture of their com.musicpro.device.
  */
 def enableSeparateBuildPerCPUArchitecture = false
 
@@ -187,7 +187,6 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:0.62.2"  // From node_modules
-
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.google.firebase:firebase-messaging:20.1.7'
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
