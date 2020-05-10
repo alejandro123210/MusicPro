@@ -19,7 +19,7 @@
 		59D9CD8BA8DC334B5BF53DD3 /* libPods-MusicPro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4BDD92DB3FB7E182BC31FB /* libPods-MusicPro.a */; };
 		84164212B1BEDEC74BBF9463 /* libPods-MusicPro-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5842992B17F949B76750D339 /* libPods-MusicPro-tvOS.a */; };
 		AA539A2E039DAEC18A681F0E /* libPods-MusicPro-MusicProTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1303A5C861F306C74B7F800C /* libPods-MusicPro-MusicProTests.a */; };
-		BD4A39A72467609C00E5F38F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = BD4A39A62467609C00E5F38F /* main.jsbundle */; };
+		BD43A05B2468BF9200BA6488 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = BD43A05A2468BF9200BA6488 /* main.jsbundle */; };
 		BD6A737E246662E7002BF23D /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6A737D246662E7002BF23D /* Dummy.swift */; };
 		BD74A6F923A493CF00BF53C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */; };
 		F1B56A68340E7258DC10AFAB /* libPods-MusicPro-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51471B35C9948382616A37E4 /* libPods-MusicPro-tvOSTests.a */; };
@@ -66,7 +66,7 @@
 		8DFD77EFECBDFD3332B98174 /* Pods-MusicPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro/Pods-MusicPro.debug.xcconfig"; sourceTree = "<group>"; };
 		9F0CCA06A4BACCE6586A05C8 /* Pods-MusicPro-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-tvOSTests/Pods-MusicPro-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		A3442EDBEC07EDB50E2CC70E /* Pods-MusicPro-MusicProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-MusicProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPro-MusicProTests/Pods-MusicPro-MusicProTests.release.xcconfig"; sourceTree = "<group>"; };
-		BD4A39A62467609C00E5F38F /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		BD43A05A2468BF9200BA6488 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		BD6A737824665581002BF23D /* MusicPro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicPro-Bridging-Header.h"; sourceTree = "<group>"; };
 		BD6A737D246662E7002BF23D /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		BD74A6F823A493CF00BF53C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		13B07FAE1A68108700A75B9A /* MusicPro */ = {
 			isa = PBXGroup;
 			children = (
-				BD4A39A62467609C00E5F38F /* main.jsbundle */,
+				BD43A05A2468BF9200BA6488 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				BD6A737D246662E7002BF23D /* Dummy.swift */,
@@ -357,7 +357,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				BD74A6F923A493CF00BF53C9 /* GoogleService-Info.plist in Resources */,
-				BD4A39A72467609C00E5F38F /* main.jsbundle in Resources */,
+				BD43A05B2468BF9200BA6488 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
