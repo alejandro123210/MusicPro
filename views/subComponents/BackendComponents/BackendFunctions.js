@@ -1,6 +1,20 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-undef */
 import * as firebase from 'firebase';
+import {Platform, NativeModules} from 'react-native';
+
+export const registerFCM = (userData) => {
+  var fcm_token;
+  //registers the token in the native modules and updates the database with the user's token
+  if (Platform.OS === 'android') {
+    NativeModules.CustomFCMModule.getFCMToken((err, token) => {
+      console.log(err, token);
+      fcm_token = token;
+      var db = firebase.database();
+      db.ref(`users/${userData.uid}/info/`).update({fcm_token: fcm_token});
+    });
+  }
+};
 
 export var loadLessons = (userData, lessonType, that) => {
   //this handles lessons that have passed
