@@ -43,7 +43,6 @@ class Chat extends React.Component {
     if (this.state.messages.length == 0) {
       firstMessage = true;
     }
-
     await this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
@@ -78,6 +77,12 @@ class Chat extends React.Component {
       userRef.update({messages: messagesToPush, lastMessageAt});
       otherUserRef.update({messages: messagesToPush, lastMessageAt});
     }
+    let notificationObject = {
+      recipientID: this.state.otherUser.uid,
+      senderName: this.state.userData.name,
+    };
+    db.ref('NotificationQueue/').push(notificationObject);
+    console.log('works');
   };
 
   avatarPressed = () => {
