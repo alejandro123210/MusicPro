@@ -194,7 +194,6 @@
 				A624E91CD361C856B1559727 /* Pods-MusicPro-tvOSTests.debug.xcconfig */,
 				7BC88262005681CC57D67BE5 /* Pods-MusicPro-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

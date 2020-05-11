@@ -6,7 +6,7 @@
 
 import React from 'react';
 import {Router, Scene, Tabs} from 'react-native-router-flux';
-import {Image, View, Platform} from 'react-native';
+import {Image, View} from 'react-native';
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';
@@ -149,16 +149,14 @@ function ChatIcon() {
 }
 
 export default function App() {
-  if (Platform.OS === 'android') {
-    const firebase = require('firebase');
-    const firebaseConfig = {
-      apiKey: 'AIzaSyBxNgaiPS_gdg_M-A7TMsFEwJjmqg88sRA',
-      authDomain: 'rehearse-c7c14.firebaseapp.com',
-      databaseURL: 'https://rehearse-c7c14.firebaseio.com',
-      storageBucket: 'rehearse-c7c14.appspot.com',
-    };
-    const firebaseApp = firebase.initializeApp(firebaseConfig);
-  }
+  const firebase = require('firebase');
+  const firebaseConfig = {
+    apiKey: 'AIzaSyBxNgaiPS_gdg_M-A7TMsFEwJjmqg88sRA',
+    authDomain: 'rehearse-c7c14.firebaseapp.com',
+    databaseURL: 'https://rehearse-c7c14.firebaseio.com',
+    storageBucket: 'rehearse-c7c14.appspot.com',
+  };
+  const firebaseApp = firebase.initializeApp(firebaseConfig);
 
   return (
     <Router>

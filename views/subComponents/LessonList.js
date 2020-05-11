@@ -22,6 +22,7 @@ import {
   cancelLessons,
   loadLessons,
   loadLessonsOnce,
+  registerFCM,
 } from './BackendComponents/BackendFunctions';
 import * as firebase from 'firebase';
 import LessonCell from './TableCells/LessonCell';
@@ -35,6 +36,7 @@ class LessonList extends React.Component {
 
   componentDidMount() {
     loadLessons(this.state.userData, this.state.lessonType, this);
+    registerFCM(this.state.userData);
   }
 
   onScheduledEventPressed = (lesson) => {
@@ -48,7 +50,10 @@ class LessonList extends React.Component {
           lesson.teacherName +
           '?',
         [
-          {text: 'Cancel Lesson', onPress: () => cancelLessons(lesson)},
+          {
+            text: 'Cancel Lesson',
+            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+          },
           {
             text: 'Nevermind',
             onPress: () => console.log('Cancel Pressed'),
@@ -67,7 +72,10 @@ class LessonList extends React.Component {
           lesson.teacherName +
           '?',
         [
-          {text: 'Cancel Request', onPress: () => cancelLessons(lesson)},
+          {
+            text: 'Cancel Request',
+            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+          },
           {
             text: 'Nevermind',
             onPress: () => console.log('Cancel Pressed'),
@@ -90,7 +98,10 @@ class LessonList extends React.Component {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: 'Deny', onPress: () => cancelLessons(lesson)},
+          {
+            text: 'Deny',
+            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+          },
         ],
         {cancelable: true},
       );
@@ -104,7 +115,10 @@ class LessonList extends React.Component {
           lesson.studentName +
           '?',
         [
-          {text: 'Cancel Lesson', onPress: () => cancelLessons(lesson)},
+          {
+            text: 'Cancel Lesson',
+            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+          },
           {
             text: 'Nevermind',
             onPress: () => console.log('Cancel Pressed'),

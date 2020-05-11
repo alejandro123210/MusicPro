@@ -20,6 +20,16 @@ export const registerFCM = (userData) => {
   }
 };
 
+export const sendNotification = (recipientID, senderName, type) => {
+  let notificationObject = {
+    recipientID: recipientID,
+    senderName: senderName,
+    type: type,
+  };
+  var db = firebase.database();
+  db.ref('NotificationQueue/').push(notificationObject);
+};
+
 export var loadLessons = (userData, lessonType, that) => {
   //this handles lessons that have passed
   removePastLessons = (lesson) => {
@@ -136,7 +146,13 @@ export var loadLessons = (userData, lessonType, that) => {
 //     });
 // }
 
-export const cancelLessons = (lesson) => {
+export const cancelLessons = (lesson, userType) => {
+  if (userType === 'student') {
+    sendNotification(lesson.teacherID, lesson.studentName, 'lesson-cancelled');
+  } else if (userType === 'teacher') {
+    sendNotification(lesson.studentID, lesson.teacherName, 'lesson-cancelled');
+  }
+
   var db = firebase.database();
   db.ref(
     `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,

@@ -4,6 +4,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import * as firebase from 'firebase';
+import {sendNotification} from '../subComponents/BackendComponents/BackendFunctions';
 
 class Chat extends React.Component {
   state = {
@@ -77,12 +78,11 @@ class Chat extends React.Component {
       userRef.update({messages: messagesToPush, lastMessageAt});
       otherUserRef.update({messages: messagesToPush, lastMessageAt});
     }
-    let notificationObject = {
-      recipientID: this.state.otherUser.uid,
-      senderName: this.state.userData.name,
-    };
-    db.ref('NotificationQueue/').push(notificationObject);
-    console.log('works');
+    sendNotification(
+      this.state.otherUser.uid,
+      this.state.userData.name,
+      'message',
+    );
   };
 
   avatarPressed = () => {

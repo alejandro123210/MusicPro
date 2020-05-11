@@ -5,10 +5,6 @@ import LessonList from '../subComponents/LessonList';
 import {registerFCM} from '../subComponents/BackendComponents/BackendFunctions';
 
 class TeacherDash extends React.Component {
-  componentDidMount() {
-    registerFCM(this.props.userData);
-  }
-
   render() {
     return <LessonList userData={this.props.userData} lessonType="confirmed" />;
   }

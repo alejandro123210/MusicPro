@@ -20,16 +20,16 @@ export default class LoginController extends Component {
     };
   }
   componentDidMount() {
-    GoogleSignin.configure({
-      webClientId:
-        '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com',
-      offlineAccess: true,
-      hostedDomain: '',
-      forceConsentPrompt: false,
-      iosClientId:
-        '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com',
-    });
-    this.getCurrentUserInfo();
+    // GoogleSignin.configure({
+    //   webClientId:
+    //     '506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com',
+    //   offlineAccess: true,
+    //   hostedDomain: '',
+    //   forceConsentPrompt: false,
+    //   iosClientId:
+    //     '506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com',
+    // });
+    // this.getCurrentUserInfo();
     // alert(this.state.userInfo)
     // alert("LoginController has mounted")
     console.log('login controller mounted');
