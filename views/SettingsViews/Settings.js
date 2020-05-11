@@ -15,6 +15,7 @@ import InstrumentTag from '../subComponents/instrumentTag';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import {removeFCM} from '../subComponents/BackendComponents/BackendFunctions';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -36,6 +37,8 @@ function settings({userData}) {
   };
 
   signOut = async () => {
+    //turns off FCM and removes the token
+    removeFCM();
     //removing listener
     var db = firebase.database();
     db.ref(`users/${userData.uid}/info/lessons`).off();
@@ -59,6 +62,8 @@ function settings({userData}) {
   };
 
   deleteAccount = async () => {
+    //turns off FCM and removes the token
+    removeFCM();
     var db = firebase.database();
     var userLessonsRef = db.ref(`users/${userData.uid}/info/lessons`);
     var userMessagesRef = db.ref(`Messages/${userData.uid}`);

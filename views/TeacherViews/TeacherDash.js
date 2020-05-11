@@ -2,7 +2,6 @@
 //has to 3 link buttons but two of them link to the same screen for now
 import React from 'react';
 import LessonList from '../subComponents/LessonList';
-import {registerFCM} from '../subComponents/BackendComponents/BackendFunctions';
 
 class TeacherDash extends React.Component {
   render() {

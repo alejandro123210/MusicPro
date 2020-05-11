@@ -23,6 +23,7 @@ import {
   loadLessons,
   loadLessonsOnce,
   registerFCM,
+  sendNotification,
 } from './BackendComponents/BackendFunctions';
 import * as firebase from 'firebase';
 import LessonCell from './TableCells/LessonCell';
@@ -39,7 +40,7 @@ class LessonList extends React.Component {
     registerFCM(this.state.userData);
   }
 
-  onScheduledEventPressed = (lesson) => {
+  onDenyOrCancelPressed = (lesson) => {
     if (
       this.state.userData.userType == 'student' &&
       this.props.lessonType == 'confirmed'
@@ -52,7 +53,12 @@ class LessonList extends React.Component {
         [
           {
             text: 'Cancel Lesson',
-            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+            onPress: () =>
+              cancelLessons(
+                lesson,
+                this.state.userData.userType,
+                'lesson-cancelled',
+              ),
           },
           {
             text: 'Nevermind',
@@ -74,7 +80,12 @@ class LessonList extends React.Component {
         [
           {
             text: 'Cancel Request',
-            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+            onPress: () =>
+              cancelLessons(
+                lesson,
+                this.state.userData.userType,
+                'request-cancelled',
+              ),
           },
           {
             text: 'Nevermind',
@@ -89,10 +100,11 @@ class LessonList extends React.Component {
       this.props.lessonType == 'undecided'
     ) {
       Alert.alert(
-        'Do you Accept?',
-        'do you accept this lesson with ' + lesson.studentName,
+        'Are you sure?',
+        'Are you sure you want to deny this lesson with ' +
+          lesson.studentName +
+          '?',
         [
-          {text: 'Confirm Lesson', onPress: () => this.acceptLesson(lesson)},
           {
             text: 'Cancel',
             onPress: () => console.log('Cancel Pressed'),
@@ -100,7 +112,12 @@ class LessonList extends React.Component {
           },
           {
             text: 'Deny',
-            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+            onPress: () =>
+              cancelLessons(
+                lesson,
+                this.state.userData.userType,
+                'request-denied',
+              ),
           },
         ],
         {cancelable: true},
@@ -117,7 +134,12 @@ class LessonList extends React.Component {
         [
           {
             text: 'Cancel Lesson',
-            onPress: () => cancelLessons(lesson, this.state.userData.userType),
+            onPress: () =>
+              cancelLessons(
+                lesson,
+                this.state.userData.userType,
+                'lesson-cancelled',
+              ),
           },
           {
             text: 'Nevermind',
@@ -130,7 +152,9 @@ class LessonList extends React.Component {
     }
   };
 
+  //sendNotification = (recipientID, senderName, type)
   acceptLesson = (lesson) => {
+    sendNotification(lesson.studentID, lesson.teacherName, 'request-accepted');
     var db = firebase.database();
     db.ref(
       `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
@@ -163,8 +187,8 @@ class LessonList extends React.Component {
                 date={lesson.date}
                 instruments={lesson.instruments}
                 onConfirmPressed={() => this.acceptLesson(lesson)}
-                onDenyPressed={() => this.onScheduledEventPressed(lesson)}
-                onCancelPressed={() => this.onScheduledEventPressed(lesson)}
+                onDenyPressed={() => this.onDenyOrCancelPressed(lesson)}
+                onCancelPressed={() => this.onDenyOrCancelPressed(lesson)}
                 key={lesson.key}
                 userType={this.state.userData.userType}
                 request={this.state.lessonType == 'undecided' ? true : false}

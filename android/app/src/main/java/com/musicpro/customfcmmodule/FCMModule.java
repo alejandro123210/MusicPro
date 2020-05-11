@@ -5,23 +5,16 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
-import com.musicpro.R;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
-import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.io.IOException;
 
 
 public class FCMModule extends ReactContextBaseJavaModule {
@@ -41,8 +34,8 @@ public class FCMModule extends ReactContextBaseJavaModule {
     //Custom function that we are going to export to JS
     @ReactMethod
     public void getFCMToken(Callback cb) {
-
         //getting firebase token
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -55,11 +48,25 @@ public class FCMModule extends ReactContextBaseJavaModule {
                         // Get new Instance ID token
                         String token = task.getResult().getToken();
 
-                        // Log and toast
-//                        String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, token);
+                        //send token to react-native to upload it to the user data in the DB
                         cb.invoke(null, token);
                     }
                 });
+    }
+
+    @ReactMethod
+    public void removeFCMToken(Callback cb) {
+        // Disable auto init
+        FirebaseMessaging.getInstance().setAutoInitEnabled(false);
+        new Thread(() -> {
+            try {
+                // Remove InstanceID initiate to unsubscribe all topic
+                // TODO: May be a better way to use FirebaseMessaging.getInstance().unsubscribeFromTopic()
+                FirebaseInstanceId.getInstance().deleteInstanceId();
+            } catch (IOException e) {
+                cb.invoke(null, e);
+            }
+        }).start();
     }
 }

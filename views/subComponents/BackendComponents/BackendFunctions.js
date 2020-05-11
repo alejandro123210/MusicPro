@@ -20,6 +20,14 @@ export const registerFCM = (userData) => {
   }
 };
 
+export const removeFCM = (userData) => {
+  if (Platform.OS === 'android') {
+    NativeModules.CustomFCMModule.removeFCMToken((obj, error) => {
+      console.log(error);
+    });
+  }
+};
+
 export const sendNotification = (recipientID, senderName, type) => {
   let notificationObject = {
     recipientID: recipientID,
@@ -146,11 +154,13 @@ export var loadLessons = (userData, lessonType, that) => {
 //     });
 // }
 
-export const cancelLessons = (lesson, userType) => {
+//this handles 'request-denied', 'request-cancelled', and 'lesson-cancelled'
+export const cancelLessons = (lesson, userType, type) => {
   if (userType === 'student') {
-    sendNotification(lesson.teacherID, lesson.studentName, 'lesson-cancelled');
+    sendNotification(lesson.teacherID, lesson.studentName, type);
+    sendNotification(lesson.teacherID, lesson.studentName, type);
   } else if (userType === 'teacher') {
-    sendNotification(lesson.studentID, lesson.teacherName, 'lesson-cancelled');
+    sendNotification(lesson.studentID, lesson.teacherName, type);
   }
 
   var db = firebase.database();

@@ -15,6 +15,7 @@ import {Rating} from 'react-native-ratings';
 import InstrumentTag from '../subComponents/instrumentTag';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
+import {sendNotification} from '../subComponents/BackendComponents/BackendFunctions';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -77,7 +78,6 @@ class RequestLessonDetail extends React.Component {
       } else if (time == '8 PM - 9 PM') {
         timeKey = 13;
       }
-      // console.log("Request confirmed for " + this.props.teacher.uid);
       var db = firebase.database();
       var teacherRef = db.ref(
         `users/${this.props.teacher.uid}/info/lessons/${date}`,
@@ -105,9 +105,10 @@ class RequestLessonDetail extends React.Component {
       };
       teacherRef.child(teacherLessonRequestKey).update(lessonData);
       studentRef.child(studentLessonRequestKey).update(lessonData);
+      sendNotification(teacherIDNum, studentName, 'lesson-requested');
       Actions.StudentLessonRequest({userData: this.props.userData});
 
-      //start a conversation just
+      //start a conversation
       var moment = require('moment');
       var currentDate = moment().format();
       let userMessageData = {
