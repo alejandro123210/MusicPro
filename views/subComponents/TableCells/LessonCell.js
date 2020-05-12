@@ -36,8 +36,10 @@ function lessonCell({
         <View style={styles.title}>
           <Image style={styles.image} source={{uri: image}} />
           <View style={styles.textContainer}>
-            {request ? (
+            {request && userType == 'teacher' ? (
               <Text style={styles.titleText}>Lesson request from {name}</Text>
+            ) : request && userType == 'student' ? (
+              <Text style={styles.titleText}>Lesson request for {name}</Text>
             ) : (
               <Text style={styles.titleText}>Lesson with {name}</Text>
             )}
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 25,
-    width: '75%',
+    width: '70%',
   },
   dateText: {
     color: '#274156',
