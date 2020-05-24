@@ -15,7 +15,7 @@ import DateBar from './DateBar';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
-function profileBar({userData}) {
+function profileBar({userData, showDateBar = true}) {
   var name = userData.name;
   var photo = userData.photo;
 
@@ -40,7 +40,7 @@ function profileBar({userData}) {
           </TouchableOpacity>
         </View>
       </View>
-      <DateBar />
+      {showDateBar ? <DateBar /> : <View />}
     </View>
   );
 }

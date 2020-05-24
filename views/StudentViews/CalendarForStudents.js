@@ -48,13 +48,13 @@ class CalendarForStudents extends React.Component {
       userData = JSON.parse(JSON.stringify(snapshot.val()));
       if (userData.availability != null) {
         availabilityData = userData.availability;
-        availabilityListToPush['0'] = availabilityData.Sun;
-        availabilityListToPush['1'] = availabilityData.Mon;
-        availabilityListToPush['2'] = availabilityData.Tue;
-        availabilityListToPush['3'] = availabilityData.Wed;
-        availabilityListToPush['4'] = availabilityData.Thu;
-        availabilityListToPush['5'] = availabilityData.Fri;
-        availabilityListToPush['6'] = availabilityData.Sat;
+        availabilityListToPush['0'] = availabilityData.Mon;
+        availabilityListToPush['1'] = availabilityData.Tue;
+        availabilityListToPush['2'] = availabilityData.Wed;
+        availabilityListToPush['3'] = availabilityData.Thu;
+        availabilityListToPush['4'] = availabilityData.Fri;
+        availabilityListToPush['5'] = availabilityData.Sat;
+        availabilityListToPush['6'] = availabilityData.Sun;
         that.setState({
           actualAvailability: availabilityListToPush,
           normalAvailability: JSON.parse(
@@ -130,6 +130,7 @@ class CalendarForStudents extends React.Component {
           onDayPress={(day) => {
             //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
             dayOfWeek = new Date(day.dateString).getDay();
+            console.log(dayOfWeek);
             // dayOfWeek += 1
             // if(dayOfWeek == 7){
             //   dayOfWeek = 0

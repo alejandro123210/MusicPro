@@ -164,7 +164,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProfileBar userData={this.props.userData} />
+        <ProfileBar userData={this.props.userData} showDateBar={false} />
         <DayBar markedDay={(day) => this.setState({day: day})} />
         <ScrollView>
           {this.state.times[this.state.day].map((time) => (
