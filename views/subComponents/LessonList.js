@@ -17,7 +17,6 @@ import {
   FlatList,
 } from 'react-native';
 import ProfileBar from '../subComponents/ProfileBar';
-import DateBar from '../subComponents/DateBar';
 import {
   cancelLessons,
   loadLessons,
@@ -168,7 +167,6 @@ class LessonList extends React.Component {
     return (
       <View style={styles.container}>
         <ProfileBar userData={this.state.userData} />
-        <DateBar />
         {this.state.lessonsList.length != 0 ? (
           <ScrollView contentContainerStyle={{paddingBottom: 20}}>
             {this.state.lessonsList.map((lesson) => (

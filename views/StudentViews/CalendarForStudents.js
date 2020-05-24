@@ -4,7 +4,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
-import {View, StyleSheet, ScrollView, Platform} from 'react-native';
+import {View, StyleSheet, ScrollView, Platform, Text} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
@@ -91,7 +91,7 @@ class CalendarForStudents extends React.Component {
     );
     //sets the state of actual availability to normal, normal is never changed, so it clears all data of lessons
     this.setState({actualAvailability: normalAvailability});
-    //checks all dates for teacher's lessons, this may have to be changed if itmakes the phone slow
+    //checks all dates for teacher's lessons, this may have to be changed if it makes the phone slow
     for (date in this.state.teacherLessons) {
       //if the date of the lessons is the same as the date string the calendar has, it checks the lesson times to remove the lesson
       if (date == dateString) {
@@ -110,6 +110,18 @@ class CalendarForStudents extends React.Component {
       }
     }
   };
+
+  checkIfAnyAvailableTimes() {
+    var anyTimesAvailable = false;
+    for (timeKey in this.state.actualAvailability[this.state.selectedDay]) {
+      var time = this.state.actualAvailability[this.state.selectedDay][timeKey];
+      if (time.available === true) {
+        console.log('true');
+        anyTimesAvailable = true;
+      }
+    }
+    return anyTimesAvailable;
+  }
 
   render() {
     return (
@@ -152,22 +164,30 @@ class CalendarForStudents extends React.Component {
             [this.state.date]: {selected: true, marked: true},
           }}
         />
-        <ScrollView
-          contentContainerStyle={{alignItems: 'center', paddingBottom: 20}}>
-          {this.state.actualAvailability[this.state.selectedDay].map((time) =>
-            time.available ? (
-              <HoursCell
-                name={time.name}
-                onPress={() => this.onCellPress(time.name)}
-                key={this.state.actualAvailability[
-                  this.state.selectedDay
-                ].findIndex((timeInArray) => time == timeInArray)}
-              />
-            ) : (
-              <View />
-            ),
-          )}
-        </ScrollView>
+        {this.checkIfAnyAvailableTimes() ? (
+          <ScrollView
+            contentContainerStyle={{alignItems: 'center', paddingBottom: 20}}>
+            {this.state.actualAvailability[this.state.selectedDay].map((time) =>
+              time.available ? (
+                <HoursCell
+                  name={time.name}
+                  onPress={() => this.onCellPress(time.name)}
+                  key={this.state.actualAvailability[
+                    this.state.selectedDay
+                  ].findIndex((timeInArray) => time == timeInArray)}
+                />
+              ) : (
+                <View />
+              ),
+            )}
+          </ScrollView>
+        ) : (
+          <View style={styles.noAvailableTimesContainer}>
+            <Text style={styles.noAvailableTimesText}>
+              No available times on this day
+            </Text>
+          </View>
+        )}
       </View>
     );
   }
@@ -177,6 +197,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Platform.OS === 'ios' ? 'white' : '#f5f5f5',
+  },
+  noAvailableTimesContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noAvailableTimesText: {
+    color: 'gray',
+    fontSize: 25,
+    textAlign: 'center',
+    width: 250,
   },
 });
 

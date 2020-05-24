@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import DateBar from './DateBar';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -23,20 +24,23 @@ function profileBar({userData}) {
   };
 
   return (
-    <View style={styles.topBar}>
-      <View style={styles.imageContainer} onPress={() => onSettingsPressed()}>
-        <Image source={{uri: photo}} style={styles.imageMain} />
+    <View>
+      <View style={styles.topBar}>
+        <View style={styles.imageContainer} onPress={() => onSettingsPressed()}>
+          <Image source={{uri: photo}} style={styles.imageMain} />
+        </View>
+        <View style={styles.nameContainer}>
+          <Text style={styles.profileText}>{name}</Text>
+          <TouchableOpacity onPress={() => onSettingsPressed()}>
+            {/* <Text style={styles.settingsText}>Settings</Text> */}
+            <Image
+              source={require('../Assets/settings.png')}
+              style={styles.messagingIcon}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.nameContainer}>
-        <Text style={styles.profileText}>{name}</Text>
-        <TouchableOpacity onPress={() => onSettingsPressed()}>
-          {/* <Text style={styles.settingsText}>Settings</Text> */}
-          <Image
-            source={require('../Assets/settings.png')}
-            style={styles.messagingIcon}
-          />
-        </TouchableOpacity>
-      </View>
+      <DateBar />
     </View>
   );
 }

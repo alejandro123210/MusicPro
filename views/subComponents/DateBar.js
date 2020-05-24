@@ -7,7 +7,7 @@ function dateBar() {
   var date = new Date().getDate(); //Current Date
   var month = new Date().getMonth() + 1; //Current Month
   var year = new Date().getFullYear(); //Current Year
-  var fullDateText = 'Today is: ' + month + '/' + date + '/' + year;
+  var fullDateText = 'Date: ' + month + '/' + date + '/' + year;
 
   return (
     <View style={styles.dateBar}>

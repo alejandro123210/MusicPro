@@ -1,5 +1,4 @@
 /* eslint-disable eqeqeq */
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-undef */
 import React from 'react';
 import {View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
@@ -101,10 +100,8 @@ class ChatsList extends React.Component {
     ) : (
       <View style={styles.container}>
         <ProfileBar userData={this.state.userData} />
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{color: 'gray', textAlign: 'center', fontSize: 30}}>
-            No messages
-          </Text>
+        <View style={styles.noMessagesContainer}>
+          <Text style={styles.noMessagesText}>No messages</Text>
         </View>
       </View>
     );
@@ -115,6 +112,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Platform.OS === 'ios' ? 'white' : '#f5f5f5',
+  },
+  noMessagesContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noMessagesText: {
+    color: 'gray',
+    fontSize: 25,
+    textAlign: 'center',
+    width: 250,
   },
 });
 export default ChatsList;
