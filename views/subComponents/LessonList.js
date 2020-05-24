@@ -196,10 +196,11 @@ class LessonList extends React.Component {
             ))}
           </ScrollView>
         ) : (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: 'gray', fontSize: 25, textAlign: 'center'}}>
-              No lessons at the moment :/
+          <View style={styles.noLessonsContainer}>
+            <Text style={styles.noLessonsText}>
+              {this.state.lessonType == 'undecided'
+                ? 'No lesson requests at the moment'
+                : 'No confirmed lessons at the moment'}
             </Text>
           </View>
         )}
@@ -212,6 +213,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Platform.OS === 'ios' ? 'white' : '#f5f5f5',
+  },
+  noLessonsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noLessonsText: {
+    color: 'gray',
+    fontSize: 25,
+    textAlign: 'center',
+    width: 250,
   },
 });
 

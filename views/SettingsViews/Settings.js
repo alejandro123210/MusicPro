@@ -38,7 +38,7 @@ function settings({userData}) {
 
   signOut = async () => {
     //turns off FCM and removes the token
-    removeFCM();
+    removeFCM(userData);
     //removing listener
     var db = firebase.database();
     db.ref(`users/${userData.uid}/info/lessons`).off();

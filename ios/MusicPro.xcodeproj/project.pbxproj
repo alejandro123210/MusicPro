@@ -18,6 +18,8 @@
 		2DCD954D1E0B4F2C00145EB5 /* MusicProTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MusicProTests.m */; };
 		A25314839715E5CA33C114AA /* libPods-MusicPro-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 635424BFB0B48ABFBBC8B8D0 /* libPods-MusicPro-tvOS.a */; };
 		AA523586C95A95C53EF5B577 /* libPods-MusicPro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9570213700E41237566D234B /* libPods-MusicPro.a */; };
+		BD1420892479B09D00BEDF3D /* CustomFCMModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1420882479B09D00BEDF3D /* CustomFCMModule.swift */; };
+		BD14208D2479B3AA00BEDF3D /* CustomFCMModule.m in Sources */ = {isa = PBXBuildFile; fileRef = BD14208C2479B3AA00BEDF3D /* CustomFCMModule.m */; };
 		CCB2BE3A84510803EA1CF98C /* libPods-MusicPro-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCD4E874DFD1C81AF3955DB /* libPods-MusicPro-tvOSTests.a */; };
 		E7A4C933C318CE55F700F30A /* libPods-MusicPro-MusicProTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1D2DF16F512B6BCFA41558 /* libPods-MusicPro-MusicProTests.a */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,9 @@
 		7BC88262005681CC57D67BE5 /* Pods-MusicPro-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-MusicPro-tvOSTests/Pods-MusicPro-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		9570213700E41237566D234B /* libPods-MusicPro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A624E91CD361C856B1559727 /* Pods-MusicPro-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-MusicPro-tvOSTests/Pods-MusicPro-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BD1420872479B09D00BEDF3D /* MusicPro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicPro-Bridging-Header.h"; sourceTree = "<group>"; };
+		BD1420882479B09D00BEDF3D /* CustomFCMModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFCMModule.swift; sourceTree = "<group>"; };
+		BD14208C2479B3AA00BEDF3D /* CustomFCMModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomFCMModule.m; sourceTree = "<group>"; };
 		C2D690C0BC38054403503B26 /* Pods-MusicPro-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOS.release.xcconfig"; path = "Target Support Files/Pods-MusicPro-tvOS/Pods-MusicPro-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		DFCD4E874DFD1C81AF3955DB /* libPods-MusicPro-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPro-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E728EED7E8B54A38EF70B6B2 /* Pods-MusicPro-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPro-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-MusicPro-tvOS/Pods-MusicPro-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +137,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				BD1420882479B09D00BEDF3D /* CustomFCMModule.swift */,
+				BD14208C2479B3AA00BEDF3D /* CustomFCMModule.m */,
+				BD1420872479B09D00BEDF3D /* MusicPro-Bridging-Header.h */,
 			);
 			name = MusicPro;
 			sourceTree = "<group>";
@@ -293,7 +301,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1130;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -568,7 +576,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				BD1420892479B09D00BEDF3D /* CustomFCMModule.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				BD14208D2479B3AA00BEDF3D /* CustomFCMModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,6 +631,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 79B9A1574ADC9AA24954FAA7 /* Pods-MusicPro-MusicProTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -644,6 +655,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4E0A1894F9446D4C10D69D7B /* Pods-MusicPro-MusicProTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = MusicProTests/Info.plist;
@@ -681,6 +693,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MusicPro;
+				SWIFT_OBJC_BRIDGING_HEADER = "MusicPro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -703,6 +716,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MusicPro;
+				SWIFT_OBJC_BRIDGING_HEADER = "MusicPro-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
