@@ -33,7 +33,7 @@ export const removeFCM = (userData) => {
     //ios doensn't let you sign out of fcm easily without interacting with the database
     //so we do it here instead
     var db = firebase.database();
-    db.ref(`users/${userData.uid}/info/fcm_token`).remove();
+    db.ref(`users/${userData.uid}/info/fcm_token`).set({});
   }
 };
 
