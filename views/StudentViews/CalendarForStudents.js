@@ -12,7 +12,7 @@ import HoursCell from '../subComponents/TableCells/HoursCell';
 
 class CalendarForStudents extends React.Component {
   state = {
-    date: '',
+    date: new Date().toISOString().slice(0, 10),
     actualAvailability: {
       '0': [],
       '1': [],
@@ -36,21 +36,22 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
-    // var day = new Date().getDay();
-    // this.setState({selectedDay: day});
+    console.log('this.state.date: ' + this.state.date);
     if (this.state.selectedDay === -1) {
       this.setState({selectedDay: 6});
     }
-    var todayDate = new Date().toISOString().slice(0, 10);
-    this.setState({date: todayDate});
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.teacher.uid}/info/`);
     let that = this;
+    //this is the list that will contain the teacher's availability for each hour, available = false/true
+    var availabilityListToPush = this.state.actualAvailability;
     ref.once('value').then(function (snapshot) {
-      var availabilityListToPush = that.state.actualAvailability;
-      userData = JSON.parse(JSON.stringify(snapshot.val()));
-      if (userData.availability != null) {
-        availabilityData = userData.availability;
+      teacherData = JSON.parse(JSON.stringify(snapshot.val()));
+      //if the teacher's data isn't null, we...
+      if (teacherData.availability != null) {
+        //availability data is the teachers availability in the DB
+        var availabilityData = teacherData.availability;
+        //we set each part of availabilityData to corresponding parts of availabilityListToPush
         availabilityListToPush['0'] = availabilityData.Mon;
         availabilityListToPush['1'] = availabilityData.Tue;
         availabilityListToPush['2'] = availabilityData.Wed;
@@ -58,26 +59,30 @@ class CalendarForStudents extends React.Component {
         availabilityListToPush['4'] = availabilityData.Fri;
         availabilityListToPush['5'] = availabilityData.Sat;
         availabilityListToPush['6'] = availabilityData.Sun;
-        that.setState({
-          actualAvailability: availabilityListToPush,
-          normalAvailability: JSON.parse(
-            JSON.stringify(availabilityListToPush),
-          ),
-          teacherLessons: userData.lessons,
-        });
+        //finally, we set the state of actual availability to the data in the DB
+        that.setState(
+          {
+            actualAvailability: availabilityListToPush,
+            //we do this to avoid pointer problems
+            normalAvailability: JSON.parse(
+              JSON.stringify(availabilityListToPush),
+            ),
+            //we add the data of the teacher's lessons in order to remove those times later
+            teacherLessons: teacherData.lessons,
+          },
+          function () {
+            that.removeUnavailableTimes(that.state.date);
+          },
+        );
       }
-      var moment = require('moment');
-      var m = moment();
-      //certain times of day are not working because I'm not quite sure how the calendar api configured certain things.
-      //this roundUp variable may have to be used and may not, I'm still not sure
-      var roundUp =
-        m.minute() || m.second() || m.millisecond()
-          ? m.add(1, 'hour').startOf('hour')
-          : m.startOf('hour');
-      that.removeUnavailableTimes(m.format('YYYY-MM-DD'));
+      // var moment = require('moment');
+      // var m = moment();
+      //we remove unavailable times for teachers from their currently planned lessons
+      console.log(that.state.date);
     });
   }
 
+  //when a time is pressed, we take the user to the next screen to configure the request
   onCellPress = (time) => {
     Actions.RequestLessonDetail({
       teacher: this.props.teacher,
@@ -92,15 +97,12 @@ class CalendarForStudents extends React.Component {
     var normalAvailability = JSON.parse(
       JSON.stringify(this.state.normalAvailability),
     );
-    //sets the state of actual availability to normal, normal is never changed, so it clears all data of lessons
-    this.setState({actualAvailability: normalAvailability});
-    //checks all dates for teacher's lessons, this may have to be changed if it makes the phone slow
-    for (date in this.state.teacherLessons) {
-      //if the date of the lessons is the same as the date string the calendar has, it checks the lesson times to remove the lesson
-      if (date == dateString) {
-        for (lessonKey in this.state.teacherLessons[date]) {
+    if (this.state.teacherLessons !== undefined) {
+      if (this.state.teacherLessons[dateString] !== undefined) {
+        for (lessonKey in this.state.teacherLessons[dateString]) {
           //key to remove is equal to the key for the lesson time
-          var keyToRemove = this.state.teacherLessons[date][lessonKey].timeKey;
+          var keyToRemove = this.state.teacherLessons[dateString][lessonKey]
+            .timeKey;
           //gets the day of the week so it knows what day to change
           var normalAvailabilityForDay =
             normalAvailability[this.state.selectedDay];
@@ -112,6 +114,7 @@ class CalendarForStudents extends React.Component {
         }
       }
     }
+    this.forceUpdate();
   };
 
   checkIfAnyAvailableTimes() {
@@ -133,11 +136,6 @@ class CalendarForStudents extends React.Component {
           onDayPress={(day) => {
             //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
             dayOfWeek = new Date(day.dateString).getDay();
-            console.log(dayOfWeek);
-            // dayOfWeek += 1
-            // if(dayOfWeek == 7){
-            //   dayOfWeek = 0
-            // }
             var dateString = day.dateString;
             this.setState(
               {date: dateString, selectedDay: dayOfWeek},
