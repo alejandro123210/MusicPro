@@ -1,7 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable eqeqeq */
-/* eslint-disable no-undef */
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import {View, StyleSheet, ScrollView, Platform, Text} from 'react-native';
@@ -46,7 +42,7 @@ class CalendarForStudents extends React.Component {
     //this is the list that will contain the teacher's availability for each hour, available = false/true
     var availabilityListToPush = this.state.actualAvailability;
     ref.once('value').then(function (snapshot) {
-      teacherData = JSON.parse(JSON.stringify(snapshot.val()));
+      const teacherData = JSON.parse(JSON.stringify(snapshot.val()));
       //if the teacher's data isn't null, we...
       if (teacherData.availability != null) {
         //availability data is the teachers availability in the DB
@@ -99,7 +95,7 @@ class CalendarForStudents extends React.Component {
     );
     if (this.state.teacherLessons !== undefined) {
       if (this.state.teacherLessons[dateString] !== undefined) {
-        for (lessonKey in this.state.teacherLessons[dateString]) {
+        for (var lessonKey in this.state.teacherLessons[dateString]) {
           //key to remove is equal to the key for the lesson time
           var keyToRemove = this.state.teacherLessons[dateString][lessonKey]
             .timeKey;
@@ -119,7 +115,7 @@ class CalendarForStudents extends React.Component {
 
   checkIfAnyAvailableTimes() {
     var anyTimesAvailable = false;
-    for (timeKey in this.state.actualAvailability[this.state.selectedDay]) {
+    for (var timeKey in this.state.actualAvailability[this.state.selectedDay]) {
       var time = this.state.actualAvailability[this.state.selectedDay][timeKey];
       if (time.available === true) {
         // console.log('true');
@@ -135,7 +131,7 @@ class CalendarForStudents extends React.Component {
         <Calendar
           onDayPress={(day) => {
             //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
-            dayOfWeek = new Date(day.dateString).getDay();
+            var dayOfWeek = new Date(day.dateString).getDay();
             var dateString = day.dateString;
             this.setState(
               {date: dateString, selectedDay: dayOfWeek},
@@ -157,7 +153,7 @@ class CalendarForStudents extends React.Component {
           hideExtraDays={true}
           disableMonthChange={true}
           firstDay={1}
-          style={{borderBottomWidth: 0.3, borderBottomColor: '#C8C8C8'}}
+          style={styles.calendarBorder}
           hideDayNames={false}
           showWeekNumbers={false}
           onPressArrowLeft={(substractMonth) => substractMonth()}
@@ -167,8 +163,7 @@ class CalendarForStudents extends React.Component {
           }}
         />
         {this.checkIfAnyAvailableTimes() ? (
-          <ScrollView
-            contentContainerStyle={{alignItems: 'center', paddingBottom: 20}}>
+          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             {this.state.actualAvailability[this.state.selectedDay].map((time) =>
               time.available ? (
                 <HoursCell
@@ -176,7 +171,7 @@ class CalendarForStudents extends React.Component {
                   onPress={() => this.onCellPress(time.name)}
                   key={this.state.actualAvailability[
                     this.state.selectedDay
-                  ].findIndex((timeInArray) => time == timeInArray)}
+                  ].findIndex((timeInArray) => time === timeInArray)}
                 />
               ) : (
                 <View />
@@ -210,6 +205,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
     width: 250,
+  },
+  calendarBorder: {
+    borderBottomWidth: 0.3,
+    borderBottomColor: '#C8C8C8',
+  },
+  scrollViewContainer: {
+    alignItems: 'center',
+    paddingBottom: 20,
   },
 });
 
