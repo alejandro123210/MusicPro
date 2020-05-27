@@ -22,7 +22,7 @@ class CalendarForStudents extends React.Component {
       '5': [],
       '6': [],
     },
-    selectedDay: 0,
+    selectedDay: new Date().getDay() - 1,
     teacherLessons: [],
     normalAvailability: {
       '0': [],
@@ -36,8 +36,11 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
-    var day = new Date().getDay();
-    this.setState({selectedDay: day});
+    // var day = new Date().getDay();
+    // this.setState({selectedDay: day});
+    if (this.state.selectedDay === -1) {
+      this.setState({selectedDay: 6});
+    }
     var todayDate = new Date().toISOString().slice(0, 10);
     this.setState({date: todayDate});
     var db = firebase.database();
@@ -116,7 +119,7 @@ class CalendarForStudents extends React.Component {
     for (timeKey in this.state.actualAvailability[this.state.selectedDay]) {
       var time = this.state.actualAvailability[this.state.selectedDay][timeKey];
       if (time.available === true) {
-        console.log('true');
+        // console.log('true');
         anyTimesAvailable = true;
       }
     }
