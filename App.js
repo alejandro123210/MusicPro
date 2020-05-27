@@ -253,6 +253,7 @@ export default function App() {
           key="TeacherMain"
           hideNavBar={true}
           tabs={true}
+          activeTintColor="#274156"
           wrap={false}
           gesturesEnabled={false}>
           <Scene

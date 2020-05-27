@@ -27,7 +27,7 @@ function largePrompt({title, donePressed}) {
         <TextInput
           style={styles.input}
           multiline={true}
-          onChangeText={enteredText => (description = enteredText)}
+          onChangeText={(enteredText) => (description = enteredText)}
           blurOnSubmit={false}
           returnKeyType="go"
         />

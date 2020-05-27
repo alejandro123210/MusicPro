@@ -18,7 +18,7 @@ function dateBar() {
 
 const styles = StyleSheet.create({
   dateBar: {
-    height: deviceHeight / 20,
+    height: deviceHeight / 25,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

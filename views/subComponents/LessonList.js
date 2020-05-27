@@ -26,6 +26,7 @@ import {
 } from './BackendComponents/BackendFunctions';
 import * as firebase from 'firebase';
 import LessonCell from './TableCells/LessonCell';
+import TopBar from './TopBar';
 
 class LessonList extends React.Component {
   state = {
@@ -166,7 +167,7 @@ class LessonList extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProfileBar userData={this.state.userData} />
+        <TopBar userData={this.state.userData} />
         {this.state.lessonsList.length != 0 ? (
           <ScrollView contentContainerStyle={{paddingBottom: 20}}>
             {this.state.lessonsList.map((lesson) => (
