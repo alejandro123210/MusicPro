@@ -7,7 +7,6 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Platform,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import DateBar from './DateBar';
@@ -25,9 +24,7 @@ export default function TopBar({userData, showDateBar = true}) {
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={styles.titleText}>MusicPro</Text>
-          <TouchableOpacity
-            onPress={() => onSettingsPressed()}
-            style={styles.settingsButtonContainer}>
+          <TouchableOpacity onPress={() => onSettingsPressed()}>
             <Image
               source={require('../Assets/settings.png')}
               style={styles.messagingIcon}
@@ -55,15 +52,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     fontSize: 25,
     color: 'white',
-  },
-  settingsButtonContainer: {
-    // borderRadius: 100,
-    // backgroundColor: 'gray',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // height: 30,
-    // width: 30,
-    // // marginTop: 5,
   },
   messagingIcon: {
     height: 25,

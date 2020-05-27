@@ -1,11 +1,13 @@
 /* eslint-disable eqeqeq */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
+//thanks a ton Ben!
+
 const InstrumentTag = (props) => {
-  const [instrument, setInstrument] = useState(props.instrument);
+  const [instrument] = useState(props.instrument);
   const [colorOfCell, setColorOfCell] = useState(props.colorOfCell);
-  const [type, setType] = useState(props.type);
+  const [type] = useState(props.type);
   const [backgroundColor, setBackgroundColor] = useState('white');
   const [highlighted, setHighlighted] = useState(false);
 
