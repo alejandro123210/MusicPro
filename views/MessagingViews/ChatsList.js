@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import ConversationCell from '../subComponents/TableCells/conversationCell';
 import {Actions} from 'react-native-router-flux';
 import ProfileBar from '../subComponents/ProfileBar';
+import TopBar from '../subComponents/TopBar';
 
 class ChatsList extends React.Component {
   state = {
@@ -83,7 +84,11 @@ class ChatsList extends React.Component {
   render() {
     return this.state.conversations.length != 0 ? (
       <View style={styles.container}>
-        <ProfileBar userData={this.state.userData} />
+        <TopBar
+          userData={this.state.userData}
+          page="messages"
+          showDateBar={false}
+        />
         <ScrollView bounces={false}>
           {this.state.conversations.map((conversation) => (
             <ConversationCell

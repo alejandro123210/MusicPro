@@ -14,16 +14,29 @@ import DateBar from './DateBar';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
-export default function TopBar({userData, showDateBar = true}) {
+export default function topBar({userData, showDateBar = true, page}) {
   onSettingsPressed = () => {
     Actions.Settings({userData: userData});
   };
+
+  var title;
+  if (page === 'undecided') {
+    title = 'Requests';
+  } else if (page === 'confirmed') {
+    title = 'Schedule';
+  } else if (page === 'teachers') {
+    title = 'Teachers';
+  } else if (page === 'messages') {
+    title = 'Messages';
+  } else if (page === 'availability configurator') {
+    title = 'Set Availability';
+  }
 
   return (
     <View>
       <View style={styles.container}>
         <View style={styles.textContainer}>
-          <Text style={styles.titleText}>MusicPro</Text>
+          <Text style={styles.titleText}>{title}</Text>
           <TouchableOpacity onPress={() => onSettingsPressed()}>
             <Image
               source={require('../Assets/settings.png')}
@@ -32,7 +45,7 @@ export default function TopBar({userData, showDateBar = true}) {
           </TouchableOpacity>
         </View>
       </View>
-      <DateBar />
+      {showDateBar ? <DateBar /> : <View />}
     </View>
   );
 }
@@ -40,13 +53,14 @@ export default function TopBar({userData, showDateBar = true}) {
 const styles = StyleSheet.create({
   container: {
     width: deviceWidth,
-    height: deviceHeight / 10,
+    height: deviceHeight / 9,
     backgroundColor: '#274156',
     justifyContent: 'flex-end',
   },
   textContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 10,
   },
   titleText: {
     paddingLeft: 20,

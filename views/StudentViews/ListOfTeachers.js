@@ -2,16 +2,17 @@
 /* eslint-disable eqeqeq */
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
-import ProfileBar from '../subComponents/ProfileBar';
 import TeacherCell from '../subComponents/TableCells/TeacherCell';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import Geolocation from '@react-native-community/geolocation';
+import TopBar from '../subComponents/TopBar';
 
 class ListOfTeachers extends React.Component {
   state = {
     teachers: [],
     coordinates: {},
+    userData: this.props.userData,
   };
 
   //we may want to change this to ref.on so that the stars update, the other option is to add a refresh
@@ -108,7 +109,11 @@ class ListOfTeachers extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProfileBar userData={this.props.userData} />
+        <TopBar
+          userData={this.state.userData}
+          page="teachers"
+          showDateBar={false}
+        />
         <ScrollView>
           {this.state.teachers.map((teacher) => (
             <TeacherCell

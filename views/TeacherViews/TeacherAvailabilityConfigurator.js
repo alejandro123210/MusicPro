@@ -3,10 +3,10 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
-import ProfileBar from '../subComponents/ProfileBar';
 import TimeCell from '../subComponents/TableCells/TimeCell';
 import * as firebase from 'firebase';
 import DayBar from '../subComponents/DayBar';
+import TopBar from '../subComponents/TopBar';
 
 class TeacherAvailabilityConfigurator extends React.Component {
   //we need the calendar to show the same list of objects every time, all of the possible times
@@ -164,7 +164,11 @@ class TeacherAvailabilityConfigurator extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProfileBar userData={this.props.userData} showDateBar={false} />
+        <TopBar
+          userData={this.props.userData}
+          showDateBar={false}
+          page="availability configurator"
+        />
         <DayBar markedDay={(day) => this.setState({day: day})} />
         <ScrollView>
           {this.state.times[this.state.day].map((time) => (
