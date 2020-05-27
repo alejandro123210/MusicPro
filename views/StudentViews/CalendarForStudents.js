@@ -110,7 +110,7 @@ class CalendarForStudents extends React.Component {
         }
       }
     }
-    this.forceUpdate();
+    // this.forceUpdate();
   };
 
   checkIfAnyAvailableTimes() {
@@ -142,7 +142,6 @@ class CalendarForStudents extends React.Component {
             );
           }}
           minDate={Date()}
-          current={Date()}
           monthFormat={'MMM yyyy'}
           onDayLongPress={(day) => {
             console.log('selected day', day);
@@ -151,7 +150,7 @@ class CalendarForStudents extends React.Component {
             console.log('month changed', month);
           }}
           hideExtraDays={true}
-          disableMonthChange={true}
+          disableMonthChange={false}
           firstDay={1}
           style={styles.calendarBorder}
           hideDayNames={false}
