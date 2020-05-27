@@ -96,7 +96,6 @@ export var loadLessons = (userData, lessonType, that) => {
         lessonsList.sort((a, b) => (a.timeKey > b.timeKey ? -1 : 1));
         lessonsList.sort((a, b) => (a.date > b.date ? 1 : -1));
         that.setState({lessonsList: []});
-        that.forceUpdate();
         that.setState({lessonsList: lessonsList});
         that.forceUpdate();
       }

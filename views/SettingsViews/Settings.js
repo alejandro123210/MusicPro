@@ -62,8 +62,6 @@ function settings({userData}) {
   };
 
   deleteAccount = async () => {
-    //turns off FCM and removes the token
-    removeFCM();
     var db = firebase.database();
     var userLessonsRef = db.ref(`users/${userData.uid}/info/lessons`);
     var userMessagesRef = db.ref(`Messages/${userData.uid}`);

@@ -154,7 +154,11 @@ export default function App() {
     apiKey: 'AIzaSyBxNgaiPS_gdg_M-A7TMsFEwJjmqg88sRA',
     authDomain: 'rehearse-c7c14.firebaseapp.com',
     databaseURL: 'https://rehearse-c7c14.firebaseio.com',
+    projectId: 'rehearse-c7c14',
     storageBucket: 'rehearse-c7c14.appspot.com',
+    messagingSenderId: '506122331327',
+    appId: '1:506122331327:web:b720a916641a314907120a',
+    measurementId: 'G-180GGXR061',
   };
   const firebaseApp = firebase.initializeApp(firebaseConfig);
 
@@ -216,6 +220,7 @@ export default function App() {
           key="StudentMain"
           hideNavBar={true}
           tabs={true}
+          activeTintColor="#274156"
           wrap={false}
           gesturesEnabled={false}>
           <Scene
