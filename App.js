@@ -6,7 +6,7 @@
 
 import React from 'react';
 import {Router, Scene, Tabs} from 'react-native-router-flux';
-import {Image, View} from 'react-native';
+import {Image, View, StatusBar} from 'react-native';
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';

@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable eqeqeq */
 import React from 'react';
 import {
@@ -8,6 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import * as firebase from 'firebase';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -22,10 +24,26 @@ class Register extends React.Component {
   };
 
   studentPressed = () => {
-    Actions.Register_Instrument({
+    var user = firebase.auth().currentUser;
+    var db = firebase.database();
+    var ref = db.ref(`users/${user.uid}/info/`);
+    ref.set({
+      email: user.email,
+      uid: user.uid,
+      name: this.props.userInfo.user.name,
       userType: 'student',
-      userInfo: this.props.userInfo,
+      photo: this.props.userInfo.user.photo,
+      lessons: [],
     });
+    ref
+      .once('value')
+      .then(function (snapshot) {
+        var userData = snapshot.val();
+        Actions.StudentMain({userData: userData});
+      })
+      .catch(function (error) {
+        alert(error);
+      });
   };
 
   teacherPressed = () => {

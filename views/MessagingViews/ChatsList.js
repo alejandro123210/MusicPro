@@ -5,7 +5,6 @@ import {View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
 import * as firebase from 'firebase';
 import ConversationCell from '../subComponents/TableCells/conversationCell';
 import {Actions} from 'react-native-router-flux';
-import ProfileBar from '../subComponents/ProfileBar';
 import TopBar from '../subComponents/TopBar';
 
 class ChatsList extends React.Component {
@@ -104,7 +103,11 @@ class ChatsList extends React.Component {
       </View>
     ) : (
       <View style={styles.container}>
-        <ProfileBar userData={this.state.userData} />
+        <TopBar
+          userData={this.state.userData}
+          page="messages"
+          showDateBar={false}
+        />
         <View style={styles.noMessagesContainer}>
           <Text style={styles.noMessagesText}>No messages</Text>
         </View>

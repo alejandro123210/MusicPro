@@ -1,26 +1,11 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable eqeqeq */
-/* eslint-disable no-unused-vars */
 //this component handles all cases where there is a list of lessons being loaded,
 //it loads the lessons, handles all taps, and renders the entire screen for:
 // TeacherDash, StudentDash, LessonRequests, StudentLessonRequests
 
 import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  Platform,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
-import ProfileBar from '../subComponents/ProfileBar';
+import {Text, View, StyleSheet, FlatList, Alert, Platform} from 'react-native';
 import {
   cancelLessons,
-  loadLessons,
-  loadLessonsOnce,
   registerFCM,
   sendNotification,
 } from './BackendComponents/BackendFunctions';
@@ -28,23 +13,10 @@ import * as firebase from 'firebase';
 import LessonCell from './TableCells/LessonCell';
 import TopBar from './TopBar';
 
-class LessonList extends React.Component {
-  state = {
-    userData: this.props.userData,
-    lessonType: this.props.lessonType,
-    lessonsList: [],
-  };
-
-  componentDidMount() {
-    loadLessons(this.state.userData, this.state.lessonType, this);
-    registerFCM(this.state.userData);
-  }
-
-  onDenyOrCancelPressed = (lesson) => {
-    if (
-      this.state.userData.userType == 'student' &&
-      this.props.lessonType == 'confirmed'
-    ) {
+const LessonList = ({userData, lessonType, lessonsList}) => {
+  registerFCM(userData);
+  let onDenyOrCancelPressed = (lesson) => {
+    if (userData.userType === 'student' && lessonType === 'confirmed') {
       Alert.alert(
         'Cancel Lesson?',
         'are you sure you want to cancel your lesson with ' +
@@ -54,11 +26,7 @@ class LessonList extends React.Component {
           {
             text: 'Cancel Lesson',
             onPress: () =>
-              cancelLessons(
-                lesson,
-                this.state.userData.userType,
-                'lesson-cancelled',
-              ),
+              cancelLessons(lesson, userData.userType, 'lesson-cancelled'),
           },
           {
             text: 'Nevermind',
@@ -68,10 +36,7 @@ class LessonList extends React.Component {
         ],
         {cancelable: true},
       );
-    } else if (
-      this.state.userData.userType == 'student' &&
-      this.props.lessonType == 'undecided'
-    ) {
+    } else if (userData.userType === 'student' && lessonType === 'undecided') {
       Alert.alert(
         'Cancel Request?',
         'are you sure you want to cancel your request with ' +
@@ -81,11 +46,7 @@ class LessonList extends React.Component {
           {
             text: 'Cancel Request',
             onPress: () =>
-              cancelLessons(
-                lesson,
-                this.state.userData.userType,
-                'request-cancelled',
-              ),
+              cancelLessons(lesson, userData.userType, 'request-cancelled'),
           },
           {
             text: 'Nevermind',
@@ -95,10 +56,7 @@ class LessonList extends React.Component {
         ],
         {cancelable: true},
       );
-    } else if (
-      this.state.userData.userType == 'teacher' &&
-      this.props.lessonType == 'undecided'
-    ) {
+    } else if (userData.userType === 'teacher' && lessonType === 'undecided') {
       Alert.alert(
         'Are you sure?',
         'Are you sure you want to deny this lesson with ' +
@@ -113,19 +71,12 @@ class LessonList extends React.Component {
           {
             text: 'Deny',
             onPress: () =>
-              cancelLessons(
-                lesson,
-                this.state.userData.userType,
-                'request-denied',
-              ),
+              cancelLessons(lesson, userData.userType, 'request-denied'),
           },
         ],
         {cancelable: true},
       );
-    } else if (
-      this.state.userData.userType == 'teacher' &&
-      this.props.lessonType == 'confirmed'
-    ) {
+    } else if (userData.userType === 'teacher' && lessonType === 'confirmed') {
       Alert.alert(
         'Cancel Lesson?',
         'are you sure you want to cancel your lesson with ' +
@@ -135,11 +86,7 @@ class LessonList extends React.Component {
           {
             text: 'Cancel Lesson',
             onPress: () =>
-              cancelLessons(
-                lesson,
-                this.state.userData.userType,
-                'lesson-cancelled',
-              ),
+              cancelLessons(lesson, userData.userType, 'lesson-cancelled'),
           },
           {
             text: 'Nevermind',
@@ -152,8 +99,7 @@ class LessonList extends React.Component {
     }
   };
 
-  //sendNotification = (recipientID, senderName, type)
-  acceptLesson = (lesson) => {
+  let acceptLesson = (lesson) => {
     sendNotification(lesson.studentID, lesson.teacherName, 'request-accepted');
     var db = firebase.database();
     db.ref(
@@ -164,49 +110,49 @@ class LessonList extends React.Component {
     ).update({status: 'confirmed'});
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <TopBar userData={this.state.userData} page={this.state.lessonType} />
-        {this.state.lessonsList.length != 0 ? (
-          <ScrollView contentContainerStyle={{paddingBottom: 20}}>
-            {this.state.lessonsList.map((lesson) => (
-              <LessonCell
-                name={
-                  this.state.userData.userType == 'student'
-                    ? lesson.teacherName
-                    : lesson.studentName
-                }
-                image={
-                  this.state.userData.userType == 'student'
-                    ? lesson.teacherImage
-                    : lesson.studentImage
-                }
-                time={lesson.time}
-                date={lesson.date}
-                instruments={lesson.instruments}
-                onConfirmPressed={() => this.acceptLesson(lesson)}
-                onDenyPressed={() => this.onDenyOrCancelPressed(lesson)}
-                onCancelPressed={() => this.onDenyOrCancelPressed(lesson)}
-                key={lesson.key}
-                userType={this.state.userData.userType}
-                request={this.state.lessonType == 'undecided' ? true : false}
-              />
-            ))}
-          </ScrollView>
-        ) : (
-          <View style={styles.noLessonsContainer}>
-            <Text style={styles.noLessonsText}>
-              {this.state.lessonType == 'undecided'
-                ? 'No lesson requests at the moment'
-                : 'No confirmed lessons at the moment'}
-            </Text>
-          </View>
-        )}
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <TopBar userData={userData} page={lessonType} />
+      {lessonsList.length !== 0 && lessonsList !== undefined ? (
+        <FlatList
+          data={lessonsList}
+          renderItem={({item}) => (
+            <LessonCell
+              name={
+                userData.userType === 'student'
+                  ? item.teacherName
+                  : item.studentName
+              }
+              image={
+                userData.userType === 'student'
+                  ? item.teacherImage
+                  : item.studentImage
+              }
+              time={item.time}
+              date={item.date}
+              instruments={item.instruments}
+              onConfirmPressed={() => acceptLesson(item)}
+              onDenyPressed={() => onDenyOrCancelPressed(item)}
+              onCancelPressed={() => onDenyOrCancelPressed(item)}
+              key={item.key}
+              userType={userData.userType}
+              request={lessonType === 'undecided' ? true : false}
+            />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      ) : (
+        <View style={styles.noLessonsContainer}>
+          <Text style={styles.noLessonsText}>
+            {lessonType === 'undecided'
+              ? 'No lesson requests at the moment'
+              : 'No confirmed lessons at the moment'}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

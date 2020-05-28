@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Actions} from 'react-native-router-flux';
-import * as firebase from 'firebase';
 import InstrumentTag from '../subComponents/instrumentTag';
 
 let deviceWidth = Dimensions.get('window').width;
@@ -25,35 +24,11 @@ class Register_Instrument extends React.Component {
 
   onPress = () => {
     if (this.state.instruments.count != 0) {
-      if (this.props.userType == 'student') {
-        var user = firebase.auth().currentUser;
-        var db = firebase.database();
-        var ref = db.ref(`users/${user.uid}/info/`);
-        ref.set({
-          email: user.email,
-          uid: user.uid,
-          name: this.props.userInfo.user.name,
-          userType: 'student',
-          instruments: this.state.instruments,
-          photo: this.props.userInfo.user.photo,
-          lessons: [],
-        });
-        ref
-          .once('value')
-          .then(function (snapshot) {
-            var userData = snapshot.val();
-            Actions.StudentMain({userData: userData});
-          })
-          .catch(function (error) {
-            alert(error);
-          });
-      } else {
-        Actions.Register_Location({
-          instruments: this.state.instruments,
-          userType: this.props.userType,
-          userInfo: this.props.userInfo,
-        });
-      }
+      Actions.Register_Location({
+        instruments: this.state.instruments,
+        userType: this.props.userType,
+        userInfo: this.props.userInfo,
+      });
     } else {
       alert('you must enter at least 1 instrument');
     }

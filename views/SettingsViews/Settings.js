@@ -114,15 +114,20 @@ function settings({userData}) {
         <Image source={{uri: userData.photo}} style={styles.imageMain} />
       </View>
       <Text style={styles.nameText}>{userData.name}</Text>
-      <View style={styles.grid}>
-        {userData.instruments.map((instrument) => (
-          <InstrumentTag
-            instrument={instrument}
-            onPress={() => {}}
-            colorOfCell="#274156"
-          />
-        ))}
-      </View>
+      {userData.userType === 'teacher' ? (
+        <View style={styles.grid}>
+          {userData.instruments.map((instrument) => (
+            <InstrumentTag
+              instrument={instrument}
+              onPress={() => {}}
+              colorOfCell="#274156"
+            />
+          ))}
+        </View>
+      ) : (
+        <View />
+      )}
+
       <View style={styles.bottomButtonsContainer}>
         <TouchableOpacity
           style={styles.buttonContainer}

@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import DateBar from './DateBar';
@@ -34,6 +35,7 @@ export default function topBar({userData, showDateBar = true, page}) {
 
   return (
     <View>
+      <StatusBar backgroundColor="#274156" />
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={styles.titleText}>{title}</Text>
