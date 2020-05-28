@@ -116,6 +116,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
       {lessonsList.length !== 0 && lessonsList !== undefined ? (
         <FlatList
           data={lessonsList}
+          contentContainerStyle={styles.flatListStyle}
           renderItem={({item}) => (
             <LessonCell
               name={
@@ -169,6 +170,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
     width: 250,
+  },
+  flatListStyle: {
+    paddingBottom: 20,
   },
 });
 

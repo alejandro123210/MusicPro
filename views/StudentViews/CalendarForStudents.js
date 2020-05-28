@@ -163,6 +163,7 @@ class CalendarForStudents extends React.Component {
         />
         {this.checkIfAnyAvailableTimes() ? (
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={this.state.actualAvailability[this.state.selectedDay]}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.flatListContainer}

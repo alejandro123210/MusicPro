@@ -12,7 +12,8 @@ function conversationCell({conversation, onCellPressed, onCellLongPressed}) {
     <TouchableOpacity
       style={styles.container}
       onPress={() => onCellPressed()}
-      onLongPress={() => onCellLongPressed()}>
+      onLongPress={() => onCellLongPressed()}
+      activeOpacity={0.7}>
       <Image source={{uri: conversation.userPhoto}} style={styles.photo} />
       <View style={styles.textContainer}>
         <View style={styles.topTextContainer}>
