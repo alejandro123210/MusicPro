@@ -1,6 +1,6 @@
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
-import {View, StyleSheet, ScrollView, Platform, Text} from 'react-native';
+import {View, StyleSheet, Platform, Text, FlatList} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
@@ -162,21 +162,21 @@ class CalendarForStudents extends React.Component {
           }}
         />
         {this.checkIfAnyAvailableTimes() ? (
-          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            {this.state.actualAvailability[this.state.selectedDay].map((time) =>
-              time.available ? (
+          <FlatList
+            data={this.state.actualAvailability[this.state.selectedDay]}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.flatListContainer}
+            renderItem={({item}) =>
+              item.available ? (
                 <HoursCell
-                  name={time.name}
-                  onPress={() => this.onCellPress(time.name)}
-                  key={this.state.actualAvailability[
-                    this.state.selectedDay
-                  ].findIndex((timeInArray) => time === timeInArray)}
+                  name={item.name}
+                  onPress={() => this.onCellPress(item.name)}
                 />
               ) : (
                 <View />
-              ),
-            )}
-          </ScrollView>
+              )
+            }
+          />
         ) : (
           <View style={styles.noAvailableTimesContainer}>
             <Text style={styles.noAvailableTimesText}>
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.3,
     borderBottomColor: '#C8C8C8',
   },
-  scrollViewContainer: {
+  flatListContainer: {
     alignItems: 'center',
     paddingBottom: 20,
   },

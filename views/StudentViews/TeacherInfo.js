@@ -1,5 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable eqeqeq */
 /* eslint-disable no-undef */
 import React from 'react';
 import {
@@ -50,13 +49,13 @@ class TeacherInfo extends React.Component {
       var reviewStars = [];
       var averageStars = 5;
       if (teacherData.reviews != null) {
-        for (review in teacherData.reviews) {
+        for (let review in teacherData.reviews) {
           reviews.push(teacherData.reviews[review]);
           reviewStars.push(teacherData.reviews[review].starCount);
         }
       }
       const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
-      if (reviewStars.length != 0) {
+      if (reviewStars.length !== 0) {
         averageStars = arrAvg(reviewStars);
       }
       let allTeacherData = {
@@ -129,16 +128,19 @@ class TeacherInfo extends React.Component {
         </View>
         <TouchableOpacity
           onPress={() => this.onBookPressed()}
+          activeOpacity={0.7}
           style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Book a lesson</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.onLeaveReviewPressed()}
+          activeOpacity={0.7}
           style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Leave a review</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.onMessagePressed()}
+          activeOpacity={0.7}
           style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Send a message</Text>
         </TouchableOpacity>
@@ -152,7 +154,7 @@ class TeacherInfo extends React.Component {
               review={review.description}
               starCount={review.starCount}
               key={this.state.allTeacherData.reviews.findIndex(
-                (reviewToFind) => review == reviewToFind,
+                (reviewToFind) => review === reviewToFind,
               )}
             />
           ))}

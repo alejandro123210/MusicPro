@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-alert */
-/* eslint-disable eqeqeq */
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import {
@@ -49,33 +48,33 @@ class RequestLessonDetail extends React.Component {
       var date = this.props.date;
       var time = this.props.time;
       var timeKey = '';
-      if (time == '7 AM - 8 AM') {
+      if (time === '7 AM - 8 AM') {
         timeKey = 0;
-      } else if (time == '8 AM - 9 AM') {
+      } else if (time === '8 AM - 9 AM') {
         timeKey = 1;
-      } else if (time == '9 AM - 10 AM') {
+      } else if (time === '9 AM - 10 AM') {
         timeKey = 2;
-      } else if (time == '10 AM - 11 AM') {
+      } else if (time === '10 AM - 11 AM') {
         timeKey = 3;
-      } else if (time == '11 AM - 12 PM') {
+      } else if (time === '11 AM - 12 PM') {
         timeKey = 4;
-      } else if (time == '12 PM - 1 PM') {
+      } else if (time === '12 PM - 1 PM') {
         timeKey = 5;
-      } else if (time == '1 PM - 2 PM') {
+      } else if (time === '1 PM - 2 PM') {
         timeKey = 6;
-      } else if (time == '2 PM - 3 PM') {
+      } else if (time === '2 PM - 3 PM') {
         timeKey = 7;
-      } else if (time == '3 PM - 4 PM') {
+      } else if (time === '3 PM - 4 PM') {
         timeKey = 8;
-      } else if (time == '4 PM - 5 PM') {
+      } else if (time === '4 PM - 5 PM') {
         timeKey = 9;
-      } else if (time == '5 PM - 6 PM') {
+      } else if (time === '5 PM - 6 PM') {
         timeKey = 10;
-      } else if (time == '6 PM - 7 PM') {
+      } else if (time === '6 PM - 7 PM') {
         timeKey = 11;
-      } else if (time == '7 PM - 8 PM') {
+      } else if (time === '7 PM - 8 PM') {
         timeKey = 12;
-      } else if (time == '8 PM - 9 PM') {
+      } else if (time === '8 PM - 9 PM') {
         timeKey = 13;
       }
       var db = firebase.database();
@@ -136,7 +135,7 @@ class RequestLessonDetail extends React.Component {
 
   selectInstrument = (instrument) => {
     var selectedInstruments = this.state.selectedInstruments;
-    if (instrument.selected == false) {
+    if (instrument.selected === false) {
       console.log('selected an instrument');
       selectedInstruments.push(instrument.instrument);
       this.setState({selectedInstruments});
@@ -178,7 +177,7 @@ class RequestLessonDetail extends React.Component {
                 this.selectInstrument(thisInstrument)
               }
               key={this.state.teacher.instruments.findIndex(
-                (instrumentinArray) => instrument == instrumentinArray,
+                (instrumentinArray) => instrument === instrumentinArray,
               )}
             />
           ))}

@@ -1,8 +1,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react/no-did-mount-set-state */
-/* eslint-disable no-undef */
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import TimeCell from '../subComponents/TableCells/TimeCell';
 import * as firebase from 'firebase';
 import DayBar from '../subComponents/DayBar';
@@ -101,14 +100,14 @@ class TeacherAvailabilityConfigurator extends React.Component {
         key: 13,
       },
     ];
-    mondayTimes = JSON.parse(JSON.stringify(timesList));
-    tuesdayTimes = JSON.parse(JSON.stringify(timesList));
-    wednesdayTimes = JSON.parse(JSON.stringify(timesList));
-    thursdayTimes = JSON.parse(JSON.stringify(timesList));
-    fridayTimes = JSON.parse(JSON.stringify(timesList));
-    saturdayTimes = JSON.parse(JSON.stringify(timesList));
-    sundayTimes = JSON.parse(JSON.stringify(timesList));
-    weekTimes = this.state.times;
+    var mondayTimes = JSON.parse(JSON.stringify(timesList));
+    var tuesdayTimes = JSON.parse(JSON.stringify(timesList));
+    var wednesdayTimes = JSON.parse(JSON.stringify(timesList));
+    var thursdayTimes = JSON.parse(JSON.stringify(timesList));
+    var fridayTimes = JSON.parse(JSON.stringify(timesList));
+    var saturdayTimes = JSON.parse(JSON.stringify(timesList));
+    var sundayTimes = JSON.parse(JSON.stringify(timesList));
+    var weekTimes = this.state.times;
     weekTimes.Mon = mondayTimes;
     weekTimes.Tue = tuesdayTimes;
     weekTimes.Wed = wednesdayTimes;
@@ -139,7 +138,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     } else {
       time.available = true;
     }
-    listOfTimes = this.state.times;
+    var listOfTimes = this.state.times;
     listOfTimes[this.state.day][time.key] = time;
     this.setState({times: listOfTimes});
     var db = firebase.database();
@@ -170,18 +169,20 @@ class TeacherAvailabilityConfigurator extends React.Component {
           page="availability configurator"
         />
         <DayBar markedDay={(day) => this.setState({day: day})} />
-        <ScrollView>
-          {this.state.times[this.state.day].map((time) => (
+        <FlatList
+          data={this.state.times[this.state.day]}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => (
             <TimeCell
-              name={time.name}
-              key={time.key}
-              onPress={() => this.onCellPress(time)}
-              available={time.available}
-              backgroundColor={this.setBackgroundColor(time.available)}
-              fontColor={this.setFontColor(time.available)}
+              name={item.name}
+              key={item.key}
+              onPress={() => this.onCellPress(item)}
+              available={item.available}
+              backgroundColor={this.setBackgroundColor(item.available)}
+              fontColor={this.setFontColor(item.available)}
             />
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     );
   }

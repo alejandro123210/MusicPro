@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
-/* eslint-disable eqeqeq */
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import TeacherCell from '../subComponents/TableCells/TeacherCell';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
@@ -25,22 +24,22 @@ class ListOfTeachers extends React.Component {
       var usersData = JSON.parse(JSON.stringify(snapshot.val()));
       var key = 0;
       //for loop adds all users to state
-      for (uid in usersData) {
+      for (let uid in usersData) {
         // alert(uid)
         //this takes all reviews and averages all the star ratings, this is inefficient, will be changed
         var averageStars = 5;
         var reviewStars = [];
         if (usersData[uid].info.reviews != null) {
-          for (review in usersData[uid].info.reviews) {
+          for (let review in usersData[uid].info.reviews) {
             reviewStars.push(usersData[uid].info.reviews[review].starCount);
           }
         }
         const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
-        if (reviewStars.length != 0) {
+        if (reviewStars.length !== 0) {
           averageStars = arrAvg(reviewStars);
         }
         //this is the section that pulls all the teachers
-        if (JSON.stringify(usersData[uid].info.userType) == '"teacher"') {
+        if (JSON.stringify(usersData[uid].info.userType) === '"teacher"') {
           //gets the distance
           var geodist = require('geodist');
           var dist = geodist(
@@ -114,22 +113,24 @@ class ListOfTeachers extends React.Component {
           page="teachers"
           showDateBar={false}
         />
-        <ScrollView>
-          {this.state.teachers.map((teacher) => (
+        <FlatList
+          data={this.state.teachers}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => (
             <TeacherCell
-              image={teacher.photo}
-              name={teacher.name}
-              instruments={teacher.instruments}
-              starCount={teacher.starCount}
-              location={teacher.location}
-              onPress={() => this.onPress(teacher)}
-              onBookPressed={() => this.onBookPressed(teacher)}
-              uid={teacher.uid}
-              key={teacher.key}
-              distance={teacher.distance}
+              image={item.photo}
+              name={item.name}
+              instruments={item.instruments}
+              starCount={item.starCount}
+              location={item.location}
+              onPress={() => this.onPress(item)}
+              onBookPressed={() => this.onBookPressed(item)}
+              uid={item.uid}
+              key={item.key}
+              distance={item.distance}
             />
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     );
   }

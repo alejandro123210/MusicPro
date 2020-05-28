@@ -1,7 +1,6 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable no-undef */
 import React from 'react';
-import {View, StyleSheet, Text, ScrollView, Alert} from 'react-native';
+import {View, StyleSheet, Text, Alert, FlatList} from 'react-native';
 import * as firebase from 'firebase';
 import ConversationCell from '../subComponents/TableCells/conversationCell';
 import {Actions} from 'react-native-router-flux';
@@ -20,7 +19,7 @@ class ChatsList extends React.Component {
     ref.on('value', function (snapshot) {
       var conversationsData = JSON.parse(JSON.stringify(snapshot.val()));
       var conversations = [];
-      for (userKey in conversationsData) {
+      for (let userKey in conversationsData) {
         let conversation = {
           lastMessageAt: conversationsData[userKey].lastMessageAt,
           messages: conversationsData[userKey].messages,
@@ -81,25 +80,24 @@ class ChatsList extends React.Component {
   };
 
   render() {
-    return this.state.conversations.length != 0 ? (
+    return this.state.conversations.length !== 0 ? (
       <View style={styles.container}>
         <TopBar
           userData={this.state.userData}
           page="messages"
           showDateBar={false}
         />
-        <ScrollView bounces={false}>
-          {this.state.conversations.map((conversation) => (
+        <FlatList
+          data={this.state.conversations}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => (
             <ConversationCell
-              conversation={conversation}
-              key={this.state.conversations.findIndex(
-                (convoToFind) => convoToFind == conversation,
-              )}
-              onCellPressed={() => this.onCellPressed(conversation)}
-              onCellLongPressed={() => this.onCellLongPressed(conversation)}
+              conversation={item}
+              onCellPressed={() => this.onCellPressed(item)}
+              onCellLongPressed={() => this.onCellLongPressed(item)}
             />
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     ) : (
       <View style={styles.container}>

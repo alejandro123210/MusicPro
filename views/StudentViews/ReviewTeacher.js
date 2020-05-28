@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'gray',
     margin: 10,
+    textAlignVertical: 'top',
   },
   buttonContainer: {
     alignItems: 'center',
