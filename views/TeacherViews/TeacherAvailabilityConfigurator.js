@@ -6,6 +6,7 @@ import TimeCell from '../subComponents/TableCells/TimeCell';
 import * as firebase from 'firebase';
 import DayBar from '../subComponents/DayBar';
 import TopBar from '../subComponents/TopBar';
+import {updateTeacherList} from '../subComponents/BackendComponents/BackendFunctions';
 
 class TeacherAvailabilityConfigurator extends React.Component {
   //we need the calendar to show the same list of objects every time, all of the possible times
@@ -144,7 +145,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData.uid}/info/`);
     ref.update({availability: this.state.times});
-    this.pushTeacherToTeacherList(this.props.userData.uid);
+    updateTeacherList(this.props.userData.uid);
   };
 
   setBackgroundColor = (available) => {
@@ -159,26 +160,6 @@ class TeacherAvailabilityConfigurator extends React.Component {
     if (available) {
       return 'white';
     }
-  };
-
-  pushTeacherToTeacherList = (uid) => {
-    var db = firebase.database();
-    var userDataRef = db.ref(`users/${uid}/info`);
-    var teacherData = {};
-    userDataRef.once('value').then((snapshot) => {
-      var data = JSON.parse(JSON.stringify(snapshot.val()));
-      teacherData = {
-        reviews: data.reviews,
-        description: data.description,
-        coordinates: data.coordinates,
-        name: data.name,
-        location: data.location,
-        instruments: data.instruments,
-        photo: data.photo,
-        uid: data.uid,
-      };
-      db.ref(`teachers/${uid}/`).set(teacherData);
-    });
   };
 
   render() {

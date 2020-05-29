@@ -130,3 +130,23 @@ export const cancelLessons = (
     `users/${studentID}/info/lessons/${date}/${studentLessonKey}`,
   ).remove();
 };
+
+export const updateTeacherList = (uid) => {
+  var db = firebase.database();
+  var userDataRef = db.ref(`users/${uid}/info`);
+  var teacherData = {};
+  userDataRef.once('value').then((snapshot) => {
+    var data = JSON.parse(JSON.stringify(snapshot.val()));
+    teacherData = {
+      reviews: data.reviews,
+      description: data.description,
+      coordinates: data.coordinates,
+      name: data.name,
+      location: data.location,
+      instruments: data.instruments,
+      photo: data.photo,
+      uid: data.uid,
+    };
+    db.ref(`teachers/${uid}/`).set(teacherData);
+  });
+};

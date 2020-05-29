@@ -12,6 +12,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AirbnbRating} from 'react-native-ratings';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
+import {updateTeacherList} from '../subComponents/BackendComponents/BackendFunctions';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -32,6 +33,7 @@ class ReviewTeacher extends React.Component {
       starCount: this.state.rating,
     };
     ref.push(reviewData);
+    updateTeacherList(this.state.teacher.uid);
     Actions.StudentDash({userData: this.state.userData});
   };
 
