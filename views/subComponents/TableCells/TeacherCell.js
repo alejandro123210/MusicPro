@@ -113,7 +113,9 @@ const styles = StyleSheet.create({
   },
   midSection: {
     borderTopWidth: 0.3,
-    borderTopColor: 'black',
+    borderTopColor: 'gray',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   instrumentsContainer: {
     justifyContent: 'center',

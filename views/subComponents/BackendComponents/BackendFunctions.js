@@ -27,12 +27,9 @@ export const removeFCM = (userData) => {
     NativeModules.CustomFCMModule.removeFCMToken((obj, error) => {
       console.log(error);
     });
-  } else {
-    //ios doensn't let you sign out of fcm easily without interacting with the database
-    //so we do it here instead
-    var db = firebase.database();
-    db.ref(`users/${userData.uid}/info/fcm_token`).set({});
   }
+  var db = firebase.database();
+  db.ref(`users/${userData.uid}/info/fcm_token`).set({});
 };
 
 export const sendNotification = (recipientID, senderName, type) => {

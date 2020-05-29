@@ -18,51 +18,42 @@ class ListOfTeachers extends React.Component {
   //this needs to NOT load every single user every time
   loadTeachers = async () => {
     var db = firebase.database();
-    var ref = db.ref('users/');
+    var ref = db.ref('teachers/');
     var teachers = [];
     ref.once('value').then((snapshot) => {
       //all users in database
       var usersData = JSON.parse(JSON.stringify(snapshot.val()));
-      var key = 0;
       //for loop adds all users to state
       for (let uid in usersData) {
-        // alert(uid)
+        //this is the section that pulls all the teachers
         //this takes all reviews and averages all the star ratings, this is inefficient, will be changed
         var averageStars = 5;
         var reviewStars = [];
-        if (usersData[uid].info.reviews != null) {
-          for (let review in usersData[uid].info.reviews) {
-            reviewStars.push(usersData[uid].info.reviews[review].starCount);
+        if (usersData[uid].reviews != null) {
+          for (let review in usersData[uid].reviews) {
+            reviewStars.push(usersData[uid].reviews[review].starCount);
           }
         }
         const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
         if (reviewStars.length !== 0) {
           averageStars = arrAvg(reviewStars);
         }
-        //this is the section that pulls all the teachers
-        if (JSON.stringify(usersData[uid].info.userType) === '"teacher"') {
-          //gets the distance
-          var geodist = require('geodist');
-          var dist = geodist(
-            this.state.coordinates,
-            usersData[uid].info.coordinates,
-          );
-          //create the teacher object to push to the list
-          var teacher = {
-            name: usersData[uid].info.name,
-            location: usersData[uid].info.location,
-            instruments: usersData[uid].info.instruments,
-            photo: usersData[uid].info.photo,
-            uid: uid,
-            key: key.toString(),
-            starCount: averageStars,
-            distance: dist,
-          };
-          teachers.push(teacher);
-          teachers.sort((a, b) => (a.distance > b.distance ? 1 : -1));
-          this.setState({teachers: teachers});
-          key = key + 1;
-        }
+        //gets the distance
+        var geodist = require('geodist');
+        var dist = geodist(this.state.coordinates, usersData[uid].coordinates);
+        //create the teacher object to push to the list
+        var teacher = {
+          name: usersData[uid].name,
+          location: usersData[uid].location,
+          instruments: usersData[uid].instruments,
+          photo: usersData[uid].photo,
+          uid: uid,
+          starCount: averageStars,
+          distance: dist,
+        };
+        teachers.push(teacher);
+        teachers.sort((a, b) => (a.distance > b.distance ? 1 : -1));
+        this.setState({teachers: teachers});
       }
     });
   };
@@ -127,7 +118,6 @@ class ListOfTeachers extends React.Component {
               onPress={() => this.onPress(item)}
               onBookPressed={() => this.onBookPressed(item)}
               uid={item.uid}
-              key={item.key}
               distance={item.distance}
             />
           )}

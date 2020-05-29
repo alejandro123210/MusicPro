@@ -39,10 +39,7 @@ class TeacherInfo extends React.Component {
     //it seems more efficient than loading in every teacher and all their reviews in the previous screen
     var db = firebase.database();
     //we format the data a bit so the screen can be accessed from multiple places (Chat.js)
-    const teacher = {
-      uid: this.state.teacher.uid,
-    };
-    var ref = db.ref(`users/${teacher.uid}/info`);
+    var ref = db.ref(`users/${this.state.teacher.uid}/info`);
     ref.once('value').then((snapshot) => {
       var teacherData = JSON.parse(JSON.stringify(snapshot.val()));
       var reviews = [];

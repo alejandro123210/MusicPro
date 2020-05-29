@@ -33,20 +33,20 @@ class RequestLessonDetail extends React.Component {
   componentDidMount() {
     var moment = require('moment');
     var dateInPlainEnglish = moment(this.state.date).format('MMMM Do');
-    var dateAndTime = dateInPlainEnglish + ' at ' + this.state.time;
+    var dateAndTime = `${dateInPlainEnglish} from ${this.state.time}`;
     this.setState({dateAndTime});
   }
 
   confirmRequest = () => {
     if (this.state.selectedInstruments.length > 0) {
-      var studentName = this.props.userData.name;
-      var studentIDNum = this.props.userData.uid;
-      var teacherImage = this.props.teacher.photo;
-      var studentImage = this.props.userData.photo;
-      var teacherName = this.props.teacher.name;
-      var teacherIDNum = this.props.teacher.uid;
-      var date = this.props.date;
-      var time = this.props.time;
+      var studentName = this.state.userData.name;
+      var studentIDNum = this.state.userData.uid;
+      var teacherImage = this.state.teacher.photo;
+      var studentImage = this.state.userData.photo;
+      var teacherName = this.state.teacher.name;
+      var teacherIDNum = this.state.teacher.uid;
+      var date = this.state.date;
+      var time = this.state.time;
       var timeKey = '';
       if (time === '7 AM - 8 AM') {
         timeKey = 0;
@@ -79,7 +79,7 @@ class RequestLessonDetail extends React.Component {
       }
       var db = firebase.database();
       var teacherRef = db.ref(
-        `users/${this.props.teacher.uid}/info/lessons/${date}`,
+        `users/${this.state.teacher.uid}/info/lessons/${date}`,
       );
       var studentRef = db.ref(`users/${studentIDNum}/info/lessons/${date}`);
       //we put both users names and ids so that later when the requeest is processed by the teacher
@@ -105,7 +105,7 @@ class RequestLessonDetail extends React.Component {
       teacherRef.child(teacherLessonRequestKey).update(lessonData);
       studentRef.child(studentLessonRequestKey).update(lessonData);
       sendNotification(teacherIDNum, studentName, 'lesson-requested');
-      Actions.StudentLessonRequest({userData: this.props.userData});
+      Actions.StudentLessonRequest({userData: this.state.userData});
 
       //start a conversation
       var moment = require('moment');
