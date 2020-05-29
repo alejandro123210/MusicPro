@@ -43,7 +43,7 @@ class ChatsList extends React.Component {
       photo: userPhoto,
       uid: uid,
     };
-    Actions.Chat((userData = this.props.userData), (otherUser = otherUser));
+    Actions.Chat({userData: this.props.userData, otherUser});
   };
 
   //conversation is passed
