@@ -19,9 +19,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
     if (userData.userType === 'student' && lessonType === 'confirmed') {
       Alert.alert(
         'Cancel Lesson?',
-        'are you sure you want to cancel your lesson with ' +
-          lesson.teacherName +
-          '?',
+        `Are you sure you want to cancel your lesson with ${lesson.teacherName}?`,
         [
           {
             text: 'Cancel Lesson',
@@ -39,9 +37,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
     } else if (userData.userType === 'student' && lessonType === 'undecided') {
       Alert.alert(
         'Cancel Request?',
-        'are you sure you want to cancel your request with ' +
-          lesson.teacherName +
-          '?',
+        `Are you sure you want to cancel your request with ${lesson.teacherName}?`,
         [
           {
             text: 'Cancel Request',
@@ -59,9 +55,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
     } else if (userData.userType === 'teacher' && lessonType === 'undecided') {
       Alert.alert(
         'Are you sure?',
-        'Are you sure you want to deny this lesson with ' +
-          lesson.studentName +
-          '?',
+        `Are you sure you want to deny this lesson with ${lesson.studentName}?`,
         [
           {
             text: 'Cancel',
@@ -79,9 +73,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
     } else if (userData.userType === 'teacher' && lessonType === 'confirmed') {
       Alert.alert(
         'Cancel Lesson?',
-        'are you sure you want to cancel your lesson with ' +
-          lesson.studentName +
-          '?',
+        `Are you sure you want to cancel your lesson with ${lesson.studentName}?`,
         [
           {
             text: 'Cancel Lesson',
@@ -99,21 +91,29 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
     }
   };
 
-  let acceptLesson = (lesson) => {
-    sendNotification(lesson.studentID, lesson.teacherName, 'request-accepted');
+  //lesson is passed
+  let acceptLesson = ({
+    teacherName,
+    teacherID,
+    studentID,
+    date,
+    teacherLessonKey,
+    studentLessonKey,
+  }) => {
+    sendNotification(studentID, teacherName, 'request-accepted');
     var db = firebase.database();
     db.ref(
-      `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
+      `users/${teacherID}/info/lessons/${date}/${teacherLessonKey}`,
     ).update({status: 'confirmed'});
     db.ref(
-      `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
+      `users/${studentID}/info/lessons/${date}/${studentLessonKey}`,
     ).update({status: 'confirmed'});
   };
 
   return (
     <View style={styles.container}>
       <TopBar userData={userData} page={lessonType} />
-      {lessonsList.length !== 0 && lessonsList !== undefined ? (
+      {lessonsList.length !== 0 ? (
         <FlatList
           data={lessonsList}
           contentContainerStyle={styles.flatListStyle}
@@ -135,7 +135,6 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
               onConfirmPressed={() => acceptLesson(item)}
               onDenyPressed={() => onDenyOrCancelPressed(item)}
               onCancelPressed={() => onDenyOrCancelPressed(item)}
-              key={item.key}
               userType={userData.userType}
               request={lessonType === 'undecided' ? true : false}
             />

@@ -15,6 +15,7 @@ class ListOfTeachers extends React.Component {
   };
 
   //we may want to change this to ref.on so that the stars update, the other option is to add a refresh
+  //this needs to NOT load every single user every time
   loadTeachers = async () => {
     var db = firebase.database();
     var ref = db.ref('users/');
@@ -75,7 +76,7 @@ class ListOfTeachers extends React.Component {
           lat: lat,
           lng: long,
         };
-        // console.log(coordinates)
+        console.log(coordinates);
         this.setState({coordinates});
       },
       (error) => Alert.alert(error.message),

@@ -133,14 +133,14 @@ class RequestLessonDetail extends React.Component {
     }
   };
 
-  selectInstrument = (instrument) => {
+  selectInstrument = ({selected, instrument}) => {
     var selectedInstruments = this.state.selectedInstruments;
-    if (instrument.selected === false) {
+    if (selected === false) {
       console.log('selected an instrument');
-      selectedInstruments.push(instrument.instrument);
+      selectedInstruments.push(instrument);
       this.setState({selectedInstruments});
     } else {
-      selectedInstruments.pop(instrument.instrument);
+      selectedInstruments.pop(instrument);
       this.setState({selectedInstruments});
     }
     console.log(this.state.selectedInstruments);

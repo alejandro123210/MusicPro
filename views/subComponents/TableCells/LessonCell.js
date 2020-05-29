@@ -28,7 +28,7 @@ function lessonCell({
   //get the time of the lesson
   moment = require('moment');
   dateInPlainEnglish = moment(date).format('MMMM Do');
-  dateAndTime = dateInPlainEnglish + ' at ' + time;
+  dateAndTime = `${dateInPlainEnglish} from ${time}`;
 
   return (
     <View style={styles.shadow}>

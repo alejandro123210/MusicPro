@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 
 //@format
 //@flow strict-local
 
 import React from 'react';
-import {Router, Scene, Tabs} from 'react-native-router-flux';
-import {Image, View, StatusBar} from 'react-native';
+import {Router, Scene} from 'react-native-router-flux';
+import {Image, View} from 'react-native';
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';
@@ -38,7 +37,6 @@ import Settings from './views/SettingsViews/Settings';
 //chat views
 import Chat from './views/MessagingViews/Chat';
 import ChatsList from './views/MessagingViews/ChatsList';
-import settings from './views/SettingsViews/Settings';
 
 //Create a dedicated class that will manage the icon
 function CalendarIcon() {
@@ -160,6 +158,7 @@ export default function App() {
     appId: '1:506122331327:web:b720a916641a314907120a',
     measurementId: 'G-180GGXR061',
   };
+  // eslint-disable-next-line no-unused-vars
   const firebaseApp = firebase.initializeApp(firebaseConfig);
 
   return (

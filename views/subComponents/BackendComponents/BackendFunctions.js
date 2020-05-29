@@ -1,5 +1,3 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable no-undef */
 import * as firebase from 'firebase';
 import {Platform, NativeModules} from 'react-native';
 
@@ -48,11 +46,11 @@ export const sendNotification = (recipientID, senderName, type) => {
 };
 
 export var loadLessons = (userData, lessonType, that) => {
-  //this handles lessons that have passed
-  removePastLessons = (lesson) => {
+  //this handles lessons that have passed (pass in entire lesson object)
+  let removePastLessons = ({teacherID, studentID, date}) => {
     var db = firebase.database();
-    db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}`).remove();
-    db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}`).remove();
+    db.ref(`users/${teacherID}/info/lessons/${date}`).remove();
+    db.ref(`users/${studentID}/info/lessons/${date}`).remove();
   };
 
   var db = firebase.database();
@@ -64,11 +62,11 @@ export var loadLessons = (userData, lessonType, that) => {
     //all lessons for user in database
     var lessonsList = [];
     var lessonsData = JSON.parse(JSON.stringify(snapshot.val()));
-    key = 0;
+    var key = 0;
     //for loop adds all users to state
-    for (lessonDate in lessonsData) {
-      for (lessonKey in lessonsData[lessonDate]) {
-        if (lessonsData[lessonDate][lessonKey].status == lessonType) {
+    for (var lessonDate in lessonsData) {
+      for (var lessonKey in lessonsData[lessonDate]) {
+        if (lessonsData[lessonDate][lessonKey].status === lessonType) {
           var lessonToPush = {
             teacherName: lessonsData[lessonDate][lessonKey].teacherName,
             studentName: lessonsData[lessonDate][lessonKey].studentName,
@@ -106,76 +104,32 @@ export var loadLessons = (userData, lessonType, that) => {
   });
 };
 
-// export const loadLessonsOnce = async (userData, lessonType, that) => {
-//     //this handles lessons that have passed
-//     removePastLessons = (lesson) => {
-//         var db = firebase.database()
-//         db.ref(`users/${lesson.teacherID}/info/lessons/${lesson.date}`).remove();
-//         db.ref(`users/${lesson.studentID}/info/lessons/${lesson.date}`).remove();
-//     }
-
-//     var db = firebase.database();
-//     var ref = db.ref(`users/${userData['uid']}/info/lessons`)
-//     var moment = require('moment');
-//     var m = moment();
-//     var currentDate = m.format('YYYY-MM-DD')
-//     ref.once('value', function(snapshot) {
-//         //all lessons for user in database
-//         var lessonsList = []
-//         var lessonsData = (JSON.parse(JSON.stringify(snapshot.val())));
-//         key = 0;
-//         //for loop adds all users to state
-//         for (lessonDate in lessonsData){
-//         for (lessonKey in lessonsData[lessonDate]){
-//             if(lessonsData[lessonDate][lessonKey]['status'] == lessonType){
-//                 var lessonToPush = {
-//                     teacherName: lessonsData[lessonDate][lessonKey]['teacherName'],
-//                     studentName: lessonsData[lessonDate][lessonKey]['studentName'],
-//                     time: lessonsData[lessonDate][lessonKey]['time'],
-//                     key: key.toString(),
-//                     timeKey: lessonsData[lessonDate][lessonKey]['timeKey'],
-//                     date: lessonsData[lessonDate][lessonKey]['date'],
-//                     instruments: lessonsData[lessonDate][lessonKey]['selectedInstruments'],
-//                     studentID: lessonsData[lessonDate][lessonKey]['studentIDNum'],
-//                     teacherID: lessonsData[lessonDate][lessonKey]['teacherIDNum'],
-//                     teacherLessonKey: lessonsData[lessonDate][lessonKey]['teacherLessonKey'],
-//                     studentLessonKey: lessonsData[lessonDate][lessonKey]['studentLessonKey'],
-//                     teacherImage: lessonsData[lessonDate][lessonKey]['teacherImage'],
-//                     studentImage: lessonsData[lessonDate][lessonKey]['studentImage'],
-//                 }
-//                 if(lessonToPush.date < currentDate){
-//                     removePastLessons(lessonToPush)
-//                 } else {
-//                     lessonsList.push(lessonToPush)
-//                     key += 1;
-//                 }
-//             }
-//             lessonsList.sort((a, b) => (a.timeKey > b.timeKey) ? -1 : 1)
-//             lessonsList.sort((a, b) => (a.date > b.date) ? 1 : -1)
-//             that.setState({ lessonsList: lessonsList })
-//             that.forceUpdate();
-//         }
-//         }
-//         if(lessonsData == null){
-//         that.setState({ lessonsList: lessonsList })
-//         }
-//     });
-// }
-
 //this handles 'request-denied', 'request-cancelled', and 'lesson-cancelled'
-export const cancelLessons = (lesson, userType, type) => {
+//lesson, userType, type
+export const cancelLessons = (
+  {
+    teacherID,
+    studentID,
+    studentName,
+    teacherName,
+    date,
+    teacherLessonKey,
+    studentLessonKey,
+  },
+  userType,
+  type,
+) => {
   if (userType === 'student') {
-    sendNotification(lesson.teacherID, lesson.studentName, type);
-    sendNotification(lesson.teacherID, lesson.studentName, type);
-  } else if (userType === 'teacher') {
-    sendNotification(lesson.studentID, lesson.teacherName, type);
+    sendNotification(teacherID, studentName, type);
+  } else {
+    sendNotification(studentID, teacherName, type);
   }
 
   var db = firebase.database();
   db.ref(
-    `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
+    `users/${teacherID}/info/lessons/${date}/${teacherLessonKey}`,
   ).remove();
   db.ref(
-    `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
+    `users/${studentID}/info/lessons/${date}/${studentLessonKey}`,
   ).remove();
 };

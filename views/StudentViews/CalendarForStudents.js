@@ -32,7 +32,7 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
-    console.log('this.state.date: ' + this.state.date);
+    console.log(`this.state.date: ${this.state.date}`);
     if (this.state.selectedDay === -1) {
       this.setState({selectedDay: 6});
     }

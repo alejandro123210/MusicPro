@@ -36,27 +36,23 @@ class ChatsList extends React.Component {
     });
   }
 
-  onCellPressed = (conversation) => {
+  //conversation is passed in
+  onCellPressed = ({userName, userPhoto, uid}) => {
     var otherUser = {
-      name: conversation.userName,
-      photo: conversation.userPhoto,
-      uid: conversation.uid,
+      name: userName,
+      photo: userPhoto,
+      uid: uid,
     };
-
-    Actions.Chat({
-      userData: this.props.userData,
-      otherUser: otherUser,
-    });
+    Actions.Chat((userData = this.props.userData), (otherUser = otherUser));
   };
 
-  onCellLongPressed = (conversation) => {
+  //conversation is passed
+  onCellLongPressed = ({userName, uid}) => {
     Alert.alert(
       'Delete Messages?',
-      'are you sure you want to delete your messages with ' +
-        conversation.userName +
-        '?',
+      `Are you sure you want to delete your messages with ${userName}?`,
       [
-        {text: 'delete', onPress: () => this.deleteMessages(conversation)},
+        {text: 'delete', onPress: () => this.deleteMessages(uid)},
         {
           text: 'Nevermind',
           onPress: () => console.log('Cancel Pressed'),
@@ -67,14 +63,10 @@ class ChatsList extends React.Component {
     );
   };
 
-  deleteMessages = (conversation) => {
+  deleteMessages = (uid) => {
     var db = firebase.database();
-    var userRef = db.ref(
-      `Messages/${this.state.userData.uid}/${conversation.uid}`,
-    );
-    var otherUserRef = db.ref(
-      `Messages/${conversation.uid}/${this.state.userData.uid}`,
-    );
+    var userRef = db.ref(`Messages/${this.state.userData.uid}/${uid}`);
+    var otherUserRef = db.ref(`Messages/${uid}/${this.state.userData.uid}`);
     userRef.remove();
     otherUserRef.remove();
   };

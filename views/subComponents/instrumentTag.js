@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
@@ -30,13 +29,13 @@ const InstrumentTag = (props) => {
 
   return (
     <View>
-      {type == 'tappable' ? (
+      {type === 'tappable' ? (
         <TouchableOpacity
           onPress={() => props.onPress()}
           style={[styles.container, {borderColor: colorOfCell}]}>
           <Text style={[styles.text, {color: colorOfCell}]}>{instrument}</Text>
         </TouchableOpacity>
-      ) : type == 'highlightable' ? (
+      ) : type === 'highlightable' ? (
         <TouchableOpacity
           onPress={() => highlight()}
           style={[styles.container, {backgroundColor: backgroundColor}]}>

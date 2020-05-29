@@ -56,7 +56,7 @@ function settings({userData}) {
           alert('Sorry, there was a problem signing you out!');
         });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       alert(error);
     }
   };
