@@ -27,7 +27,6 @@ class ListOfTeachers extends React.Component {
       for (let uid in usersData) {
         //this is the section that pulls all the teachers
         //this takes all reviews and averages all the star ratings, this is inefficient, will be changed
-        var averageStars = 5;
         var reviewStars = [];
         if (usersData[uid].reviews != null) {
           for (let review in usersData[uid].reviews) {
@@ -35,6 +34,7 @@ class ListOfTeachers extends React.Component {
           }
         }
         const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
+        var averageStars = 5;
         if (reviewStars.length !== 0) {
           averageStars = arrAvg(reviewStars);
         }

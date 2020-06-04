@@ -23,7 +23,7 @@ function timeCell({backgroundColor, name, fontColor, onPress}) {
         delayPressIn={70}
         activeOpacity={0.9}
         style={[styles.cellView, {backgroundColor: backgroundColor}]}>
-        <Text style={[styles.timeText, {color: fontColor}]}>{name}</Text>
+        <Text style={styles.timeText}>{name}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 20,
-    color: 'black',
+    color: 'white',
   },
 });
 

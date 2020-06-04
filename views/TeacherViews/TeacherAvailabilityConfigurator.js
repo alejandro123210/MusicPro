@@ -152,7 +152,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     if (available) {
       return '#274156';
     } else {
-      return '#C8C8C8';
+      return '#8fa4b5';
     }
   };
 

@@ -137,16 +137,30 @@ export const updateTeacherList = (uid) => {
   var teacherData = {};
   userDataRef.once('value').then((snapshot) => {
     var data = JSON.parse(JSON.stringify(snapshot.val()));
-    teacherData = {
-      reviews: data.reviews,
-      description: data.description,
-      coordinates: data.coordinates,
-      name: data.name,
-      location: data.location,
-      instruments: data.instruments,
-      photo: data.photo,
-      uid: data.uid,
-    };
+    if (data.reviews !== undefined) {
+      teacherData = {
+        reviews: data.reviews,
+        description: data.description,
+        coordinates: data.coordinates,
+        name: data.name,
+        location: data.location,
+        instruments: data.instruments,
+        photo: data.photo,
+        uid: data.uid,
+      };
+    } else {
+      //we add the case if the teacher has no reviews to prevent non stop warnings
+      teacherData = {
+        description: data.description,
+        coordinates: data.coordinates,
+        name: data.name,
+        location: data.location,
+        instruments: data.instruments,
+        photo: data.photo,
+        uid: data.uid,
+      };
+    }
+
     db.ref(`teachers/${uid}/`).set(teacherData);
   });
 };
