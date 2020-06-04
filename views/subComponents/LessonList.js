@@ -6,7 +6,6 @@ import React from 'react';
 import {Text, View, StyleSheet, FlatList, Alert, Platform} from 'react-native';
 import {
   cancelLessons,
-  registerFCM,
   sendNotification,
 } from './BackendComponents/BackendFunctions';
 import * as firebase from 'firebase';
@@ -14,7 +13,6 @@ import LessonCell from './TableCells/LessonCell';
 import TopBar from './TopBar';
 
 const LessonList = ({userData, lessonType, lessonsList}) => {
-  registerFCM(userData);
   let onDenyOrCancelPressed = (lesson) => {
     if (userData.userType === 'student' && lessonType === 'confirmed') {
       Alert.alert(

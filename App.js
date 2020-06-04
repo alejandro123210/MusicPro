@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {Router, Scene} from 'react-native-router-flux';
-import {Image, View} from 'react-native';
+import {Image, View, NativeModules} from 'react-native';
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';
@@ -160,6 +160,8 @@ export default function App() {
   };
   // eslint-disable-next-line no-unused-vars
   const firebaseApp = firebase.initializeApp(firebaseConfig);
+  //we only seem to need to configure ios, android does it automatically
+  // NativeModules.CustomFCMModuleiOS.configureFirebase();
 
   return (
     <Router>

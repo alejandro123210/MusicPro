@@ -9,4 +9,5 @@
 #import "React/RCTBridgeModule.h"
 @interface RCT_EXTERN_REMAP_MODULE(CustomFCMModuleiOS, CustomFCMModule, NSObject)
 RCT_EXTERN_METHOD(getFCMToken: (RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(configureFirebase)
 @end

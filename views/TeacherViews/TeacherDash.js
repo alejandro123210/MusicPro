@@ -2,7 +2,10 @@
 //has to 3 link buttons but two of them link to the same screen for now
 import React from 'react';
 import LessonList from '../subComponents/LessonList';
-import {loadLessons} from '../subComponents/BackendComponents/BackendFunctions';
+import {
+  loadLessons,
+  registerFCM,
+} from '../subComponents/BackendComponents/BackendFunctions';
 
 class TeacherDash extends React.Component {
   state = {
@@ -11,6 +14,7 @@ class TeacherDash extends React.Component {
 
   componentDidMount() {
     loadLessons(this.props.userData, 'confirmed', this);
+    registerFCM(this.props.userData);
   }
 
   render() {

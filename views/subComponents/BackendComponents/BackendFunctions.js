@@ -3,6 +3,7 @@ import {Platform, NativeModules} from 'react-native';
 
 export const registerFCM = (userData) => {
   var fcm_token;
+  console.log('registering FCM');
   //registers the token in the native modules and updates the database with the user's token
   if (Platform.OS === 'android') {
     NativeModules.CustomFCMModule.getFCMToken((err, token) => {
@@ -16,8 +17,10 @@ export const registerFCM = (userData) => {
       db.ref(`users/${userData.uid}/info/`).update({fcm_token: fcm_token});
     });
   } else {
-    NativeModules.CustomFCMModuleiOS.getFCMToken((value) => {
-      console.log('ios: ' + value);
+    NativeModules.CustomFCMModuleiOS.getFCMToken((token) => {
+      fcm_token = token;
+      var db = firebase.database();
+      db.ref(`users/${userData.uid}/info/`).update({fcm_token: fcm_token});
     });
   }
 };

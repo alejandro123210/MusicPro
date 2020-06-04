@@ -54,7 +54,7 @@ static void InitializeFlipper(UIApplication *application) {
   [self.window makeKeyAndVisible];
   
   //firebase FCM setup
-  
+  [FIRApp configure];
   // [START set_messaging_delegate]
   [FIRMessaging messaging].delegate = self;
   // [END set_messaging_delegate]
