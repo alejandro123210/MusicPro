@@ -16,21 +16,21 @@ class ListOfTeachers extends React.Component {
 
   //we may want to change this to ref.on so that the stars update, the other option is to add a refresh
   //this needs to NOT load every single user every time
-  loadTeachers = async () => {
+  loadTeachers = async (userCoords) => {
     var db = firebase.database();
     var ref = db.ref('teachers/');
     var teachers = [];
     ref.once('value').then((snapshot) => {
       //all users in database
-      var usersData = JSON.parse(JSON.stringify(snapshot.val()));
+      var teacherData = JSON.parse(JSON.stringify(snapshot.val()));
       //for loop adds all users to state
-      for (let uid in usersData) {
+      for (let uid in teacherData) {
         //this is the section that pulls all the teachers
         //this takes all reviews and averages all the star ratings, this is inefficient, will be changed
         var reviewStars = [];
-        if (usersData[uid].reviews != null) {
-          for (let review in usersData[uid].reviews) {
-            reviewStars.push(usersData[uid].reviews[review].starCount);
+        if (teacherData[uid].reviews != null) {
+          for (let review in teacherData[uid].reviews) {
+            reviewStars.push(teacherData[uid].reviews[review].starCount);
           }
         }
         const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
@@ -40,47 +40,42 @@ class ListOfTeachers extends React.Component {
         }
         //gets the distance
         var geodist = require('geodist');
-        var dist = geodist(this.state.coordinates, usersData[uid].coordinates);
+        var dist = geodist(userCoords, teacherData[uid].coordinates);
         //create the teacher object to push to the list
         var teacher = {
-          name: usersData[uid].name,
-          location: usersData[uid].location,
-          instruments: usersData[uid].instruments,
-          photo: usersData[uid].photo,
+          name: teacherData[uid].name,
+          location: teacherData[uid].location,
+          instruments: teacherData[uid].instruments,
+          photo: teacherData[uid].photo,
           uid: uid,
           starCount: averageStars,
           distance: dist,
         };
         teachers.push(teacher);
         teachers.sort((a, b) => (a.distance > b.distance ? 1 : -1));
-        this.setState({teachers: teachers});
       }
+      this.setState({teachers: teachers});
     });
   };
 
-  findCoordinates = () => {
+  findCoordinatesAndLoadTeachers = () => {
     Geolocation.getCurrentPosition(
       (position) => {
-        const long = position.coords.longitude;
+        const lng = position.coords.longitude;
         const lat = position.coords.latitude;
-        const coordinates = {
-          lat: lat,
-          lng: long,
-        };
-        console.log(coordinates);
-        this.setState({coordinates});
+        const coordinates = {lat, lng};
+        this.loadTeachers(coordinates);
       },
       (error) => console.log(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
     );
   };
 
   componentDidMount() {
-    // this.setState({coordinates: {lng: -74.481544, lat: 40.796768}})
-    this.findCoordinates();
-    // console.log(this.findCoordinates())
     console.log('ListOfTeachers mounted');
-    this.loadTeachers();
+    // console.log(this.findCoordinates())
+    this.findCoordinatesAndLoadTeachers();
+    // this.findCoordinates().then((coords) => console.log(coords));
   }
 
   onPress = (teacher) => {
