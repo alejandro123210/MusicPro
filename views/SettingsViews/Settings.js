@@ -65,6 +65,8 @@ function settings({userData}) {
     var db = firebase.database();
     var userLessonsRef = db.ref(`users/${userData.uid}/info/lessons`);
     var userMessagesRef = db.ref(`Messages/${userData.uid}`);
+    var teacherToShowRef = db.ref(`teachers/${userData.uid}`);
+    teacherToShowRef.remove();
     //this turns off the listener that's created by loadLessons
     userLessonsRef.off();
     userLessonsRef.once('value').then((snapshot) => {
