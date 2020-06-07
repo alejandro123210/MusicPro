@@ -163,7 +163,6 @@ export const updateTeacherList = (uid) => {
         uid: data.uid,
       };
     }
-
     db.ref(`teachers/${uid}/`).set(teacherData);
   });
 };

@@ -23,7 +23,7 @@ class Register_Instrument extends React.Component {
   };
 
   onPress = () => {
-    if (this.state.instruments.count != 0) {
+    if (this.state.instruments.length !== 0) {
       Actions.Register_Location({
         instruments: this.state.instruments,
         userType: this.props.userType,
@@ -99,6 +99,11 @@ class Register_Instrument extends React.Component {
             blurOnSubmit={false}
             returnKeyType="go"
           />
+          <TouchableOpacity
+            style={styles.addTextContainer}
+            onPress={() => this.onSubmitPressed()}>
+            <Text style={styles.addText}>Add</Text>
+          </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity onPress={() => this.onPress()}>
@@ -122,6 +127,16 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     paddingBottom: 40,
+    width: '80%',
+  },
+  addTextContainer: {
+    // alignItems: 'center',
+    justifyContent: 'center',
+    paddingRight: 10,
+  },
+  addText: {
+    fontSize: 20,
+    color: '#274156',
   },
   grid: {
     justifyContent: 'center',
@@ -142,6 +157,7 @@ const styles = StyleSheet.create({
     height: 35,
     width: '80%',
     paddingTop: 1,
+    flexDirection: 'row',
   },
   instrumentInput: {
     flex: 1,
