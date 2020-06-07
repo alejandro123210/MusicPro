@@ -115,6 +115,11 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
         <FlatList
           data={lessonsList}
           contentContainerStyle={styles.flatListStyle}
+          keyExtractor={(item, index) =>
+            userData.userType === 'student'
+              ? item.studentLessonKey
+              : item.teacherLessonKey
+          }
           renderItem={({item}) => (
             <LessonCell
               name={
@@ -137,7 +142,6 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
               request={lessonType === 'undecided' ? true : false}
             />
           )}
-          keyExtractor={(item, index) => index.toString()}
         />
       ) : (
         <View style={styles.noLessonsContainer}>

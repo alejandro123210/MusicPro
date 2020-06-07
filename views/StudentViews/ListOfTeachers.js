@@ -102,7 +102,7 @@ class ListOfTeachers extends React.Component {
         />
         <FlatList
           data={this.state.teachers}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.uid}
           renderItem={({item}) => (
             <TeacherCell
               image={item.photo}

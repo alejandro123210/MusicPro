@@ -81,7 +81,7 @@ class ChatsList extends React.Component {
         />
         <FlatList
           data={this.state.conversations}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.uid}
           renderItem={({item}) => (
             <ConversationCell
               conversation={item}

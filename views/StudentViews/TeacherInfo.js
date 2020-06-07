@@ -147,12 +147,10 @@ class TeacherInfo extends React.Component {
         <View style={styles.writtenReviewContainer}>
           {this.state.allTeacherData.reviews.map((review) => (
             <ReviewBox
+              key={`${review.name}${review.description}${review.starCount}`}
               name={review.name}
               review={review.description}
               starCount={review.starCount}
-              key={this.state.allTeacherData.reviews.findIndex(
-                (reviewToFind) => review === reviewToFind,
-              )}
             />
           ))}
         </View>
