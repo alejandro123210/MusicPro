@@ -81,6 +81,7 @@ target 'MusicPro' do
 
   #Pods for firebase cloud messaging
   pod 'Firebase'
+  pod 'Firebase/Core'
   pod 'Firebase/Messaging'
 
   target 'MusicProTests' do
@@ -100,11 +101,3 @@ target 'MusicPro' do
   end
 end
 
-target 'MusicPro-tvOS' do
-  # Pods for MusicPro-tvOS
-
-  target 'MusicPro-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end
