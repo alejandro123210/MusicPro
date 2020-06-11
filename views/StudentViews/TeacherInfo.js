@@ -117,6 +117,7 @@ class TeacherInfo extends React.Component {
         <View style={styles.grid}>
           {this.state.allTeacherData.instruments.map((instrument) => (
             <InstrumentTag
+              key={instrument}
               instrument={instrument}
               onPress={() => {}}
               colorOfCell="#274156"
