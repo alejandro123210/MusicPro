@@ -107,7 +107,7 @@ class TeacherInfo extends React.Component {
           count={5}
           startingValue={this.state.allTeacherData.reviewRating}
           style={{padding: 10}}
-          imageSize={30}
+          imageSize={25}
           // onFinishRating={(rating) => this.quickRate(rating)}
           readonly={true}
         />
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     color: 'white',
+    paddingBottom: 4,
   },
   reviewsTitleContainer: {
     flexDirection: 'row',
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
   reviewsTitleText: {
     flex: 1,
     fontSize: 20,
-    paddingLeft: 10,
+    paddingLeft: 23,
   },
   writtenReviewContainer: {
     width: deviceWidth,

@@ -1,10 +1,18 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-alert */
 import React from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Text,
+  RefreshControl,
+  PermissionsAndroid,
+  Platform,
+} from 'react-native';
 import TeacherCell from '../subComponents/TableCells/TeacherCell';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import TopBar from '../subComponents/TopBar';
 
 class ListOfTeachers extends React.Component {
@@ -12,6 +20,7 @@ class ListOfTeachers extends React.Component {
     teachers: [],
     coordinates: {},
     userData: this.props.userData,
+    refreshing: false,
   };
 
   //we may want to change this to ref.on so that the stars update, the other option is to add a refresh
@@ -55,6 +64,7 @@ class ListOfTeachers extends React.Component {
         teachers.sort((a, b) => (a.distance > b.distance ? 1 : -1));
       }
       this.setState({teachers: teachers});
+      this.setState({refreshing: false});
     });
   };
 
@@ -71,10 +81,38 @@ class ListOfTeachers extends React.Component {
     );
   };
 
+  requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Cool Photo App Camera Permission',
+          message:
+            'Cool Photo App needs access to your camera ' +
+            'so you can take awesome pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.findCoordinatesAndLoadTeachers();
+      } else {
+        alert("Sorry, we won't be able to find teachers without permission :/");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   componentDidMount() {
     console.log('ListOfTeachers mounted');
+    if (Platform.OS === 'android') {
+      this.requestLocationPermission();
+    } else {
+      this.findCoordinatesAndLoadTeachers();
+    }
     // console.log(this.findCoordinates())
-    this.findCoordinatesAndLoadTeachers();
     // this.findCoordinates().then((coords) => console.log(coords));
   }
 
@@ -92,6 +130,11 @@ class ListOfTeachers extends React.Component {
     });
   };
 
+  _onRefresh() {
+    this.setState({refreshing: true});
+    this.findCoordinatesAndLoadTeachers();
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -101,6 +144,7 @@ class ListOfTeachers extends React.Component {
           showDateBar={false}
         />
         <FlatList
+          contentContainerStyle={styles.flatListStyle}
           data={this.state.teachers}
           keyExtractor={(item, index) => item.uid}
           renderItem={({item}) => (
@@ -116,6 +160,17 @@ class ListOfTeachers extends React.Component {
               distance={item.distance}
             />
           )}
+          ListEmptyComponent={
+            <View style={styles.loadingContainer}>
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
+          }
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh.bind(this)}
+            />
+          }
         />
       </View>
     );
@@ -127,6 +182,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Platform.OS === 'ios' ? 'white' : '#f5f5f5',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingText: {
+    color: 'gray',
+    fontSize: 25,
+    textAlign: 'center',
+    width: 250,
+  },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  flatListStyle: {
+    paddingBottom: 10,
   },
 });
 
