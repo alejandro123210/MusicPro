@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
   },
   noReviews: {
     color: 'green',
+    fontSize: 18,
   },
   numberOfReviewsText: {
     flexDirection: 'row',
