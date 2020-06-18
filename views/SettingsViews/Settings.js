@@ -120,6 +120,7 @@ function settings({userData}) {
         <View style={styles.grid}>
           {userData.instruments.map((instrument) => (
             <InstrumentTag
+              key={instrument}
               instrument={instrument}
               onPress={() => {}}
               colorOfCell="#274156"

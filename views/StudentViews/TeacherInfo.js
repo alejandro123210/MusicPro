@@ -44,16 +44,11 @@ class TeacherInfo extends React.Component {
       var teacherData = JSON.parse(JSON.stringify(snapshot.val()));
       var reviews = [];
       var reviewStars = [];
-      var averageStars = 5;
       if (teacherData.reviews != null) {
         for (let review in teacherData.reviews) {
           reviews.push(teacherData.reviews[review]);
           reviewStars.push(teacherData.reviews[review].starCount);
         }
-      }
-      const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
-      if (reviewStars.length !== 0) {
-        averageStars = arrAvg(reviewStars);
       }
       let allTeacherData = {
         name: teacherData.name,
@@ -62,7 +57,14 @@ class TeacherInfo extends React.Component {
         instruments: teacherData.instruments,
         photo: teacherData.photo,
         uid: teacherData.uid,
-        reviewRating: averageStars,
+        avgStars:
+          teacherData.avgStars !== undefined
+            ? teacherData.avgStars.avgRating
+            : 0,
+        numberOfReviews:
+          teacherData.avgStars !== undefined
+            ? teacherData.avgStars.numberOfReviews
+            : 0,
         reviews: reviews,
       };
       this.setState({allTeacherData});
@@ -103,14 +105,24 @@ class TeacherInfo extends React.Component {
           />
         </View>
         <Text style={styles.nameText}>{this.state.allTeacherData.name}</Text>
-        <Rating
-          count={5}
-          startingValue={this.state.allTeacherData.reviewRating}
-          style={{padding: 10}}
-          imageSize={25}
-          // onFinishRating={(rating) => this.quickRate(rating)}
-          readonly={true}
-        />
+        {this.state.allTeacherData.numberOfReviews !== 0 ? (
+          <View style={{flexDirection: 'row'}}>
+            <Rating
+              count={5}
+              startingValue={this.state.allTeacherData.avgStars}
+              style={{paddingTop: 10}}
+              imageSize={25}
+              readonly={true}
+            />
+            <Text style={styles.numberOfReviewsText}>
+              ({this.state.allTeacherData.numberOfReviews})
+            </Text>
+          </View>
+        ) : (
+          <View style={{paddingTop: 10, paddingLeft: 3}}>
+            <Text style={styles.noReviews}>New</Text>
+          </View>
+        )}
         <Text style={styles.descriptionText}>
           {this.state.allTeacherData.description}
         </Text>
@@ -177,6 +189,16 @@ const styles = StyleSheet.create({
     height: deviceWidth / 3,
     borderRadius: 100,
     marginTop: 5,
+  },
+  noReviews: {
+    color: 'green',
+  },
+  numberOfReviewsText: {
+    flexDirection: 'row',
+    paddingTop: 12,
+    paddingLeft: 5,
+    color: 'gray',
+    fontSize: 17,
   },
   nameText: {
     fontSize: 20,
