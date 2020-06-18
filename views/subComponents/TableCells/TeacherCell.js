@@ -19,7 +19,8 @@ function teacherCell({
   name,
   location,
   instruments,
-  starCount,
+  avgStars,
+  numberOfReviews,
   distance,
   onPress,
   onBookPressed,
@@ -35,14 +36,25 @@ function teacherCell({
           <Image style={styles.circle} source={{uri: image}} />
           <View style={styles.nameContainer}>
             <Text style={styles.nameText}>{name}</Text>
-            <Rating
-              count={5}
-              startingValue={starCount}
-              style={{paddingTop: 10}}
-              imageSize={20}
-              // onFinishRating={(rating) => this.quickRate(rating)}
-              readonly={true}
-            />
+            {numberOfReviews !== 0 ? (
+              <View style={{flexDirection: 'row'}}>
+                <Rating
+                  count={5}
+                  startingValue={avgStars}
+                  style={{paddingTop: 10}}
+                  imageSize={20}
+                  readonly={true}
+                />
+                <Text style={styles.numberOfReviewsText}>
+                  ({numberOfReviews})
+                </Text>
+              </View>
+            ) : (
+              <View style={{paddingTop: 10, paddingLeft: 3}}>
+                <Text style={styles.noReviews}>New</Text>
+              </View>
+            )}
+
             <Text style={styles.locationText}>
               {location} (≈{distance} mi)
             </Text>
@@ -84,6 +96,16 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     width: deviceWidth,
     alignItems: 'center',
+  },
+  noReviews: {
+    color: 'green',
+  },
+  numberOfReviewsText: {
+    flexDirection: 'row',
+    paddingTop: 10,
+    paddingLeft: 5,
+    color: 'gray',
+    fontSize: 15,
   },
   container: {
     backgroundColor: 'white',

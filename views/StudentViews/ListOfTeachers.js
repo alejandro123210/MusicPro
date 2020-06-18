@@ -35,18 +35,6 @@ class ListOfTeachers extends React.Component {
       //for loop adds all users to state
       for (let uid in teacherData) {
         //this is the section that pulls all the teachers
-        //this takes all reviews and averages all the star ratings, this is inefficient, will be changed
-        var reviewStars = [];
-        if (teacherData[uid].reviews != null) {
-          for (let review in teacherData[uid].reviews) {
-            reviewStars.push(teacherData[uid].reviews[review].starCount);
-          }
-        }
-        const arrAvg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
-        var averageStars = 5;
-        if (reviewStars.length !== 0) {
-          averageStars = arrAvg(reviewStars);
-        }
         //gets the distance
         var geodist = require('geodist');
         var dist = geodist(userCoords, teacherData[uid].coordinates);
@@ -57,7 +45,14 @@ class ListOfTeachers extends React.Component {
           instruments: teacherData[uid].instruments,
           photo: teacherData[uid].photo,
           uid: uid,
-          starCount: averageStars,
+          avgStars:
+            teacherData[uid].avgStars !== undefined
+              ? teacherData[uid].avgStars.avgRating
+              : 0,
+          numberOfReviews:
+            teacherData[uid].avgStars !== undefined
+              ? teacherData[uid].avgStars.numberOfReviews
+              : 0,
           distance: dist,
         };
         teachers.push(teacher);
@@ -152,7 +147,8 @@ class ListOfTeachers extends React.Component {
               image={item.photo}
               name={item.name}
               instruments={item.instruments}
-              starCount={item.starCount}
+              avgStars={item.avgStars}
+              numberOfReviews={item.numberOfReviews}
               location={item.location}
               onPress={() => this.onPress(item)}
               onBookPressed={() => this.onBookPressed(item)}

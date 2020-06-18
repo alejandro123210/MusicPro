@@ -142,7 +142,7 @@ export const updateTeacherList = (uid) => {
     var data = JSON.parse(JSON.stringify(snapshot.val()));
     if (data.reviews !== undefined) {
       teacherData = {
-        reviews: data.reviews,
+        avgStars: data.avgStars,
         description: data.description,
         coordinates: data.coordinates,
         name: data.name,

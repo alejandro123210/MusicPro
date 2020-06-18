@@ -24,16 +24,37 @@ class ReviewTeacher extends React.Component {
     rating: 5,
   };
 
+  calculateAvgStars = () => {
+    var db = firebase.database();
+    var avgStarsRef = db.ref(`users/${this.state.teacher.uid}/info/avgStars`);
+    avgStarsRef.once('value').then((snapshot) => {
+      if (snapshot.exists()) {
+        let avgStarData = snapshot.val();
+        let averageRating = avgStarData.avgRating;
+        var numberOfReviews = avgStarData.numberOfReviews;
+        let oldTotal = averageRating * numberOfReviews;
+        let newTotal = oldTotal + this.state.rating;
+        numberOfReviews += 1;
+        let newAvg = newTotal / numberOfReviews;
+        avgStarsRef.update({numberOfReviews, avgRating: newAvg});
+        updateTeacherList(this.state.teacher.uid);
+      } else {
+        avgStarsRef.update({numberOfReviews: 1, avgRating: this.state.rating});
+        updateTeacherList(this.state.teacher.uid);
+      }
+    });
+  };
+
   onDonePressed = () => {
     var db = firebase.database();
-    var ref = db.ref(`users/${this.state.teacher.uid}/info/reviews`);
+    var reviewsRef = db.ref(`users/${this.state.teacher.uid}/info/reviews`);
     var reviewData = {
       name: this.state.userData.name,
       description: this.state.review,
       starCount: this.state.rating,
     };
-    ref.push(reviewData);
-    updateTeacherList(this.state.teacher.uid);
+    reviewsRef.push(reviewData);
+    this.calculateAvgStars();
     Actions.StudentDash({userData: this.state.userData});
   };
 
