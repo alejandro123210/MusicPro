@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import {Platform, NativeModules} from 'react-native';
+import {GeoFire} from 'geofire';
 
 export const registerFCM = (userData) => {
   var fcm_token;
@@ -140,6 +141,12 @@ export const updateTeacherList = (uid) => {
   var teacherData = {};
   userDataRef.once('value').then((snapshot) => {
     var data = JSON.parse(JSON.stringify(snapshot.val()));
+    //set up geofire here so that teachers will load efficiently based on location
+    let geoFireRef = db.ref('geofire');
+    var geoFire = new GeoFire(geoFireRef);
+    geoFire.set(uid, [data.coordinates.lat, data.coordinates.lng]);
+    //here we add the data to the teachers section of the database
+    //so that they will load for students
     if (data.reviews !== undefined) {
       teacherData = {
         avgStars: data.avgStars,

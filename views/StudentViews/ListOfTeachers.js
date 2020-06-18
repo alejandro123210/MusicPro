@@ -14,6 +14,7 @@ import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import Geolocation from 'react-native-geolocation-service';
 import TopBar from '../subComponents/TopBar';
+import {GeoFire} from 'geofire';
 
 class ListOfTeachers extends React.Component {
   state = {
@@ -23,43 +24,44 @@ class ListOfTeachers extends React.Component {
     refreshing: false,
   };
 
-  //we may want to change this to ref.on so that the stars update, the other option is to add a refresh
-  //this needs to NOT load every single user every time
-  loadTeachers = async (userCoords) => {
-    var db = firebase.database();
-    var ref = db.ref('teachers/');
+  geoFireLoadTeachers = (userCoords) => {
+    let db = firebase.database();
+    let geoFireRef = db.ref('geofire');
+    var geoFire = new GeoFire(geoFireRef);
+    //radius is in KM
+    var geoQuerry = geoFire.query({
+      center: [userCoords.lat, userCoords.lng],
+      radius: 10000,
+    });
+    let that = this;
     var teachers = [];
-    ref.once('value').then((snapshot) => {
-      //all users in database
-      var teacherData = JSON.parse(JSON.stringify(snapshot.val()));
-      //for loop adds all users to state
-      for (let uid in teacherData) {
-        //this is the section that pulls all the teachers
-        //gets the distance
-        var geodist = require('geodist');
-        var dist = geodist(userCoords, teacherData[uid].coordinates);
-        //create the teacher object to push to the list
+    //geoquerry runs the code inside for each user in the range given
+    geoQuerry.on('key_entered', function (key, location, distance) {
+      let teachersRef = db.ref(`teachers/${key}`);
+      let distanceInMiles = distance / 1.6;
+      let roundedDistance = Math.round(distanceInMiles);
+      teachersRef.once('value').then((data) => {
+        var teacherData = data.val();
         var teacher = {
-          name: teacherData[uid].name,
-          location: teacherData[uid].location,
-          instruments: teacherData[uid].instruments,
-          photo: teacherData[uid].photo,
-          uid: uid,
+          name: teacherData.name,
+          location: teacherData.location,
+          instruments: teacherData.instruments,
+          photo: teacherData.photo,
+          uid: key,
           avgStars:
-            teacherData[uid].avgStars !== undefined
-              ? teacherData[uid].avgStars.avgRating
+            teacherData.avgStars !== undefined
+              ? teacherData.avgStars.avgRating
               : 0,
           numberOfReviews:
-            teacherData[uid].avgStars !== undefined
-              ? teacherData[uid].avgStars.numberOfReviews
+            teacherData.avgStars !== undefined
+              ? teacherData.avgStars.numberOfReviews
               : 0,
-          distance: dist,
+          distance: roundedDistance,
         };
         teachers.push(teacher);
         teachers.sort((a, b) => (a.distance > b.distance ? 1 : -1));
-      }
-      this.setState({teachers: teachers});
-      this.setState({refreshing: false});
+        that.setState({teachers: teachers, refreshing: false});
+      });
     });
   };
 
@@ -69,7 +71,7 @@ class ListOfTeachers extends React.Component {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
         const coordinates = {lat, lng};
-        this.loadTeachers(coordinates);
+        this.geoFireLoadTeachers(coordinates);
       },
       (error) => console.log(error.message),
       {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
@@ -81,10 +83,8 @@ class ListOfTeachers extends React.Component {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: 'Cool Photo App Camera Permission',
-          message:
-            'Cool Photo App needs access to your camera ' +
-            'so you can take awesome pictures.',
+          title: 'MusicPro Location Permissions',
+          message: 'We need your location so you can find you teachers!',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',
@@ -127,7 +127,9 @@ class ListOfTeachers extends React.Component {
 
   _onRefresh() {
     this.setState({refreshing: true});
-    this.findCoordinatesAndLoadTeachers();
+    setTimeout(() => {
+      this.setState({refreshing: false});
+    }, 1500);
   }
 
   render() {

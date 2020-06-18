@@ -62,10 +62,12 @@ function settings({userData}) {
   };
 
   deleteAccount = async () => {
-    var db = firebase.database();
-    var userLessonsRef = db.ref(`users/${userData.uid}/info/lessons`);
-    var userMessagesRef = db.ref(`Messages/${userData.uid}`);
-    var teacherToShowRef = db.ref(`teachers/${userData.uid}`);
+    let db = firebase.database();
+    let userLessonsRef = db.ref(`users/${userData.uid}/info/lessons`);
+    let userMessagesRef = db.ref(`Messages/${userData.uid}`);
+    let teacherToShowRef = db.ref(`teachers/${userData.uid}`);
+    let geofireRef = db.ref(`geofire/${userData.uid}`);
+    geofireRef.remove();
     teacherToShowRef.remove();
     //this turns off the listener that's created by loadLessons
     userLessonsRef.off();
