@@ -15,6 +15,7 @@ import {Actions} from 'react-native-router-flux';
 import Geolocation from 'react-native-geolocation-service';
 import TopBar from '../subComponents/TopBar';
 import {GeoFire} from 'geofire';
+import {SearchBar} from '../subComponents/SearchBar';
 
 class ListOfTeachers extends React.Component {
   state = {
@@ -22,6 +23,8 @@ class ListOfTeachers extends React.Component {
     coordinates: {},
     userData: this.props.userData,
     refreshing: false,
+    searchText: '',
+    teachersToShow: [],
   };
 
   geoFireLoadTeachers = (userCoords) => {
@@ -60,7 +63,11 @@ class ListOfTeachers extends React.Component {
         };
         teachers.push(teacher);
         teachers.sort((a, b) => (a.distance > b.distance ? 1 : -1));
-        that.setState({teachers: teachers, refreshing: false});
+        that.setState({
+          teachers: teachers,
+          refreshing: false,
+          teachersToShow: teachers,
+        });
       });
     });
   };
@@ -132,6 +139,18 @@ class ListOfTeachers extends React.Component {
     }, 1500);
   }
 
+  onChangeSearch = (searchText) => {
+    this.setState({searchText});
+    const filteredResults = this.state.teachers.filter((teacher) => {
+      const teacherData = `${teacher.name.toUpperCase()}${teacher.instruments
+        .toString()
+        .toUpperCase()}`;
+      const textData = searchText.toUpperCase();
+      return teacherData.indexOf(textData) > -1;
+    });
+    this.setState({teachersToShow: filteredResults});
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -142,8 +161,12 @@ class ListOfTeachers extends React.Component {
         />
         <FlatList
           contentContainerStyle={styles.flatListStyle}
-          data={this.state.teachers}
+          data={this.state.teachersToShow}
           keyExtractor={(item, index) => item.uid}
+          ListHeaderComponent={
+            <SearchBar onChangeText={(text) => this.onChangeSearch(text)} />
+          }
+          contentOffset={{y: 45}}
           renderItem={({item}) => (
             <TeacherCell
               image={item.photo}
