@@ -54,7 +54,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:506122331327:android:1006d6a7161f27da07120a",
         "android_client_info": {
-          "package_name": "com.reactNative.musicpro"
+          "package_name": "com.musicpro"
         }
       },
       "oauth_client": [
@@ -62,7 +62,7 @@
           "client_id": "506122331327-nntlha96qqgmo21huc7m2c4c600pen80.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.reactNative.musicpro",
+            "package_name": "com.musicpro",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
