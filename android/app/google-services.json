@@ -8,50 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:506122331327:android:486dcf22c4e28f6507120a",
-        "android_client_info": {
-          "package_name": "com.MusicPro.MusicPro"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "506122331327-ig4td4rnrs776ng1jf47donnvn6vgpa9.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.MusicPro.MusicPro",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBwsFbJYDNAmorAzqhwbvppfEU3xukQhZ4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "org.reactjs.native.example.MusicPro"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:506122331327:android:1006d6a7161f27da07120a",
         "android_client_info": {
           "package_name": "com.musicpro"
@@ -84,10 +40,54 @@
               "client_type": 3
             },
             {
-              "client_id": "506122331327-ioaoru8o5prnmdfl40r5jo94kqhb6aa0.apps.googleusercontent.com",
+              "client_id": "506122331327-8i7g3sub0ti3jmagnmdsaf9aqgsa1ofj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.reactjs.native.example.MusicPro"
+                "bundle_id": "com.MusicPro.ReactNative.App"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506122331327:android:0f532e922368a96c07120a",
+        "android_client_info": {
+          "package_name": "com.musicproapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506122331327-1ma4trgancnqls7senivfvhnr9b3lf93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.musicproapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsFbJYDNAmorAzqhwbvppfEU3xukQhZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506122331327-cobrmqrn49efksceiebado4s3nmmi5g7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "506122331327-8i7g3sub0ti3jmagnmdsaf9aqgsa1ofj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.MusicPro.ReactNative.App"
               }
             }
           ]

@@ -1,4 +1,4 @@
-package com.musicpro.device;
+package com.musicproapp.device;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;

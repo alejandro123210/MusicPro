@@ -1,4 +1,4 @@
-package com.musicpro.customfcmmodule;
+package com.musicproapp.customfcmmodule;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;

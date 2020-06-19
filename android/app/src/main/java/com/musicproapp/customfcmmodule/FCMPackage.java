@@ -1,4 +1,4 @@
-package com.musicpro.customfcmmodule;
+package com.musicproapp.customfcmmodule;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

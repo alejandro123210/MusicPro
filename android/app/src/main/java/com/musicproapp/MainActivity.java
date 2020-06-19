@@ -1,4 +1,4 @@
-package com.musicpro;
+package com.musicproapp;
 
 import com.facebook.react.ReactActivity;
 
