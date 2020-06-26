@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
@@ -31,74 +30,144 @@ class TeacherAvailabilityConfigurator extends React.Component {
     console.log('TeacherAvailabilityConfigurator mounted');
     var timesList = [
       {
-        name: '7 AM - 8 AM',
+        name: '7:00 AM',
         available: false,
         key: 0,
       },
       {
-        name: '8 AM - 9 AM',
+        name: '7:30 AM',
         available: false,
         key: 1,
       },
       {
-        name: '9 AM - 10 AM',
+        name: '8:00 AM',
         available: false,
         key: 2,
       },
       {
-        name: '10 AM - 11 AM',
+        name: '8:30 AM',
         available: false,
         key: 3,
       },
       {
-        name: '11 AM - 12 PM',
+        name: '9:00 AM',
         available: false,
         key: 4,
       },
       {
-        name: '12 PM - 1 PM',
+        name: '9:30 AM',
         available: false,
         key: 5,
       },
       {
-        name: '1 PM - 2 PM',
+        name: '10:00 AM',
         available: false,
         key: 6,
       },
       {
-        name: '2 PM - 3 PM',
+        name: '10:30 AM',
         available: false,
         key: 7,
       },
       {
-        name: '3 PM - 4 PM',
+        name: '11:00 AM',
         available: false,
         key: 8,
       },
       {
-        name: '4 PM - 5 PM',
+        name: '11:30 AM',
         available: false,
         key: 9,
       },
       {
-        name: '5 PM - 6 PM',
+        name: '12:00 PM',
         available: false,
         key: 10,
       },
       {
-        name: '6 PM - 7 PM',
+        name: '12:30 PM',
         available: false,
         key: 11,
       },
       {
-        name: '7 PM - 8 PM',
+        name: '1:00 PM',
         available: false,
         key: 12,
       },
       {
-        name: '8 PM - 9 PM',
+        name: '1:30 PM',
         available: false,
         key: 13,
+      },
+      {
+        name: '2:00 PM',
+        available: false,
+        key: 14,
+      },
+      {
+        name: '2:30 PM',
+        available: false,
+        key: 15,
+      },
+      {
+        name: '3:00 PM',
+        available: false,
+        key: 16,
+      },
+      {
+        name: '3:30 PM',
+        available: false,
+        key: 17,
+      },
+      {
+        name: '4:00 PM',
+        available: false,
+        key: 18,
+      },
+      {
+        name: '4:30 PM',
+        available: false,
+        key: 19,
+      },
+      {
+        name: '5:00 PM',
+        available: false,
+        key: 20,
+      },
+      {
+        name: '5:30 PM',
+        available: false,
+        key: 21,
+      },
+      {
+        name: '6:00 PM',
+        available: false,
+        key: 22,
+      },
+      {
+        name: '6:30 PM',
+        available: false,
+        key: 23,
+      },
+      {
+        name: '7:00 PM',
+        available: false,
+        key: 24,
+      },
+      {
+        name: '7:30 PM',
+        available: false,
+        key: 25,
+      },
+      {
+        name: '8:00 PM',
+        available: false,
+        key: 26,
+      },
+      {
+        name: '8:30 PM',
+        available: false,
+        key: 27,
       },
     ];
     var mondayTimes = JSON.parse(JSON.stringify(timesList));
@@ -127,14 +196,14 @@ class TeacherAvailabilityConfigurator extends React.Component {
     ref.once('value').then((snapshot) => {
       //all lessons for user in database
       var availabilityData = JSON.parse(JSON.stringify(snapshot.val()));
-      if (snapshot.val() != null) {
+      if (snapshot.val() !== null) {
         that.setState({times: availabilityData});
       }
     });
   };
 
   onCellPress = (time) => {
-    if (time.available == true) {
+    if (time.available === true) {
       time.available = false;
     } else {
       time.available = true;
@@ -174,6 +243,8 @@ class TeacherAvailabilityConfigurator extends React.Component {
         <FlatList
           data={this.state.times[this.state.day]}
           keyExtractor={(item, index) => index.toString()}
+          numColumns={2}
+          contentContainerStyle={styles.flatlistStyle}
           renderItem={({item}) => (
             <TimeCell
               name={item.name}
@@ -195,6 +266,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  flatlistStyle: {
+    paddingBottom: 10,
   },
 });
 

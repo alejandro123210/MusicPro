@@ -32,9 +32,11 @@ function timeCell({backgroundColor, name, fontColor, onPress}) {
 const styles = StyleSheet.create({
   cellView: {
     height: 110,
-    marginTop: 5,
-    borderRadius: 15,
-    width: deviceWidth - 10,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,
+    borderRadius: 10,
+    width: deviceWidth / 2.15,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',

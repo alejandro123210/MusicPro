@@ -18,7 +18,7 @@ class CalendarForStudents extends React.Component {
       '5': [],
       '6': [],
     },
-    selectedDay: new Date().getDay() - 1,
+    selectedDay: new Date().getDay(),
     teacherLessons: [],
     normalAvailability: {
       '0': [],
@@ -80,11 +80,16 @@ class CalendarForStudents extends React.Component {
 
   //when a time is pressed, we take the user to the next screen to configure the request
   onCellPress = (time) => {
+    var hourAvailable = this.state.actualAvailability[this.state.selectedDay][
+      time.key + 1
+    ].available;
+
     Actions.RequestLessonDetail({
       teacher: this.props.teacher,
       userData: this.props.userData,
-      time: time,
+      time: time.name,
       date: this.state.date,
+      hourAvailable: hourAvailable,
     });
   };
 
@@ -93,8 +98,11 @@ class CalendarForStudents extends React.Component {
     var normalAvailability = JSON.parse(
       JSON.stringify(this.state.normalAvailability),
     );
+    //if the teacher has lessons scheduled
     if (this.state.teacherLessons !== undefined) {
+      //if the teacher has lessons on this date
       if (this.state.teacherLessons[dateString] !== undefined) {
+        //for each lesson on that date
         for (var lessonKey in this.state.teacherLessons[dateString]) {
           //key to remove is equal to the key for the lesson time
           var keyToRemove = this.state.teacherLessons[dateString][lessonKey]
@@ -108,9 +116,10 @@ class CalendarForStudents extends React.Component {
           this.setState({actualAvailability: normalAvailability});
           // this.forceUpdate()
         }
+      } else {
+        this.setState({actualAvailability: normalAvailability});
       }
     }
-    // this.forceUpdate();
   };
 
   checkIfAnyAvailableTimes() {
@@ -171,7 +180,7 @@ class CalendarForStudents extends React.Component {
               item.available ? (
                 <HoursCell
                   name={item.name}
-                  onPress={() => this.onCellPress(item.name)}
+                  onPress={() => this.onCellPress(item)}
                 />
               ) : (
                 <View />

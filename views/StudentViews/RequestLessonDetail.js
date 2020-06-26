@@ -15,6 +15,7 @@ import InstrumentTag from '../subComponents/instrumentTag';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {sendNotification} from '../subComponents/BackendComponents/BackendFunctions';
+import LengthTag from '../subComponents/LengthTag';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -25,57 +26,99 @@ class RequestLessonDetail extends React.Component {
     teacher: this.props.teacher,
     date: this.props.date,
     time: this.props.time,
+    hourAvailable: this.props.hourAvailable,
     dateAndTime: '',
-
     selectedInstruments: [],
+    selectedLength: '1 hour',
+    lengthOptions: [
+      {title: '1 hour', highlighted: true, index: 0},
+      {title: '30 minutes', highlighted: false, index: 1},
+    ],
   };
 
   componentDidMount() {
     var moment = require('moment');
     var dateInPlainEnglish = moment(this.state.date).format('MMMM Do');
-    var dateAndTime = `${dateInPlainEnglish} from ${this.state.time}`;
+    var dateAndTime = `${dateInPlainEnglish} at ${this.state.time}`;
     this.setState({dateAndTime});
+
+    if (this.state.hourAvailable === false) {
+      this.setState({
+        selectedLength: '30 minutes',
+        lengthOptions: [{title: '30 minutes', highlighted: true, index: 1}],
+      });
+    }
   }
 
   confirmRequest = () => {
     if (this.state.selectedInstruments.length > 0) {
-      var studentName = this.state.userData.name;
-      var studentIDNum = this.state.userData.uid;
-      var teacherImage = this.state.teacher.photo;
-      var studentImage = this.state.userData.photo;
-      var teacherName = this.state.teacher.name;
-      var teacherIDNum = this.state.teacher.uid;
-      var date = this.state.date;
-      var time = this.state.time;
+      let studentName = this.state.userData.name;
+      let studentIDNum = this.state.userData.uid;
+      let teacherImage = this.state.teacher.photo;
+      let studentImage = this.state.userData.photo;
+      let teacherName = this.state.teacher.name;
+      let teacherIDNum = this.state.teacher.uid;
+      let lessonLength = this.state.selectedLength;
+      let selectedInstruments = this.state.selectedInstruments;
+      let date = this.state.date;
+      let time = this.state.time;
       var timeKey = '';
-      if (time === '7 AM - 8 AM') {
+      if (time === '7:00 AM') {
         timeKey = 0;
-      } else if (time === '8 AM - 9 AM') {
+      } else if (time === '7:30 AM') {
         timeKey = 1;
-      } else if (time === '9 AM - 10 AM') {
+      } else if (time === '8:00 AM') {
         timeKey = 2;
-      } else if (time === '10 AM - 11 AM') {
+      } else if (time === '8:30 AM') {
         timeKey = 3;
-      } else if (time === '11 AM - 12 PM') {
+      } else if (time === '9:00 AM') {
         timeKey = 4;
-      } else if (time === '12 PM - 1 PM') {
+      } else if (time === '9:30 AM') {
         timeKey = 5;
-      } else if (time === '1 PM - 2 PM') {
+      } else if (time === '10:00 AM') {
         timeKey = 6;
-      } else if (time === '2 PM - 3 PM') {
+      } else if (time === '10:30 AM') {
         timeKey = 7;
-      } else if (time === '3 PM - 4 PM') {
+      } else if (time === '11:00 AM') {
         timeKey = 8;
-      } else if (time === '4 PM - 5 PM') {
+      } else if (time === '11:30 AM') {
         timeKey = 9;
-      } else if (time === '5 PM - 6 PM') {
+      } else if (time === '12:00 PM') {
         timeKey = 10;
-      } else if (time === '6 PM - 7 PM') {
+      } else if (time === '12:30 PM') {
         timeKey = 11;
-      } else if (time === '7 PM - 8 PM') {
+      } else if (time === '1:00 PM') {
         timeKey = 12;
-      } else if (time === '8 PM - 9 PM') {
+      } else if (time === '1:30 PM') {
         timeKey = 13;
+      } else if (time === '2:00 PM') {
+        timeKey = 14;
+      } else if (time === '2:30 PM') {
+        timeKey = 15;
+      } else if (time === '3:00 PM') {
+        timeKey = 16;
+      } else if (time === '3:30 PM') {
+        timeKey = 17;
+      } else if (time === '4:00 PM') {
+        timeKey = 18;
+      } else if (time === '4:30 PM') {
+        timeKey = 19;
+      } else if (time === '5:00 PM') {
+        timeKey = 20;
+      } else if (time === '5:30 PM') {
+        timeKey = 21;
+      } else if (time === '6:00 PM') {
+        timeKey = 22;
+      } else if (time === '6:30 PM') {
+        timeKey = 23;
+      } else if (time === '7:00 PM') {
+        timeKey = 24;
+      } else if (time === '7:30 PM') {
+        timeKey = 25;
+      } else if (time === '8:00 PM') {
+        timeKey = 26;
+      } else if (time === '8:30 PM') {
+        timeKey = 27;
       }
       var db = firebase.database();
       var teacherRef = db.ref(
@@ -94,19 +137,19 @@ class RequestLessonDetail extends React.Component {
         teacherIDNum: teacherIDNum,
         studentLessonKey: studentLessonRequestKey,
         teacherLessonKey: teacherLessonRequestKey,
-        selectedInstruments: this.state.selectedInstruments,
+        selectedInstruments: selectedInstruments,
         teacherImage: teacherImage,
         studentImage: studentImage,
         date: date,
         time: time,
         status: 'undecided',
         timeKey: timeKey,
+        lessonLength: lessonLength,
       };
       teacherRef.child(teacherLessonRequestKey).update(lessonData);
       studentRef.child(studentLessonRequestKey).update(lessonData);
       sendNotification(teacherIDNum, studentName, 'lesson-requested');
       Actions.StudentLessonRequest({userData: this.state.userData});
-
       //start a conversation
       var moment = require('moment');
       var currentDate = moment().format();
@@ -136,7 +179,6 @@ class RequestLessonDetail extends React.Component {
   selectInstrument = ({selected, instrument}) => {
     var selectedInstruments = this.state.selectedInstruments;
     if (selected === false) {
-      console.log('selected an instrument');
       selectedInstruments.push(instrument);
       this.setState({selectedInstruments});
     } else {
@@ -144,6 +186,33 @@ class RequestLessonDetail extends React.Component {
       this.setState({selectedInstruments});
     }
     console.log(this.state.selectedInstruments);
+  };
+
+  setLength = (length) => {
+    if (this.state.lengthOptions.length !== 1) {
+      var lengthOptions = this.state.lengthOptions;
+      length.highlighted = !length.highlighted;
+      lengthOptions[length.index] = length;
+      //if the person selects a tag to auto deselect the other one
+      if (length.index === 1) {
+        lengthOptions[0].highlighted = false;
+      } else {
+        lengthOptions[1].highlighted = false;
+      }
+      //if the person is deselecting the tag to auto select the other one
+      if (length.highlighted === false && length.index === 1) {
+        lengthOptions[0].highlighted = true;
+        this.setState({selectedLength: lengthOptions[0].title});
+      } else if (length.highlighted === false && length.index === 0) {
+        lengthOptions[1].highlighted = true;
+        this.setState({selectedLength: lengthOptions[1].title});
+      }
+      this.setState({lengthOptions});
+      //set the state for the selected tag
+      if (length.highlighted === true) {
+        this.setState({selectedLength: length.title});
+      }
+    }
   };
 
   render() {
@@ -155,14 +224,19 @@ class RequestLessonDetail extends React.Component {
             style={styles.imageMain}
           />
         </View>
-        <Rating
-          count={5}
-          startingValue={this.state.teacher.starCount}
-          style={{padding: 15}}
-          imageSize={30}
-          // onFinishRating={(rating) => this.quickRate(rating)}
-          readonly={true}
-        />
+        {this.state.teacher.numberOfReviews !== 0 ? (
+          <Rating
+            count={5}
+            startingValue={this.state.teacher.avgStars.avgRating}
+            style={{padding: 15}}
+            imageSize={30}
+            // onFinishRating={(rating) => this.quickRate(rating)}
+            readonly={true}
+          />
+        ) : (
+          <View style={styles.spacer} />
+        )}
+
         <Text style={styles.title}>Lesson with {this.state.teacher.name}</Text>
         <Text style={styles.time}>on {this.state.dateAndTime}</Text>
         <Text style={styles.onWhatInstrumentText}> On what instrument? </Text>
@@ -176,9 +250,20 @@ class RequestLessonDetail extends React.Component {
               onPress={(thisInstrument) =>
                 this.selectInstrument(thisInstrument)
               }
-              key={this.state.teacher.instruments.findIndex(
-                (instrumentinArray) => instrument === instrumentinArray,
-              )}
+              key={instrument}
+            />
+          ))}
+        </View>
+        <Text style={styles.onWhatInstrumentText}>For</Text>
+        <View style={styles.line} />
+        <View style={styles.instrumentsContainer}>
+          {this.state.lengthOptions.map((length) => (
+            <LengthTag
+              instrument={length.title}
+              colorOfCell="#274156"
+              highlighted={length.highlighted}
+              onPress={() => this.setLength(length)}
+              key={length.title}
             />
           ))}
         </View>
@@ -227,7 +312,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   line: {
-    height: 0.3,
+    height: 0.4,
     width: deviceWidth,
     backgroundColor: 'gray',
     marginTop: 10,
@@ -250,6 +335,9 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  spacer: {
+    height: 30,
   },
 });
 

@@ -140,6 +140,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
               onCancelPressed={() => onDenyOrCancelPressed(item)}
               userType={userData.userType}
               request={lessonType === 'undecided' ? true : false}
+              lessonLength={item.lessonLength}
             />
           )}
         />

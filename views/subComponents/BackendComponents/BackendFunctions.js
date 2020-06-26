@@ -84,6 +84,7 @@ export var loadLessons = (userData, lessonType, that) => {
               lessonsData[lessonDate][lessonKey].studentLessonKey,
             teacherImage: lessonsData[lessonDate][lessonKey].teacherImage,
             studentImage: lessonsData[lessonDate][lessonKey].studentImage,
+            lessonLength: lessonsData[lessonDate][lessonKey].lessonLength,
           };
           if (lessonToPush.date < currentDate) {
             removePastLessons(lessonToPush);

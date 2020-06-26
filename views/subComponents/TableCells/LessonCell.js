@@ -24,11 +24,19 @@ function lessonCell({
   onCancelPressed,
   onConfirmPressed,
   userType,
+  lessonLength,
 }) {
   //get the time of the lesson
   moment = require('moment');
-  dateInPlainEnglish = moment(date).format('MMMM Do');
-  dateAndTime = `${dateInPlainEnglish} from ${time}`;
+  var dateInPlainEnglish = moment(date).format('MMMM Do');
+  var startTime = moment(time, ['h:mm A']).format('h:mm A');
+  var endTime = '';
+  if (lessonLength === '1 hour') {
+    endTime = moment(time, ['h:mm A']).add(1, 'hour').format('h:mm A');
+  } else {
+    endTime = moment(time, ['h:mm A']).add(30, 'minutes').format('h:mm A');
+  }
+  dateAndTime = `${dateInPlainEnglish} from ${startTime} to ${endTime}`;
 
   return (
     <View style={styles.shadow}>
