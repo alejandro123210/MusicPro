@@ -18,7 +18,7 @@ class CalendarForStudents extends React.Component {
       '5': [],
       '6': [],
     },
-    selectedDay: new Date().getDay(),
+    selectedDay: new Date().getDay() - 1,
     teacherLessons: [],
     normalAvailability: {
       '0': [],

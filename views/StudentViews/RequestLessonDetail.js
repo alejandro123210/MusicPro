@@ -62,63 +62,25 @@ class RequestLessonDetail extends React.Component {
       let selectedInstruments = this.state.selectedInstruments;
       let date = this.state.date;
       let time = this.state.time;
+      var moment = require('moment');
+      var timesList = [];
+      //creates an array of all the times
+      for (var i = 0; i < 28; i++) {
+        var timeString = moment('7 AM', ['h:mm A'])
+          .add(30 * i, 'minutes')
+          .format('h:mm A');
+        timesList.push({
+          name: timeString,
+          available: false,
+          key: i,
+        });
+      }
+      //search list of times for the right key
       var timeKey = '';
-      if (time === '7:00 AM') {
-        timeKey = 0;
-      } else if (time === '7:30 AM') {
-        timeKey = 1;
-      } else if (time === '8:00 AM') {
-        timeKey = 2;
-      } else if (time === '8:30 AM') {
-        timeKey = 3;
-      } else if (time === '9:00 AM') {
-        timeKey = 4;
-      } else if (time === '9:30 AM') {
-        timeKey = 5;
-      } else if (time === '10:00 AM') {
-        timeKey = 6;
-      } else if (time === '10:30 AM') {
-        timeKey = 7;
-      } else if (time === '11:00 AM') {
-        timeKey = 8;
-      } else if (time === '11:30 AM') {
-        timeKey = 9;
-      } else if (time === '12:00 PM') {
-        timeKey = 10;
-      } else if (time === '12:30 PM') {
-        timeKey = 11;
-      } else if (time === '1:00 PM') {
-        timeKey = 12;
-      } else if (time === '1:30 PM') {
-        timeKey = 13;
-      } else if (time === '2:00 PM') {
-        timeKey = 14;
-      } else if (time === '2:30 PM') {
-        timeKey = 15;
-      } else if (time === '3:00 PM') {
-        timeKey = 16;
-      } else if (time === '3:30 PM') {
-        timeKey = 17;
-      } else if (time === '4:00 PM') {
-        timeKey = 18;
-      } else if (time === '4:30 PM') {
-        timeKey = 19;
-      } else if (time === '5:00 PM') {
-        timeKey = 20;
-      } else if (time === '5:30 PM') {
-        timeKey = 21;
-      } else if (time === '6:00 PM') {
-        timeKey = 22;
-      } else if (time === '6:30 PM') {
-        timeKey = 23;
-      } else if (time === '7:00 PM') {
-        timeKey = 24;
-      } else if (time === '7:30 PM') {
-        timeKey = 25;
-      } else if (time === '8:00 PM') {
-        timeKey = 26;
-      } else if (time === '8:30 PM') {
-        timeKey = 27;
+      for (var index in timesList) {
+        if (timesList[index].name === time) {
+          timeKey = timesList[index].key;
+        }
       }
       var db = firebase.database();
       var teacherRef = db.ref(

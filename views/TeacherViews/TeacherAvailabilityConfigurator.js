@@ -28,148 +28,20 @@ class TeacherAvailabilityConfigurator extends React.Component {
 
   componentDidMount() {
     console.log('TeacherAvailabilityConfigurator mounted');
-    var timesList = [
-      {
-        name: '7:00 AM',
+    var moment = require('moment');
+    var timesList = [];
+    //creates an array of all the times
+    for (var i = 0; i < 28; i++) {
+      var time = moment('7 AM', ['h:mm A'])
+        .add(30 * i, 'minutes')
+        .format('h:mm A');
+      timesList.push({
+        name: time,
         available: false,
-        key: 0,
-      },
-      {
-        name: '7:30 AM',
-        available: false,
-        key: 1,
-      },
-      {
-        name: '8:00 AM',
-        available: false,
-        key: 2,
-      },
-      {
-        name: '8:30 AM',
-        available: false,
-        key: 3,
-      },
-      {
-        name: '9:00 AM',
-        available: false,
-        key: 4,
-      },
-      {
-        name: '9:30 AM',
-        available: false,
-        key: 5,
-      },
-      {
-        name: '10:00 AM',
-        available: false,
-        key: 6,
-      },
-      {
-        name: '10:30 AM',
-        available: false,
-        key: 7,
-      },
-      {
-        name: '11:00 AM',
-        available: false,
-        key: 8,
-      },
-      {
-        name: '11:30 AM',
-        available: false,
-        key: 9,
-      },
-      {
-        name: '12:00 PM',
-        available: false,
-        key: 10,
-      },
-      {
-        name: '12:30 PM',
-        available: false,
-        key: 11,
-      },
-      {
-        name: '1:00 PM',
-        available: false,
-        key: 12,
-      },
-      {
-        name: '1:30 PM',
-        available: false,
-        key: 13,
-      },
-      {
-        name: '2:00 PM',
-        available: false,
-        key: 14,
-      },
-      {
-        name: '2:30 PM',
-        available: false,
-        key: 15,
-      },
-      {
-        name: '3:00 PM',
-        available: false,
-        key: 16,
-      },
-      {
-        name: '3:30 PM',
-        available: false,
-        key: 17,
-      },
-      {
-        name: '4:00 PM',
-        available: false,
-        key: 18,
-      },
-      {
-        name: '4:30 PM',
-        available: false,
-        key: 19,
-      },
-      {
-        name: '5:00 PM',
-        available: false,
-        key: 20,
-      },
-      {
-        name: '5:30 PM',
-        available: false,
-        key: 21,
-      },
-      {
-        name: '6:00 PM',
-        available: false,
-        key: 22,
-      },
-      {
-        name: '6:30 PM',
-        available: false,
-        key: 23,
-      },
-      {
-        name: '7:00 PM',
-        available: false,
-        key: 24,
-      },
-      {
-        name: '7:30 PM',
-        available: false,
-        key: 25,
-      },
-      {
-        name: '8:00 PM',
-        available: false,
-        key: 26,
-      },
-      {
-        name: '8:30 PM',
-        available: false,
-        key: 27,
-      },
-    ];
+        key: i,
+      });
+    }
+    console.log(timesList);
     var mondayTimes = JSON.parse(JSON.stringify(timesList));
     var tuesdayTimes = JSON.parse(JSON.stringify(timesList));
     var wednesdayTimes = JSON.parse(JSON.stringify(timesList));
