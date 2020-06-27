@@ -18,7 +18,7 @@ class CalendarForStudents extends React.Component {
       '5': [],
       '6': [],
     },
-    selectedDay: new Date().getDay() - 1,
+    selectedDay: new Date().getDay(),
     teacherLessons: [],
     normalAvailability: {
       '0': [],
@@ -32,10 +32,11 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
-    console.log(`this.state.date: ${this.state.date}`);
-    if (this.state.selectedDay === -1) {
-      this.setState({selectedDay: 6});
-    }
+    // console.log(`this.state.date: ${this.state.date}`);
+    var moment = require('moment');
+    var dayOfWeek = moment().day();
+    this.setState({selectedDay: dayOfWeek});
+
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.teacher.uid}/info/`);
     let that = this;
@@ -48,13 +49,13 @@ class CalendarForStudents extends React.Component {
         //availability data is the teachers availability in the DB
         var availabilityData = teacherData.availability;
         //we set each part of availabilityData to corresponding parts of availabilityListToPush
-        availabilityListToPush['0'] = availabilityData.Mon;
-        availabilityListToPush['1'] = availabilityData.Tue;
-        availabilityListToPush['2'] = availabilityData.Wed;
-        availabilityListToPush['3'] = availabilityData.Thu;
-        availabilityListToPush['4'] = availabilityData.Fri;
-        availabilityListToPush['5'] = availabilityData.Sat;
-        availabilityListToPush['6'] = availabilityData.Sun;
+        availabilityListToPush['0'] = availabilityData.Sun;
+        availabilityListToPush['1'] = availabilityData.Mon;
+        availabilityListToPush['2'] = availabilityData.Tue;
+        availabilityListToPush['3'] = availabilityData.Wed;
+        availabilityListToPush['4'] = availabilityData.Thu;
+        availabilityListToPush['5'] = availabilityData.Fri;
+        availabilityListToPush['6'] = availabilityData.Sat;
         //finally, we set the state of actual availability to the data in the DB
         that.setState(
           {
@@ -140,7 +141,8 @@ class CalendarForStudents extends React.Component {
         <Calendar
           onDayPress={(day) => {
             //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
-            var dayOfWeek = new Date(day.dateString).getDay();
+            var moment = require('moment');
+            var dayOfWeek = moment(day.dateString).day();
             var dateString = day.dateString;
             this.setState(
               {date: dateString, selectedDay: dayOfWeek},
