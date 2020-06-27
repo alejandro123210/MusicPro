@@ -30,6 +30,7 @@ function useForceUpdate() {
 //image picker options
 const options = {
   title: 'Select Pic',
+  quality: 0.3,
   storageOptions: {
     skipBackup: true,
     path: 'images',
@@ -82,7 +83,8 @@ const EditProfile = ({userData}) => {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: 'data:image/jpeg;base64,' + response.data};
+        const source = 'data:image/jpeg;base64,' + response.data;
+        userData.photo = source;
         setPhoto(source);
       }
     });
@@ -137,7 +139,7 @@ const EditProfile = ({userData}) => {
         keyboardShouldPersistTaps={'never'}>
         <TouchableOpacity onPress={() => pickImage()}>
           <View style={styles.imageContainer}>
-            <Image source={{uri: photo}} style={styles.imageMain} />
+            <Image source={{uri: userData.photo}} style={styles.imageMain} />
           </View>
         </TouchableOpacity>
         {userData.avgStars !== undefined ? (
