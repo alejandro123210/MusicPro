@@ -46,9 +46,12 @@ class Register_Instrument extends React.Component {
     }
   };
 
-  onTagPressed = () => {
+  onTagPressed = (item) => {
     var instruments = this.state.instruments;
-    instruments.splice(instruments.indexOf('B'), 1);
+    const index = instruments.indexOf(item);
+    if (index > -1) {
+      instruments.splice(index, 1);
+    }
     this.setState({instruments});
   };
 
@@ -77,9 +80,7 @@ class Register_Instrument extends React.Component {
                 onPress={() => this.onTagPressed(instrument)}
                 colorOfCell="white"
                 type="tappable"
-                key={this.state.instruments.findIndex(
-                  (instrumentinArray) => instrument == instrumentinArray,
-                )}
+                key={instrument}
               />
             ))}
           </View>
@@ -129,6 +130,13 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     width: '80%',
   },
+  grid: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: 10,
+    width: deviceWidth - 10,
+  },
   addTextContainer: {
     // alignItems: 'center',
     justifyContent: 'center',
@@ -138,19 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#274156',
   },
-  grid: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    margin: 10,
-    width: deviceWidth - 10,
-  },
-  // instrumentTagScrollViewContainer: {
-  //     // backgroundColor: 'black',
-  //     height: 45,
-  //     width: '100%',
-  //     paddingBottom: 10
-  // },
   instrumentTextInputContainer: {
     borderRadius: 30,
     backgroundColor: 'white',

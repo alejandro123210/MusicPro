@@ -227,7 +227,7 @@ class RequestLessonDetail extends React.Component {
         {this.state.teacher.numberOfReviews !== 0 ? (
           <Rating
             count={5}
-            startingValue={this.state.teacher.avgStars.avgRating}
+            startingValue={this.state.teacher.avgStars}
             style={{padding: 15}}
             imageSize={30}
             // onFinishRating={(rating) => this.quickRate(rating)}

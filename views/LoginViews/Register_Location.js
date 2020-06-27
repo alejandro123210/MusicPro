@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
+    color: 'black',
   },
   doneButton: {
     color: 'white',

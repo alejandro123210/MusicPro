@@ -19,7 +19,7 @@ import {removeFCM} from '../subComponents/BackendComponents/BackendFunctions';
 
 let deviceWidth = Dimensions.get('window').width;
 
-function settings({userData}) {
+const settings = ({userData}) => {
   onDeletePress = () => {
     Alert.alert(
       'Are you sure?',
@@ -112,6 +112,10 @@ function settings({userData}) {
     Actions.SuggestFeaturePage({userData: userData});
   };
 
+  onEditProfilePressed = () => {
+    Actions.EditProfile({userData: userData});
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -154,10 +158,15 @@ function settings({userData}) {
           onPress={() => onSuggestFeaturePressed()}>
           <Text style={{fontSize: 15}}> Suggest a Feature </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => onEditProfilePressed()}>
+          <Text style={{fontSize: 15}}> Edit Profile </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

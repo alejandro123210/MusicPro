@@ -33,6 +33,7 @@ import RequestLessonDetail from './views/StudentViews/RequestLessonDetail';
 import ReportBugsPage from './views/SettingsViews/ReportBugsPage';
 import SuggestFeaturePage from './views/SettingsViews/SuggestFeaturePage';
 import Settings from './views/SettingsViews/Settings';
+import EditProfile from './views/SettingsViews/EditProfile';
 
 //chat views
 import Chat from './views/MessagingViews/Chat';
@@ -172,6 +173,12 @@ export default function App() {
           component={Login}
           hideNavBar={true}
           gesturesEnabled={false}
+        />
+        <Scene
+          key="EditProfile"
+          component={EditProfile}
+          hideNavBar={false}
+          gesturesEnabled={true}
         />
         <Scene
           key="CalendarForStudents"
