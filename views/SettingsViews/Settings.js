@@ -11,7 +11,6 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import InstrumentTag from '../subComponents/instrumentTag';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {GoogleSignin} from '@react-native-community/google-signin';
@@ -122,20 +121,6 @@ const settings = ({userData}) => {
         <Image source={{uri: userData.photo}} style={styles.imageMain} />
       </View>
       <Text style={styles.nameText}>{userData.name}</Text>
-      {userData.userType === 'teacher' ? (
-        <View style={styles.grid}>
-          {userData.instruments.map((instrument) => (
-            <InstrumentTag
-              key={instrument}
-              instrument={instrument}
-              onPress={() => {}}
-              colorOfCell="#274156"
-            />
-          ))}
-        </View>
-      ) : (
-        <View />
-      )}
 
       <View style={styles.bottomButtonsContainer}>
         <TouchableOpacity

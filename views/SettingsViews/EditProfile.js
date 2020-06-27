@@ -18,6 +18,7 @@ import * as firebase from 'firebase';
 import Geocoder from 'react-native-geocoding';
 import {Actions} from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
+import {updateTeacherList} from '../subComponents/BackendComponents/BackendFunctions';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -113,6 +114,7 @@ const EditProfile = ({userData}) => {
           userData.location = location;
           userData.instruments = instruments;
           userData.photo = photo;
+          updateTeacherList(userData.uid);
           Actions.TeacherMain({userData});
         })
         .catch((error) => alert(error));
@@ -125,6 +127,7 @@ const EditProfile = ({userData}) => {
       userData.description = description;
       userData.instruments = instruments;
       userData.photo = photo;
+      updateTeacherList(userData.uid);
       Actions.TeacherMain({userData});
     }
   };
@@ -146,13 +149,13 @@ const EditProfile = ({userData}) => {
           <View style={{flexDirection: 'row'}}>
             <Rating
               count={5}
-              startingValue={userData.avgStars}
+              startingValue={userData.avgStars.avgRating}
               style={{paddingTop: 10}}
               imageSize={25}
               readonly={true}
             />
             <Text style={styles.numberOfReviewsText}>
-              ({userData.numberOfReviews})
+              ({userData.avgStars.numberOfReviews})
             </Text>
           </View>
         ) : (
