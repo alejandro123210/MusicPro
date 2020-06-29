@@ -21,7 +21,7 @@ let deviceWidth = Dimensions.get('window').width;
 class TeacherInfo extends React.Component {
   state = {
     teacher: this.props.teacher,
-    userData: this.props.userData,
+    // userData: this.props.userData,
     allTeacherData: {
       name: '',
       location: '',
@@ -136,24 +136,31 @@ class TeacherInfo extends React.Component {
             />
           ))}
         </View>
-        <TouchableOpacity
-          onPress={() => this.onBookPressed()}
-          activeOpacity={0.7}
-          style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Book a lesson</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.onLeaveReviewPressed()}
-          activeOpacity={0.7}
-          style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Leave a review</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.onMessagePressed()}
-          activeOpacity={0.7}
-          style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Send a message</Text>
-        </TouchableOpacity>
+        {this.props.userData.userType === 'student' ? (
+          <View>
+            <TouchableOpacity
+              onPress={() => this.onBookPressed()}
+              activeOpacity={0.7}
+              style={styles.buttonContainer}>
+              <Text style={styles.buttonText}>Book a lesson</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.onLeaveReviewPressed()}
+              activeOpacity={0.7}
+              style={styles.buttonContainer}>
+              <Text style={styles.buttonText}>Leave a review</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.onMessagePressed()}
+              activeOpacity={0.7}
+              style={styles.buttonContainer}>
+              <Text style={styles.buttonText}>Send a message</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View />
+        )}
+
         <View style={styles.reviewsTitleContainer}>
           <Text style={styles.reviewsTitleText}> Reviews: </Text>
         </View>

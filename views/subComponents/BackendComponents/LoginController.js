@@ -17,6 +17,7 @@ export default class LoginController extends Component {
     this.state = {
       pushData: [],
       loggedIn: false,
+      profileURL: props.profileURL,
     };
   }
   componentDidMount() {
@@ -30,6 +31,7 @@ export default class LoginController extends Component {
   _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
+      let profileURL = this.state.profileURL;
       console.log('has play services');
       const userInfo = await GoogleSignin.signIn();
       console.log('user info is present');
@@ -63,7 +65,7 @@ export default class LoginController extends Component {
               console.log('user not fully signed up');
               //if the user does not have data in the database:
               //the user at this point has an account in auth, but we need to create the data for the database
-              Actions.Register({userInfo: userInfo});
+              Actions.Register({userInfo: userInfo, profileURL});
             } else {
               console.log('user fully signed up');
               //if the user DOES have data in the database:
@@ -74,14 +76,14 @@ export default class LoginController extends Component {
               console.log(userType);
               if (userType == '"student"' && userData != null) {
                 //if the user is a student
-                Actions.StudentMain({userData: userData});
+                Actions.StudentMain({userData: userData, profileURL});
                 console.log('student Main Called');
                 return;
                 // Actions.popTo('StudentMain', {userData: userData})
                 // alert('login controller was called')
               } else if (userData != null) {
                 //if the user is a teacher
-                Actions.TeacherMain({userData: userData});
+                Actions.TeacherMain({userData: userData, profileURL});
                 console.log('teacher main called');
                 return;
                 // Actions.popTo('TeacherMain', {userData: userData})
@@ -108,6 +110,7 @@ export default class LoginController extends Component {
 
   getCurrentUserInfo = async () => {
     try {
+      let profileURL = this.state.profileURL;
       const userInfo = await GoogleSignin.signInSilently();
       console.log('attempting to sign in silently');
       this.setState({userInfo});
@@ -135,21 +138,21 @@ export default class LoginController extends Component {
               console.log(userType);
               if (userType == '"student"') {
                 //if the user is a student
-                Actions.StudentMain({userData: userData});
+                Actions.StudentMain({userData: userData, profileURL});
                 console.log('studentmain called');
 
                 // Actions.popTo('StudentMain', {userData: userData})
                 // alert('Login Controller was called')
               } else if (userType == '"teacher"') {
                 //if the user is a teacher
-                Actions.TeacherMain({userData: userData});
+                Actions.TeacherMain({userData: userData, profileURL});
                 console.log('teachermain called');
 
                 // Actions.popTo('TeacherMain', {userData: userData})
                 // alert('Login Controller was called')
               }
             } else {
-              Actions.Register({userInfo: userInfo});
+              Actions.Register({userInfo: userInfo, profileURL});
             }
           });
         });

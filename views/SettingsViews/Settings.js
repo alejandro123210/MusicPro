@@ -143,11 +143,15 @@ const settings = ({userData}) => {
           onPress={() => onSuggestFeaturePressed()}>
           <Text style={{fontSize: 15}}> Suggest a Feature </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => onEditProfilePressed()}>
-          <Text style={{fontSize: 15}}> Edit Profile </Text>
-        </TouchableOpacity>
+        {userData.userType === 'teacher' ? (
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => onEditProfilePressed()}>
+            <Text style={{fontSize: 15}}> Edit Profile </Text>
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
       </View>
     </View>
   );

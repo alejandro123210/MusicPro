@@ -32,11 +32,11 @@ class CalendarForStudents extends React.Component {
   };
 
   componentDidMount() {
-    // console.log(`this.state.date: ${this.state.date}`);
+    //initial selected date is current date.day()
     var moment = require('moment');
     var dayOfWeek = moment().day();
     this.setState({selectedDay: dayOfWeek});
-
+    //get the firebase DB
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.teacher.uid}/info/`);
     let that = this;

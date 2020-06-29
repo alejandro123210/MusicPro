@@ -16,6 +16,7 @@ import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {sendNotification} from '../subComponents/BackendComponents/BackendFunctions';
 import LengthTag from '../subComponents/LengthTag';
+import {ScrollView} from 'react-native-gesture-handler';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -179,7 +180,7 @@ class RequestLessonDetail extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView bounces={false} contentContainerStyle={styles.container}>
         <View style={styles.imageContainer}>
           <Image
             source={{uri: this.state.teacher.photo}}
@@ -236,7 +237,7 @@ class RequestLessonDetail extends React.Component {
             <Text style={{fontSize: 20, color: 'white'}}>Confirm Request</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

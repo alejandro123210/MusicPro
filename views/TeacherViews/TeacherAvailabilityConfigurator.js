@@ -41,7 +41,6 @@ class TeacherAvailabilityConfigurator extends React.Component {
         key: i,
       });
     }
-    console.log(timesList);
     var mondayTimes = JSON.parse(JSON.stringify(timesList));
     var tuesdayTimes = JSON.parse(JSON.stringify(timesList));
     var wednesdayTimes = JSON.parse(JSON.stringify(timesList));

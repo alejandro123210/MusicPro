@@ -13,7 +13,6 @@ class Register_Description extends React.Component {
     var user = firebase.auth().currentUser;
     var db = firebase.database();
     var ref = db.ref(`users/${user.uid}/info/`);
-    console.log(this.props.userInfo.user);
     ref.set({
       email: user.email,
       uid: user.uid,

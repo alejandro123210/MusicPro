@@ -39,7 +39,6 @@ class LaunchScreen extends React.Component {
           ref.once('value').then(function (snapshot) {
             //if the user DOES have data in the database:
             console.log(userInfo.user.photo);
-
             var userData = snapshot.val();
             // alert(userData)
             //this is the user type (teacher/student)
@@ -64,7 +63,7 @@ class LaunchScreen extends React.Component {
                 // alert('Login Controller was called')
               }
             } else {
-              Actions.Login({userInfo: userInfo});
+              Actions.Login({userInfo});
             }
           });
         });

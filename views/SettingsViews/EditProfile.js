@@ -117,7 +117,9 @@ const EditProfile = ({userData}) => {
           updateTeacherList(userData.uid);
           Actions.TeacherMain({userData});
         })
-        .catch((error) => alert(error));
+        .catch((error) =>
+          alert("Sorry! There's a probelm with the zip code you entered"),
+        );
     } else {
       userRef.update({
         description,
