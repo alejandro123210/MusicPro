@@ -103,18 +103,6 @@ const settings = ({userData}) => {
     );
   };
 
-  onReportBugPressed = () => {
-    Actions.ReportBugsPage({userData: userData});
-  };
-
-  onSuggestFeaturePressed = () => {
-    Actions.SuggestFeaturePage({userData: userData});
-  };
-
-  onEditProfilePressed = () => {
-    Actions.EditProfile({userData: userData});
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -135,18 +123,18 @@ const settings = ({userData}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => onReportBugPressed()}>
+          onPress={() => Actions.ReportBugsPage({userData})}>
           <Text style={{fontSize: 15}}> Report a Bug </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => onSuggestFeaturePressed()}>
-          <Text style={{fontSize: 15}}> Suggest a Feature </Text>
+          onPress={() => Actions.PaymentsScreen({userData})}>
+          <Text style={{fontSize: 15}}> Payments </Text>
         </TouchableOpacity>
         {userData.userType === 'teacher' ? (
           <TouchableOpacity
             style={styles.buttonContainer}
-            onPress={() => onEditProfilePressed()}>
+            onPress={() => Actions.EditProfile({userData})}>
             <Text style={{fontSize: 15}}> Edit Profile </Text>
           </TouchableOpacity>
         ) : (

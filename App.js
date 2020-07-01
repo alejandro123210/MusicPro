@@ -38,6 +38,7 @@ import EditProfile from './views/SettingsViews/EditProfile';
 //chat views
 import Chat from './views/MessagingViews/Chat';
 import ChatsList from './views/MessagingViews/ChatsList';
+import PaymentsScreen from './views/SettingsViews/PaymentsScreen';
 
 //Create a dedicated class that will manage the icon
 function CalendarIcon() {
@@ -177,6 +178,12 @@ export default function App() {
         <Scene
           key="EditProfile"
           component={EditProfile}
+          hideNavBar={false}
+          gesturesEnabled={true}
+        />
+        <Scene
+          key="PaymentsScreen"
+          component={PaymentsScreen}
           hideNavBar={false}
           gesturesEnabled={true}
         />

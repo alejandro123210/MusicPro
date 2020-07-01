@@ -85,6 +85,7 @@ class TeacherAvailabilityConfigurator extends React.Component {
     var db = firebase.database();
     var ref = db.ref(`users/${this.props.userData.uid}/info/`);
     ref.update({availability: this.state.times});
+    this.props.userData.availability = this.state.times;
     updateTeacherList(this.props.userData.uid);
   };
 

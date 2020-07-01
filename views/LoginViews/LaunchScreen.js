@@ -38,7 +38,6 @@ class LaunchScreen extends React.Component {
           var ref = db.ref(`users/${user.uid}/info/`);
           ref.once('value').then(function (snapshot) {
             //if the user DOES have data in the database:
-            console.log(userInfo.user.photo);
             var userData = snapshot.val();
             // alert(userData)
             //this is the user type (teacher/student)

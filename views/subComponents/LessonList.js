@@ -1,9 +1,18 @@
+/* eslint-disable no-alert */
 //this component handles all cases where there is a list of lessons being loaded,
 //it loads the lessons, handles all taps, and renders the entire screen for:
 // TeacherDash, StudentDash, LessonRequests, StudentLessonRequests
 
 import React from 'react';
-import {Text, View, StyleSheet, FlatList, Alert, Platform} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Alert,
+  Platform,
+  Share,
+} from 'react-native';
 import {
   cancelLessons,
   sendNotification,
@@ -11,6 +20,8 @@ import {
 import * as firebase from 'firebase';
 import LessonCell from './TableCells/LessonCell';
 import TopBar from './TopBar';
+import TeacherCell from './TableCells/TeacherCell';
+import {Actions} from 'react-native-router-flux';
 
 const LessonList = ({userData, lessonType, lessonsList}) => {
   let onDenyOrCancelPressed = (lesson) => {
@@ -108,6 +119,47 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
     ).update({status: 'confirmed'});
   };
 
+  const onSharePressed = async () => {
+    const accountLink = `musicpro://${userData.uid}`;
+    if (userData.availability !== undefined) {
+      try {
+        const result = await Share.share({
+          message: `I'm singed up with MusicPro! find my profile here: ${accountLink}`,
+          title: 'MusicPro',
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+            console.log(result.activityType);
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    } else {
+      alert("You may want to set up when you're available first!");
+    }
+  };
+
+  const onProfilePressed = () => {
+    let teacher = {
+      name: userData.name,
+      location: userData.location,
+      instruments: userData.instruments,
+      photo: userData.photo,
+      uid: userData.uid,
+      avgStars:
+        userData.avgStars !== undefined ? userData.avgStars.avgRating : 0,
+      numberOfReviews:
+        userData.avgStars !== undefined ? userData.avgStars.numberOfReviews : 0,
+    };
+    Actions.TeacherInfo({userData, teacher});
+  };
+
   return (
     <View style={styles.container}>
       <TopBar userData={userData} page={lessonType} />
@@ -146,11 +198,35 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
         />
       ) : (
         <View style={styles.noLessonsContainer}>
-          <Text style={styles.noLessonsText}>
-            {lessonType === 'undecided'
-              ? 'No lesson requests at the moment'
-              : 'No confirmed lessons at the moment'}
-          </Text>
+          {userData.userType === 'student' ? (
+            <Text style={styles.noLessonsText}>
+              {lessonType === 'undecided'
+                ? 'No lesson requests at the moment'
+                : 'No confirmed lessons at the moment'}
+            </Text>
+          ) : (
+            <TeacherCell
+              image={userData.photo}
+              name={userData.name}
+              instruments={userData.instruments}
+              avgStars={
+                userData.avgStars !== undefined
+                  ? userData.avgStars.avgRating
+                  : 0
+              }
+              numberOfReviews={
+                userData.avgStars !== undefined
+                  ? userData.avgStars.numberOfReviews
+                  : 0
+              }
+              location={userData.location}
+              onPress={() => onProfilePressed(userData)}
+              onBookPressed={() => onSharePressed(userData)}
+              uid={userData.uid}
+              distance={null}
+              type={'share'}
+            />
+          )}
         </View>
       )}
     </View>

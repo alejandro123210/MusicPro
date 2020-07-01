@@ -24,6 +24,7 @@ function teacherCell({
   distance,
   onPress,
   onBookPressed,
+  type,
 }) {
   return (
     <TouchableOpacity
@@ -54,10 +55,13 @@ function teacherCell({
                 <Text style={styles.noReviews}>New</Text>
               </View>
             )}
-
-            <Text style={styles.locationText}>
-              {location} (≈{distance} mi)
-            </Text>
+            {distance !== null ? (
+              <Text style={styles.locationText}>
+                {location} (≈{distance} mi)
+              </Text>
+            ) : (
+              <View />
+            )}
           </View>
         </View>
         <View style={styles.midSection}>
@@ -81,7 +85,9 @@ function teacherCell({
           style={styles.bottomButtons}
           onPress={() => onBookPressed()}
           activeOpacity={0.7}>
-          <Text style={styles.bookText}>Book a lesson</Text>
+          <Text style={styles.bookText}>
+            {type === 'share' ? 'Share profile' : 'Book a lesson'}
+          </Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
