@@ -49,6 +49,7 @@ class ListOfTeachers extends React.Component {
           name: teacherData.name,
           location: teacherData.location,
           instruments: teacherData.instruments,
+          price: teacherData.price,
           photo: teacherData.photo,
           uid: key,
           avgStars:
@@ -179,6 +180,7 @@ class ListOfTeachers extends React.Component {
               onBookPressed={() => this.onBookPressed(item)}
               uid={item.uid}
               distance={item.distance}
+              price={item.price}
             />
           )}
           ListEmptyComponent={

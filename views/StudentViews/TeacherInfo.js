@@ -52,6 +52,7 @@ class TeacherInfo extends React.Component {
       }
       let allTeacherData = {
         name: teacherData.name,
+        price: teacherData.price,
         location: teacherData.location,
         description: teacherData.description,
         instruments: teacherData.instruments,
@@ -142,7 +143,9 @@ class TeacherInfo extends React.Component {
               onPress={() => this.onBookPressed()}
               activeOpacity={0.7}
               style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>Book a lesson</Text>
+              <Text style={styles.buttonText}>
+                Book a lesson (${this.state.allTeacherData.price}/hr)
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.onLeaveReviewPressed()}
@@ -211,6 +214,17 @@ const styles = StyleSheet.create({
   nameText: {
     fontSize: 20,
     paddingTop: 20,
+  },
+  nameAndPrice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  priceText: {
+    color: 'gray',
+    paddingLeft: 10,
+    marginTop: 20,
+    fontSize: 18,
   },
   descriptionText: {
     padding: 20,

@@ -1,38 +1,23 @@
-import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Text,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
-import {CreditCardInput} from 'react-native-credit-card-input';
+import React from 'react';
+import WebView from 'react-native-webview';
+import {View, Text, StyleSheet} from 'react-native';
 
-const PaymentsScreen = ({userData}) => {
-  const [cardInfo, setCardInfo] = useState();
-
-  const submitPressed = () => {
-    Keyboard.dismiss();
-    console.log(cardInfo);
-  };
-
-  return (
-    <FlatList
-      data={userData.cards}
-      keyExtractor={(item, index) => item.number}
-      renderItem={({item}) => <Text>{item}</Text>}
-      ListEmptyComponent={
-        <View style={styles.container}>
-          <View style={styles.spacer} />
-          <CreditCardInput onChange={(info) => setCardInfo(info)} />
-          <TouchableOpacity onPress={() => submitPressed()}>
-            <Text>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      }
-    />
-  );
+const PaymentsScreen = ({userData, stripeSet}) => {
+  if (stripeSet === false) {
+    return (
+      <WebView
+        source={{
+          uri: `https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://192.168.1.22:3000&client_id=ca_HZ3p251sXcEdATcBE31h47C5yYEt0hfy&state={${userData.uid}}&suggested_capabilities[]=transfers&stripe_user[email]=${userData.email}&stripe_user[business_type]=individual`,
+        }}
+      />
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text>done</Text>
+      </View>
+    );
+  }
 };
 
 export default PaymentsScreen;
@@ -40,8 +25,7 @@ export default PaymentsScreen;
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-  },
-  spacer: {
-    height: 30,
+    justifyContent: 'center',
+    flex: 1,
   },
 });

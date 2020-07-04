@@ -158,6 +158,7 @@ export const updateTeacherList = (uid) => {
         instruments: data.instruments,
         photo: data.photo,
         uid: data.uid,
+        price: data.price,
       };
     } else {
       //we add the case if the teacher has no reviews to prevent non stop warnings
@@ -169,6 +170,7 @@ export const updateTeacherList = (uid) => {
         instruments: data.instruments,
         photo: data.photo,
         uid: data.uid,
+        price: data.price,
       };
     }
     db.ref(`teachers/${uid}/`).set(teacherData);

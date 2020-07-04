@@ -25,6 +25,7 @@ function teacherCell({
   onPress,
   onBookPressed,
   type,
+  price,
 }) {
   return (
     <TouchableOpacity
@@ -36,7 +37,10 @@ function teacherCell({
         <View style={styles.topBar}>
           <Image style={styles.circle} source={{uri: image}} />
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>{name}</Text>
+            <View style={styles.nameAndPrice}>
+              <Text style={styles.nameText}>{name}</Text>
+              <Text style={styles.priceText}>${price}/hr</Text>
+            </View>
             {numberOfReviews !== 0 ? (
               <View style={{flexDirection: 'row'}}>
                 <Rating
@@ -86,7 +90,11 @@ function teacherCell({
           onPress={() => onBookPressed()}
           activeOpacity={0.7}>
           <Text style={styles.bookText}>
-            {type === 'share' ? 'Share profile' : 'Book a lesson'}
+            {type === 'share'
+              ? 'Share profile'
+              : type === 'pay'
+              ? 'Send Payment'
+              : 'Book a lesson'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -132,8 +140,16 @@ const styles = StyleSheet.create({
   nameContainer: {
     alignItems: 'flex-start',
   },
+  nameAndPrice: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: deviceWidth / 1.5,
+  },
   nameText: {
     fontSize: 20,
+  },
+  priceText: {
+    color: 'gray',
   },
   locationText: {
     color: 'gray',

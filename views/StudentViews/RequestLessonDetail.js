@@ -29,6 +29,7 @@ class RequestLessonDetail extends React.Component {
     time: this.props.time,
     hourAvailable: this.props.hourAvailable,
     dateAndTime: '',
+    selectedPrice: this.props.teacher.price,
     selectedInstruments: [],
     selectedLength: '1 hour',
     lengthOptions: [
@@ -176,6 +177,12 @@ class RequestLessonDetail extends React.Component {
         this.setState({selectedLength: length.title});
       }
     }
+    //this sets the price
+    if (this.state.selectedLength !== '1 hour') {
+      this.setState({selectedPrice: this.state.teacher.price});
+    } else {
+      this.setState({selectedPrice: this.state.teacher.price / 2});
+    }
   };
 
   render() {
@@ -202,6 +209,9 @@ class RequestLessonDetail extends React.Component {
 
         <Text style={styles.title}>Lesson with {this.state.teacher.name}</Text>
         <Text style={styles.time}>on {this.state.dateAndTime}</Text>
+        <Text style={styles.price}>
+          ${this.state.selectedPrice} due after lesson
+        </Text>
         <Text style={styles.onWhatInstrumentText}> On what instrument? </Text>
         <View style={styles.line} />
         <View style={styles.instrumentsContainer}>
@@ -230,6 +240,7 @@ class RequestLessonDetail extends React.Component {
             />
           ))}
         </View>
+        <View style={styles.spacer} />
         <View style={styles.outerButtonContainer}>
           <TouchableOpacity
             style={styles.buttonContainer}
@@ -270,8 +281,12 @@ const styles = StyleSheet.create({
   time: {
     marginTop: 20,
   },
+  price: {
+    color: 'gray',
+    marginTop: 20,
+  },
   onWhatInstrumentText: {
-    paddingTop: 60,
+    paddingTop: 25,
     fontSize: 20,
   },
   line: {
@@ -300,7 +315,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   spacer: {
-    height: 30,
+    height: 50,
   },
 });
 

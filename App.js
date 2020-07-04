@@ -6,6 +6,7 @@
 import React from 'react';
 import {Router, Scene} from 'react-native-router-flux';
 import {Image, View} from 'react-native';
+import stripe from 'tipsi-stripe';
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';
@@ -14,6 +15,7 @@ import Register from './views/LoginViews/Register';
 import Register_Instrument from './views/LoginViews/Register_Instrument';
 import Register_Description from './views/LoginViews/Register_Description';
 import Register_Location from './views/LoginViews/Register_Location';
+import Register_Price from './views/LoginViews/Register_Price';
 
 //teacher views
 import TeacherAvailabilityConfigurator from './views/TeacherViews/TeacherAvailabilityConfigurator';
@@ -39,6 +41,9 @@ import EditProfile from './views/SettingsViews/EditProfile';
 import Chat from './views/MessagingViews/Chat';
 import ChatsList from './views/MessagingViews/ChatsList';
 import PaymentsScreen from './views/SettingsViews/PaymentsScreen';
+
+//payment view
+import SendPayment from './views/PaymentViews/SendPayment';
 
 //Create a dedicated class that will manage the icon
 function CalendarIcon() {
@@ -162,8 +167,11 @@ export default function App() {
   };
   // eslint-disable-next-line no-unused-vars
   const firebaseApp = firebase.initializeApp(firebaseConfig);
-  //we only seem to need to configure ios, android does it automatically
-  // NativeModules.CustomFCMModuleiOS.configureFirebase();
+  //Stripe config
+  stripe.setOptions({
+    publishableKey:
+      'pk_test_51GzvgJCAHHl7TnVGHygy90WYniZe1wp8Fmprg9blC2djbct54gQldsIeMhmtAHwhx6orABxrLuQQkctw228NOUtB00F8Bcyp5a',
+  });
 
   return (
     <Router>
@@ -174,6 +182,18 @@ export default function App() {
           component={Login}
           hideNavBar={true}
           gesturesEnabled={false}
+        />
+        <Scene
+          key="Register_Price"
+          component={Register_Price}
+          gesturesEnabled={true}
+          hideNavBar={true}
+        />
+        <Scene
+          key="SendPayment"
+          component={SendPayment}
+          gesturesEnabled={false}
+          hideNavBar={true}
         />
         <Scene
           key="EditProfile"

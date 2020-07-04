@@ -46,6 +46,7 @@ const EditProfile = ({userData}) => {
   const [zip, setZip] = useState('');
   const [input, setInput] = useState();
   const [photo, setPhoto] = useState(userData.photo);
+  const [price, setPrice] = useState(userData.price);
   //parse and strinigfy to avoid pointer issues
   const [instruments, setInstruments] = useState(
     JSON.parse(JSON.stringify(userData.instruments)),
@@ -108,12 +109,14 @@ const EditProfile = ({userData}) => {
             location,
             instruments,
             photo,
+            price,
           });
           userData.description = description;
           userData.coordinates = coordinates;
           userData.location = location;
           userData.instruments = instruments;
           userData.photo = photo;
+          userData.price = price;
           updateTeacherList(userData.uid);
           Actions.TeacherMain({userData});
         })
@@ -125,10 +128,12 @@ const EditProfile = ({userData}) => {
         description,
         instruments,
         photo,
+        price,
       });
       userData.description = description;
       userData.instruments = instruments;
       userData.photo = photo;
+      userData.price = price;
       updateTeacherList(userData.uid);
       Actions.TeacherMain({userData});
     }
@@ -217,6 +222,19 @@ const EditProfile = ({userData}) => {
             multiline={false}
             onChangeText={(text) => setZip(text)}
             placeholder="zip code"
+            placeholderTextColor={'gray'}
+            onSubmitEditing={() => Keyboard.dismiss()}
+            blurOnSubmit={false}
+          />
+        </View>
+        <Text style={styles.sectionHeader}>Price (${userData.price}/hr):</Text>
+        <View style={styles.line} />
+        <View style={styles.textInputContainer}>
+          <TextInput
+            style={styles.instrumentInput}
+            multiline={false}
+            onChangeText={(text) => setPrice(text)}
+            placeholder="60"
             placeholderTextColor={'gray'}
             onSubmitEditing={() => Keyboard.dismiss()}
             blurOnSubmit={false}

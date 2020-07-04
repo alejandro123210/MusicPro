@@ -103,6 +103,21 @@ const settings = ({userData}) => {
     );
   };
 
+  const paymentsScreen = () => {
+    var db = firebase.database();
+    var ref = db.ref(`users/${userData.uid}/info/stripeID`);
+    ref.once('value').then((dataSnapshot) => {
+      var stripeSet;
+      if (dataSnapshot.val() !== null) {
+        stripeSet = true;
+        Actions.PaymentsScreen({userData, stripeSet});
+      } else {
+        stripeSet = false;
+        Actions.PaymentsScreen({userData, stripeSet});
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -128,7 +143,7 @@ const settings = ({userData}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => Actions.PaymentsScreen({userData})}>
+          onPress={() => paymentsScreen()}>
           <Text style={{fontSize: 15}}> Payments </Text>
         </TouchableOpacity>
         {userData.userType === 'teacher' ? (

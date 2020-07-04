@@ -152,6 +152,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
       instruments: userData.instruments,
       photo: userData.photo,
       uid: userData.uid,
+      price: userData.price,
       avgStars:
         userData.avgStars !== undefined ? userData.avgStars.avgRating : 0,
       numberOfReviews:
@@ -220,6 +221,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
                   : 0
               }
               location={userData.location}
+              price={userData.price}
               onPress={() => onProfilePressed(userData)}
               onBookPressed={() => onSharePressed(userData)}
               uid={userData.uid}

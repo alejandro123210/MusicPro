@@ -18,7 +18,9 @@ let deviceWidth = Dimensions.get('window').width;
 
 export default function topBar({userData, showDateBar = true, page}) {
   const onSettingsPressed = () => {
-    Actions.Settings({userData: userData});
+    //TODO: change this back
+    Actions.SendPayment({userData});
+    // Actions.Settings({userData});
   };
 
   const onSharePressed = async () => {
@@ -49,7 +51,9 @@ export default function topBar({userData, showDateBar = true, page}) {
     }
   };
 
+  //TODO: change this so that it just uses the page as the header
   var title;
+  var hideSettingsButton = false;
   if (page === 'undecided') {
     title = 'Requests';
   } else if (page === 'confirmed') {
@@ -60,6 +64,9 @@ export default function topBar({userData, showDateBar = true, page}) {
     title = 'Messages';
   } else if (page === 'availability configurator') {
     title = 'Set Availability';
+  } else if (page === 'Send Payment') {
+    title = 'Payment Due';
+    hideSettingsButton = true;
   }
 
   return (
@@ -69,12 +76,17 @@ export default function topBar({userData, showDateBar = true, page}) {
         <View style={styles.textContainer}>
           <Text style={styles.titleText}>{title}</Text>
           <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={() => onSettingsPressed()}>
-              <Image
-                source={require('../Assets/settings.png')}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
+            {hideSettingsButton ? (
+              <View />
+            ) : (
+              <TouchableOpacity onPress={() => onSettingsPressed()}>
+                <Image
+                  source={require('../Assets/settings.png')}
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
+            )}
+
             {userData.userType === 'teacher' ? (
               <TouchableOpacity onPress={() => onSharePressed()}>
                 <Image

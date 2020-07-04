@@ -26,16 +26,13 @@ class Register_Location extends React.Component {
       .then((json) => {
         var location = json.results[0].address_components[1].long_name;
         var coordinates = json.results[0].geometry.location;
-        this.setState({
-          location: location,
-          coordinates: coordinates,
-        });
-        Actions.Register_Description({
+        console.log(location);
+        Actions.Register_Price({
           instruments: this.props.instruments,
           userType: this.props.userType,
           userInfo: this.props.userInfo,
-          location: this.state.location,
-          coordinates: this.state.coordinates,
+          location,
+          coordinates,
         });
       })
       .catch((error) => alert(error));
@@ -57,7 +54,9 @@ class Register_Location extends React.Component {
             style={styles.textInput}
             onChangeText={(zipCode) => this.setState({zip: zipCode})}
             placeholder="zip code"
+            placeholderTextColor="gray"
             textAlign={'center'}
+            keyboardType="number-pad"
           />
         </View>
         <TouchableOpacity onPress={() => this.onPress()}>

@@ -60,28 +60,32 @@ class TeacherDash extends React.Component {
   _handleURL = function (userData) {
     return function curried_handleURL(event) {
       const profileURL = event.url.slice(11);
-      console.log(profileURL);
-      var db = firebase.database();
-      let teachersRef = db.ref(`teachers/${profileURL}`);
-      teachersRef.once('value').then((data) => {
-        var teacherData = data.val();
-        var teacher = {
-          name: teacherData.name,
-          location: teacherData.location,
-          instruments: teacherData.instruments,
-          photo: teacherData.photo,
-          uid: profileURL,
-          avgStars:
-            teacherData.avgStars !== undefined
-              ? teacherData.avgStars.avgRating
-              : 0,
-          numberOfReviews:
-            teacherData.avgStars !== undefined
-              ? teacherData.avgStars.numberOfReviews
-              : 0,
-        };
-        Actions.TeacherInfo({teacher, userData});
-      });
+      if (profileURL !== 'home') {
+        console.log(profileURL);
+        var db = firebase.database();
+        let teachersRef = db.ref(`teachers/${profileURL}`);
+        teachersRef.once('value').then((data) => {
+          var teacherData = data.val();
+          var teacher = {
+            name: teacherData.name,
+            location: teacherData.location,
+            instruments: teacherData.instruments,
+            photo: teacherData.photo,
+            uid: profileURL,
+            avgStars:
+              teacherData.avgStars !== undefined
+                ? teacherData.avgStars.avgRating
+                : 0,
+            numberOfReviews:
+              teacherData.avgStars !== undefined
+                ? teacherData.avgStars.numberOfReviews
+                : 0,
+          };
+          Actions.TeacherInfo({teacher, userData});
+        });
+      } else {
+        Actions.TeacherDash({userData});
+      }
     };
   };
 
