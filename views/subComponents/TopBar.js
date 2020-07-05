@@ -19,8 +19,8 @@ let deviceWidth = Dimensions.get('window').width;
 export default function topBar({userData, showDateBar = true, page}) {
   const onSettingsPressed = () => {
     //TODO: change this back
-    Actions.SendPayment({userData});
-    // Actions.Settings({userData});
+    // Actions.SendPayment({userData});
+    Actions.Settings({userData});
   };
 
   const onSharePressed = async () => {

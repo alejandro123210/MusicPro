@@ -7,7 +7,7 @@ const PaymentsScreen = ({userData, stripeSet}) => {
     return (
       <WebView
         source={{
-          uri: `https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://192.168.1.22:3000&client_id=ca_HZ3p251sXcEdATcBE31h47C5yYEt0hfy&state={${userData.uid}}&suggested_capabilities[]=transfers&stripe_user[email]=${userData.email}&stripe_user[business_type]=individual`,
+          uri: `https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://192.168.1.22:3000&client_id=ca_HZ3p251sXcEdATcBE31h47C5yYEt0hfy&state=${userData.uid}&suggested_capabilities[]=transfers&stripe_user[email]=${userData.email}&stripe_user[business_type]=individual`,
         }}
       />
     );
