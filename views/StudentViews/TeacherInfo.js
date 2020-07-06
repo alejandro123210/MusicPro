@@ -58,6 +58,7 @@ class TeacherInfo extends React.Component {
         instruments: teacherData.instruments,
         photo: teacherData.photo,
         uid: teacherData.uid,
+        stripeID: teacherData.stripeID,
         avgStars:
           teacherData.avgStars !== undefined
             ? teacherData.avgStars.avgRating

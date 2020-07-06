@@ -1,10 +1,9 @@
-//Teacher Dash screen is the main screen on the teacher side of the app
-//has to 3 link buttons but two of them link to the same screen for now
 import React from 'react';
 import LessonList from '../subComponents/LessonList';
 import {
   loadLessons,
   registerFCM,
+  checkPaymentsDue,
 } from '../subComponents/BackendComponents/BackendFunctions';
 import {Linking} from 'react-native';
 import {Actions} from 'react-native-router-flux';
@@ -18,6 +17,7 @@ class StudentDash extends React.Component {
   componentDidMount() {
     loadLessons(this.props.userData, 'confirmed', this);
     registerFCM(this.props.userData);
+    checkPaymentsDue(this.props.userData);
     Linking.addEventListener('url', this._handleURL(this.props.userData));
     this.processInitialURL(this.props.userData);
   }

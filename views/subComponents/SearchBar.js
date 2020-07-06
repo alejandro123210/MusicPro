@@ -11,6 +11,7 @@ export const SearchBar = ({onChangeText}) => {
         onChangeText={(text) => onChangeText(text)}
         onSubmitEditing={() => Keyboard.dismiss()}
         placeholder="search"
+        placeholderTextColor="gray"
       />
     </View>
   );

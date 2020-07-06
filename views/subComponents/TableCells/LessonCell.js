@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-undef */
 import React from 'react';
@@ -25,6 +26,7 @@ function lessonCell({
   onConfirmPressed,
   userType,
   lessonLength,
+  payment = false,
 }) {
   //get the time of the lesson
   moment = require('moment');
@@ -86,6 +88,13 @@ function lessonCell({
             activeOpacity={0.7}
             onPress={() => onCancelPressed()}>
             <Text style={styles.buttonText}>cancel request</Text>
+          </TouchableOpacity>
+        ) : payment ? (
+          <TouchableOpacity
+            style={styles.bottomBorder}
+            activeOpacity={0.7}
+            onPress={() => onCancelPressed()}>
+            <Text style={{color: 'white', fontSize: 20}}>Pay</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity

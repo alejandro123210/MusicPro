@@ -1,79 +1,95 @@
-/* eslint-disable no-alert */
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import TopBar from '../subComponents/TopBar';
-import stripe from 'tipsi-stripe';
-import TeacherCell from '../subComponents/TableCells/TeacherCell';
 import * as firebase from 'firebase';
-import {CreditCardInput} from 'react-native-credit-card-input';
+import LessonCell from '../subComponents/TableCells/LessonCell';
+import {Actions} from 'react-native-router-flux';
 
 class SendPayment extends React.Component {
   state = {
     userData: this.props.userData,
     paymentInfo: this.props.paymentInfo,
-    teacher: {},
+    lessonsData: [],
+    lessons: [],
     cardInfo: {},
   };
 
   componentDidMount() {
+    this.loadPayments();
+  }
+
+  loadPayments() {
     var db = firebase.database();
-    var ref = db.ref(`users/XVPbjnyjDBULxFQpOwrDM01dwfh1/info`);
+    var ref = db.ref(`users/${this.state.userData.uid}/info/paymentsDue`);
     ref.once('value').then((snapshot) => {
-      const teacher = snapshot.val();
-      this.setState({teacher});
+      if (snapshot.exists()) {
+        const lessonsData = snapshot.val();
+        this.setState({lessonsData});
+        var lessons = [];
+        var index = 0;
+        for (var key in lessonsData) {
+          //we get set the index so we can remove the payment due in the front end
+          lessonsData[key].indexOfLesson = index;
+          //we get the actual key of the lesson so we can remove it from the db
+          lessonsData[key].lessonKey = key;
+          index += 1;
+          lessons.push(lessonsData[key]);
+        }
+        this.setState({lessons});
+      } else {
+        Actions.StudentDash({userData: this.state.userData});
+      }
     });
   }
 
-  setCardInfo = (cardInfo) => {
-    this.setState({cardInfo});
-  };
+  removePaymentDue(lessons, lessonKey) {
+    this.setState({lessons});
+    var db = firebase.database();
+    db.ref(
+      `users/${this.state.userData.uid}/info/paymentsDue/${lessonKey}`,
+    ).remove();
+    //we do this just in case, though will probably need to be changed
+    this.loadPayments();
+  }
 
-  sendIntent = async () => {
-    try {
-      const token = await stripe.paymentRequestWithCardForm({
-        // Only iOS support this options
-        smsAutofillDisabled: true,
-        requiredBillingAddressFields: 'full',
-        prefilledInformation: {
-          billingAddress: {
-            name: 'Enappd Store',
-            line1: 'Canary Place',
-            line2: '3',
-            city: 'Macon',
-            state: '',
-            country: 'Estonia',
-            postalCode: '31217',
-            email: 'admin@enappd.com',
-          },
-        },
-      });
-      const params = {
-        type: 'card',
-        amount: 6000,
-        currency: 'usd',
-        card: token.card.cardId.toString(),
-        numer: token.card.cardId.toString(),
-        returnURL: 'musicpro://home',
-      };
-      const source = await stripe.createSourceWithParams(params);
-      console.log(source);
-      const http = new XMLHttpRequest();
-      const amount = 6000;
-      const url = `http://localhost:5000/newPayment?token=${source}?vendorID=${this.state.teacher.stripeID}?amount=${amount}`;
-      http.open('get', url);
-      http.send();
-      http.onreadystatechange = () => {
-        console.log(http.response.text);
-      };
-    } catch (error) {
-      alert(error);
+  sendIntent = async ({
+    customerID,
+    vendorID,
+    amount,
+    indexOfLesson,
+    lessonKey,
+  }) => {
+    if (this.state.userData.cards !== null) {
+      var actualAmount = `${amount}00`;
+      const newPaymentUrl = `http://localhost:5000/newPayment/${customerID}/${vendorID}/${actualAmount}`;
+      fetch(newPaymentUrl)
+        .then((response) => response.json())
+        .then((responseData) => {
+          const {paymentMethods, paymentToken} = responseData;
+          console.log(paymentToken);
+          var cards = [];
+          for (var index in paymentMethods.data) {
+            const paymentMethod = paymentMethods.data[index];
+            const card = {
+              paymentID: paymentMethod.id,
+              last4: paymentMethod.card.last4,
+            };
+            cards.push(card);
+          }
+          const confirmPaymentUrl = `http://localhost:5000/confirm/${paymentToken}/${cards[0].paymentID}`;
+          fetch(confirmPaymentUrl)
+            .then((response) => response.json())
+            .then((confirmData) => {
+              console.log(confirmData);
+              var lessons = this.state.lessons;
+              lessons.splice(indexOfLesson, 1);
+              this.removePaymentDue(lessons, lessonKey);
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
+    } else {
+      console.log('create card');
     }
   };
 
@@ -85,35 +101,25 @@ class SendPayment extends React.Component {
           showDateBar={false}
           page="Send Payment"
         />
-        <ScrollView contentContainerStyle={styles.container}>
-          {/* <CreditCardInput onChange={(cardInfo) => setCardInfo(cardInfo)} />
-          <TouchableOpacity>
-            <Text>Hello world</Text>
-          </TouchableOpacity> */}
-          <TeacherCell
-            image={this.state.teacher.photo}
-            name={this.state.teacher.name}
-            instruments={this.state.teacher.instruments}
-            avgStars={
-              this.state.teacher.avgStars !== undefined
-                ? this.state.teacher.avgStars.avgRating
-                : 0
-            }
-            numberOfReviews={
-              this.state.teacher.avgStars !== undefined
-                ? this.state.teacher.avgStars.numberOfReviews
-                : 0
-            }
-            location={this.state.teacher.location}
-            price={this.state.teacher.price}
-            onPress={() => this.sendIntent()}
-            onBookPressed={() => this.sendIntent()}
-            uid={this.state.teacher.uid}
-            distance={null}
-            type={'pay'}
-          />
-          <View />
-        </ScrollView>
+        <FlatList
+          data={this.state.lessons}
+          contentContainerStyle={styles.container}
+          keyExtractor={(item, index) => item.studentLessonKey}
+          renderItem={({item}) => (
+            <LessonCell
+              name={item.teacherName}
+              image={item.teacherImage}
+              time={item.time}
+              date={item.date}
+              instruments={item.instruments}
+              onCancelPressed={() => this.sendIntent(item)}
+              userType={'student'}
+              request={false}
+              payment
+              lessonLength={item.lessonLength}
+            />
+          )}
+        />
       </View>
     );
   }

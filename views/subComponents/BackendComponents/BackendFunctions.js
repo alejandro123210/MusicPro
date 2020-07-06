@@ -1,6 +1,7 @@
 import * as firebase from 'firebase';
 import {Platform, NativeModules} from 'react-native';
 import {GeoFire} from 'geofire';
+import {Actions} from 'react-native-router-flux';
 
 export const registerFCM = (userData) => {
   var fcm_token;
@@ -37,7 +38,7 @@ export const removeFCM = (userData) => {
 };
 
 export const sendNotification = (recipientID, senderName, type) => {
-  let notificationObject = {
+  const notificationObject = {
     recipientID: recipientID,
     senderName: senderName,
     type: type,
@@ -48,10 +49,23 @@ export const sendNotification = (recipientID, senderName, type) => {
 
 export var loadLessons = (userData, lessonType, that) => {
   //this handles lessons that have passed (pass in entire lesson object)
-  let removePastLessons = ({teacherID, studentID, date}) => {
+  const removePastLesson = (lesson) => {
+    const {teacherID, studentID, date, status, teacherName} = lesson;
     var db = firebase.database();
     db.ref(`users/${teacherID}/info/lessons/${date}`).remove();
     db.ref(`users/${studentID}/info/lessons/${date}`).remove();
+    //if the lesson was confirmed and has now passed
+    console.log(status);
+    if (status === 'confirmed') {
+      console.log('adding lesson');
+      var paymentsRef = db.ref(`users/${studentID}/info/paymentsDue`);
+      //add lesson to due payments
+      paymentsRef.push(lesson);
+      sendNotification(studentID, teacherName, 'payment-due');
+    }
+    //add one to teacher lessons taught
+    var teacherRef = db.ref(`users/${teacherID}/info/lessonsTaught`);
+    teacherRef.set(firebase.database.ServerValue.increment(1));
   };
 
   var db = firebase.database();
@@ -68,7 +82,8 @@ export var loadLessons = (userData, lessonType, that) => {
     for (var lessonDate in lessonsData) {
       for (var lessonKey in lessonsData[lessonDate]) {
         if (lessonsData[lessonDate][lessonKey].status === lessonType) {
-          var lessonToPush = {
+          const lessonToPush = {
+            status: lessonsData[lessonDate][lessonKey].status,
             teacherName: lessonsData[lessonDate][lessonKey].teacherName,
             studentName: lessonsData[lessonDate][lessonKey].studentName,
             time: lessonsData[lessonDate][lessonKey].time,
@@ -85,9 +100,12 @@ export var loadLessons = (userData, lessonType, that) => {
             teacherImage: lessonsData[lessonDate][lessonKey].teacherImage,
             studentImage: lessonsData[lessonDate][lessonKey].studentImage,
             lessonLength: lessonsData[lessonDate][lessonKey].lessonLength,
+            vendorID: lessonsData[lessonDate][lessonKey].vendorID,
+            customerID: lessonsData[lessonDate][lessonKey].customerID,
+            amount: lessonsData[lessonDate][lessonKey].amount,
           };
           if (lessonToPush.date < currentDate) {
-            removePastLessons(lessonToPush);
+            removePastLesson(lessonToPush);
           } else {
             lessonsList.push(lessonToPush);
             key += 1;
@@ -143,7 +161,7 @@ export const updateTeacherList = (uid) => {
   userDataRef.once('value').then((snapshot) => {
     var data = JSON.parse(JSON.stringify(snapshot.val()));
     //set up geofire here so that teachers will load efficiently based on location
-    let geoFireRef = db.ref('geofire');
+    const geoFireRef = db.ref('geofire');
     var geoFire = new GeoFire(geoFireRef);
     geoFire.set(uid, [data.coordinates.lat, data.coordinates.lng]);
     //here we add the data to the teachers section of the database
@@ -159,6 +177,7 @@ export const updateTeacherList = (uid) => {
         photo: data.photo,
         uid: data.uid,
         price: data.price,
+        stripeID: data.stripeID,
       };
     } else {
       //we add the case if the teacher has no reviews to prevent non stop warnings
@@ -171,8 +190,19 @@ export const updateTeacherList = (uid) => {
         photo: data.photo,
         uid: data.uid,
         price: data.price,
+        stripeID: data.stripeID,
       };
     }
     db.ref(`teachers/${uid}/`).set(teacherData);
+  });
+};
+
+export const checkPaymentsDue = (userData) => {
+  var db = firebase.database();
+  var paymentsRef = db.ref(`users/${userData.uid}/info/paymentsDue`);
+  paymentsRef.once('value').then((snapshot) => {
+    if (snapshot.exists()) {
+      Actions.SendPayment({userData});
+    }
   });
 };

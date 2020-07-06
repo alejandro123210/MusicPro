@@ -90,11 +90,7 @@ function teacherCell({
           onPress={() => onBookPressed()}
           activeOpacity={0.7}>
           <Text style={styles.bookText}>
-            {type === 'share'
-              ? 'Share profile'
-              : type === 'pay'
-              ? 'Send Payment'
-              : 'Book a lesson'}
+            {type === 'share' ? 'Share profile' : 'Book a lesson'}
           </Text>
         </TouchableOpacity>
       </View>

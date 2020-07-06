@@ -54,16 +54,20 @@ class RequestLessonDetail extends React.Component {
 
   confirmRequest = () => {
     if (this.state.selectedInstruments.length > 0) {
-      let studentName = this.state.userData.name;
-      let studentIDNum = this.state.userData.uid;
-      let teacherImage = this.state.teacher.photo;
-      let studentImage = this.state.userData.photo;
-      let teacherName = this.state.teacher.name;
-      let teacherIDNum = this.state.teacher.uid;
-      let lessonLength = this.state.selectedLength;
-      let selectedInstruments = this.state.selectedInstruments;
-      let date = this.state.date;
-      let time = this.state.time;
+      const studentName = this.state.userData.name;
+      const studentIDNum = this.state.userData.uid;
+      const teacherImage = this.state.teacher.photo;
+      const studentImage = this.state.userData.photo;
+      const teacherName = this.state.teacher.name;
+      const teacherIDNum = this.state.teacher.uid;
+      const lessonLength = this.state.selectedLength;
+      const selectedInstruments = this.state.selectedInstruments;
+      const date = this.state.date;
+      const time = this.state.time;
+      const vendorID = this.state.teacher.stripeID;
+      const customerID = this.state.userData.stripeID;
+      const amount = this.state.selectedPrice;
+
       var moment = require('moment');
       var timesList = [];
       //creates an array of all the times
@@ -92,26 +96,29 @@ class RequestLessonDetail extends React.Component {
       //we put both users names and ids so that later when the requeest is processed by the teacher
       //both the student and teacher have their lessons updated
       //(having both ids makes it easier to find each others profiles)
-      var teacherLessonRequestKey = teacherRef.push().key;
-      var studentLessonRequestKey = studentRef.push().key;
+      var teacherLessonKey = teacherRef.push().key;
+      var studentLessonKey = studentRef.push().key;
       var lessonData = {
-        studentName: studentName,
-        teacherName: teacherName,
-        studentIDNum: studentIDNum,
-        teacherIDNum: teacherIDNum,
-        studentLessonKey: studentLessonRequestKey,
-        teacherLessonKey: teacherLessonRequestKey,
-        selectedInstruments: selectedInstruments,
-        teacherImage: teacherImage,
-        studentImage: studentImage,
-        date: date,
-        time: time,
+        studentName,
+        teacherName,
+        studentIDNum,
+        teacherIDNum,
+        studentLessonKey,
+        teacherLessonKey,
+        selectedInstruments,
+        teacherImage,
+        studentImage,
+        date,
+        time,
         status: 'undecided',
-        timeKey: timeKey,
-        lessonLength: lessonLength,
+        timeKey,
+        lessonLength,
+        vendorID,
+        customerID,
+        amount,
       };
-      teacherRef.child(teacherLessonRequestKey).update(lessonData);
-      studentRef.child(studentLessonRequestKey).update(lessonData);
+      teacherRef.child(teacherLessonKey).update(lessonData);
+      studentRef.child(studentLessonKey).update(lessonData);
       sendNotification(teacherIDNum, studentName, 'lesson-requested');
       Actions.StudentLessonRequest({userData: this.state.userData});
       //start a conversation

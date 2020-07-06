@@ -112,6 +112,12 @@ class CalendarForStudents extends React.Component {
           var normalAvailabilityForDay =
             normalAvailability[this.state.selectedDay];
           //sets the availability for that time at that day to false
+          if (
+            this.state.teacherLessons[dateString][lessonKey].lessonLength ===
+            '1 hour'
+          ) {
+            normalAvailabilityForDay[keyToRemove + 1] = false;
+          }
           normalAvailabilityForDay[keyToRemove] = false;
           //sets the state so it's shown in the list
           this.setState({actualAvailability: normalAvailability});
@@ -176,7 +182,7 @@ class CalendarForStudents extends React.Component {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={this.state.actualAvailability[this.state.selectedDay]}
-            keyExtractor={(item, index) => item.name}
+            keyExtractor={(item, index) => Math.random().toString()}
             contentContainerStyle={styles.flatListContainer}
             renderItem={({item}) =>
               item.available ? (

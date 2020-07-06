@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Share,
+  Platform,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import DateBar from './DateBar';
@@ -18,18 +19,55 @@ let deviceWidth = Dimensions.get('window').width;
 
 export default function topBar({userData, showDateBar = true, page}) {
   const onSettingsPressed = () => {
-    //TODO: change this back
-    // Actions.SendPayment({userData});
     Actions.Settings({userData});
   };
 
   const onSharePressed = async () => {
+    //TODO: fix these links with the react website
     const accountLink = `musicpro://${userData.uid}`;
     const musicProLink = 'https://musicpro.carrd.co';
-    if (userData.availability !== undefined) {
+
+    var message;
+    if (userData.userType === 'teacher') {
+      message =
+        Platform.OS === 'android' && userData.userType === 'teacher'
+          ? `I'm singed up with MusicPro! Find my profile here: ${accountLink}`
+          : "I'm singed up with MusicPro! Find my profile here: ";
+    } else if (userData.userType === 'student') {
+      message =
+        Platform.OS === 'android' && userData.userType === 'teacher'
+          ? `I'm singed up with MusicPro! Find local music teachers here: ${accountLink}`
+          : "I'm singed up with MusicPro! Find local music techers here: ";
+    }
+
+    if (userData.userType === 'teacher') {
+      if (userData.availability !== undefined) {
+        try {
+          const result = await Share.share({
+            message: message,
+            title: 'MusicPro',
+            url: musicProLink,
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+              console.log(result.activityType);
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      } else {
+        alert("You may want to set up when you're available first!");
+      }
+    } else {
       try {
         const result = await Share.share({
-          message: `I'm singed up with MusicPro! Find my profile here: ${accountLink}`,
+          message: message,
           title: 'MusicPro',
           url: musicProLink,
         });
@@ -46,12 +84,10 @@ export default function topBar({userData, showDateBar = true, page}) {
       } catch (error) {
         alert(error.message);
       }
-    } else {
-      alert("You may want to set up when you're available first!");
     }
   };
 
-  //TODO: change this so that it just uses the page as the header
+  //TODO: change this so that it just uses the page as the heading
   var title;
   var hideSettingsButton = false;
   if (page === 'undecided') {
@@ -79,23 +115,21 @@ export default function topBar({userData, showDateBar = true, page}) {
             {hideSettingsButton ? (
               <View />
             ) : (
-              <TouchableOpacity onPress={() => onSettingsPressed()}>
-                <Image
-                  source={require('../Assets/settings.png')}
-                  style={styles.icon}
-                />
-              </TouchableOpacity>
-            )}
-
-            {userData.userType === 'teacher' ? (
-              <TouchableOpacity onPress={() => onSharePressed()}>
-                <Image
-                  source={require('../Assets/shareicon.png')}
-                  style={styles.icon}
-                />
-              </TouchableOpacity>
-            ) : (
-              <View />
+              // eslint-disable-next-line react-native/no-inline-styles
+              <View style={{flexDirection: 'row-reverse'}}>
+                <TouchableOpacity onPress={() => onSettingsPressed()}>
+                  <Image
+                    source={require('../Assets/settings.png')}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => onSharePressed()}>
+                  <Image
+                    source={require('../Assets/shareicon.png')}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+              </View>
             )}
           </View>
         </View>

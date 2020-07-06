@@ -51,6 +51,7 @@ class ListOfTeachers extends React.Component {
           instruments: teacherData.instruments,
           price: teacherData.price,
           photo: teacherData.photo,
+          stripeID: teacherData.stripeID,
           uid: key,
           avgStars:
             teacherData.avgStars !== undefined
