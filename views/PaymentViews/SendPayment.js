@@ -1,9 +1,20 @@
+/* eslint-disable no-alert */
 import React from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import TopBar from '../subComponents/TopBar';
 import * as firebase from 'firebase';
 import LessonCell from '../subComponents/TableCells/LessonCell';
 import {Actions} from 'react-native-router-flux';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import {loadPaymentMethods} from '../subComponents/BackendComponents/BackendFunctions';
+import GLOBAL from '../Global';
 
 class SendPayment extends React.Component {
   state = {
@@ -12,11 +23,39 @@ class SendPayment extends React.Component {
     lessonsData: [],
     lessons: [],
     cardInfo: {},
+    showAlert: false,
+    showLoading: false,
+    showPopup: false,
+    buttonText: 'Payment Methods',
+
+    alertText: '',
+    paymentToken: undefined,
+    cards: undefined,
+    selectedCard: undefined,
+    indexOfLesson: undefined,
+    lessonKey: undefined,
   };
 
   componentDidMount() {
+    GLOBAL.SendPayment = this;
     this.loadPayments();
+    this.loadMethods();
   }
+
+  loadMethods = async () => {
+    const paymentMethods = await loadPaymentMethods(this.state.userData);
+    const cards = paymentMethods;
+    this.setState({cards});
+    for (var index in cards) {
+      if (cards[index].active === true) {
+        this.setState({
+          buttonText: `${cards[index].brand} ending in ${cards[index].last4}`,
+          selectedCard: cards[index],
+        });
+        break;
+      }
+    }
+  };
 
   loadPayments() {
     var db = firebase.database();
@@ -52,6 +91,38 @@ class SendPayment extends React.Component {
     this.loadPayments();
   }
 
+  confirmPayment() {
+    this.setState({showLoading: true});
+    const confirmPaymentUrl = `http://localhost:5000/confirm/${this.state.paymentToken}/${this.state.selectedCard.paymentID}`;
+    fetch(confirmPaymentUrl)
+      .then((response) => response.json())
+      .then((confirmData) => {
+        console.log(confirmData);
+        var lessons = this.state.lessons;
+        lessons.splice(this.state.indexOfLesson, 1);
+        this.removePaymentDue(lessons, this.state.lessonKey);
+        this.setState({showAlert: false, showLoading: false});
+      })
+      .catch((error) => alert('Sorry, there was an error...'));
+  }
+
+  showAlert = async (paymentToken, indexOfLesson, lessonKey, amount) => {
+    const actualAmount = (amount * 1.05).toFixed(2);
+    this.setState({
+      paymentToken,
+      indexOfLesson,
+      lessonKey,
+      alertText: `Pay $${actualAmount} with ${this.state.selectedCard.brand} ending in ${this.state.selectedCard.last4}?`,
+      showAlert: true,
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
+
   sendIntent = async ({
     customerID,
     vendorID,
@@ -59,43 +130,33 @@ class SendPayment extends React.Component {
     indexOfLesson,
     lessonKey,
   }) => {
+    this.setState({showAlert: true});
     if (this.state.userData.cards !== null) {
       var actualAmount = `${amount}00`;
       const newPaymentUrl = `http://localhost:5000/newPayment/${customerID}/${vendorID}/${actualAmount}`;
       fetch(newPaymentUrl)
         .then((response) => response.json())
         .then((responseData) => {
-          const {paymentMethods, paymentToken} = responseData;
+          const {paymentToken} = responseData;
           console.log(paymentToken);
-          var cards = [];
-          for (var index in paymentMethods.data) {
-            const paymentMethod = paymentMethods.data[index];
-            const card = {
-              paymentID: paymentMethod.id,
-              last4: paymentMethod.card.last4,
-            };
-            cards.push(card);
-          }
-          const confirmPaymentUrl = `http://localhost:5000/confirm/${paymentToken}/${cards[0].paymentID}`;
-          fetch(confirmPaymentUrl)
-            .then((response) => response.json())
-            .then((confirmData) => {
-              console.log(confirmData);
-              var lessons = this.state.lessons;
-              lessons.splice(indexOfLesson, 1);
-              this.removePaymentDue(lessons, lessonKey);
-            })
-            .catch((error) => console.log(error));
+          this.showAlert(paymentToken, indexOfLesson, lessonKey, amount);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => alert('Sorry, there was an error...'));
     } else {
       console.log('create card');
     }
   };
 
+  onPaymentMethodsPressed = () => {
+    Actions.PaymentsScreen({
+      userData: this.state.userData,
+      cards: this.state.cards,
+    });
+  };
+
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TopBar
           userData={this.state.userData}
           showDateBar={false}
@@ -103,7 +164,6 @@ class SendPayment extends React.Component {
         />
         <FlatList
           data={this.state.lessons}
-          contentContainerStyle={styles.container}
           keyExtractor={(item, index) => item.studentLessonKey}
           renderItem={({item}) => (
             <LessonCell
@@ -117,18 +177,77 @@ class SendPayment extends React.Component {
               request={false}
               payment
               lessonLength={item.lessonLength}
+              amount={(item.amount * 1.05).toFixed(2)}
             />
           )}
+        />
+        <View style={styles.popup}>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            activeOpacity={0.7}
+            onPress={() => this.onPaymentMethodsPressed()}>
+            <Text style={styles.buttonText}>{this.state.buttonText}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={this.state.showLoading}
+          title="Confirm Payment"
+          message={this.state.alertText}
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="No, cancel"
+          confirmText="Confirm"
+          contentContainerStyle={styles.alert}
+          confirmButtonColor="#274156"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.confirmPayment();
+          }}
         />
       </View>
     );
   }
 }
 
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
-  container: {},
-  titleText: {
-    fontSize: 25,
+  container: {
+    justifyContent: 'space-between',
+    height: deviceHeight,
+  },
+  alert: {
+    borderRadius: 10,
+  },
+  popup: {
+    height: 100,
+    borderTopWidth: 0.3,
+    borderTopColor: 'gray',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+    height: 50,
+    width: deviceWidth - 20,
+    backgroundColor: '#274156',
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontSize: 20,
+    color: 'white',
+    paddingBottom: 2,
+  },
+  cardList: {
+    paddingTop: 20,
+    alignItems: 'center',
   },
 });
 

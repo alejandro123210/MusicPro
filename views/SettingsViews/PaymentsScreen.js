@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import WebView from 'react-native-webview';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import stripe from 'tipsi-stripe';
+import CardCell from '../subComponents/CardCell';
+import GLOBAL from '../Global';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
-const PaymentsScreen = ({userData, stripeSet}) => {
+const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
+  const [, forceUpdate] = useState();
+  const [alert, showAlert] = useState(false);
+  const [cardsList, setCardsList] = useState(cards);
   const createCard = async () => {
     const token = await stripe.paymentRequestWithCardForm({
       // Only iOS support this options
@@ -22,16 +28,56 @@ const PaymentsScreen = ({userData, stripeSet}) => {
         },
       },
     });
-    const url = `http://localhost:5000/newCard/${userData.stripeID}/${token.tokenId}/${userData.uid}`;
-    console.log(token);
+    const newCardUrl = `http://localhost:5000/newCard/${userData.stripeID}/${token.tokenId}/${userData.uid}`;
+    showAlert(true);
     try {
-      fetch(url).done();
+      fetch(newCardUrl)
+        .then((response) => response.json())
+        .then((responseData) => {
+          const paymentMethods = responseData.cardInfo.data;
+          const defaultCard = responseData.default;
+          var cardsData = [];
+          for (var index in paymentMethods) {
+            const paymentMethod = paymentMethods[index];
+            const card = {
+              paymentID: paymentMethod.id,
+              last4: paymentMethod.last4,
+              brand: paymentMethod.brand,
+              expMonth: paymentMethod.exp_month,
+              expYear: paymentMethod.exp_year,
+              active: paymentMethod.id === defaultCard ? true : false,
+            };
+            cardsData.push(card);
+          }
+          setCardsList(cardsData);
+          showAlert(false);
+        });
+      // loadMethods();
     } catch (error) {
+      showAlert(false);
       console.log(error);
     }
   };
 
-  if (stripeSet === false) {
+  const selectMethod = (card) => {
+    var thisCardsList = cardsList;
+    for (var index in cardsList) {
+      if (cardsList[index].active) {
+        cardsList[index].active = false;
+      }
+      if (cardsList[index].paymentID === card.paymentID) {
+        thisCardsList[index].active = true;
+        GLOBAL.SendPayment.setState({
+          buttonText: `${thisCardsList[index].brand} ending in ${thisCardsList[index].last4}`,
+          selectedCard: thisCardsList[index],
+        });
+      }
+      setCardsList(thisCardsList);
+      forceUpdate({});
+    }
+  };
+
+  if (!stripeSet && userData.userType === 'teacher') {
     return (
       <WebView
         source={{
@@ -39,11 +85,51 @@ const PaymentsScreen = ({userData, stripeSet}) => {
         }}
       />
     );
-  } else if (stripeSet && userData.userType === 'student') {
-    createCard();
+  } else if (stripeSet && userData.userType === 'teacher') {
+    //TODO: edit stripe acc
     return (
       <View style={styles.container}>
         <Text>done</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          contentContainerStyle={styles.flatlist}
+          scrollEnabled={false}
+          data={cardsList}
+          keyExtractor={(item, index) => item.paymentID}
+          renderItem={({item}) => (
+            <CardCell
+              card={item}
+              onPress={() => selectMethod(item)}
+              active={item.active}
+            />
+          )}
+        />
+        <CardCell onPress={() => createCard()} />
+
+        <AwesomeAlert
+          show={alert}
+          showProgress={true}
+          title="Adding Card..."
+          // message={this.state.alertText}
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          // showCancelButton={true}
+          // showConfirmButton={true}
+          // cancelText="No, cancel"
+          // confirmText="Confirm"
+          contentContainerStyle={styles.alert}
+          confirmButtonColor="#274156"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.confirmPayment();
+          }}
+        />
       </View>
     );
   }
@@ -55,6 +141,10 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
+  },
+  flatlist: {
+    alignItems: 'center',
     flex: 1,
   },
 });
