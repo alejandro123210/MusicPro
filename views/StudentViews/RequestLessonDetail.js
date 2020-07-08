@@ -66,7 +66,7 @@ class RequestLessonDetail extends React.Component {
       const selectedInstruments = this.state.selectedInstruments;
       const date = this.state.date;
       const time = this.state.time;
-      const vendorID = this.state.teacher.stripeID;
+      // const vendorID = this.state.teacher.stripeID;
       const customerID = this.state.userData.stripeID;
       const amount = this.state.selectedPrice;
       //we get a timestamp of when the lesson ends so the server knows
@@ -121,7 +121,7 @@ class RequestLessonDetail extends React.Component {
         status: 'undecided',
         timeKey,
         lessonLength,
-        vendorID,
+        // vendorID,
         customerID,
         amount,
         endingTimeStamp,

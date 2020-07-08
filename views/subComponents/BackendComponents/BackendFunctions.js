@@ -59,8 +59,7 @@ export var loadLessons = (userData, lessonType, that) => {
   var db = firebase.database();
   var ref = db.ref(`users/${userData.uid}/info/lessons`);
   var moment = require('moment');
-  var m = moment();
-  var currentDate = m.format('YYYY-MM-DD');
+  var currentTime = moment().unix();
   ref.on('value', function (snapshot) {
     //all lessons for user in database
     var lessonsList = [];
@@ -93,7 +92,7 @@ export var loadLessons = (userData, lessonType, that) => {
             amount: lessonsData[lessonDate][lessonKey].amount,
             endingTimeStamp: lessonsData[lessonDate][lessonKey].endingTimeStamp,
           };
-          if (lessonToPush.date < currentDate) {
+          if (lessonToPush.endingTimeStamp < currentTime) {
             removePastLesson(lessonToPush);
           } else {
             lessonsList.push(lessonToPush);
@@ -170,7 +169,6 @@ export const updateTeacherList = (uid) => {
         photo: data.photo,
         uid: data.uid,
         price: data.price,
-        stripeID: data.stripeID,
       };
     } else {
       //we add the case if the teacher has no reviews to prevent non stop warnings
@@ -183,7 +181,6 @@ export const updateTeacherList = (uid) => {
         photo: data.photo,
         uid: data.uid,
         price: data.price,
-        stripeID: data.stripeID,
       };
     }
     db.ref(`teachers/${uid}/`).set(teacherData);

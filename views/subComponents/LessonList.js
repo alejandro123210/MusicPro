@@ -102,19 +102,51 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
 
   //lesson is passed
   let acceptLesson = (lesson) => {
-    sendNotification(lesson.studentID, lesson.teacherName, 'request-accepted');
-    var db = firebase.database();
-    db.ref(
-      `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
-    ).update({status: 'confirmed'});
-    db.ref(
-      `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
-    ).update({status: 'confirmed'});
-    //add the confirmed lesson to the list of lessons for the server to see,
-    //it's organized by timestamp for efficiency
-    db.ref(
-      `lessons/${lesson.endingTimeStamp}/${lesson.studentID}/${lesson.studentLessonKey}`,
-    ).set(lesson);
+    //if stripe is not configured:
+    if (userData.stripeID === undefined) {
+      //set up stripe
+      Alert.alert(
+        'Set up Payments',
+        'Before you can accept a lesson, you have to add your bank account so that you can recieve your payments',
+        [
+          {
+            text: 'Complete Registration',
+            onPress: () => Actions.PaymentsScreen({userData}),
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ],
+        {cancelable: true},
+      );
+    } else {
+      var db = firebase.database();
+      db.ref(`users/${userData.uid}/info/stripeID`)
+        .once('value')
+        .then((snapshot) => {
+          //make sure vendorID is set
+          lesson.vendorID = snapshot.val();
+          // set up the lesson
+          sendNotification(
+            lesson.studentID,
+            lesson.teacherName,
+            'request-accepted',
+          );
+          db.ref(
+            `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
+          ).update({status: 'confirmed'});
+          db.ref(
+            `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
+          ).update({status: 'confirmed'});
+          //add the confirmed lesson to the list of lessons for the server to see,
+          //it's organized by timestamp for efficiency
+          db.ref(
+            `lessons/${lesson.endingTimeStamp}/${lesson.studentID}/${lesson.studentLessonKey}`,
+          ).set(lesson);
+        });
+    }
   };
 
   const onSharePressed = async () => {

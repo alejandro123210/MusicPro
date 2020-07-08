@@ -60,7 +60,7 @@ class TeacherDash extends React.Component {
   _handleURL = function (userData) {
     return function curried_handleURL(event) {
       const profileURL = event.url.slice(11);
-      if (profileURL !== 'home') {
+      if (profileURL !== 'HomeFromStripe') {
         console.log(profileURL);
         var db = firebase.database();
         let teachersRef = db.ref(`teachers/${profileURL}`);
@@ -84,6 +84,7 @@ class TeacherDash extends React.Component {
           Actions.TeacherInfo({teacher, userData});
         });
       } else {
+        userData.stripeID = 'not null';
         Actions.TeacherDash({userData});
       }
     };
