@@ -64,10 +64,8 @@ const settings = ({userData}) => {
     let db = firebase.database();
     let userLessonsRef = db.ref(`users/${userData.uid}/info/lessons`);
     let userMessagesRef = db.ref(`Messages/${userData.uid}`);
-    let teacherToShowRef = db.ref(`teachers/${userData.uid}`);
-    let geofireRef = db.ref(`geofire/${userData.uid}`);
-    geofireRef.remove();
-    teacherToShowRef.remove();
+    db.ref(`teachers/${userData.uid}`).remove();
+    db.ref(`geofire/${userData.uid}`).remove();
     //this turns off the listener that's created by loadLessons
     userLessonsRef.off();
     userLessonsRef.once('value').then((snapshot) => {

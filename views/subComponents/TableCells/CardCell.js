@@ -31,7 +31,7 @@ const CardCell = ({card, onPress, active}) => {
               <Text style={styles.expiryText}>{expDate}</Text>
             </View>
             <Image
-              source={require('../Assets/checkmark.png')}
+              source={require('../../Assets/checkmark.png')}
               style={[
                 styles.checkmark,
                 {tintColor: active ? '#274156' : 'white'},
@@ -39,7 +39,7 @@ const CardCell = ({card, onPress, active}) => {
             />
           </View>
         ) : (
-          <Text style={styles.addNewText}>Add New</Text>
+          <Text style={styles.addNewText}>Add Card</Text>
         )}
       </TouchableOpacity>
     </View>

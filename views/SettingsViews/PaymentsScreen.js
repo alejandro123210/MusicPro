@@ -2,60 +2,83 @@ import React, {useState} from 'react';
 import WebView from 'react-native-webview';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import stripe from 'tipsi-stripe';
-import CardCell from '../subComponents/CardCell';
+import CardCell from '../subComponents/TableCells/CardCell';
 import GLOBAL from '../Global';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
   const [, forceUpdate] = useState();
-  const [alert, showAlert] = useState(false);
+  const [errorAlert, showError] = useState(false);
+  const [customAlert, showAlert] = useState(false);
   const [cardsList, setCardsList] = useState(cards);
   const createCard = async () => {
-    const token = await stripe.paymentRequestWithCardForm({
-      // Only iOS support this options
-      smsAutofillDisabled: true,
-      requiredBillingAddressFields: 'full',
-      prefilledInformation: {
-        billingAddress: {
-          name: 'Enappd Store',
-          line1: 'Canary Place',
-          line2: '3',
-          city: 'Macon',
-          state: '',
-          country: 'Estonia',
-          postalCode: '31217',
-          email: 'admin@enappd.com',
-        },
-      },
-    });
-    const newCardUrl = `http://localhost:5000/newCard/${userData.stripeID}/${token.tokenId}/${userData.uid}`;
-    showAlert(true);
     try {
+      showError(false);
+      showAlert(true);
+      const token = await stripe.paymentRequestWithCardForm({
+        smsAutofillDisabled: true,
+        requiredBillingAddressFields: 'full',
+        prefilledInformation: {
+          billingAddress: {
+            name: userData.name,
+            line1: '',
+            line2: '',
+            city: '',
+            state: '',
+            country: '',
+            postalCode: '',
+            email: userData.email,
+          },
+        },
+      });
+      console.log(token);
+      const newCardUrl = `http://localhost:5000/newCard/${userData.stripeID}/${token.tokenId}/${userData.uid}`;
       fetch(newCardUrl)
         .then((response) => response.json())
         .then((responseData) => {
-          const paymentMethods = responseData.cardInfo.data;
-          const defaultCard = responseData.default;
-          var cardsData = [];
-          for (var index in paymentMethods) {
-            const paymentMethod = paymentMethods[index];
-            const card = {
-              paymentID: paymentMethod.id,
-              last4: paymentMethod.last4,
-              brand: paymentMethod.brand,
-              expMonth: paymentMethod.exp_month,
-              expYear: paymentMethod.exp_year,
-              active: paymentMethod.id === defaultCard ? true : false,
-            };
-            cardsData.push(card);
+          console.log(responseData.code);
+          if (responseData.code !== 'card_declined') {
+            const paymentMethods = responseData.cardInfo.data;
+            const defaultCard = responseData.default;
+            var cardsData = [];
+            console.log('stripe data: ');
+            console.log(paymentMethods, defaultCard);
+            for (var index in paymentMethods) {
+              const paymentMethod = paymentMethods[index];
+              const card = {
+                paymentID: paymentMethod.id,
+                last4: paymentMethod.last4,
+                brand: paymentMethod.brand,
+                expMonth: paymentMethod.exp_month,
+                expYear: paymentMethod.exp_year,
+                active: paymentMethod.id === defaultCard ? true : false,
+              };
+              cardsData.push(card);
+            }
+            // if it's the first payment method added
+            if (cardsData.length === 1) {
+              GLOBAL.SendPayment.setState({
+                buttonText: `${cardsData[0].brand} ending in ${cardsData[0].last4}`,
+                selectedCard: cardsData[0],
+                cards: cardsData,
+              });
+            }
+            console.log('local Array: ');
+            console.log(cardsData);
+            setCardsList(cardsData);
+            showAlert(false);
+          } else {
+            // showAlert(false);
+            showError(true);
+            // alert('there was a problem with verifying your card');
           }
-          setCardsList(cardsData);
-          showAlert(false);
+        })
+        .catch((error) => {
+          showError(true);
         });
       // loadMethods();
     } catch (error) {
-      showAlert(false);
-      console.log(error);
+      showError(true);
     }
   };
 
@@ -111,24 +134,16 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
         <CardCell onPress={() => createCard()} />
 
         <AwesomeAlert
-          show={alert}
-          showProgress={true}
+          show={customAlert}
+          showProgress={!errorAlert}
           title="Adding Card..."
-          // message={this.state.alertText}
-          closeOnTouchOutside={false}
+          message={
+            errorAlert ? 'there was a problem verifying your card.' : undefined
+          }
+          closeOnTouchOutside={errorAlert}
           closeOnHardwareBackPress={false}
-          // showCancelButton={true}
-          // showConfirmButton={true}
-          // cancelText="No, cancel"
-          // confirmText="Confirm"
           contentContainerStyle={styles.alert}
           confirmButtonColor="#274156"
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.confirmPayment();
-          }}
         />
       </View>
     );

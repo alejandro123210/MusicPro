@@ -54,6 +54,8 @@ class RequestLessonDetail extends React.Component {
 
   confirmRequest = () => {
     if (this.state.selectedInstruments.length > 0) {
+      var moment = require('moment');
+
       const studentName = this.state.userData.name;
       const studentIDNum = this.state.userData.uid;
       const teacherImage = this.state.teacher.photo;
@@ -67,8 +69,14 @@ class RequestLessonDetail extends React.Component {
       const vendorID = this.state.teacher.stripeID;
       const customerID = this.state.userData.stripeID;
       const amount = this.state.selectedPrice;
-
-      var moment = require('moment');
+      //we get a timestamp of when the lesson ends so the server knows
+      //when to send the student a notification to pay for the lesson
+      var endingTimeStamp = moment(date + time, ['YYYY-MM-DDh:mm A']);
+      if (lessonLength === '1 hour') {
+        endingTimeStamp = endingTimeStamp.add(1, 'hour').unix();
+      } else {
+        endingTimeStamp = endingTimeStamp.add(30, 'minutes').unix();
+      }
       var timesList = [];
       //creates an array of all the times
       for (var i = 0; i < 28; i++) {
@@ -116,6 +124,7 @@ class RequestLessonDetail extends React.Component {
         vendorID,
         customerID,
         amount,
+        endingTimeStamp,
       };
       teacherRef.child(teacherLessonKey).update(lessonData);
       studentRef.child(studentLessonKey).update(lessonData);

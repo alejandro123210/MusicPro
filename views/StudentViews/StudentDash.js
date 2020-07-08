@@ -15,6 +15,7 @@ class StudentDash extends React.Component {
   };
 
   componentDidMount() {
+    console.log('student dash mounted');
     loadLessons(this.props.userData, 'confirmed', this);
     registerFCM(this.props.userData);
     checkPaymentsDue(this.props.userData);

@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React from 'react';
 import {
   View,
@@ -25,8 +24,9 @@ class SendPayment extends React.Component {
     cardInfo: {},
     showAlert: false,
     showLoading: false,
+    showError: false,
     showPopup: false,
-    buttonText: 'Payment Methods',
+    buttonText: 'Add Card',
 
     alertText: '',
     paymentToken: undefined,
@@ -76,7 +76,7 @@ class SendPayment extends React.Component {
         }
         this.setState({lessons});
       } else {
-        Actions.StudentDash({userData: this.state.userData});
+        Actions.StudentMain({userData: this.state.userData});
       }
     });
   }
@@ -103,7 +103,7 @@ class SendPayment extends React.Component {
         this.removePaymentDue(lessons, this.state.lessonKey);
         this.setState({showAlert: false, showLoading: false});
       })
-      .catch((error) => alert('Sorry, there was an error...'));
+      .catch((error) => this.setState({showError: true}));
   }
 
   showAlert = async (paymentToken, indexOfLesson, lessonKey, amount) => {
@@ -130,20 +130,24 @@ class SendPayment extends React.Component {
     indexOfLesson,
     lessonKey,
   }) => {
-    this.setState({showAlert: true});
-    if (this.state.userData.cards !== null) {
-      var actualAmount = `${amount}00`;
-      const newPaymentUrl = `http://localhost:5000/newPayment/${customerID}/${vendorID}/${actualAmount}`;
-      fetch(newPaymentUrl)
-        .then((response) => response.json())
-        .then((responseData) => {
-          const {paymentToken} = responseData;
-          console.log(paymentToken);
-          this.showAlert(paymentToken, indexOfLesson, lessonKey, amount);
-        })
-        .catch((error) => alert('Sorry, there was an error...'));
+    if (this.state.selectedCard === undefined) {
+      Actions.PaymentsScreen({userData: this.state.userData});
     } else {
-      console.log('create card');
+      this.setState({showAlert: true});
+      if (this.state.userData.cards !== null) {
+        var actualAmount = `${amount}00`;
+        const newPaymentUrl = `http://localhost:5000/newPayment/${customerID}/${vendorID}/${actualAmount}`;
+        fetch(newPaymentUrl)
+          .then((response) => response.json())
+          .then((responseData) => {
+            const {paymentToken} = responseData;
+            console.log(paymentToken);
+            this.showAlert(paymentToken, indexOfLesson, lessonKey, amount);
+          })
+          .catch((error) => this.setState({showError: true}));
+      } else {
+        console.log('create card');
+      }
     }
   };
 
@@ -193,8 +197,12 @@ class SendPayment extends React.Component {
         <AwesomeAlert
           show={this.state.showAlert}
           showProgress={this.state.showLoading}
-          title="Confirm Payment"
-          message={this.state.alertText}
+          title={this.state.showError ? 'Error' : 'Confirm Payment'}
+          message={
+            this.state.showError
+              ? 'Sorry, there was an error processing your payment...'
+              : this.state.alertText
+          }
           closeOnTouchOutside={false}
           closeOnHardwareBackPress={false}
           showCancelButton={true}

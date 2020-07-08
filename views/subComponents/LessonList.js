@@ -101,22 +101,20 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
   };
 
   //lesson is passed
-  let acceptLesson = ({
-    teacherName,
-    teacherID,
-    studentID,
-    date,
-    teacherLessonKey,
-    studentLessonKey,
-  }) => {
-    sendNotification(studentID, teacherName, 'request-accepted');
+  let acceptLesson = (lesson) => {
+    sendNotification(lesson.studentID, lesson.teacherName, 'request-accepted');
     var db = firebase.database();
     db.ref(
-      `users/${teacherID}/info/lessons/${date}/${teacherLessonKey}`,
+      `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
     ).update({status: 'confirmed'});
     db.ref(
-      `users/${studentID}/info/lessons/${date}/${studentLessonKey}`,
+      `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
     ).update({status: 'confirmed'});
+    //add the confirmed lesson to the list of lessons for the server to see,
+    //it's organized by timestamp for efficiency
+    db.ref(
+      `lessons/${lesson.endingTimeStamp}/${lesson.studentID}/${lesson.studentLessonKey}`,
+    ).set(lesson);
   };
 
   const onSharePressed = async () => {

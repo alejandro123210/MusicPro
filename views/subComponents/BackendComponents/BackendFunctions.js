@@ -50,22 +50,10 @@ export const sendNotification = (recipientID, senderName, type) => {
 export var loadLessons = (userData, lessonType, that) => {
   //this handles lessons that have passed (pass in entire lesson object)
   const removePastLesson = (lesson) => {
-    const {teacherID, studentID, date, status, teacherName} = lesson;
+    const {teacherID, studentID, date} = lesson;
     var db = firebase.database();
     db.ref(`users/${teacherID}/info/lessons/${date}`).remove();
     db.ref(`users/${studentID}/info/lessons/${date}`).remove();
-    //if the lesson was confirmed and has now passed
-    console.log(status);
-    if (status === 'confirmed') {
-      console.log('adding lesson');
-      var paymentsRef = db.ref(`users/${studentID}/info/paymentsDue`);
-      //add lesson to due payments
-      paymentsRef.push(lesson);
-      sendNotification(studentID, teacherName, 'payment-due');
-    }
-    //add one to teacher lessons taught
-    var teacherRef = db.ref(`users/${teacherID}/info/lessonsTaught`);
-    teacherRef.set(firebase.database.ServerValue.increment(1));
   };
 
   var db = firebase.database();
@@ -103,6 +91,7 @@ export var loadLessons = (userData, lessonType, that) => {
             vendorID: lessonsData[lessonDate][lessonKey].vendorID,
             customerID: lessonsData[lessonDate][lessonKey].customerID,
             amount: lessonsData[lessonDate][lessonKey].amount,
+            endingTimeStamp: lessonsData[lessonDate][lessonKey].endingTimeStamp,
           };
           if (lessonToPush.date < currentDate) {
             removePastLesson(lessonToPush);
@@ -135,6 +124,7 @@ export const cancelLessons = (
     date,
     teacherLessonKey,
     studentLessonKey,
+    endingTimeStamp,
   },
   userType,
   type,
@@ -151,6 +141,9 @@ export const cancelLessons = (
   ).remove();
   db.ref(
     `users/${studentID}/info/lessons/${date}/${studentLessonKey}`,
+  ).remove();
+  db.ref(
+    `lessons/${endingTimeStamp}/${studentID}/${studentLessonKey}`,
   ).remove();
 };
 
@@ -198,11 +191,14 @@ export const updateTeacherList = (uid) => {
 };
 
 export const checkPaymentsDue = (userData) => {
+  console.log('turning on the payments check');
   var db = firebase.database();
   var paymentsRef = db.ref(`users/${userData.uid}/info/paymentsDue`);
-  paymentsRef.once('value').then((snapshot) => {
+  paymentsRef.on('value', function (snapshot) {
     if (snapshot.exists()) {
       Actions.SendPayment({userData});
+      console.log('turning off the payments check');
+      paymentsRef.off();
     }
   });
 };
