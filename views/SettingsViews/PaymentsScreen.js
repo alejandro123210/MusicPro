@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import WebView from 'react-native-webview';
 import {View, StyleSheet, FlatList} from 'react-native';
-import stripe from 'tipsi-stripe';
+// import stripe from 'tipsi-stripe';
 import CardCell from '../subComponents/TableCells/CardCell';
 import GLOBAL from '../Global';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -16,24 +16,25 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
     try {
       showError(false);
       showAlert(true);
-      const token = await stripe.paymentRequestWithCardForm({
-        smsAutofillDisabled: true,
-        requiredBillingAddressFields: 'full',
-        prefilledInformation: {
-          billingAddress: {
-            name: userData.name,
-            line1: '',
-            line2: '',
-            city: '',
-            state: '',
-            country: '',
-            postalCode: '',
-            email: userData.email,
-          },
-        },
-      });
-      console.log(token);
-      const newCardUrl = `https://musicpro-262117.ue.r.appspot.com/newCard/${userData.stripeID}/${token.tokenId}/${userData.uid}`;
+      // const token = await stripe.paymentRequestWithCardForm({
+      //   smsAutofillDisabled: true,
+      //   requiredBillingAddressFields: 'full',
+      //   prefilledInformation: {
+      //     billingAddress: {
+      //       name: userData.name,
+      //       line1: '',
+      //       line2: '',
+      //       city: '',
+      //       state: '',
+      //       country: '',
+      //       postalCode: '',
+      //       email: userData.email,
+      //     },
+      //   },
+      // });
+      // console.log(token);
+      // const newCardUrl = `https://musicpro-262117.ue.r.appspot.com/newCard/${userData.stripeID}/${token.tokenId}/`;
+      const newCardUrl = '';
       fetch(newCardUrl)
         .then((response) => response.json())
         .then((responseData) => {

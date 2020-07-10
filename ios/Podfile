@@ -77,12 +77,12 @@ target 'MusicPro' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
 
   #Pods for firebase cloud messaging
   pod 'Firebase'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+
 
   target 'MusicProTests' do
     inherit! :complete

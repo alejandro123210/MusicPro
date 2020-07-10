@@ -132,6 +132,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 3
         versionName "1.2"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -195,6 +196,11 @@ dependencies {
     implementation "com.facebook.react:react-native:0.62.2"  // From node_modules
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.google.firebase:firebase-messaging:20.1.7'
+    implementation 'com.android.support:design:27.1.0'
+    compile (project(':tipsi-stripe')) {
+        exclude group: 'com.google.android.gms'
+        exclude group: 'com.google.firebase'
+    }
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group: 'com.facebook.fbjni'
     }

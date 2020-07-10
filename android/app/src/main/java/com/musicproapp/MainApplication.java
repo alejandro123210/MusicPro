@@ -11,6 +11,8 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import com.gettipsi.stripe.StripeReactPackage;
+
 import com.musicproapp.customfcmmodule.FCMPackage;
 import com.musicproapp.device.DevicePackage;
 
@@ -31,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
             packages.add(new DevicePackage());
             packages.add(new FCMPackage());
+            packages.add(new StripeReactPackage());
           return packages;
         }
 
