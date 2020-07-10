@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import WebView from 'react-native-webview';
-import {View, StyleSheet, FlatList} from 'react-native';
-// import stripe from 'tipsi-stripe';
+import {View, StyleSheet, FlatList, Platform} from 'react-native';
+import stripe from 'tipsi-stripe';
 import CardCell from '../subComponents/TableCells/CardCell';
 import GLOBAL from '../Global';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
+const PaymentsScreen = ({userData, stripeSet, cards, inPayment}) => {
   const [, forceUpdate] = useState();
   const [errorAlert, showError] = useState(false);
   const [customAlert, showAlert] = useState(false);
@@ -16,25 +16,24 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
     try {
       showError(false);
       showAlert(true);
-      // const token = await stripe.paymentRequestWithCardForm({
-      //   smsAutofillDisabled: true,
-      //   requiredBillingAddressFields: 'full',
-      //   prefilledInformation: {
-      //     billingAddress: {
-      //       name: userData.name,
-      //       line1: '',
-      //       line2: '',
-      //       city: '',
-      //       state: '',
-      //       country: '',
-      //       postalCode: '',
-      //       email: userData.email,
-      //     },
-      //   },
-      // });
-      // console.log(token);
-      // const newCardUrl = `https://musicpro-262117.ue.r.appspot.com/newCard/${userData.stripeID}/${token.tokenId}/`;
-      const newCardUrl = '';
+      const token = await stripe.paymentRequestWithCardForm({
+        smsAutofillDisabled: true,
+        requiredBillingAddressFields: 'full',
+        prefilledInformation: {
+          billingAddress: {
+            name: userData.name,
+            line1: '',
+            line2: '',
+            city: '',
+            state: '',
+            country: '',
+            postalCode: '',
+            email: userData.email,
+          },
+        },
+      });
+      console.log(token);
+      const newCardUrl = `https://musicpro-262117.ue.r.appspot.com/newCard/${userData.stripeID}/${token.tokenId}/`;
       fetch(newCardUrl)
         .then((response) => response.json())
         .then((responseData) => {
@@ -58,12 +57,14 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
               cardsData.push(card);
             }
             // if it's the first payment method added
-            if (cardsData.length === 1) {
-              GLOBAL.SendPayment.setState({
-                buttonText: `${cardsData[0].brand} ending in ${cardsData[0].last4}`,
-                selectedCard: cardsData[0],
-                cards: cardsData,
-              });
+            if (inPayment) {
+              if (cardsData.length === 1) {
+                GLOBAL.SendPayment.setState({
+                  buttonText: `${cardsData[0].brand} ending in ${cardsData[0].last4}`,
+                  selectedCard: cardsData[0],
+                  cards: cardsData,
+                });
+              }
             }
             console.log('local Array: ');
             console.log(cardsData);
@@ -77,10 +78,12 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
         })
         .catch((error) => {
           showError(true);
+          console.log(error);
         });
       // loadMethods();
     } catch (error) {
       showError(true);
+      console.log(error);
     }
   };
 
@@ -92,10 +95,12 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
       }
       if (cardsList[index].paymentID === card.paymentID) {
         thisCardsList[index].active = true;
-        GLOBAL.SendPayment.setState({
-          buttonText: `${thisCardsList[index].brand} ending in ${thisCardsList[index].last4}`,
-          selectedCard: thisCardsList[index],
-        });
+        if (inPayment) {
+          GLOBAL.SendPayment.setState({
+            buttonText: `${thisCardsList[index].brand} ending in ${thisCardsList[index].last4}`,
+            selectedCard: thisCardsList[index],
+          });
+        }
       }
       setCardsList(thisCardsList);
       forceUpdate({});
@@ -155,7 +160,7 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
         <CardCell onPress={() => createCard()} />
 
         <AwesomeAlert
-          show={customAlert}
+          show={Platform.OS === 'ios' ? customAlert : false}
           showProgress={!errorAlert}
           title="Adding Card..."
           message={
@@ -178,6 +183,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+    backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : 'white',
   },
   flatlist: {
     alignItems: 'center',

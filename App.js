@@ -6,7 +6,7 @@
 import React from 'react';
 import {Router, Scene} from 'react-native-router-flux';
 import {Image, View} from 'react-native';
-// import stripe from 'tipsi-stripe';
+import stripe from 'tipsi-stripe';
 
 //login views
 import LaunchScreen from './views/LoginViews/LaunchScreen';
@@ -168,10 +168,10 @@ export default function App() {
   // eslint-disable-next-line no-unused-vars
   const firebaseApp = firebase.initializeApp(firebaseConfig);
   //Stripe config
-  // stripe.setOptions({
-  //   publishableKey:
-  //     'pk_test_51GzvgJCAHHl7TnVGHygy90WYniZe1wp8Fmprg9blC2djbct54gQldsIeMhmtAHwhx6orABxrLuQQkctw228NOUtB00F8Bcyp5a',
-  // });
+  stripe.setOptions({
+    publishableKey:
+      'pk_test_51GzvgJCAHHl7TnVGHygy90WYniZe1wp8Fmprg9blC2djbct54gQldsIeMhmtAHwhx6orABxrLuQQkctw228NOUtB00F8Bcyp5a',
+  });
 
   return (
     <Router>

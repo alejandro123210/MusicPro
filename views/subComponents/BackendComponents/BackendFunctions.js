@@ -202,7 +202,7 @@ export const checkPaymentsDue = (userData) => {
 
 export const loadPaymentMethods = async (userData) => {
   console.log('loading payment methods');
-  const paymentMethodsURL = `http://localhost:5000/getCustomer/${userData.stripeID}`;
+  const paymentMethodsURL = `https://musicpro-262117.ue.r.appspot.com/getCustomer/${userData.stripeID}`;
   const data = await fetch(paymentMethodsURL)
     .then((response) => response.json())
     .then((responseData) => {

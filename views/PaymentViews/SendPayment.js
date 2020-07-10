@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
+  Platform,
 } from 'react-native';
 import TopBar from '../subComponents/TopBar';
 import * as firebase from 'firebase';
@@ -131,7 +132,7 @@ class SendPayment extends React.Component {
     lessonKey,
   }) => {
     if (this.state.selectedCard === undefined) {
-      Actions.PaymentsScreen({userData: this.state.userData});
+      Actions.PaymentsScreen({userData: this.state.userData, inPayment: true});
     } else {
       this.setState({showAlert: true});
       if (this.state.userData.cards !== null) {
@@ -155,6 +156,7 @@ class SendPayment extends React.Component {
     Actions.PaymentsScreen({
       userData: this.state.userData,
       cards: this.state.cards,
+      inPayment: true,
     });
   };
 
@@ -230,6 +232,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
     height: deviceHeight,
+    backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : 'white',
   },
   alert: {
     borderRadius: 10,

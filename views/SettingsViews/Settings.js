@@ -14,7 +14,10 @@ import {
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {removeFCM} from '../subComponents/BackendComponents/BackendFunctions';
+import {
+  removeFCM,
+  loadPaymentMethods,
+} from '../subComponents/BackendComponents/BackendFunctions';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -101,19 +104,25 @@ const settings = ({userData}) => {
     );
   };
 
-  const paymentsScreen = () => {
-    var db = firebase.database();
-    var ref = db.ref(`users/${userData.uid}/info/stripeID`);
-    ref.once('value').then((dataSnapshot) => {
-      var stripeSet;
-      if (dataSnapshot.val() !== null) {
-        stripeSet = true;
-        Actions.PaymentsScreen({userData, stripeSet});
-      } else {
-        stripeSet = false;
-        Actions.PaymentsScreen({userData, stripeSet});
-      }
-    });
+  const paymentsScreen = async () => {
+    if (userData.userType === 'teacher') {
+      var db = firebase.database();
+      var ref = db.ref(`users/${userData.uid}/info/stripeID`);
+      ref.once('value').then((dataSnapshot) => {
+        var stripeSet;
+        if (dataSnapshot.val() !== null) {
+          stripeSet = true;
+          Actions.PaymentsScreen({userData, stripeSet});
+        } else {
+          stripeSet = false;
+          Actions.PaymentsScreen({userData, stripeSet});
+        }
+      });
+    } else {
+      const paymentMethods = await loadPaymentMethods(userData);
+      const cards = paymentMethods;
+      Actions.PaymentsScreen({userData, stripeSet: true, cards});
+    }
   };
 
   return (
