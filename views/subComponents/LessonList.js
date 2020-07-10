@@ -150,7 +150,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
   };
 
   const onSharePressed = async () => {
-    const accountLink = `musicpro://${userData.uid}`;
+    const accountLink = `https://rehearse-c7c14.firebaseapp.com/DeepLink/${userData.uid}`;
     if (userData.availability !== undefined) {
       try {
         const result = await Share.share({

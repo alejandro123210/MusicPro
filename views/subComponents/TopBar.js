@@ -23,9 +23,8 @@ export default function topBar({userData, showDateBar = true, page}) {
   };
 
   const onSharePressed = async () => {
-    //TODO: fix these links with the react website
-    const accountLink = `musicpro://${userData.uid}`;
-    const musicProLink = 'https://musicpro.carrd.co';
+    const accountLink = `https://rehearse-c7c14.firebaseapp.com/DeepLink/${userData.uid}`;
+    const musicProLink = 'https://rehearse-c7c14.firebaseapp.com/DeepLink/';
 
     var message;
     if (userData.userType === 'teacher') {

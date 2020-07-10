@@ -93,7 +93,7 @@ class SendPayment extends React.Component {
 
   confirmPayment() {
     this.setState({showLoading: true});
-    const confirmPaymentUrl = `http://localhost:5000/confirm/${this.state.paymentToken}/${this.state.selectedCard.paymentID}`;
+    const confirmPaymentUrl = `https://musicpro-262117.ue.r.appspot.com/confirm/${this.state.paymentToken}/${this.state.selectedCard.paymentID}`;
     fetch(confirmPaymentUrl)
       .then((response) => response.json())
       .then((confirmData) => {
@@ -136,7 +136,7 @@ class SendPayment extends React.Component {
       this.setState({showAlert: true});
       if (this.state.userData.cards !== null) {
         var actualAmount = `${amount}00`;
-        const newPaymentUrl = `http://localhost:5000/newPayment/${customerID}/${vendorID}/${actualAmount}`;
+        const newPaymentUrl = `https://musicpro-262117.ue.r.appspot.com/newPayment/${customerID}/${vendorID}/${actualAmount}`;
         fetch(newPaymentUrl)
           .then((response) => response.json())
           .then((responseData) => {
