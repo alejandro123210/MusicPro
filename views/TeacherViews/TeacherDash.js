@@ -32,8 +32,8 @@ class TeacherDash extends React.Component {
     if (url !== null) {
       const profileURL = url.slice(11);
       var db = firebase.database();
-      let teachersRef = db.ref(`teachers/${profileURL}`);
-      teachersRef.once('value').then((data) => {
+      let usersRef = db.ref(`users/${profileURL}/info`);
+      usersRef.once('value').then((data) => {
         var teacherData = data.val();
         var teacher = {
           name: teacherData.name,
@@ -60,11 +60,11 @@ class TeacherDash extends React.Component {
   _handleURL = function (userData) {
     return function curried_handleURL(event) {
       const profileURL = event.url.slice(11);
-      if (profileURL !== 'HomeFromStripe') {
+      if (profileURL.substring(0, 14) !== 'HomeFromStripe') {
         console.log(profileURL);
         var db = firebase.database();
-        let teachersRef = db.ref(`teachers/${profileURL}`);
-        teachersRef.once('value').then((data) => {
+        let usersRef = db.ref(`users/${profileURL}/info`);
+        usersRef.once('value').then((data) => {
           var teacherData = data.val();
           var teacher = {
             name: teacherData.name,
@@ -84,7 +84,8 @@ class TeacherDash extends React.Component {
           Actions.TeacherInfo({teacher, userData});
         });
       } else {
-        userData.stripeID = 'not null';
+        const stripeID = profileURL.slice(14);
+        userData.stripeID = stripeID;
         Actions.TeacherDash({userData});
       }
     };

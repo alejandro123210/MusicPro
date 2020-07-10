@@ -149,41 +149,41 @@ export const cancelLessons = (
 export const updateTeacherList = (uid) => {
   var db = firebase.database();
   var userDataRef = db.ref(`users/${uid}/info`);
-  var teacherData = {};
+  // var teacherData = {};
   userDataRef.once('value').then((snapshot) => {
     var data = JSON.parse(JSON.stringify(snapshot.val()));
     //set up geofire here so that teachers will load efficiently based on location
     const geoFireRef = db.ref('geofire');
     var geoFire = new GeoFire(geoFireRef);
     geoFire.set(uid, [data.coordinates.lat, data.coordinates.lng]);
-    //here we add the data to the teachers section of the database
-    //so that they will load for students
-    if (data.reviews !== undefined) {
-      teacherData = {
-        avgStars: data.avgStars,
-        description: data.description,
-        coordinates: data.coordinates,
-        name: data.name,
-        location: data.location,
-        instruments: data.instruments,
-        photo: data.photo,
-        uid: data.uid,
-        price: data.price,
-      };
-    } else {
-      //we add the case if the teacher has no reviews to prevent non stop warnings
-      teacherData = {
-        description: data.description,
-        coordinates: data.coordinates,
-        name: data.name,
-        location: data.location,
-        instruments: data.instruments,
-        photo: data.photo,
-        uid: data.uid,
-        price: data.price,
-      };
-    }
-    db.ref(`teachers/${uid}/`).set(teacherData);
+    //     //here we add the data to the teachers section of the database
+    //     //so that they will load for students
+    //     if (data.reviews !== undefined) {
+    //       teacherData = {
+    //         avgStars: data.avgStars,
+    //         description: data.description,
+    //         coordinates: data.coordinates,
+    //         name: data.name,
+    //         location: data.location,
+    //         instruments: data.instruments,
+    //         photo: data.photo,
+    //         uid: data.uid,
+    //         price: data.price,
+    //       };
+    //     } else {
+    //       //we add the case if the teacher has no reviews to prevent non stop warnings
+    //       teacherData = {
+    //         description: data.description,
+    //         coordinates: data.coordinates,
+    //         name: data.name,
+    //         location: data.location,
+    //         instruments: data.instruments,
+    //         photo: data.photo,
+    //         uid: data.uid,
+    //         price: data.price,
+    //       };
+    //     }
+    //     db.ref(`teachers/${uid}/`).set(teacherData);
   });
 };
 

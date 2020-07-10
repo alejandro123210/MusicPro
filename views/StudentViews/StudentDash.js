@@ -31,7 +31,7 @@ class StudentDash extends React.Component {
     if (url !== null) {
       const profileURL = url.slice(11);
       var db = firebase.database();
-      let teachersRef = db.ref(`teachers/${profileURL}`);
+      let teachersRef = db.ref(`users/${profileURL}/info`);
       teachersRef.once('value').then((data) => {
         var teacherData = data.val();
         var teacher = {
@@ -62,7 +62,7 @@ class StudentDash extends React.Component {
       console.log(profileURL);
       if (profileURL !== 'home') {
         var db = firebase.database();
-        let teachersRef = db.ref(`teachers/${profileURL}`);
+        let teachersRef = db.ref(`users/${profileURL}/info`);
         teachersRef.once('value').then((data) => {
           var teacherData = data.val();
           var teacher = {

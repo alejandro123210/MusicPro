@@ -40,7 +40,7 @@ class ListOfTeachers extends React.Component {
     var teachers = [];
     //geoquerry runs the code inside for each user in the range given
     geoQuerry.on('key_entered', function (key, location, distance) {
-      let teachersRef = db.ref(`teachers/${key}`);
+      let teachersRef = db.ref(`users/${key}/info`);
       let distanceInMiles = distance / 1.6;
       let roundedDistance = Math.round(distanceInMiles);
       teachersRef.once('value').then((data) => {

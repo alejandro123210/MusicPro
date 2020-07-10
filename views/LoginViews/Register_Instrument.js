@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-alert */
-/* eslint-disable eqeqeq */
 import React from 'react';
 import {
   View,
@@ -35,9 +34,9 @@ class Register_Instrument extends React.Component {
   };
 
   onSubmitPressed = () => {
-    let instrument = this.state.instrument;
+    const instrument = this.state.instrument.trim();
     var instruments = this.state.instruments;
-    if (instrument != '') {
+    if (instrument !== '') {
       instruments.push(instrument);
       this.setState({instruments});
       this.setState({instrument: ''});
@@ -63,7 +62,7 @@ class Register_Instrument extends React.Component {
         contentContainerStyle={styles.container}
         scrollEnabled={false}
         keyboardShouldPersistTaps={'always'}>
-        {this.props.userType == 'student' ? (
+        {this.props.userType === 'student' ? (
           <Text style={styles.questionText}>
             What instruments do you want to learn?
           </Text>

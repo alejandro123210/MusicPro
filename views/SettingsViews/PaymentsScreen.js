@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import WebView from 'react-native-webview';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import stripe from 'tipsi-stripe';
 import CardCell from '../subComponents/TableCells/CardCell';
 import GLOBAL from '../Global';
@@ -11,6 +11,7 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
   const [errorAlert, showError] = useState(false);
   const [customAlert, showAlert] = useState(false);
   const [cardsList, setCardsList] = useState(cards);
+  const [loginLink, setLoginLink] = useState();
   const createCard = async () => {
     try {
       showError(false);
@@ -104,16 +105,35 @@ const PaymentsScreen = ({userData, stripeSet, cards, setSelected}) => {
     return (
       <WebView
         source={{
-          uri: `https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://rehearse-c7c14.firebaseapp.com/&client_id=ca_HZ3p251sXcEdATcBE31h47C5yYEt0hfy&state=${userData.uid}&suggested_capabilities[]=transfers&stripe_user[email]=${userData.email}&stripe_user[business_type]=individual`,
+          uri:
+            'https://connect.stripe.com/express/oauth/authorize?' +
+            'redirect_uri=https://rehearse-c7c14.firebaseapp.com/&' +
+            'client_id=ca_HZ3p251sXcEdATcBE31h47C5yYEt0hfy&' +
+            `state=${userData.uid}&` +
+            'suggested_capabilities[]=transfers&' +
+            `stripe_user[email]=${userData.email}&` +
+            'stripe_user[business_type]=individual&' +
+            `stripe_user[url]=https://rehearse-c7c14.firebaseapp.com/DeepLink/${userData.uid}`,
         }}
       />
     );
   } else if (stripeSet && userData.userType === 'teacher') {
-    //TODO: edit stripe acc
+    const updateVendorURL = `https://musicpro-262117.ue.r.appspot.com/updateVendor/${userData.stripeID}`;
+    //use if statement to prevent constant rerenders/server pings
+    if (loginLink === undefined) {
+      fetch(updateVendorURL)
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log(responseData);
+          setLoginLink(responseData.url);
+        });
+    }
     return (
-      <View style={styles.container}>
-        <Text>done</Text>
-      </View>
+      <WebView
+        source={{
+          uri: loginLink,
+        }}
+      />
     );
   } else {
     return (

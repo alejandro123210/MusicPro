@@ -101,7 +101,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
   };
 
   //lesson is passed
-  let acceptLesson = (lesson) => {
+  const acceptLesson = (lesson) => {
     //if stripe is not configured:
     if (userData.stripeID === undefined) {
       //set up stripe
@@ -123,29 +123,23 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
       );
     } else {
       var db = firebase.database();
-      db.ref(`users/${userData.uid}/info/stripeID`)
-        .once('value')
-        .then((snapshot) => {
-          //make sure vendorID is set
-          lesson.vendorID = snapshot.val();
-          // set up the lesson
-          sendNotification(
-            lesson.studentID,
-            lesson.teacherName,
-            'request-accepted',
-          );
-          db.ref(
-            `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
-          ).update({status: 'confirmed'});
-          db.ref(
-            `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
-          ).update({status: 'confirmed'});
-          //add the confirmed lesson to the list of lessons for the server to see,
-          //it's organized by timestamp for efficiency
-          db.ref(
-            `lessons/${lesson.endingTimeStamp}/${lesson.studentID}/${lesson.studentLessonKey}`,
-          ).set(lesson);
-        });
+      sendNotification(
+        lesson.studentID,
+        lesson.teacherName,
+        'request-accepted',
+      );
+      db.ref(
+        `users/${lesson.teacherID}/info/lessons/${lesson.date}/${lesson.teacherLessonKey}`,
+      ).update({status: 'confirmed', vendorID: userData.stripeID});
+      db.ref(
+        `users/${lesson.studentID}/info/lessons/${lesson.date}/${lesson.studentLessonKey}`,
+      ).update({status: 'confirmed', vendorID: userData.stripeID});
+      //add the confirmed lesson to the list of lessons for the server to see,
+      //it's organized by timestamp for efficiency
+      lesson.vendorID = userData.stripeID;
+      db.ref(
+        `lessons/${lesson.endingTimeStamp}/${lesson.studentID}/${lesson.studentLessonKey}`,
+      ).set(lesson);
     }
   };
 

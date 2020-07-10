@@ -12,7 +12,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AirbnbRating} from 'react-native-ratings';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
-import {updateTeacherList} from '../subComponents/BackendComponents/BackendFunctions';
+// import {updateTeacherList} from '../subComponents/BackendComponents/BackendFunctions';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -37,10 +37,10 @@ class ReviewTeacher extends React.Component {
         numberOfReviews += 1;
         let newAvg = newTotal / numberOfReviews;
         avgStarsRef.update({numberOfReviews, avgRating: newAvg});
-        updateTeacherList(this.state.teacher.uid);
+        // updateTeacherList(this.state.teacher.uid);
       } else {
         avgStarsRef.update({numberOfReviews: 1, avgRating: this.state.rating});
-        updateTeacherList(this.state.teacher.uid);
+        // updateTeacherList(this.state.teacher.uid);
       }
     });
   };
