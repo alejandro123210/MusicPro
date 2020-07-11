@@ -147,10 +147,10 @@ const EditProfile = ({userData}) => {
         scrollEnabled={true}
         extraScrollHeight={50}
         keyboardShouldPersistTaps={'never'}>
-        <TouchableOpacity onPress={() => pickImage()}>
-          <View style={styles.imageContainer}>
-            <Image source={{uri: userData.photo}} style={styles.imageMain} />
-          </View>
+        <TouchableOpacity
+          onPress={() => pickImage()}
+          style={styles.imageContainer}>
+          <Image source={{uri: userData.photo}} style={styles.imageMain} />
         </TouchableOpacity>
         {userData.avgStars !== undefined ? (
           <View style={{flexDirection: 'row'}}>
