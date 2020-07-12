@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "install-android": "adb install -r ./app/build/outputs/apk/app-release.apk"
+    "install-android": "adb install -r android/app/build/outputs/apk/release/app-release.apk"
   },
   "dependencies": {
     "@react-native-community/geolocation": "^2.0.2",
