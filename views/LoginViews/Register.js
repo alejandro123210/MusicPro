@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 /* eslint-disable eqeqeq */
 import React from 'react';
 import {
@@ -9,7 +8,6 @@ import {
   Dimensions,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import * as firebase from 'firebase';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -24,50 +22,18 @@ class Register extends React.Component {
   };
 
   studentPressed = () => {
-    var user = firebase.auth().currentUser;
-    var db = firebase.database();
-    var ref = db.ref(`users/${user.uid}/info/`);
-    try {
-      ref.set({
-        email: user.email,
-        uid: user.uid,
-        name: this.props.userInfo.user.name,
-        userType: 'student',
-        photo: this.props.userInfo.user.photo,
-        lessons: [],
-      });
-      console.log(user.uid);
-      // const http = new XMLHttpRequest();
-      const url = `http://localhost:5000/newCustomer/${user.email}/${user.uid}`;
-      // http.open('get', url);
-      // http.send();
-      fetch(url)
-        .then((response) => response.json())
-        .then((responseData) => {
-          const status = responseData.status;
-          if (status === 'done') {
-            ref
-              .once('value')
-              .then(function (snapshot) {
-                var userData = snapshot.val();
-                Actions.StudentMain({userData: userData});
-              })
-              .catch(function (error) {
-                alert(error);
-              });
-          } else {
-            throw 'node server ran into an error';
-          }
-        })
-        .done();
-    } catch (error) {
-      console.log(error);
-      alert('Sorry! There was an error creating your account');
-    }
+    Actions.Register_Subject({
+      userType: 'student',
+      userInfo: this.props.userInfo,
+    });
   };
 
   teacherPressed = () => {
-    Actions.Register_Instrument({
+    // Actions.Register_Instrument({
+    //   userType: 'teacher',
+    //   userInfo: this.props.userInfo,
+    // });
+    Actions.Register_Subject({
       userType: 'teacher',
       userInfo: this.props.userInfo,
     });

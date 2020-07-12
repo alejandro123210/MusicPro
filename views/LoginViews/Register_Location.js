@@ -31,6 +31,7 @@ class Register_Location extends React.Component {
           instruments: this.props.instruments,
           userType: this.props.userType,
           userInfo: this.props.userInfo,
+          subject: this.props.subject,
           location,
           coordinates,
         });

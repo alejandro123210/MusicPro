@@ -47,13 +47,17 @@ function lessonCell({
         <View style={styles.title}>
           <Image style={styles.image} source={{uri: image}} />
           <View style={styles.textContainer}>
-            {request && userType == 'teacher' ? (
-              <Text style={styles.titleText}>Lesson request from {name}</Text>
-            ) : request && userType == 'student' ? (
-              <Text style={styles.titleText}>Lesson request for {name}</Text>
-            ) : (
-              <Text style={styles.titleText}>Lesson with {name}</Text>
-            )}
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              {request && userType == 'teacher' ? (
+                <Text style={styles.titleText}>Lesson request from {name}</Text>
+              ) : request && userType == 'student' ? (
+                <Text style={styles.titleText}>Lesson request for {name}</Text>
+              ) : (
+                <Text style={styles.titleText}>Lesson with {name}</Text>
+              )}
+              <Text style={styles.priceText}>${amount}</Text>
+            </View>
             <Text style={styles.dateText}>{dateAndTime}</Text>
             <View style={styles.tagView}>
               {instruments.map((instrument) => (
@@ -138,10 +142,17 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginLeft: 13,
+    width: deviceWidth / 1.45,
+    // backgroundColor: 'black',
   },
   titleText: {
     fontSize: 25,
-    width: '70%',
+    width: deviceWidth / 1.8,
+    // backgroundColor: 'black',
+  },
+  priceText: {
+    color: 'gray',
+    paddingRight: 10,
   },
   dateText: {
     color: '#274156',

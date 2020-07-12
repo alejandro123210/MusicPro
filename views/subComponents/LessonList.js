@@ -218,6 +218,7 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
               userType={userData.userType}
               request={lessonType === 'undecided' ? true : false}
               lessonLength={item.lessonLength}
+              amount={item.amount}
             />
           )}
         />

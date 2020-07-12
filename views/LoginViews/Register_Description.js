@@ -26,6 +26,7 @@ class Register_Description extends React.Component {
       lessons: [],
       availability: [],
       price: this.props.price,
+      subject: this.props.subject,
     });
     ref
       .once('value')

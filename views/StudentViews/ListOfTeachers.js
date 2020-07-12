@@ -25,17 +25,32 @@ class ListOfTeachers extends React.Component {
     refreshing: false,
     searchText: '',
     teachersToShow: [],
+    subject: this.props.userData.subject,
+    geoQuerry: undefined,
+    loadingText: 'loading...',
+  };
+
+  alertNoTeachers = () => {
+    if (this.state.teachersToShow.length === 0) {
+      this.setState({
+        loadingText:
+          'Sorry! Seems like there are no teachers of that kind in your area',
+      });
+    }
   };
 
   geoFireLoadTeachers = (userCoords) => {
+    this.setState({loadingText: 'loading...'});
+    setTimeout(this.alertNoTeachers, 4000);
     let db = firebase.database();
-    let geoFireRef = db.ref('geofire');
+    let geoFireRef = db.ref(`geofire/${this.state.subject}`);
     var geoFire = new GeoFire(geoFireRef);
     //radius is in KM
     var geoQuerry = geoFire.query({
       center: [userCoords.lat, userCoords.lng],
       radius: 10000,
     });
+    this.setState({geoQuerry});
     let that = this;
     var teachers = [];
     //geoquerry runs the code inside for each user in the range given
@@ -62,6 +77,7 @@ class ListOfTeachers extends React.Component {
               ? teacherData.avgStars.numberOfReviews
               : 0,
           distance: roundedDistance,
+          subject: teacherData.subject,
         };
         teachers.push(teacher);
         teachers.sort((a, b) => (a.distance > b.distance ? 1 : -1));
@@ -80,6 +96,7 @@ class ListOfTeachers extends React.Component {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
         const coordinates = {lat, lng};
+        this.setState({coordinates});
         this.geoFireLoadTeachers(coordinates);
       },
       (error) => console.log(error.message),
@@ -153,6 +170,21 @@ class ListOfTeachers extends React.Component {
     this.setState({teachersToShow: filteredResults});
   };
 
+  changeSubject = async (subject) => {
+    //race condition preventing
+    await this.setState({subject, teachersToShow: []});
+    console.log(subject);
+    this.state.geoQuerry.off;
+    this.geoFireLoadTeachers(this.state.coordinates);
+    this.forceUpdate();
+
+    //this is to save the search preference, may be stupid, probably should be done with realm
+    firebase
+      .database()
+      .ref(`users/${this.state.userData.uid}/info/`)
+      .update({subject});
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -166,7 +198,11 @@ class ListOfTeachers extends React.Component {
           data={this.state.teachersToShow}
           keyExtractor={(item, index) => item.uid}
           ListHeaderComponent={
-            <SearchBar onChangeText={(text) => this.onChangeSearch(text)} />
+            <SearchBar
+              onChangeText={(text) => this.onChangeSearch(text)}
+              onChangeSubject={(subject) => this.changeSubject(subject)}
+              subject={this.state.subject}
+            />
           }
           contentOffset={{y: 45}}
           renderItem={({item}) => (
@@ -186,7 +222,7 @@ class ListOfTeachers extends React.Component {
           )}
           ListEmptyComponent={
             <View style={styles.loadingContainer}>
-              <Text style={styles.loadingText}>Loading...</Text>
+              <Text style={styles.loadingText}>{this.state.loadingText}</Text>
             </View>
           }
           refreshControl={
@@ -221,6 +257,7 @@ const styles = StyleSheet.create({
   },
   flatListStyle: {
     paddingBottom: 10,
+    flex: 1,
   },
 });
 

@@ -19,6 +19,7 @@ class Register_Instrument extends React.Component {
   state = {
     instruments: [],
     instrument: '',
+    subject: this.props.subject,
   };
 
   onPress = () => {
@@ -27,6 +28,7 @@ class Register_Instrument extends React.Component {
         instruments: this.state.instruments,
         userType: this.props.userType,
         userInfo: this.props.userInfo,
+        subject: this.state.subject,
       });
     } else {
       alert('you must enter at least 1 instrument');
@@ -62,15 +64,15 @@ class Register_Instrument extends React.Component {
         contentContainerStyle={styles.container}
         scrollEnabled={false}
         keyboardShouldPersistTaps={'always'}>
-        {this.props.userType === 'student' ? (
-          <Text style={styles.questionText}>
-            What instruments do you want to learn?
-          </Text>
-        ) : (
-          <Text style={styles.questionText}>
-            What instruments do you want to teach?
-          </Text>
-        )}
+        <Text style={styles.questionText}>
+          What{' '}
+          {this.state.subject === 'Music'
+            ? 'instruments/tools'
+            : this.state.subject === 'Language'
+            ? 'languages'
+            : 'classes'}{' '}
+          do you want to teach?
+        </Text>
         <View style={styles.instrumentTagScrollViewContainer}>
           <View style={styles.grid}>
             {this.state.instruments.map((instrument) => (
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     color: '#274156',
   },
   instrumentTextInputContainer: {
-    borderRadius: 30,
+    borderRadius: 10,
     backgroundColor: 'white',
     height: 35,
     width: '80%',

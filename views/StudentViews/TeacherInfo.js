@@ -68,6 +68,7 @@ class TeacherInfo extends React.Component {
             ? teacherData.avgStars.numberOfReviews
             : 0,
         reviews: reviews,
+        subject: teacherData.subject,
       };
       this.setState({allTeacherData});
     });

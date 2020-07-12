@@ -101,8 +101,8 @@ const EditProfile = ({userData}) => {
       Geocoder.init('AIzaSyAupzaW4QDOYo09xPAml62_tO_8_SYKiPk');
       Geocoder.from(zip)
         .then((json) => {
-          var location = json.results[0].address_components[1].long_name;
-          var coordinates = json.results[0].geometry.location;
+          const location = json.results[0].address_components[1].long_name;
+          const coordinates = json.results[0].geometry.location;
           userRef.update({
             description,
             coordinates,
@@ -182,7 +182,14 @@ const EditProfile = ({userData}) => {
           placeholderTextColor="gray"
           multiline={true}
         />
-        <Text style={styles.sectionHeader}>Instruments (tap to remove):</Text>
+        <Text style={styles.sectionHeader}>
+          {userData.subject === 'Music'
+            ? 'Instruments'
+            : userData.subject === 'Language'
+            ? 'Languages'
+            : 'Classes'}{' '}
+          (tap to remove):
+        </Text>
         <View style={styles.line} />
         <View style={styles.grid}>
           {instruments.map((item) => (

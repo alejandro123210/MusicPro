@@ -152,7 +152,7 @@ class RequestLessonDetail extends React.Component {
       userRef.update(userMessageData);
       otherUserRef.update(otherUserMessageData);
     } else {
-      alert('you have to pick an instrument!');
+      alert('you have to pick a subject!');
     }
   };
 
@@ -228,7 +228,14 @@ class RequestLessonDetail extends React.Component {
         <Text style={styles.price}>
           ${this.state.selectedPrice.toFixed(2)} due after lesson
         </Text>
-        <Text style={styles.onWhatInstrumentText}> On what instrument? </Text>
+        <Text style={styles.onWhatInstrumentText}>
+          {' '}
+          {this.state.teacher.subject === 'Music'
+            ? 'On what instrument?'
+            : this.state.teacher.subject === 'Math'
+            ? 'In what class?'
+            : 'To learn what language?'}{' '}
+        </Text>
         <View style={styles.line} />
         <View style={styles.instrumentsContainer}>
           {this.state.teacher.instruments.map((instrument) => (

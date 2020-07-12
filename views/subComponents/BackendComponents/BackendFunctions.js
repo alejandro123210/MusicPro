@@ -153,7 +153,7 @@ export const updateTeacherList = (uid) => {
   userDataRef.once('value').then((snapshot) => {
     var data = JSON.parse(JSON.stringify(snapshot.val()));
     //set up geofire here so that teachers will load efficiently based on location
-    const geoFireRef = db.ref('geofire');
+    const geoFireRef = db.ref(`geofire/${data.subject}`);
     var geoFire = new GeoFire(geoFireRef);
     geoFire.set(uid, [data.coordinates.lat, data.coordinates.lng]);
     //     //here we add the data to the teachers section of the database

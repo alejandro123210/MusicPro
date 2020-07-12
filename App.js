@@ -16,6 +16,7 @@ import Register_Instrument from './views/LoginViews/Register_Instrument';
 import Register_Description from './views/LoginViews/Register_Description';
 import Register_Location from './views/LoginViews/Register_Location';
 import Register_Price from './views/LoginViews/Register_Price';
+import Register_Subject from './views/LoginViews/Register_Subject';
 
 //teacher views
 import TeacherAvailabilityConfigurator from './views/TeacherViews/TeacherAvailabilityConfigurator';
@@ -186,6 +187,12 @@ export default function App() {
         <Scene
           key="Register_Price"
           component={Register_Price}
+          gesturesEnabled={true}
+          hideNavBar={true}
+        />
+        <Scene
+          key="Register_Subject"
+          component={Register_Subject}
           gesturesEnabled={true}
           hideNavBar={true}
         />

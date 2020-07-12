@@ -17,6 +17,7 @@ const Register_Price = ({
   userInfo,
   coordinates,
   location,
+  subject,
 }) => {
   const [price, setPrice] = useState();
 
@@ -29,6 +30,7 @@ const Register_Price = ({
         location,
         coordinates,
         price,
+        subject,
       });
     } else {
       alert('You need to enter a cost!');

@@ -5,10 +5,11 @@ import {Calendar} from 'react-native-calendars';
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import HoursCell from '../subComponents/TableCells/HoursCell';
+import moment from 'moment';
 
 class CalendarForStudents extends React.Component {
   state = {
-    date: new Date().toISOString().slice(0, 10),
+    date: moment().format('YYYY-MM-DD'),
     actualAvailability: {
       '0': [],
       '1': [],
@@ -18,7 +19,7 @@ class CalendarForStudents extends React.Component {
       '5': [],
       '6': [],
     },
-    selectedDay: new Date().getDay(),
+    selectedDay: moment().day(),
     teacherLessons: [],
     normalAvailability: {
       '0': [],
@@ -33,7 +34,6 @@ class CalendarForStudents extends React.Component {
 
   componentDidMount() {
     //initial selected date is current date.day()
-    var moment = require('moment');
     var dayOfWeek = moment().day();
     this.setState({selectedDay: dayOfWeek});
     //get the firebase DB
@@ -147,7 +147,6 @@ class CalendarForStudents extends React.Component {
         <Calendar
           onDayPress={(day) => {
             //creates a date object (day) and gets the YYYY-MM-DD and turns it into a day key 0-6
-            var moment = require('moment');
             var dayOfWeek = moment(day.dateString).day();
             var dateString = day.dateString;
             this.setState(
@@ -158,7 +157,7 @@ class CalendarForStudents extends React.Component {
               },
             );
           }}
-          minDate={Date()}
+          minDate={moment().toDate()}
           monthFormat={'MMM yyyy'}
           onDayLongPress={(day) => {
             console.log('selected day', day);
