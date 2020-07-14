@@ -43,10 +43,23 @@ class Register_Location extends React.Component {
     // alert(this.state.zip)
     Geocoder.from(coords)
       .then((json) => {
+        console.log(json.results[0].address_components);
+        const city =
+          Platform.OS === 'ios'
+            ? json.results[0].address_components[0].long_name
+            : json.results[0].address_components[2].long_name;
+        const state =
+          Platform.OS === 'ios'
+            ? json.results[0].address_components[2].long_name
+            : json.results[0].address_components[5].long_name;
+        const country =
+          Platform.OS === 'ios'
+            ? json.results[0].address_components[3].long_name
+            : json.results[0].address_components[6].long_name;
         this.setState({
-          city: json.results[0].address_components[2].long_name,
-          state: json.results[0].address_components[5].long_name,
-          country: json.results[0].address_components[6].long_name,
+          city,
+          state,
+          country,
           coordinates: json.results[0].geometry.location,
         });
       })
@@ -61,8 +74,8 @@ class Register_Location extends React.Component {
         console.log(json.results[0].address_components);
         this.setState({
           city: json.results[0].address_components[0].long_name,
-          state: json.results[0].address_components[3].long_name,
-          country: json.results[0].address_components[4].long_name,
+          state: json.results[0].address_components[2].long_name,
+          country: json.results[0].address_components[3].long_name,
           coordinates: json.results[0].geometry.location,
         });
         if (this.state.fromEdit !== true) {
