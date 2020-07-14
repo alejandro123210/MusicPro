@@ -35,7 +35,7 @@ function largePrompt({title, donePressed}) {
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => donePressed(description)}>
-        <Text style={styles.doneText}>Done</Text>
+        <Text style={styles.doneText}>Done!</Text>
       </TouchableOpacity>
     </KeyboardAwareScrollView>
   );

@@ -13,8 +13,12 @@ import * as firebase from 'firebase';
 import LessonCell from '../subComponents/TableCells/LessonCell';
 import {Actions} from 'react-native-router-flux';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import {loadPaymentMethods} from '../subComponents/BackendComponents/BackendFunctions';
+import {loadPaymentMethods} from '../subComponents/BackendComponents/HttpRequests';
 import GLOBAL from '../Global';
+import {
+  newPaymentIntent,
+  confirmPayment,
+} from '../subComponents/BackendComponents/HttpRequests';
 
 class SendPayment extends React.Component {
   state = {
@@ -92,22 +96,23 @@ class SendPayment extends React.Component {
     this.loadPayments();
   }
 
-  confirmPayment() {
+  confirmPayment = async () => {
     this.setState({showLoading: true});
-    const confirmPaymentUrl = `https://musicpro-262117.ue.r.appspot.com/confirm/${this.state.paymentToken}/${this.state.selectedCard.paymentID}`;
-    fetch(confirmPaymentUrl)
-      .then((response) => response.json())
-      .then((confirmData) => {
-        console.log(confirmData);
-        var lessons = this.state.lessons;
-        lessons.splice(this.state.indexOfLesson, 1);
-        this.removePaymentDue(lessons, this.state.lessonKey);
-        this.setState({showAlert: false, showLoading: false});
-      })
-      .catch((error) => this.setState({showError: true}));
-  }
+    const status = await confirmPayment(
+      this.state.paymentToken,
+      this.state.selectedCard,
+    );
+    if (status !== 'error') {
+      var lessons = this.state.lessons;
+      lessons.splice(this.state.indexOfLesson, 1);
+      this.removePaymentDue(lessons, this.state.lessonKey);
+      this.setState({showAlert: false, showLoading: false});
+    } else {
+      this.setState({showError: true});
+    }
+  };
 
-  showAlert = async (paymentToken, indexOfLesson, lessonKey, amount) => {
+  showAlert = (paymentToken, indexOfLesson, lessonKey, amount) => {
     const actualAmount = (amount * 1.05).toFixed(2);
     this.setState({
       paymentToken,
@@ -124,28 +129,15 @@ class SendPayment extends React.Component {
     });
   };
 
-  sendIntent = async ({
-    customerID,
-    vendorID,
-    amount,
-    indexOfLesson,
-    lessonKey,
-  }) => {
+  sendIntent = async (lesson) => {
     if (this.state.selectedCard === undefined) {
       Actions.PaymentsScreen({userData: this.state.userData, inPayment: true});
     } else {
+      const {indexOfLesson, lessonKey, amount} = lesson;
       this.setState({showAlert: true});
       if (this.state.userData.cards !== null) {
-        var actualAmount = `${amount}00`;
-        const newPaymentUrl = `https://musicpro-262117.ue.r.appspot.com/newPayment/${customerID}/${vendorID}/${actualAmount}`;
-        fetch(newPaymentUrl)
-          .then((response) => response.json())
-          .then((responseData) => {
-            const {paymentToken} = responseData;
-            console.log(paymentToken);
-            this.showAlert(paymentToken, indexOfLesson, lessonKey, amount);
-          })
-          .catch((error) => this.setState({showError: true}));
+        const paymentToken = await newPaymentIntent(lesson);
+        this.showAlert(paymentToken, indexOfLesson, lessonKey, amount);
       } else {
         console.log('create card');
       }

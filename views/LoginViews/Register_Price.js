@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Actions} from 'react-native-router-flux';
@@ -45,24 +46,27 @@ const Register_Price = ({
       contentContainerStyle={styles.container}
       scrollEnabled={true}>
       <Text style={styles.questionText}>
-        How much do you charge per hour? (30 minute lessons are half that cost)
+        How much do you charge per hour in USD? (30 minute lessons are half that
+        cost)
       </Text>
       <View style={styles.promptContainer}>
         <TextInput
           style={styles.textInput}
           onChangeText={(thisPrice) => setPrice(Math.round(thisPrice))}
-          placeholder="60"
+          placeholder="$60"
           textAlign={'center'}
           placeholderTextColor="gray"
           keyboardType="number-pad"
         />
       </View>
       <TouchableOpacity onPress={() => onPress()}>
-        <Text style={styles.doneButton}>Done!</Text>
+        <Text style={styles.doneButton}>Next</Text>
       </TouchableOpacity>
     </KeyboardAwareScrollView>
   );
 };
+
+const deviceWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -76,12 +80,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'white',
     textAlign: 'center',
+    width: deviceWidth * 0.8,
   },
   promptContainer: {
     height: 40,
     backgroundColor: 'white',
     borderRadius: 10,
-    width: '80%',
+    width: deviceWidth * 0.8,
     marginTop: 20,
   },
   textInput: {

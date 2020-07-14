@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React from 'react';
 import {
   Text,
@@ -8,11 +7,10 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
-  Share,
-  Platform,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import DateBar from './DateBar';
+import {share} from './BackendComponents/Share';
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -23,67 +21,7 @@ export default function topBar({userData, showDateBar = true, page}) {
   };
 
   const onSharePressed = async () => {
-    const accountLink = `https://rehearse-c7c14.firebaseapp.com/DeepLink/${userData.uid}`;
-    const musicProLink = 'https://rehearse-c7c14.firebaseapp.com/DeepLink/';
-
-    var message;
-    if (userData.userType === 'teacher') {
-      message =
-        Platform.OS === 'android' && userData.userType === 'teacher'
-          ? `I'm singed up with MusicPro! Find my profile here: ${accountLink}`
-          : "I'm singed up with MusicPro! Find my profile here: ";
-    } else if (userData.userType === 'student') {
-      message =
-        Platform.OS === 'android' && userData.userType === 'teacher'
-          ? `I'm singed up with MusicPro! Find local music teachers here: ${accountLink}`
-          : "I'm singed up with MusicPro! Find local music techers here: ";
-    }
-
-    if (userData.userType === 'teacher') {
-      if (userData.availability !== undefined) {
-        try {
-          const result = await Share.share({
-            message: message,
-            title: 'MusicPro',
-            url: musicProLink,
-          });
-          if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-              // shared with activity type of result.activityType
-              console.log(result.activityType);
-            } else {
-              // shared
-            }
-          } else if (result.action === Share.dismissedAction) {
-            // dismissed
-          }
-        } catch (error) {
-          alert(error.message);
-        }
-      } else {
-        alert("You may want to set up when you're available first!");
-      }
-    } else {
-      try {
-        const result = await Share.share({
-          message: message,
-          title: 'MusicPro',
-          url: musicProLink,
-        });
-        if (result.action === Share.sharedAction) {
-          if (result.activityType) {
-            // shared with activity type of result.activityType
-            console.log(result.activityType);
-          } else {
-            // shared
-          }
-        } else if (result.action === Share.dismissedAction) {
-          // dismissed
-        }
-      } catch (error) {
-        alert(error.message);
-      }
-    }
+    share(userData);
   };
 
   //TODO: change this so that it just uses the page as the heading

@@ -1,18 +1,9 @@
-/* eslint-disable no-alert */
 //this component handles all cases where there is a list of lessons being loaded,
 //it loads the lessons, handles all taps, and renders the entire screen for:
 // TeacherDash, StudentDash, LessonRequests, StudentLessonRequests
 
-import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  Alert,
-  Platform,
-  Share,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, FlatList, Platform} from 'react-native';
 import {
   cancelLessons,
   sendNotification,
@@ -22,105 +13,98 @@ import LessonCell from './TableCells/LessonCell';
 import TopBar from './TopBar';
 import TeacherCell from './TableCells/TeacherCell';
 import {Actions} from 'react-native-router-flux';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import {share} from './BackendComponents/Share';
 
 const LessonList = ({userData, lessonType, lessonsList}) => {
-  let onDenyOrCancelPressed = (lesson) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState();
+  const [showConfirm, setShowConfirm] = useState(true);
+  const [alertMessage, setAlertMessage] = useState();
+  const [confirmText, setConfirmText] = useState('Cancel lesson');
+  const [option, setOption] = useState();
+  const [selectedLesson, setSelectedLesson] = useState();
+  const options = {
+    0: 'studentCancelLesson',
+    1: 'studentCancelRequest',
+    2: 'teacherDenyRequest',
+    3: 'teacherCancelLesson',
+    4: 'set up stripe',
+  };
+
+  const onDenyOrCancelPressed = (lesson) => {
+    setSelectedLesson(lesson);
     if (userData.userType === 'student' && lessonType === 'confirmed') {
-      Alert.alert(
-        'Cancel Lesson?',
+      setAlertTitle('Cancel Lesson?');
+      setAlertMessage(
         `Are you sure you want to cancel your lesson with ${lesson.teacherName}?`,
-        [
-          {
-            text: 'Cancel Lesson',
-            onPress: () =>
-              cancelLessons(lesson, userData.userType, 'lesson-cancelled'),
-          },
-          {
-            text: 'Nevermind',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-        ],
-        {cancelable: true},
       );
+      setOption(options[0]);
     } else if (userData.userType === 'student' && lessonType === 'undecided') {
-      Alert.alert(
-        'Cancel Request?',
+      setAlertTitle('Cancel Request?');
+      setAlertMessage(
         `Are you sure you want to cancel your request with ${lesson.teacherName}?`,
-        [
-          {
-            text: 'Cancel Request',
-            onPress: () =>
-              cancelLessons(lesson, userData.userType, 'request-cancelled'),
-          },
-          {
-            text: 'Nevermind',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-        ],
-        {cancelable: true},
       );
+      setOption(options[1]);
     } else if (userData.userType === 'teacher' && lessonType === 'undecided') {
-      Alert.alert(
-        'Are you sure?',
+      setAlertTitle('Are you sure?');
+      setAlertMessage(
         `Are you sure you want to deny this lesson with ${lesson.studentName}?`,
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {
-            text: 'Deny',
-            onPress: () =>
-              cancelLessons(lesson, userData.userType, 'request-denied'),
-          },
-        ],
-        {cancelable: true},
       );
+      setOption(options[2]);
+      setConfirmText('Deny Request');
     } else if (userData.userType === 'teacher' && lessonType === 'confirmed') {
-      Alert.alert(
-        'Cancel Lesson?',
+      setAlertTitle('Cancel Lesson?');
+      setAlertMessage(
         `Are you sure you want to cancel your lesson with ${lesson.studentName}?`,
-        [
-          {
-            text: 'Cancel Lesson',
-            onPress: () =>
-              cancelLessons(lesson, userData.userType, 'lesson-cancelled'),
-          },
-          {
-            text: 'Nevermind',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-        ],
-        {cancelable: true},
       );
+      setOption(options[3]);
     }
+    setShowAlert(true);
+    // Alert.alert(
+    //   title,
+    //   message,
+    //   [
+    //     {
+    //       text: 'Cancel Lesson',
+    //       onPress: () => {
+    //         switch (option) {
+    //           case options[0]:
+    //             cancelLessons(lesson, userData.userType, 'lesson-cancelled');
+    //             break;
+    //           case options[1]:
+    //             cancelLessons(lesson, userData.userType, 'request-cancelled');
+    //             break;
+    //           case options[2]:
+    //             cancelLessons(lesson, userData.userType, 'request-denied');
+    //             break;
+    //           case options[3]:
+    //             cancelLessons(lesson, userData.userType, 'lesson-cancelled');
+    //             break;
+    //         }
+    //       },
+    //     },
+    //     {
+    //       text: 'Nevermind',
+    //       onPress: () => console.log('Cancel Pressed'),
+    //       style: 'cancel',
+    //     },
+    //   ],
+    //   {cancelable: true},
+    // );
   };
 
   //lesson is passed
   const acceptLesson = (lesson) => {
     //if stripe is not configured:
     if (userData.stripeID === undefined) {
-      //set up stripe
-      Alert.alert(
-        'Set up Payments',
-        'Before you can accept a lesson, you have to add your bank account so that you can recieve your payments',
-        [
-          {
-            text: 'Complete Registration',
-            onPress: () => Actions.PaymentsScreen({userData}),
-          },
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-        ],
-        {cancelable: true},
+      setAlertTitle('Set up Payments');
+      setAlertMessage(
+        'Before you can accept a lesson, set up your bank so you can recieve payments',
       );
+      setOption(options[4]);
+      setConfirmText('Complete Registration');
+      setShowAlert(true);
     } else {
       var db = firebase.database();
       sendNotification(
@@ -144,33 +128,18 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
   };
 
   const onSharePressed = async () => {
-    const accountLink = `https://rehearse-c7c14.firebaseapp.com/DeepLink/${userData.uid}`;
     if (userData.availability !== undefined) {
-      try {
-        const result = await Share.share({
-          message: `I'm singed up with MusicPro! find my profile here: ${accountLink}`,
-          title: 'MusicPro',
-        });
-        if (result.action === Share.sharedAction) {
-          if (result.activityType) {
-            // shared with activity type of result.activityType
-            console.log(result.activityType);
-          } else {
-            // shared
-          }
-        } else if (result.action === Share.dismissedAction) {
-          // dismissed
-        }
-      } catch (error) {
-        alert(error.message);
-      }
+      share(userData);
     } else {
-      alert("You may want to set up when you're available first!");
+      setAlertTitle('Whoops');
+      setShowConfirm(false);
+      setAlertMessage('You have to set up your available times first!');
+      setShowAlert(true);
     }
   };
 
   const onProfilePressed = () => {
-    let teacher = {
+    const teacher = {
       name: userData.name,
       location: userData.location,
       instruments: userData.instruments,
@@ -256,6 +225,64 @@ const LessonList = ({userData, lessonType, lessonsList}) => {
           )}
         </View>
       )}
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={false}
+        title={alertTitle}
+        message={alertMessage}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={true}
+        // showCancelButton={true}
+        showConfirmButton={showConfirm}
+        cancelText="Nevermind"
+        confirmText={confirmText}
+        contentContainerStyle={styles.alert}
+        confirmButtonColor="#274156"
+        onDismiss={() => {
+          setShowAlert(false);
+          setShowConfirm(true);
+        }}
+        onConfirmPressed={() => {
+          switch (option) {
+            case options[0]:
+              cancelLessons(
+                selectedLesson,
+                userData.userType,
+                'lesson-cancelled',
+              );
+              setShowAlert(false);
+              break;
+            case options[1]:
+              cancelLessons(
+                selectedLesson,
+                userData.userType,
+                'request-cancelled',
+              );
+              setShowAlert(false);
+              break;
+            case options[2]:
+              cancelLessons(
+                selectedLesson,
+                userData.userType,
+                'request-denied',
+              );
+              setShowAlert(false);
+              break;
+            case options[3]:
+              cancelLessons(
+                selectedLesson,
+                userData.userType,
+                'lesson-cancelled',
+              );
+              setShowAlert(false);
+              break;
+            case options[4]:
+              Actions.PaymentsScreen({userData});
+              setShowAlert(false);
+              break;
+          }
+        }}
+      />
     </View>
   );
 };
@@ -278,6 +305,9 @@ const styles = StyleSheet.create({
   },
   flatListStyle: {
     paddingBottom: 20,
+  },
+  alert: {
+    borderRadius: 10,
   },
 });
 

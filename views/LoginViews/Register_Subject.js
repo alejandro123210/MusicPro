@@ -13,6 +13,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as firebase from 'firebase';
 import SubjectCell from '../subComponents/TableCells/SubjectCell';
 import {Actions} from 'react-native-router-flux';
+import {newCustomer} from '../subComponents/BackendComponents/HttpRequests';
 
 class Register_Subject extends React.Component {
   state = {
@@ -63,7 +64,7 @@ class Register_Subject extends React.Component {
     }
   };
 
-  registerStudent = (subject) => {
+  registerStudent = async (subject) => {
     var user = firebase.auth().currentUser;
     var db = firebase.database();
     var ref = db.ref(`users/${user.uid}/info/`);
@@ -77,27 +78,18 @@ class Register_Subject extends React.Component {
         lessons: [],
         subject,
       });
-
-      const url = `https://musicpro-262117.ue.r.appspot.com/newCustomer/${user.email}/${user.uid}`;
-      fetch(url)
-        .then((response) => response.json())
-        .then((responseData) => {
-          const status = responseData.status;
-          if (status === 'done') {
-            ref
-              .once('value')
-              .then(function (snapshot) {
-                var userData = snapshot.val();
-                Actions.StudentMain({userData: userData});
-              })
-              .catch(function (error) {
-                alert(error);
-              });
-          } else {
-            throw 'node server ran into an error';
-          }
-        })
-        .done();
+      const status = await newCustomer(user.email, user.uid);
+      if (status === 'done') {
+        ref
+          .once('value')
+          .then(function (snapshot) {
+            var userData = snapshot.val();
+            Actions.StudentMain({userData: userData});
+          })
+          .catch(function (error) {
+            alert(error);
+          });
+      }
     } catch (error) {
       console.log(error);
       alert('Sorry! There was an error creating your account');
@@ -185,7 +177,7 @@ class Register_Subject extends React.Component {
           //   }
         />
         <TouchableOpacity onPress={() => this.onSubmit()}>
-          <Text style={styles.doneButton}>Done!</Text>
+          <Text style={styles.doneButton}>Next</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
     );

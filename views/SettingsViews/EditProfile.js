@@ -15,7 +15,6 @@ import InstrumentTag from '../subComponents/instrumentTag';
 import {Rating} from 'react-native-ratings';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as firebase from 'firebase';
-import Geocoder from 'react-native-geocoding';
 import {Actions} from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
 import {updateTeacherList} from '../subComponents/BackendComponents/BackendFunctions';
@@ -38,12 +37,12 @@ const options = {
   },
 };
 
-const EditProfile = ({userData}) => {
-  //variable defining
+const EditProfile = ({userData, coords, city}) => {
   const forceUpdate = useForceUpdate();
   const [description, setDescription] = useState(userData.description);
   const [instrument, setInstrument] = useState('');
-  const [zip, setZip] = useState('');
+  const [coordinates] = useState(coords ? coords : userData.coordinates);
+  const [location] = useState(city ? city : userData.location);
   const [input, setInput] = useState();
   const [photo, setPhoto] = useState(userData.photo);
   const [price, setPrice] = useState(userData.price);
@@ -96,47 +95,26 @@ const EditProfile = ({userData}) => {
   const saveChanges = () => {
     let db = firebase.database();
     let userRef = db.ref(`users/${userData.uid}/info`);
-    //this is an incredibly stupid way to do this, but I did it, difference is minimal tho
-    if (zip !== '') {
-      Geocoder.init('AIzaSyAupzaW4QDOYo09xPAml62_tO_8_SYKiPk');
-      Geocoder.from(zip)
-        .then((json) => {
-          const location = json.results[0].address_components[1].long_name;
-          const coordinates = json.results[0].geometry.location;
-          userRef.update({
-            description,
-            coordinates,
-            location,
-            instruments,
-            photo,
-            price,
-          });
-          userData.description = description;
-          userData.coordinates = coordinates;
-          userData.location = location;
-          userData.instruments = instruments;
-          userData.photo = photo;
-          userData.price = price;
-          updateTeacherList(userData.uid);
-          Actions.TeacherMain({userData});
-        })
-        .catch((error) =>
-          alert("Sorry! There's a probelm with the zip code you entered"),
-        );
-    } else {
-      userRef.update({
-        description,
-        instruments,
-        photo,
-        price,
-      });
-      userData.description = description;
-      userData.instruments = instruments;
-      userData.photo = photo;
-      userData.price = price;
-      updateTeacherList(userData.uid);
-      Actions.TeacherMain({userData});
-    }
+    userRef.update({
+      description,
+      coordinates,
+      location,
+      instruments,
+      photo,
+      price,
+    });
+    userData.description = description;
+    userData.coordinates = coordinates;
+    userData.location = location;
+    userData.instruments = instruments;
+    userData.photo = photo;
+    userData.price = price;
+    updateTeacherList(userData.uid);
+    Actions.TeacherMain({userData});
+  };
+
+  const changeLocation = () => {
+    Actions.Register_Location({userData, fromEdit: true});
   };
 
   if (userData.userType === 'teacher') {
@@ -219,21 +197,6 @@ const EditProfile = ({userData}) => {
             <Text style={styles.addText}>Add</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.sectionHeader}>
-          Location ({userData.location}):
-        </Text>
-        <View style={styles.line} />
-        <View style={styles.textInputContainer}>
-          <TextInput
-            style={styles.instrumentInput}
-            multiline={false}
-            onChangeText={(text) => setZip(text)}
-            placeholder="zip code"
-            placeholderTextColor={'gray'}
-            onSubmitEditing={() => Keyboard.dismiss()}
-            blurOnSubmit={false}
-          />
-        </View>
         <Text style={styles.sectionHeader}>Price (${userData.price}/hr):</Text>
         <View style={styles.line} />
         <View style={styles.textInputContainer}>
@@ -247,6 +210,11 @@ const EditProfile = ({userData}) => {
             blurOnSubmit={false}
           />
         </View>
+        <Text style={styles.sectionHeader}>Location ({location}):</Text>
+        <View style={styles.line} />
+        <TouchableOpacity onPress={() => changeLocation()}>
+          <Text style={styles.changeLocationText}>Change Location</Text>
+        </TouchableOpacity>
         <View style={styles.outerButtonContainer}>
           <TouchableOpacity
             style={styles.buttonContainer}
@@ -363,6 +331,11 @@ const styles = StyleSheet.create({
   spacer: {
     height: 80,
     width: deviceWidth,
+  },
+  changeLocationText: {
+    paddingTop: 30,
+    fontSize: 18,
+    color: '#274156',
   },
 });
 

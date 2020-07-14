@@ -63,7 +63,7 @@ class Register_Instrument extends React.Component {
         resetScrollToCoords={{x: 0, y: 0}}
         contentContainerStyle={styles.container}
         scrollEnabled={false}
-        keyboardShouldPersistTaps={'always'}>
+        keyboardShouldPersistTaps={'never'}>
         <Text style={styles.questionText}>
           What{' '}
           {this.state.subject === 'Music'
@@ -93,7 +93,13 @@ class Register_Instrument extends React.Component {
             onChangeText={(instrument) =>
               this.setState({instrument: instrument})
             }
-            placeholder="Please enter 1 instrument at a time"
+            placeholder={
+              this.state.subject === 'Music'
+                ? 'Please enter 1 instrument at a time'
+                : this.state.subject === 'Language'
+                ? 'Please enter 1 language at a time'
+                : 'Please enter 1 class at a time'
+            }
             onSubmitEditing={() => this.onSubmitPressed()}
             ref={(input) => {
               this.textInput = input;
@@ -109,7 +115,7 @@ class Register_Instrument extends React.Component {
         </View>
         <View>
           <TouchableOpacity onPress={() => this.onPress()}>
-            <Text style={styles.doneButton}>Done!</Text>
+            <Text style={styles.doneButton}>Next</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>

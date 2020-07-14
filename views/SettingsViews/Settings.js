@@ -14,10 +14,8 @@ import {
 import * as firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {
-  removeFCM,
-  loadPaymentMethods,
-} from '../subComponents/BackendComponents/BackendFunctions';
+import {removeFCM} from '../subComponents/BackendComponents/BackendFunctions';
+import {loadPaymentMethods} from '../subComponents/BackendComponents/HttpRequests';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -68,7 +66,7 @@ const settings = ({userData}) => {
     let userLessonsRef = db.ref(`users/${userData.uid}/info/lessons`);
     let userMessagesRef = db.ref(`Messages/${userData.uid}`);
     // db.ref(`teachers/${userData.uid}`).remove();
-    db.ref(`geofire/${userData.uid}`).remove();
+    db.ref(`geofire/${userData.subject}/${userData.uid}`).remove();
     //this turns off the listener that's created by loadLessons
     userLessonsRef.off();
     userLessonsRef.once('value').then((snapshot) => {

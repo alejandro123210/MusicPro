@@ -199,32 +199,3 @@ export const checkPaymentsDue = (userData) => {
     }
   });
 };
-
-export const loadPaymentMethods = async (userData) => {
-  console.log('loading payment methods');
-  const paymentMethodsURL = `https://musicpro-262117.ue.r.appspot.com/getCustomer/${userData.stripeID}`;
-  const data = await fetch(paymentMethodsURL)
-    .then((response) => response.json())
-    .then((responseData) => {
-      const paymentMethods = responseData.cardInfo.data;
-      const defaultCard = responseData.default;
-      var cards = [];
-      for (var index in paymentMethods) {
-        const paymentMethod = paymentMethods[index];
-        const card = {
-          paymentID: paymentMethod.id,
-          last4: paymentMethod.last4,
-          brand: paymentMethod.brand,
-          expMonth: paymentMethod.exp_month,
-          expYear: paymentMethod.exp_year,
-          active: paymentMethod.id === defaultCard ? true : false,
-        };
-        cards.push(card);
-        // if (paymentMethod.id === defaultCard) {
-        //   userData.selectedCard = `${paymentMethod.brand} ending in ${paymentMethod.last4}`;
-        // }
-      }
-      return cards;
-    });
-  return data;
-};

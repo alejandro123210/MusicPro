@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import WebView from 'react-native-webview';
 import {View, StyleSheet, FlatList, Platform} from 'react-native';
-import stripe from 'tipsi-stripe';
 import CardCell from '../subComponents/TableCells/CardCell';
 import GLOBAL from '../Global';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import {
+  newCard,
+  getCardToken,
+  getLoginLink,
+} from '../subComponents/BackendComponents/HttpRequests';
 
 const PaymentsScreen = ({userData, stripeSet, cards, inPayment}) => {
   const [, forceUpdate] = useState();
@@ -16,71 +20,25 @@ const PaymentsScreen = ({userData, stripeSet, cards, inPayment}) => {
     try {
       showError(false);
       showAlert(true);
-      const token = await stripe.paymentRequestWithCardForm({
-        smsAutofillDisabled: true,
-        requiredBillingAddressFields: 'full',
-        prefilledInformation: {
-          billingAddress: {
-            name: userData.name,
-            line1: '',
-            line2: '',
-            city: '',
-            state: '',
-            country: '',
-            postalCode: '',
-            email: userData.email,
-          },
-        },
-      });
-      console.log(token);
-      const newCardUrl = `https://musicpro-262117.ue.r.appspot.com/newCard/${userData.stripeID}/${token.tokenId}/`;
-      fetch(newCardUrl)
-        .then((response) => response.json())
-        .then((responseData) => {
-          console.log(responseData.code);
-          if (responseData.code !== 'card_declined') {
-            const paymentMethods = responseData.cardInfo.data;
-            const defaultCard = responseData.default;
-            var cardsData = [];
-            console.log('stripe data: ');
-            console.log(paymentMethods, defaultCard);
-            for (var index in paymentMethods) {
-              const paymentMethod = paymentMethods[index];
-              const card = {
-                paymentID: paymentMethod.id,
-                last4: paymentMethod.last4,
-                brand: paymentMethod.brand,
-                expMonth: paymentMethod.exp_month,
-                expYear: paymentMethod.exp_year,
-                active: paymentMethod.id === defaultCard ? true : false,
-              };
-              cardsData.push(card);
-            }
-            // if it's the first payment method added
-            if (inPayment) {
-              if (cardsData.length === 1) {
-                GLOBAL.SendPayment.setState({
-                  buttonText: `${cardsData[0].brand} ending in ${cardsData[0].last4}`,
-                  selectedCard: cardsData[0],
-                  cards: cardsData,
-                });
-              }
-            }
-            console.log('local Array: ');
-            console.log(cardsData);
-            setCardsList(cardsData);
-            showAlert(false);
-          } else {
-            // showAlert(false);
-            showError(true);
-            // alert('there was a problem with verifying your card');
+      const token = await getCardToken(userData);
+      const listOfCards = await newCard(userData, token);
+      if (listOfCards !== 'error') {
+        if (inPayment) {
+          if (listOfCards.length === 1) {
+            GLOBAL.SendPayment.setState({
+              buttonText: `${listOfCards[0].brand} ending in ${listOfCards[0].last4}`,
+              selectedCard: listOfCards[0],
+              cards: listOfCards,
+            });
           }
-        })
-        .catch((error) => {
-          showError(true);
-          console.log(error);
-        });
-      // loadMethods();
+        }
+        console.log('local Array: ');
+        console.log(listOfCards);
+        setCardsList(listOfCards);
+        showAlert(false);
+      } else {
+        showError(true);
+      }
     } catch (error) {
       showError(true);
       console.log(error);
@@ -107,6 +65,11 @@ const PaymentsScreen = ({userData, stripeSet, cards, inPayment}) => {
     }
   };
 
+  const requestLink = async () => {
+    const link = await getLoginLink(userData);
+    setLoginLink(link);
+  };
+
   if (!stripeSet && userData.userType === 'teacher') {
     return (
       <WebView
@@ -124,15 +87,9 @@ const PaymentsScreen = ({userData, stripeSet, cards, inPayment}) => {
       />
     );
   } else if (stripeSet && userData.userType === 'teacher') {
-    const updateVendorURL = `https://musicpro-262117.ue.r.appspot.com/updateVendor/${userData.stripeID}`;
     //use if statement to prevent constant rerenders/server pings
     if (loginLink === undefined) {
-      fetch(updateVendorURL)
-        .then((response) => response.json())
-        .then((responseData) => {
-          console.log(responseData);
-          setLoginLink(responseData.url);
-        });
+      requestLink();
     }
     return (
       <WebView
