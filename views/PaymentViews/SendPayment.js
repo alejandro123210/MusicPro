@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Text,
   Platform,
+  BackHandler,
+  ToastAndroid,
 } from 'react-native';
 import TopBar from '../subComponents/TopBar';
 import * as firebase from 'firebase';
@@ -42,9 +44,19 @@ class SendPayment extends React.Component {
   };
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     GLOBAL.SendPayment = this;
     this.loadPayments();
     this.loadMethods();
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    ToastAndroid.show('Back button is disabled', ToastAndroid.SHORT);
+    return true;
   }
 
   loadMethods = async () => {
