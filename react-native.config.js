@@ -3,7 +3,7 @@ module.exports = {
     'tipsi-stripe': {
       platforms: {
         android: null,
-        ios: null,
+        // ios: null,
       },
     },
   },
