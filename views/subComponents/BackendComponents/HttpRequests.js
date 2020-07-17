@@ -73,7 +73,7 @@ export const getLoginLink = (userData) => {
 export const newPaymentIntent = async (lesson) => {
   const {amount, customerID, vendorID} = lesson;
   var actualAmount = `${amount}00`;
-  const newPaymentUrl = `http://localhost:5000/newPaymentINR/${customerID}/${vendorID}/${actualAmount}`;
+  const newPaymentUrl = `https://musicpro-262117.ue.r.appspot.com/newPaymentINR/${customerID}/${vendorID}/${actualAmount}`;
   return await fetch(newPaymentUrl)
     .then((response) => response.json())
     .then((responseData) => {
