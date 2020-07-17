@@ -196,6 +196,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+    fontSize: 17,
   },
   bottomBorder: {
     borderBottomLeftRadius: 10,
