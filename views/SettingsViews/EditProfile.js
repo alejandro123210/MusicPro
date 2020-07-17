@@ -197,7 +197,7 @@ const EditProfile = ({userData, coords, city}) => {
             <Text style={styles.addText}>Add</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.sectionHeader}>Price (${userData.price}/hr):</Text>
+        <Text style={styles.sectionHeader}>Price (₹{userData.price}/hr):</Text>
         <View style={styles.line} />
         <View style={styles.textInputContainer}>
           <TextInput

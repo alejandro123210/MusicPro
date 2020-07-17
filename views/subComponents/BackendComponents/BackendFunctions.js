@@ -199,3 +199,12 @@ export const checkPaymentsDue = (userData) => {
     }
   });
 };
+
+export const reportLesson = (description, userData) => {
+  const report = {
+    user: userData.uid,
+    description,
+  };
+  var db = firebase.database();
+  db.ref('reports').push(report);
+};

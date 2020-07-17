@@ -146,7 +146,7 @@ class TeacherInfo extends React.Component {
               activeOpacity={0.7}
               style={styles.buttonContainer}>
               <Text style={styles.buttonText}>
-                Book a lesson (${this.state.allTeacherData.price}/hr)
+                Book a lesson (₹{this.state.allTeacherData.price}/hr)
               </Text>
             </TouchableOpacity>
             <TouchableOpacity

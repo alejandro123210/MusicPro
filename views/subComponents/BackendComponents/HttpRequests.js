@@ -73,16 +73,17 @@ export const getLoginLink = (userData) => {
 export const newPaymentIntent = async (lesson) => {
   const {amount, customerID, vendorID} = lesson;
   var actualAmount = `${amount}00`;
-  const newPaymentUrl = `https://musicpro-262117.ue.r.appspot.com/newPayment/${customerID}/${vendorID}/${actualAmount}`;
-  const paymentToken = await fetch(newPaymentUrl)
+  const newPaymentUrl = `http://localhost:5000/newPaymentINR/${customerID}/${vendorID}/${actualAmount}`;
+  return await fetch(newPaymentUrl)
     .then((response) => response.json())
     .then((responseData) => {
+      console.log(responseData);
       return responseData;
     })
     .catch((error) => {
+      console.log(error);
       return error;
     });
-  return paymentToken;
 };
 
 export const confirmPayment = async (paymentToken, paymentID) => {
@@ -91,10 +92,7 @@ export const confirmPayment = async (paymentToken, paymentID) => {
     .then((response) => response.json())
     .then((confirmData) => {
       console.log(confirmData);
-      return 'done';
-    })
-    .catch((error) => {
-      return 'error';
+      return confirmData.status;
     });
   return status;
 };

@@ -81,10 +81,17 @@ class CalendarForStudents extends React.Component {
 
   //when a time is pressed, we take the user to the next screen to configure the request
   onCellPress = (time) => {
-    var hourAvailable = this.state.actualAvailability[this.state.selectedDay][
+    var nextTime = this.state.actualAvailability[this.state.selectedDay][
       time.key + 1
-    ].available;
-
+    ];
+    //#TODO: this is a really stupid bandaid fix will have to be changed
+    var hourAvailable;
+    console.log(nextTime);
+    if (nextTime !== false) {
+      hourAvailable = nextTime.available;
+    } else {
+      hourAvailable = false;
+    }
     Actions.RequestLessonDetail({
       teacher: this.props.teacher,
       userData: this.props.userData,

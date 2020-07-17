@@ -43,8 +43,9 @@ import Chat from './views/MessagingViews/Chat';
 import ChatsList from './views/MessagingViews/ChatsList';
 import PaymentsScreen from './views/SettingsViews/PaymentsScreen';
 
-//payment view
+//payments views
 import SendPayment from './views/PaymentViews/SendPayment';
+import UnmarkedCancel from './views/PaymentViews/UnmarkedCancel';
 
 //Create a dedicated class that will manage the icon
 function CalendarIcon() {
@@ -183,6 +184,12 @@ export default function App() {
           component={Login}
           hideNavBar={true}
           gesturesEnabled={false}
+        />
+        <Scene
+          key="UnmarkedCancel"
+          component={UnmarkedCancel}
+          hideNavBar={false}
+          gesturesEnabled={true}
         />
         <Scene
           key="Register_Price"

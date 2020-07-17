@@ -39,7 +39,7 @@ function teacherCell({
           <View style={styles.nameContainer}>
             <View style={styles.nameAndPrice}>
               <Text style={styles.nameText}>{name}</Text>
-              <Text style={styles.priceText}>${price}/hr</Text>
+              <Text style={styles.priceText}>₹{price}/hr</Text>
             </View>
             {numberOfReviews !== 0 ? (
               <View style={{flexDirection: 'row'}}>

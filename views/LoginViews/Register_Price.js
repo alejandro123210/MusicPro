@@ -46,14 +46,14 @@ const Register_Price = ({
       contentContainerStyle={styles.container}
       scrollEnabled={true}>
       <Text style={styles.questionText}>
-        How much do you charge per hour in USD? (30 minute lessons are half that
+        How much do you charge per hour in INR? (30 minute lessons are half that
         cost)
       </Text>
       <View style={styles.promptContainer}>
         <TextInput
           style={styles.textInput}
           onChangeText={(thisPrice) => setPrice(Math.round(thisPrice))}
-          placeholder="$60"
+          placeholder="200"
           textAlign={'center'}
           placeholderTextColor="gray"
           keyboardType="number-pad"

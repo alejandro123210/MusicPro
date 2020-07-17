@@ -16,6 +16,7 @@ import LessonCell from '../subComponents/TableCells/LessonCell';
 import {Actions} from 'react-native-router-flux';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import {loadPaymentMethods} from '../subComponents/BackendComponents/HttpRequests';
+import {sendNotification} from '../subComponents/BackendComponents/BackendFunctions';
 import GLOBAL from '../Global';
 import {
   newPaymentIntent,
@@ -48,10 +49,6 @@ class SendPayment extends React.Component {
     GLOBAL.SendPayment = this;
     this.loadPayments();
     this.loadMethods();
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   handleBackButton() {
@@ -93,6 +90,10 @@ class SendPayment extends React.Component {
         }
         this.setState({lessons});
       } else {
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          this.handleBackButton,
+        );
         Actions.StudentMain({userData: this.state.userData});
       }
     });
@@ -110,17 +111,24 @@ class SendPayment extends React.Component {
 
   confirmPayment = async () => {
     this.setState({showLoading: true});
+    console.log(this.state.selectedCard);
     const status = await confirmPayment(
       this.state.paymentToken,
-      this.state.selectedCard,
+      this.state.selectedCard.paymentID,
     );
     if (status !== 'error') {
       var lessons = this.state.lessons;
+      const lesson = lessons[this.state.indexOfLesson];
       lessons.splice(this.state.indexOfLesson, 1);
+      sendNotification(
+        lesson.teacherID,
+        this.state.userData.name,
+        'payment-complete',
+      );
       this.removePaymentDue(lessons, this.state.lessonKey);
       this.setState({showAlert: false, showLoading: false});
     } else {
-      this.setState({showError: true});
+      this.setState({showError: true, showLoading: false});
     }
   };
 
@@ -130,7 +138,7 @@ class SendPayment extends React.Component {
       paymentToken,
       indexOfLesson,
       lessonKey,
-      alertText: `Pay $${actualAmount} with ${this.state.selectedCard.brand} ending in ${this.state.selectedCard.last4}?`,
+      alertText: `Pay ₹${actualAmount} with ${this.state.selectedCard.brand} ending in ${this.state.selectedCard.last4}?`,
       showAlert: true,
     });
   };
@@ -148,8 +156,8 @@ class SendPayment extends React.Component {
       const {indexOfLesson, lessonKey, amount} = lesson;
       this.setState({showAlert: true});
       if (this.state.userData.cards !== null) {
-        const paymentToken = await newPaymentIntent(lesson);
-        this.showAlert(paymentToken, indexOfLesson, lessonKey, amount);
+        const token = await newPaymentIntent(lesson);
+        this.showAlert(token.paymentToken, indexOfLesson, lessonKey, amount);
       } else {
         console.log('create card');
       }
@@ -190,6 +198,15 @@ class SendPayment extends React.Component {
               amount={(item.amount * 1.05).toFixed(2)}
             />
           )}
+          ListFooterComponent={
+            <TouchableOpacity
+              style={styles.reportContainer}
+              onPress={() =>
+                Actions.UnmarkedCancel({userData: this.state.userData})
+              }>
+              <Text style={styles.reportText}>Report a problem</Text>
+            </TouchableOpacity>
+          }
         />
         <View style={styles.popup}>
           <TouchableOpacity
@@ -263,6 +280,14 @@ const styles = StyleSheet.create({
   cardList: {
     paddingTop: 20,
     alignItems: 'center',
+  },
+  reportContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 20,
+  },
+  reportText: {
+    color: '#274156',
   },
 });
 

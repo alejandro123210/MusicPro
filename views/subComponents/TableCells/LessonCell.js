@@ -56,7 +56,7 @@ function lessonCell({
               ) : (
                 <Text style={styles.titleText}>Lesson with {name}</Text>
               )}
-              <Text style={styles.priceText}>${amount}</Text>
+              <Text style={styles.priceText}>₹{amount}</Text>
             </View>
             <Text style={styles.dateText}>{dateAndTime}</Text>
             <View style={styles.tagView}>
@@ -99,7 +99,7 @@ function lessonCell({
             style={styles.bottomBorder}
             activeOpacity={0.7}
             onPress={() => onCancelPressed()}>
-            <Text style={{color: 'white', fontSize: 20}}>Pay ${amount}</Text>
+            <Text style={{color: 'white', fontSize: 20}}>Pay ₹{amount}</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity

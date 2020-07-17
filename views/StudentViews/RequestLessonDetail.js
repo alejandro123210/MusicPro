@@ -226,7 +226,7 @@ class RequestLessonDetail extends React.Component {
         <Text style={styles.title}>Lesson with {this.state.teacher.name}</Text>
         <Text style={styles.time}>on {this.state.dateAndTime}</Text>
         <Text style={styles.price}>
-          ${this.state.selectedPrice.toFixed(2)} due after lesson
+          ₹{this.state.selectedPrice.toFixed(2)} due after lesson
         </Text>
         <Text style={styles.onWhatInstrumentText}>
           {' '}
