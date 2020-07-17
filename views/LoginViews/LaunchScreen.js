@@ -74,7 +74,7 @@ class LaunchScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>MusicPro</Text>
+        <Text style={styles.title}>LearnX</Text>
       </View>
     );
   }
