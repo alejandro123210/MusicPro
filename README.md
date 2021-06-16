@@ -3,13 +3,13 @@ scheduling app for music teachers!
 
 Built badly, on looking back at this project I can see massive ways I can improve the quality of the code, security of the Repo, etc. When building it I had to learn everything on the spot, and because of that a lot of things were not done very efficiently. 
 
-<img src="https://i.imgur.com/l3amCre.png" width="300" height="600">
-<img src="https://i.imgur.com/F35WzhN.png" width="300" height="600">
-<img src="https://i.imgur.com/w3bbGNM.jpeg" width="300" height="600">
-<img src="https://i.imgur.com/QW4Yb6Z.png" width="300" height="600">
-<img src="https://i.imgur.com/QfOrx7x.png" width="300" height="600">
-<img src="https://i.imgur.com/6hBUFj7.png" width="300" height="600">
-<img src="https://i.imgur.com/eDdhiRj.png" width="300" height="600">
-<img src="https://i.imgur.com/ra0QAHx.png" width="300" height="600">
-<img src="https://i.imgur.com/uMmSNUD.png" width="300" height="600">
+<img src="https://i.imgur.com/l3amCre.png" width="315" height="682.5">
+<img src="https://i.imgur.com/F35WzhN.png" width="315" height="682.5">
+<img src="https://i.imgur.com/w3bbGNM.jpeg" width="315" height="682.5">
+<img src="https://i.imgur.com/QW4Yb6Z.png" width="315" height="682.5">
+<img src="https://i.imgur.com/QfOrx7x.png" width="315" height="682.5">
+<img src="https://i.imgur.com/6hBUFj7.png" width="315" height="682.5">
+<img src="https://i.imgur.com/eDdhiRj.png" width="315" height="682.5">
+<img src="https://i.imgur.com/ra0QAHx.png" width="315" height="682.5">
+<img src="https://i.imgur.com/uMmSNUD.png" width="315" height="682.5">
 
