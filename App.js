@@ -156,24 +156,7 @@ function ChatIcon() {
 }
 
 export default function App() {
-  const firebase = require('firebase');
-  const firebaseConfig = {
-    apiKey: 'AIzaSyBxNgaiPS_gdg_M-A7TMsFEwJjmqg88sRA',
-    authDomain: 'rehearse-c7c14.firebaseapp.com',
-    databaseURL: 'https://rehearse-c7c14.firebaseio.com',
-    projectId: 'rehearse-c7c14',
-    storageBucket: 'rehearse-c7c14.appspot.com',
-    messagingSenderId: '506122331327',
-    appId: '1:506122331327:web:b720a916641a314907120a',
-    measurementId: 'G-180GGXR061',
-  };
-  // eslint-disable-next-line no-unused-vars
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
-  //Stripe config
-  stripe.setOptions({
-    publishableKey:
-      'pk_test_51GzvgJCAHHl7TnVGHygy90WYniZe1wp8Fmprg9blC2djbct54gQldsIeMhmtAHwhx6orABxrLuQQkctw228NOUtB00F8Bcyp5a',
-  });
+  // const firebase = require('firebase');
 
   return (
     <Router>
