@@ -10,6 +10,6 @@ Built badly, on looking back at this project I can see massive ways I can improv
 <img src="https://i.imgur.com/QfOrx7x.png" width="315" height="682.5">
 <img src="https://i.imgur.com/6hBUFj7.png" width="315" height="682.5">
 <img src="https://i.imgur.com/eDdhiRj.png" width="315" height="682.5">
-<img src="https://i.imgur.com/ra0QAHx.png" width="315" height="682.5">
-<img src="https://i.imgur.com/uMmSNUD.png" width="315" height="682.5">
+<img src="https://i.imgur.com/ra0QAHx.png" width="315" height="630">
+<img src="https://i.imgur.com/uMmSNUD.png" width="315" height="630">
 
