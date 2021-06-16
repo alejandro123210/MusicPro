@@ -3,7 +3,7 @@ scheduling app for music teachers!
 
 Built badly, on looking back at this project I can see massive ways I can improve the quality of the code, security of the Repo, etc. When building it I had to learn everything on the spot, and because of that a lot of things were not done very efficiently. 
 
-![Screenshot](https://imgur.com/l3amCre)
+![Screenshot](https://i.imgur.com/l3amCre.png)
 ![Screenshot](https://imgur.com/F35WzhN)
 ![Screenshot](https://imgur.com/w3bbGNM)
 ![Screenshot](https://imgur.com/QW4Yb6Z)
