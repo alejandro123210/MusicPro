@@ -1,7 +1,7 @@
 # MusicPro
 scheduling app for music teachers!
 
-Built badly, on looking back at this project I can see massive ways I can improve the quality of the code, security of the Repo, etc. When building it I had to learn everything on the spot, and because of that a lot of things were not done very efficiently. 
+Built badly, on looking back at this project I can see massive ways I can improve the quality of the code, security of the Repo, etc. When building it I had to learn everything on the spot, and because of that a lot of things were not done very efficiently. One of the main drawbacks is the file structure, which is based somewhat on how I learned to do things for native iOS development. 
 
 <p float="left">
 <img src="https://i.imgur.com/l3amCre.png" width="315" height="682.5">
