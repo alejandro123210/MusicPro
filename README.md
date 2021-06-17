@@ -2,13 +2,13 @@
 Fully functional scheduling app for music teachers!
 
 features include:
--Scheduling 
--Messaging
--Notifications
--Payments
--Geolocation based, efficient teacher loading
--Accounts
--Review system
+<p>-Scheduling</p> 
+<p>-Messaging</p>
+<p>-Notifications</p>
+<p>-Payments</p>
+<p>-Geolocation based, efficient teacher loading</p>
+<p>-Accounts</p>
+<p>-Review system</p>
 
 Overall this is built badly. On looking back at this project I can see massive ways I can improve the quality of the code, security of the repo, etc. When building it I had to learn everything on the spot, and because of that a lot of things were not done very efficiently. One of the main drawbacks is the file structure, which is based somewhat on how I learned to do things for native iOS development. 
 
